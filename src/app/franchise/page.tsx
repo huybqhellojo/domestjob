@@ -41,21 +41,21 @@ export default function FranchisePage() {
                 </CardHeader>
                 <CardContent className="space-y-8">
                   <div className="flex gap-4">
-                    <TrendingUp className="h-10 w-10 text-green-600 mt-1 flex-shrink-0" />
+                    <TrendingUp className="h-10 w-10 text-accent-green mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-bold text-lg">Mô hình kinh doanh hiệu quả</h3>
                       <p className="text-muted-foreground">Khai thác thị trường nhân sự đầy tiềm năng với một mô hình đã được chứng minh, chi phí vận hành thấp và lợi nhuận hấp dẫn.</p>
                     </div>
                   </div>
                    <div className="flex gap-4">
-                    <Handshake className="h-10 w-10 text-green-600 mt-1 flex-shrink-0" />
+                    <Handshake className="h-10 w-10 text-accent-green mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-bold text-lg">Hệ thống & Thương hiệu</h3>
                       <p className="text-muted-foreground">Sử dụng toàn bộ hệ thống công nghệ, branding chuyên nghiệp và quy trình vận hành chuẩn hóa từ Domest Job.</p>
                     </div>
                   </div>
                    <div className="flex gap-4">
-                    <CheckCircle className="h-10 w-10 text-green-600 mt-1 flex-shrink-0" />
+                    <CheckCircle className="h-10 w-10 text-accent-green mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-bold text-lg">Hỗ trợ toàn diện</h3>
                       <p className="text-muted-foreground">Được đào tạo, hỗ trợ về marketing, kỹ thuật và chiến lược kinh doanh trong suốt quá trình hợp tác.</p>
@@ -72,7 +72,7 @@ export default function FranchisePage() {
         <div className="container mx-auto px-4 md:px-6 text-center">
             <h2 className="text-3xl font-headline font-bold mb-4">Sẵn sàng để hợp tác?</h2>
             <p className="text-muted-foreground mb-8 max-w-2xl mx-auto text-lg">Để lại thông tin để nhận bộ tài liệu nhượng quyền chi tiết và được đội ngũ của chúng tôi tư vấn trực tiếp.</p>
-            <Button size="lg" className="bg-green-600 text-white hover:bg-green-700">
+            <Button size="lg" className="bg-accent-green text-white hover:bg-accent-green/90">
               Tôi muốn nhận tài liệu nhượng quyền
             </Button>
         </div>

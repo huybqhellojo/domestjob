@@ -60,9 +60,9 @@ export function RegisterForm() {
   const progressValue = (step / TOTAL_STEPS) * 100;
 
   return (
-    <Card className="shadow-xl border-t-4 border-orange-500">
+    <Card className="shadow-xl border-t-4 border-accent-orange">
       <CardHeader>
-        <Progress value={progressValue} className="mb-4 h-2 [&>div]:bg-orange-500" />
+        <Progress value={progressValue} className="mb-4 h-2 [&>div]:bg-accent-orange" />
         <CardTitle className="font-headline text-2xl">Bước {step}/{TOTAL_STEPS}</CardTitle>
         <CardDescription className="!mt-2">
           {step === 1 && 'Thông tin cá nhân cơ bản của bạn.'}
@@ -185,11 +185,11 @@ export function RegisterForm() {
           </Button>
         ) : <div />}
         {step < TOTAL_STEPS ? (
-          <Button onClick={handleNext} className="bg-sky-500 text-white hover:bg-sky-600">
+          <Button onClick={handleNext} className="bg-accent text-white hover:bg-accent/90">
             Tiếp theo <ChevronRight />
           </Button>
         ) : (
-          <Button className="bg-green-600 text-white hover:bg-green-700" onClick={() => alert('Hồ sơ đã được gửi đi (chức năng giả lập).')}>
+          <Button className="bg-accent-green text-white hover:bg-accent-green/90" onClick={() => alert('Hồ sơ đã được gửi đi (chức năng giả lập).')}>
             Gửi hồ sơ <Send />
           </Button>
         )}

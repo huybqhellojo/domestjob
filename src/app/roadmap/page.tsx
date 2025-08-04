@@ -30,16 +30,16 @@ const roadmapSteps = [
 ];
 
 const iconColors: { [key: string]: string } = {
-  orange: 'bg-orange-100 text-orange-500',
-  sky: 'bg-sky-100 text-sky-500',
-  green: 'bg-green-100 text-green-600',
+  orange: 'bg-orange-100 text-accent-orange',
+  sky: 'bg-sky-100 text-accent-blue',
+  green: 'bg-green-100 text-accent-green',
   primary: 'bg-primary/10 text-primary',
 };
 
 const circleColors: { [key: string]: string } = {
-  orange: 'bg-orange-500',
-  sky: 'bg-sky-500',
-  green: 'bg-green-500',
+  orange: 'bg-accent-orange',
+  sky: 'bg-accent-blue',
+  green: 'bg-accent-green',
   primary: 'bg-primary',
 };
 

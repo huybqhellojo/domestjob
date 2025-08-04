@@ -48,7 +48,7 @@ export default function DashboardPage() {
                   <SelectItem value="detmay">Dệt may</SelectItem>
                 </SelectContent>
               </Select>
-              <Button className="w-full bg-orange-500 text-white hover:bg-orange-600">Áp dụng</Button>
+              <Button className="w-full bg-accent-orange text-white hover:bg-accent-orange/90">Áp dụng</Button>
             </div>
           </CardContent>
         </Card>

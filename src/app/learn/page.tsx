@@ -55,15 +55,15 @@ const courses = [
 ];
 
 const categoryColors: { [key: string]: string } = {
-  'Ngoại ngữ': 'text-orange-600 bg-orange-100',
-  'Kỹ năng mềm': 'text-sky-600 bg-sky-100',
-  'Kỹ thuật': 'text-green-600 bg-green-100',
+  'Ngoại ngữ': 'text-accent-orange bg-orange-100',
+  'Kỹ năng mềm': 'text-accent-blue bg-sky-100',
+  'Kỹ thuật': 'text-accent-green bg-green-100',
 };
 
 const buttonColors: { [key: string]: string } = {
-  orange: 'bg-orange-500 hover:bg-orange-600',
-  blue: 'bg-sky-500 hover:bg-sky-600',
-  green: 'bg-green-500 hover:bg-green-600',
+  orange: 'bg-accent-orange hover:bg-accent-orange/90',
+  blue: 'bg-accent-blue hover:bg-accent-blue/90',
+  green: 'bg-accent-green hover:bg-accent-green/90',
 };
 
 export default function LearnPage() {

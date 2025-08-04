@@ -19,7 +19,7 @@ export default function Home() {
             <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
               <Link href="/register">Đăng ký hồ sơ <ArrowRight className="ml-2" /></Link>
             </Button>
-            <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
+            <Button asChild size="lg" variant="outline" className="bg-transparent text-primary-foreground border-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
               <Link href="/franchise">Mô hình Nhượng quyền</Link>
             </Button>
           </div>

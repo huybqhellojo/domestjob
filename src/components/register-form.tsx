@@ -195,7 +195,7 @@ export function RegisterForm() {
           </div>
         )}
       </CardContent>
-       <CardFooter className="flex justify-between mt-6">
+      <CardFooter className="flex justify-between mt-6">
         {step > 1 ? (
           <Button variant="outline" onClick={handleBack}>
             <ChevronLeft /> Quay lại

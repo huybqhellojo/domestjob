@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
-import { ChevronLeft, ChevronRight, Send, Eye } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 const TOTAL_STEPS = 4;
@@ -195,7 +195,7 @@ export function RegisterForm() {
           </div>
         )}
       </CardContent>
-      <CardFooter className="flex justify-between mt-6">
+       <CardFooter className="flex justify-between mt-6">
         {step > 1 ? (
           <Button variant="outline" onClick={handleBack}>
             <ChevronLeft /> Quay lại

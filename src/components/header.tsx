@@ -63,6 +63,7 @@ export function Header() {
             <NavLink key={link.href} {...link} />
           ))}
            <NavLink href="/employers" label="Nhà tuyển dụng" />
+           <NavLink href="/dashboard" label="Dữ liệu" />
         </nav>
         <div className="hidden md:flex items-center gap-2">
             <Button asChild>

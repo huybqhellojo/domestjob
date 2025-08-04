@@ -48,13 +48,18 @@ export default function Home() {
           <p className="text-lg md:text-xl max-w-3xl mx-auto mb-10 text-primary-foreground/80">
             Nền tảng thông minh, có thể mở rộng, kết nối các khu công nghiệp với nguồn nhân lực dồi dào là sinh viên và người lao động địa phương.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-              <Link href="/register">Đăng ký ngay <ArrowRight className="ml-2" /></Link>
-            </Button>
-             <Button asChild size="lg" className="bg-transparent border-2 border-white text-white hover:bg-white/10">
-              <Link href="/franchise">Mô hình Nhượng quyền</Link>
-            </Button>
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
+                <Link href="/post-job">Dành cho Nhà tuyển dụng <ArrowRight className="ml-2" /></Link>
+              </Button>
+               <Button asChild size="lg" className="bg-transparent border-2 border-white text-white hover:bg-white/10">
+                <Link href="/franchise">Mô hình Nhượng quyền</Link>
+              </Button>
+            </div>
+            <p className="text-sm mt-4">
+              Bạn là ứng viên? <Link href="/register" className="font-bold underline hover:text-accent">Tạo hồ sơ tại đây</Link>
+            </p>
           </div>
         </div>
       </section>

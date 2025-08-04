@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -23,7 +22,7 @@ type JobData = {
 };
 
 export default function PostJobPage() {
-  const [activeTab, setActiveTab] = useState('manual');
+  const [activeTab, setActiveTab] = useState('ai');
   const [jobData, setJobData] = useState<JobData>({
     title: '',
     industry: '',
@@ -74,8 +73,8 @@ export default function PostJobPage() {
             <CardContent className="p-6 md:p-8">
               <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <TabsList className="grid w-full grid-cols-2 mb-8">
-                  <TabsTrigger value="manual">Đăng tin thủ công</TabsTrigger>
                   <TabsTrigger value="ai">Đăng tin bằng AI</TabsTrigger>
+                  <TabsTrigger value="manual">Đăng tin thủ công</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="ai">

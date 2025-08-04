@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Briefcase, Menu, X, Building, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -82,14 +82,17 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-full">
-               <SheetClose asChild>
-                 <Link
-                  href="/"
-                  className="flex items-center gap-2 mb-4"
-                >
-                  <Image src="/logo.svg" alt="Domest Job Logo" width={120} height={40} />
-                </Link>
-               </SheetClose>
+              <SheetHeader>
+                <SheetTitle className="sr-only">Menu</SheetTitle>
+                 <SheetClose asChild>
+                   <Link
+                    href="/"
+                    className="flex items-center gap-2 mb-4"
+                  >
+                    <Image src="/logo.svg" alt="Domest Job Logo" width={120} height={40} />
+                  </Link>
+                 </SheetClose>
+              </SheetHeader>
               <div className="flex flex-col gap-2 mt-6">
                  {mainNavLinks.map((link) => (
                   <NavLink key={link.href} {...link} className="text-lg border-b"/>

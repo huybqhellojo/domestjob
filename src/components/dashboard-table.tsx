@@ -1,17 +1,19 @@
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import Link from 'next/link';
 
 const candidates = [
-  { name: 'Lê Thị An', school: 'ĐH Bách Khoa', skills: ['Lập trình', 'Tiếng Anh'], industry: 'IT' },
-  { name: 'Trần Văn Bình', school: 'CĐ Kỹ thuật Cao Thắng', skills: ['Vận hành máy', 'Sửa chữa'], industry: 'Cơ khí' },
-  { name: 'Phạm Thị Cúc', school: 'ĐH Công nghiệp', skills: ['Kiểm tra chất lượng'], industry: 'Dệt may' },
-  { name: 'Nguyễn Hùng Dũng', school: 'THPT', skills: ['Lắp ráp'], industry: 'Điện tử' },
-  { name: 'Võ Thị Em', school: 'ĐH Kinh tế', skills: ['Tiếng Nhật', 'Logistics'], industry: 'Logistics' },
-  { name: 'Đặng Văn Giang', school: 'CĐ Nghề', skills: ['Vận hành máy'], industry: 'Cơ khí' },
-  { name: 'Hoàng Thị Hoa', school: 'ĐH Sư phạm Kỹ thuật', skills: ['Kiểm tra chất lượng', 'Tiếng Hàn'], industry: 'Điện tử' },
-  { name: 'Lý Văn Ích', school: 'THPT', skills: ['Lắp ráp'], industry: 'Dệt may' },
-  { name: 'Bùi Thị Kim', school: 'ĐH Khoa học Tự nhiên', skills: ['Lập trình', 'Phân tích dữ liệu'], industry: 'IT' },
-  { name: 'Dương Văn Long', school: 'CĐ Giao thông Vận tải', skills: ['Vận hành xe nâng'], industry: 'Logistics' },
+  { id: 1, name: 'Lê Thị An', school: 'ĐH Bách Khoa', skills: ['Lập trình', 'Tiếng Anh'], industry: 'IT' },
+  { id: 2, name: 'Trần Văn Bình', school: 'CĐ Kỹ thuật Cao Thắng', skills: ['Vận hành máy', 'Sửa chữa'], industry: 'Cơ khí' },
+  { id: 3, name: 'Phạm Thị Cúc', school: 'ĐH Công nghiệp', skills: ['Kiểm tra chất lượng'], industry: 'Dệt may' },
+  { id: 4, name: 'Nguyễn Hùng Dũng', school: 'THPT', skills: ['Lắp ráp'], industry: 'Điện tử' },
+  { id: 5, name: 'Võ Thị Em', school: 'ĐH Kinh tế', skills: ['Tiếng Nhật', 'Logistics'], industry: 'Logistics' },
+  { id: 6, name: 'Đặng Văn Giang', school: 'CĐ Nghề', skills: ['Vận hành máy'], industry: 'Cơ khí' },
+  { id: 7, name: 'Hoàng Thị Hoa', school: 'ĐH Sư phạm Kỹ thuật', skills: ['Kiểm tra chất lượng', 'Tiếng Hàn'], industry: 'Điện tử' },
+  { id: 8, name: 'Lý Văn Ích', school: 'THPT', skills: ['Lắp ráp'], industry: 'Dệt may' },
+  { id: 9, name: 'Bùi Thị Kim', school: 'ĐH Khoa học Tự nhiên', skills: ['Lập trình', 'Phân tích dữ liệu'], industry: 'IT' },
+  { id: 10, name: 'Dương Văn Long', school: 'CĐ Giao thông Vận tải', skills: ['Vận hành xe nâng'], industry: 'Logistics' },
 ];
 
 const industryColors: { [key: string]: string } = {
@@ -35,9 +37,13 @@ export function CandidatesTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {candidates.map((candidate, index) => (
-            <TableRow key={index} className="hover:bg-secondary/50">
-              <TableCell className="font-medium">{candidate.name}</TableCell>
+          {candidates.map((candidate) => (
+            <TableRow key={candidate.id} className="hover:bg-secondary/50">
+              <TableCell className="font-medium">
+                <Link href="/candidate-profile" className="hover:underline text-primary">
+                    {candidate.name}
+                </Link>
+              </TableCell>
               <TableCell>{candidate.school}</TableCell>
               <TableCell>
                 <div className="flex flex-wrap gap-2">

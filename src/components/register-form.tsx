@@ -1,6 +1,8 @@
+
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,7 +10,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
-import { ChevronLeft, ChevronRight, Send } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Send, Eye } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 const TOTAL_STEPS = 4;
 
@@ -28,6 +31,8 @@ type FormData = {
 
 export function RegisterForm() {
   const [step, setStep] = useState(1);
+  const router = useRouter();
+  const { toast } = useToast();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     birthYear: '',
@@ -56,6 +61,18 @@ export function RegisterForm() {
       : [...currentValues, value];
     handleChange(field, newValues);
   };
+  
+  const handleSubmit = () => {
+      toast({
+          title: "Đăng ký thành công!",
+          description: "Hồ sơ của bạn đã được tạo. Chuyển hướng đến trang hồ sơ...",
+          className: "bg-green-500 text-white"
+      });
+      // Simulate API call
+      setTimeout(() => {
+          router.push('/candidate-profile');
+      }, 1500);
+  }
 
   const progressValue = (step / TOTAL_STEPS) * 100;
 
@@ -185,12 +202,12 @@ export function RegisterForm() {
           </Button>
         ) : <div />}
         {step < TOTAL_STEPS ? (
-          <Button onClick={handleNext} className="bg-accent text-white hover:bg-accent/90">
+          <Button onClick={handleNext} className="bg-accent-blue text-white hover:bg-accent-blue/90">
             Tiếp theo <ChevronRight />
           </Button>
         ) : (
-          <Button className="bg-accent-green text-white hover:bg-accent-green/90" onClick={() => alert('Hồ sơ đã được gửi đi (chức năng giả lập).')}>
-            Gửi hồ sơ <Send />
+          <Button className="bg-accent-green text-white hover:bg-accent-green/90" onClick={handleSubmit}>
+            Hoàn tất & Xem hồ sơ <Eye />
           </Button>
         )}
       </CardFooter>

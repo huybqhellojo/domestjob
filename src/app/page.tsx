@@ -1,6 +1,7 @@
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AreaChart, Briefcase, Users, ArrowRight } from 'lucide-react';
+import { AreaChart, Briefcase, Users, ArrowRight, Building } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -17,10 +18,10 @@ export default function Home() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-              <Link href="/register">Đăng ký hồ sơ <ArrowRight className="ml-2" /></Link>
+              <Link href="/register">Đăng ký ngay <ArrowRight className="ml-2" /></Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="bg-transparent text-primary-foreground border-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
-              <Link href="/franchise">Mô hình Nhượng quyền</Link>
+             <Button asChild size="lg" className="bg-accent-orange text-white hover:bg-accent-orange/90">
+              <Link href="/employers">Dành cho Nhà tuyển dụng</Link>
             </Button>
           </div>
         </div>
@@ -93,7 +94,7 @@ export default function Home() {
               <p className="text-lg text-muted-foreground mb-8">
                 Trở thành đối tác chiến lược của chúng tôi tại địa phương bạn. Tận dụng hệ thống, thương hiệu và công nghệ của Domest Job để phát triển kinh doanh và tạo ra tác động tích cực cho cộng đồng.
               </p>
-              <Button asChild size="lg" className="bg-orange-500 text-white hover:bg-orange-600">
+              <Button asChild size="lg" className="bg-accent-green text-white hover:bg-accent-green/90">
                 <Link href="/franchise">Tìm hiểu về Nhượng quyền</Link>
               </Button>
             </div>

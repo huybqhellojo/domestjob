@@ -1,32 +1,50 @@
+
 'use client';
 
 import Link from 'next/link';
-import { Briefcase, Menu, X } from 'lucide-react';
+import { Briefcase, Menu, X, Building, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
-const navLinks = [
+const mainNavLinks = [
   { href: '/', label: 'Trang chủ' },
-  { href: '/register', label: 'Đăng ký' },
   { href: '/roadmap', label: 'Lộ trình' },
-  { href: '/dashboard', label: 'Dữ liệu' },
-  { href: '/franchise', label: 'Nhượng quyền' },
   { href: '/learn', label: 'E-Learning' },
 ];
+
+const candidateLinks = [
+  { href: '/register', label: 'Đăng ký hồ sơ' },
+  { href: '/candidate-profile', label: 'Hồ sơ của tôi' },
+];
+
+const employerLinks = [
+  { href: '/employers', label: 'Danh sách công ty' },
+  { href: '/dashboard', label: 'Dữ liệu' },
+  { href: '/post-job', label: 'Đăng việc làm' },
+  { href: '/franchise', label: 'Nhượng quyền' },
+];
+
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  const NavLink = ({ href, label }: { href: string; label: string }) => (
+  const NavLink = ({ href, label, className }: { href: string; label: string, className?: string }) => (
     <Link
       href={href}
       className={cn(
-        'transition-colors hover:text-primary',
-        pathname === href ? 'text-primary font-bold' : 'text-foreground/80'
+        'transition-colors hover:text-primary py-2 block',
+        pathname === href ? 'text-primary font-bold' : 'text-foreground/80',
+        className
       )}
       onClick={() => setIsOpen(false)}
     >
@@ -41,10 +59,19 @@ export function Header() {
           <span className="font-bold text-lg">Domest Job</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-          {navLinks.map((link) => (
+          {mainNavLinks.map((link) => (
             <NavLink key={link.href} {...link} />
           ))}
+           <NavLink href="/employers" label="Nhà tuyển dụng" />
         </nav>
+        <div className="hidden md:flex items-center gap-2">
+            <Button asChild>
+              <Link href="/register">Ứng viên</Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link href="/post-job">Đăng tin</Link>
+            </Button>
+        </div>
         <div className="md:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
@@ -53,18 +80,38 @@ export function Header() {
                 <span className="sr-only">Open navigation menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right">
-              <div className="flex flex-col gap-6 p-6">
-                <Link
+            <SheetContent side="right" className="w-full">
+               <SheetClose asChild>
+                 <Link
                   href="/"
                   className="flex items-center gap-2 mb-4"
-                  onClick={() => setIsOpen(false)}
                 >
                   <span className="font-bold text-lg">Domest Job</span>
                 </Link>
-                {navLinks.map((link) => (
-                  <NavLink key={link.href} {...link} />
+               </SheetClose>
+              <div className="flex flex-col gap-2 mt-6">
+                 {mainNavLinks.map((link) => (
+                  <NavLink key={link.href} {...link} className="text-lg border-b"/>
                 ))}
+                
+                <Accordion type="multiple" className="w-full">
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-2">Dành cho ứng viên</AccordionTrigger>
+                    <AccordionContent className="pl-4">
+                       {candidateLinks.map((link) => (
+                        <NavLink key={link.href} {...link} className="border-b" />
+                      ))}
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-2">
+                    <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-2">Dành cho nhà tuyển dụng</AccordionTrigger>
+                    <AccordionContent className="pl-4">
+                      {employerLinks.map((link) => (
+                        <NavLink key={link.href} {...link} className="border-b" />
+                      ))}
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
               </div>
             </SheetContent>
           </Sheet>

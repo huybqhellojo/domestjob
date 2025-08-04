@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Send } from 'lucide-react';
 
 const TOTAL_STEPS = 4;
 
@@ -60,18 +60,18 @@ export function RegisterForm() {
   const progressValue = (step / TOTAL_STEPS) * 100;
 
   return (
-    <Card className="shadow-lg">
+    <Card className="shadow-xl border-t-4 border-orange-500">
       <CardHeader>
-        <Progress value={progressValue} className="mb-4" />
+        <Progress value={progressValue} className="mb-4 h-2 [&>div]:bg-orange-500" />
         <CardTitle className="font-headline text-2xl">Bước {step}/{TOTAL_STEPS}</CardTitle>
-        <CardDescription>
-          {step === 1 && 'Thông tin cá nhân'}
-          {step === 2 && 'Trình độ học vấn'}
-          {step === 3 && 'Sở thích và kỹ năng nghề nghiệp'}
-          {step === 4 && 'Xem lại và gửi hồ sơ'}
+        <CardDescription className="!mt-2">
+          {step === 1 && 'Thông tin cá nhân cơ bản của bạn.'}
+          {step === 2 && 'Trình độ học vấn và nơi ở hiện tại.'}
+          {step === 3 && 'Lĩnh vực bạn quan tâm và các kỹ năng bạn có.'}
+          {step === 4 && 'Hãy kiểm tra lại thông tin và gửi hồ sơ!'}
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="min-h-[300px]">
         {step === 1 && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
@@ -124,33 +124,33 @@ export function RegisterForm() {
           </div>
         )}
         {step === 3 && (
-          <div className="space-y-6">
+          <div className="space-y-8">
             <div>
-              <Label className="font-bold">Lĩnh vực quan tâm</Label>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-2">
+              <Label className="font-bold text-lg">Lĩnh vực quan tâm</Label>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-3">
                 {['Cơ khí', 'Điện tử', 'Dệt may', 'Chế biến thực phẩm', 'IT', 'Logistics'].map((interest) => (
-                  <div key={interest} className="flex items-center space-x-2">
+                  <div key={interest} className="flex items-center space-x-3 p-3 bg-secondary rounded-lg">
                     <Checkbox id={`interest-${interest}`} onCheckedChange={() => handleCheckboxChange('interests', interest)} checked={formData.interests.includes(interest)}/>
-                    <Label htmlFor={`interest-${interest}`}>{interest}</Label>
+                    <Label htmlFor={`interest-${interest}`} className="cursor-pointer">{interest}</Label>
                   </div>
                 ))}
               </div>
             </div>
             <div>
-              <Label className="font-bold">Kỹ năng</Label>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-2">
+              <Label className="font-bold text-lg">Kỹ năng</Label>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-3">
                 {['Vận hành máy', 'Lắp ráp', 'Kiểm tra chất lượng', 'Sửa chữa', 'Lập trình', 'Ngoại ngữ'].map((skill) => (
-                  <div key={skill} className="flex items-center space-x-2">
+                  <div key={skill} className="flex items-center space-x-3 p-3 bg-secondary rounded-lg">
                     <Checkbox id={`skill-${skill}`} onCheckedChange={() => handleCheckboxChange('skills', skill)} checked={formData.skills.includes(skill)} />
-                    <Label htmlFor={`skill-${skill}`}>{skill}</Label>
+                    <Label htmlFor={`skill-${skill}`} className="cursor-pointer">{skill}</Label>
                   </div>
                 ))}
               </div>
             </div>
              <div className="space-y-2">
-              <Label htmlFor="languageLevel">Trình độ ngoại ngữ (Tiếng Anh/Nhật/Hàn)</Label>
+              <Label htmlFor="languageLevel" className="font-bold text-lg">Trình độ ngoại ngữ (Tiếng Anh/Nhật/Hàn)</Label>
               <Select onValueChange={(value) => handleChange('languageLevel', value)} value={formData.languageLevel}>
-                <SelectTrigger id="languageLevel">
+                <SelectTrigger id="languageLevel" className="mt-2">
                   <SelectValue placeholder="Chọn trình độ" />
                 </SelectTrigger>
                 <SelectContent>
@@ -163,32 +163,34 @@ export function RegisterForm() {
           </div>
         )}
         {step === 4 && (
-          <div className="space-y-4">
-            <h3 className="font-bold font-headline">Tổng hợp thông tin</h3>
-            <p><strong>Họ tên:</strong> {formData.name}</p>
-            <p><strong>Năm sinh:</strong> {formData.birthYear}</p>
-            <p><strong>Giới tính:</strong> {formData.gender}</p>
-            <p><strong>Trường:</strong> {formData.school}</p>
-            <p><strong>Trình độ:</strong> {formData.educationLevel}</p>
-            <p><strong>Lĩnh vực quan tâm:</strong> {formData.interests.join(', ')}</p>
-            <p><strong>Kỹ năng:</strong> {formData.skills.join(', ')}</p>
-            <p><strong>Ngoại ngữ:</strong> {formData.languageLevel}</p>
+          <div className="space-y-4 p-4 rounded-lg bg-secondary">
+            <h3 className="font-bold font-headline text-xl text-primary">Tổng hợp thông tin</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+              <p><strong>Họ tên:</strong> {formData.name || 'Chưa điền'}</p>
+              <p><strong>Năm sinh:</strong> {formData.birthYear || 'Chưa điền'}</p>
+              <p><strong>Giới tính:</strong> {formData.gender || 'Chưa điền'}</p>
+              <p><strong>Trường:</strong> {formData.school || 'Chưa điền'}</p>
+              <p><strong>Trình độ:</strong> {formData.educationLevel || 'Chưa điền'}</p>
+              <p><strong>Ngoại ngữ:</strong> {formData.languageLevel || 'Chưa điền'}</p>
+              <p className="md:col-span-2"><strong>Lĩnh vực quan tâm:</strong> {formData.interests.length > 0 ? formData.interests.join(', ') : 'Chưa chọn'}</p>
+              <p className="md:col-span-2"><strong>Kỹ năng:</strong> {formData.skills.length > 0 ? formData.skills.join(', ') : 'Chưa chọn'}</p>
+            </div>
           </div>
         )}
       </CardContent>
-      <CardFooter className="flex justify-between">
+      <CardFooter className="flex justify-between mt-6">
         {step > 1 ? (
           <Button variant="outline" onClick={handleBack}>
             <ChevronLeft /> Quay lại
           </Button>
         ) : <div />}
         {step < TOTAL_STEPS ? (
-          <Button onClick={handleNext} style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }}>
+          <Button onClick={handleNext} className="bg-sky-500 text-white hover:bg-sky-600">
             Tiếp theo <ChevronRight />
           </Button>
         ) : (
-          <Button variant="default" onClick={() => alert('Hồ sơ đã được gửi đi (chức năng giả lập).')}>
-            Gửi hồ sơ
+          <Button className="bg-green-600 text-white hover:bg-green-700" onClick={() => alert('Hồ sơ đã được gửi đi (chức năng giả lập).')}>
+            Gửi hồ sơ <Send />
           </Button>
         )}
       </CardFooter>

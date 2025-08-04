@@ -14,13 +14,21 @@ const candidates = [
   { name: 'Dương Văn Long', school: 'CĐ Giao thông Vận tải', skills: ['Vận hành xe nâng'], industry: 'Logistics' },
 ];
 
+const industryColors: { [key: string]: string } = {
+  IT: 'bg-sky-100 text-sky-700',
+  'Cơ khí': 'bg-orange-100 text-orange-700',
+  'Dệt may': 'bg-indigo-100 text-indigo-700',
+  'Điện tử': 'bg-blue-100 text-blue-700',
+  'Logistics': 'bg-green-100 text-green-700',
+};
+
 export function CandidatesTable() {
   return (
-    <div className="rounded-md border">
+    <div className="rounded-lg border overflow-hidden">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead>Tên ứng viên</TableHead>
+          <TableRow className="bg-secondary">
+            <TableHead className="w-[200px]">Tên ứng viên</TableHead>
             <TableHead>Trường/Trình độ</TableHead>
             <TableHead>Kỹ năng</TableHead>
             <TableHead>Ngành mong muốn</TableHead>
@@ -28,17 +36,19 @@ export function CandidatesTable() {
         </TableHeader>
         <TableBody>
           {candidates.map((candidate, index) => (
-            <TableRow key={index}>
+            <TableRow key={index} className="hover:bg-secondary/50">
               <TableCell className="font-medium">{candidate.name}</TableCell>
               <TableCell>{candidate.school}</TableCell>
               <TableCell>
-                <div className="flex flex-wrap gap-1">
+                <div className="flex flex-wrap gap-2">
                   {candidate.skills.map((skill) => (
-                    <Badge key={skill} variant="secondary">{skill}</Badge>
+                    <Badge key={skill} variant="secondary" className="font-normal">{skill}</Badge>
                   ))}
                 </div>
               </TableCell>
-              <TableCell>{candidate.industry}</TableCell>
+              <TableCell>
+                <Badge className={`font-semibold ${industryColors[candidate.industry] || 'bg-gray-100 text-gray-700'}`}>{candidate.industry}</Badge>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

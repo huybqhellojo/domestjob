@@ -21,14 +21,23 @@ const barData = [
   { name: 'Ngoại ngữ', value: 3800 },
 ];
 
-const COLORS = ['#1E3A8A', '#3B82F6', '#60A5FA', '#93C5FD', '#BFDBFE', '#38A3A5'];
+// Updated vibrant colors from globals.css
+const COLORS = [
+  'hsl(var(--chart-1))', 
+  'hsl(var(--chart-2))', 
+  'hsl(var(--chart-3))', 
+  'hsl(var(--chart-4))', 
+  'hsl(var(--chart-5))',
+  '#38A3A5' // Fallback
+];
+
 
 export function DashboardCharts() {
   return (
     <>
-      <Card className="lg:col-span-2 shadow-lg">
+      <Card className="lg:col-span-2 shadow-xl hover:shadow-2xl transition-shadow duration-300">
         <CardHeader>
-          <CardTitle className="font-headline">Ngành nghề quan tâm</CardTitle>
+          <CardTitle className="font-headline text-2xl">Ngành nghề quan tâm</CardTitle>
         </CardHeader>
         <CardContent>
           <div style={{ width: '100%', height: 300 }}>
@@ -39,34 +48,50 @@ export function DashboardCharts() {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  outerRadius={100}
+                  outerRadius={110}
+                  innerRadius={50}
                   fill="#8884d8"
                   dataKey="value"
+                  paddingAngle={5}
                   label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                 >
                   {pieData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip />
+                <Tooltip 
+                  cursor={{fill: 'hsla(var(--muted), 0.5)'}}
+                  contentStyle={{
+                    backgroundColor: 'hsl(var(--background))',
+                    borderRadius: 'var(--radius)',
+                    border: '1px solid hsl(var(--border))'
+                  }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>
         </CardContent>
       </Card>
-      <Card className="lg:col-span-3 shadow-lg">
+      <Card className="lg:col-span-3 shadow-xl hover:shadow-2xl transition-shadow duration-300">
         <CardHeader>
-          <CardTitle className="font-headline">Kỹ năng phổ biến</CardTitle>
+          <CardTitle className="font-headline text-2xl">Kỹ năng phổ biến</CardTitle>
         </CardHeader>
         <CardContent>
           <div style={{ width: '100%', height: 300 }}>
             <ResponsiveContainer>
               <BarChart data={barData} layout="vertical" margin={{ top: 5, right: 30, left: 50, bottom: 5 }}>
                 <XAxis type="number" />
-                <YAxis dataKey="name" type="category" width={100} />
-                <Tooltip wrapperStyle={{ backgroundColor: '#fff', border: '1px solid #ccc' }}/>
+                <YAxis dataKey="name" type="category" width={100} tickLine={false} axisLine={false} />
+                <Tooltip 
+                  cursor={{fill: 'hsla(var(--muted), 0.5)'}}
+                  contentStyle={{
+                    backgroundColor: 'hsl(var(--background))',
+                    borderRadius: 'var(--radius)',
+                    border: '1px solid hsl(var(--border))'
+                  }}
+                />
                 <Legend />
-                <Bar dataKey="value" name="Số lượng ứng viên" fill="hsl(var(--primary))" />
+                <Bar dataKey="value" name="Số lượng ứng viên" fill="hsl(var(--primary))" radius={[0, 8, 8, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

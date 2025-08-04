@@ -3,7 +3,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Briefcase, Building, Cake, Dna, Edit, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown } from 'lucide-react';
+import { Briefcase, Building, Cake, Dna, Edit, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon } from 'lucide-react';
+import Image from 'next/image';
 
 export default function CandidateProfilePage() {
   // Mock data for a candidate
@@ -39,6 +40,12 @@ export default function CandidateProfilePage() {
         'Bằng lái xe B2'
     ],
     desiredIndustry: 'Cơ khí/Chế tạo',
+    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Placeholder
+    experienceImages: [
+        { src: 'https://placehold.co/600x400.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
+        { src: 'https://placehold.co/600x400.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
+        { src: 'https://placehold.co/600x400.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
+    ],
   };
 
   return (
@@ -77,6 +84,17 @@ export default function CandidateProfilePage() {
                 </Card>
 
                 <Card>
+                    <CardHeader>
+                        <CardTitle className="font-headline text-xl flex items-center"><Video className="mr-3 text-primary"/> Video giới thiệu</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="aspect-video rounded-lg overflow-hidden">
+                            <iframe className="w-full h-full" src={candidate.videoUrl} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                <Card>
                   <CardHeader>
                     <CardTitle className="font-headline text-xl flex items-center"><Briefcase className="mr-3 text-primary"/> Kinh nghiệm làm việc</CardTitle>
                   </CardHeader>
@@ -90,6 +108,17 @@ export default function CandidateProfilePage() {
                         </div>
                     ))}
                   </CardContent>
+                </Card>
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="font-headline text-xl flex items-center"><ImageIcon className="mr-3 text-primary"/> Hình ảnh kinh nghiệm</CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        {candidate.experienceImages.map((img, index) => (
+                            <Image key={index} src={img.src} alt={img.alt} width={400} height={300} className="rounded-lg object-cover aspect-video" data-ai-hint={img.dataAiHint} />
+                        ))}
+                    </CardContent>
                 </Card>
                 
                 <Card>

@@ -8,15 +8,15 @@ const roadmapSteps = [
   {
     icon: HardHat,
     title: 'Lao động phổ thông',
-    description: 'Bắt đầu với các vị trí công việc không yêu cầu kỹ năng chuyên môn cao. Đây là bước đầu tiên để làm quen với môi trường khu công nghiệp.',
+    description: 'Bắt đầu với các vị trí công việc không yêu cầu chuyên môn cao. Đây là bước đầu tiên để làm quen với môi trường khu công nghiệp, tích lũy kinh nghiệm thực tế và được định hướng nghề nghiệp.',
     color: 'orange',
     image: 'https://placehold.co/500x300.png',
     dataAiHint: 'factory workers',
   },
   {
     icon: School,
-    title: 'Học nghề & Đào tạo',
-    description: 'Tham gia các khóa đào tạo nghề ngắn hạn hoặc được đào tạo trực tiếp tại doanh nghiệp để nâng cao tay nghề và kiến thức chuyên môn.',
+    title: 'Học nghề & Đào tạo kỹ năng',
+    description: 'Tham gia các khóa đào tạo trên nền tảng E-learning hoặc tại doanh nghiệp để nâng cao tay nghề, học ngoại ngữ (Nhật, Hàn), sẵn sàng cho các vị trí yêu cầu kỹ năng cao hơn.',
     color: 'sky',
     image: 'https://placehold.co/500x300.png',
     dataAiHint: 'vocational training',
@@ -24,15 +24,15 @@ const roadmapSteps = [
   {
     icon: Star,
     title: 'Lao động có kỹ năng',
-    description: 'Trở thành người lao động có tay nghề, đảm nhận các vị trí quan trọng trong dây chuyền sản xuất và vận hành máy móc phức tạp.',
+    description: 'Trở thành lao động tay nghề cao, đảm nhận các vị trí quan trọng trong dây chuyền sản xuất, vận hành máy móc phức tạp và nhận được mức lương cùng chế độ đãi ngộ tốt hơn.',
     color: 'green',
     image: 'https://placehold.co/500x300.png',
     dataAiHint: 'skilled labor',
   },
   {
     icon: Plane,
-    title: 'Chuyên gia & Xuất khẩu',
-    description: 'Phát triển lên các vị trí kỹ sư, chuyên gia hoặc có cơ hội tham gia các chương trình xuất khẩu lao động chất lượng cao.',
+    title: 'Chuyên gia & Lao động hồi hương',
+    description: 'Phát triển lên các vị trí chuyên gia, kỹ sư, hoặc tham gia chương trình xuất khẩu lao động. Hệ thống cũng chào đón và kết nối việc làm cho lực lượng lao động chất lượng cao từ nước ngoài trở về.',
     color: 'primary',
     image: 'https://placehold.co/500x300.png',
     dataAiHint: 'engineer expert',
@@ -52,10 +52,10 @@ export default function RoadmapPage() {
       <div className="container mx-auto px-4 md:px-6 py-16 md:py-24">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-headline font-bold">
-            Lộ trình phát triển nghề nghiệp
+            Lộ trình phát triển sự nghiệp (SWR)
           </h1>
           <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto">
-            Chúng tôi cam kết đồng hành cùng bạn trên con đường phát triển sự nghiệp, từ những bước đầu tiên đến khi trở thành chuyên gia.
+            Chúng tôi cam kết đồng hành cùng bạn trên con đường phát triển sự nghiệp bền vững, từ bước đầu tiên đến khi trở thành chuyên gia tay nghề cao.
           </p>
         </div>
 
@@ -73,47 +73,24 @@ export default function RoadmapPage() {
                     </div>
                 </div>
 
-                {/* Content: Left side (even index) */}
-                {index % 2 === 0 && (
-                  <>
-                    <div className="w-full md:w-1/2 md:pr-8">
-                       <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
-                        <CardHeader>
-                          <CardTitle className="font-headline text-2xl text-right">
-                            <span className="text-primary/50 mr-2">Bước {index + 1}:</span> {step.title}
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent className="text-right">
-                          <p className="text-muted-foreground">{step.description}</p>
-                        </CardContent>
-                      </Card>
-                    </div>
-                    <div className="w-full md:w-1/2 md:pl-8 mt-4 md:mt-0">
-                       <Image src={step.image} alt={step.title} width={500} height={300} className="rounded-lg shadow-xl" data-ai-hint={step.dataAiHint} />
-                    </div>
-                  </>
-                )}
-                
-                {/* Content: Right side (odd index) */}
-                {index % 2 !== 0 && (
-                  <>
-                    <div className="w-full md:w-1/2 md:pr-8 order-2 md:order-1 mt-4 md:mt-0">
-                      <Image src={step.image} alt={step.title} width={500} height={300} className="rounded-lg shadow-xl" data-ai-hint={step.dataAiHint} />
-                    </div>
-                     <div className="w-full md:w-1/2 md:pl-8 order-1 md:order-2">
-                       <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
-                        <CardHeader>
-                          <CardTitle className="font-headline text-2xl text-left">
-                            <span className="text-primary/50 mr-2">Bước {index + 1}:</span> {step.title}
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent className="text-left">
-                          <p className="text-muted-foreground">{step.description}</p>
-                        </CardContent>
-                      </Card>
-                    </div>
-                  </>
-                )}
+                {/* Content: Right side (for odd index on desktop) or all on mobile */}
+                <div className={`w-full md:w-1/2 ${index % 2 !== 0 ? 'md:pl-8' : 'md:pr-8'} ${index % 2 !== 0 ? 'md:order-2' : ''}`}>
+                   <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <CardHeader>
+                      <CardTitle className={`font-headline text-2xl ${index % 2 !== 0 ? 'md:text-left' : 'md:text-right'}`}>
+                        <span className="text-primary/50 mr-2">Bước {index + 1}:</span> {step.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className={`${index % 2 !== 0 ? 'md:text-left' : 'md:text-right'}`}>
+                      <p className="text-muted-foreground">{step.description}</p>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Image: Left side (for odd index on desktop) or all on mobile */}
+                <div className={`w-full md:w-1/2 mt-6 md:mt-0 ${index % 2 !== 0 ? 'md:pr-8' : 'md:pl-8'} ${index % 2 !== 0 ? 'md:order-1' : ''}`}>
+                   <Image src={step.image} alt={step.title} width={500} height={300} className="rounded-lg shadow-xl" data-ai-hint={step.dataAiHint} />
+                </div>
               </div>
             ))}
           </div>

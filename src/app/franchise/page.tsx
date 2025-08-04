@@ -1,8 +1,20 @@
+'use client';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle, Handshake, LineChart, TrendingUp, User, Users, FileSignature, Rocket } from 'lucide-react';
 import Image from 'next/image';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const FranchiseSteps = [
     {
@@ -178,9 +190,34 @@ export default function FranchisePage() {
         <div className="container mx-auto px-4 md:px-6 text-center">
             <h2 className="text-3xl font-headline font-bold mb-4">Sẵn sàng để hợp tác?</h2>
             <p className="text-white/80 mb-8 max-w-2xl mx-auto text-lg">Để lại thông tin để nhận bộ tài liệu nhượng quyền chi tiết và được đội ngũ của chúng tôi tư vấn trực tiếp.</p>
-            <Button size="lg" className="bg-white text-primary hover:bg-white/90">
-              Tôi muốn nhận tài liệu nhượng quyền
-            </Button>
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button size="lg" className="bg-white text-primary hover:bg-white/90">
+                      Tôi muốn nhận tài liệu nhượng quyền
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                        <DialogTitle className="font-headline text-2xl">Đăng ký nhận tư vấn</DialogTitle>
+                        <DialogDescription>
+                            Vui lòng để lại thông tin của bạn. Chúng tôi sẽ liên hệ lại trong thời gian sớm nhất.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="name" className="text-right">Họ và tên</Label>
+                            <Input id="name" placeholder="Nguyễn Văn A" className="col-span-3" />
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="phone" className="text-right">Số điện thoại</Label>
+                            <Input id="phone" placeholder="0987654321" className="col-span-3" />
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button type="submit" className="bg-primary text-white">Gửi thông tin</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
       </section>
     </>

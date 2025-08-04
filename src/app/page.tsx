@@ -35,7 +35,7 @@ export default function Home() {
       <section className="w-full py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl md:text-4xl font-headline font-bold text-center mb-12">
-            Tại sao chọn KCN Connector?
+            Tại sao chọn Domest Job?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="text-center shadow-lg hover:shadow-xl transition-shadow">
@@ -97,7 +97,7 @@ export default function Home() {
             <div className="md:w-1/2">
               <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Mô hình Nhượng quyền Đột phá</h2>
               <p className="text-lg text-muted-foreground mb-6">
-                Trở thành đối tác chiến lược của chúng tôi tại địa phương bạn. Tận dụng hệ thống, thương hiệu và công nghệ của KCN Connector để phát triển kinh doanh và tạo ra tác động tích cực cho cộng đồng.
+                Trở thành đối tác chiến lược của chúng tôi tại địa phương bạn. Tận dụng hệ thống, thương hiệu và công nghệ của Domest Job để phát triển kinh doanh và tạo ra tác động tích cực cho cộng đồng.
               </p>
               <Button asChild size="lg" style={{ backgroundColor: 'hsl(var(--accent))', color: 'hsl(var(--accent-foreground))' }}>
                 <Link href="/franchise">Tìm hiểu về Nhượng quyền</Link>

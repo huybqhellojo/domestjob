@@ -5,7 +5,7 @@ import { Footer } from '@/components/footer';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'KCN Connector',
+  title: 'Domest Job',
   description: 'Giải pháp nhân lực cho Khu Công Nghiệp',
 };
 

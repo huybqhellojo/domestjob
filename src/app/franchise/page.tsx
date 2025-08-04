@@ -9,7 +9,7 @@ export default function FranchisePage() {
       <section className="w-full bg-primary text-primary-foreground py-20">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <h1 className="text-4xl md:text-5xl font-headline font-bold">
-            Mô hình Nhượng quyền KCN Connector
+            Mô hình Nhượng quyền Domest Job
           </h1>
           <p className="text-lg md:text-xl max-w-3xl mx-auto mt-4 text-primary-foreground/80">
             Trở thành đối tác chiến lược và cùng chúng tôi kiến tạo tương lai cho nguồn nhân lực Việt Nam.
@@ -23,7 +23,7 @@ export default function FranchisePage() {
             <div>
               <h2 className="text-3xl font-headline font-bold mb-4">Cách thức tham gia</h2>
               <p className="text-muted-foreground mb-6">
-                Chúng tôi tìm kiếm các nhà đầu tư có tầm nhìn tại mỗi tỉnh/thành phố để cùng triển khai và vận hành nền tảng KCN Connector. Đối tác nhượng quyền sẽ là đại diện độc quyền của chúng tôi tại địa phương, chịu trách nhiệm kết nối doanh nghiệp trong các khu công nghiệp với nguồn lao động và sinh viên.
+                Chúng tôi tìm kiếm các nhà đầu tư có tầm nhìn tại mỗi tỉnh/thành phố để cùng triển khai và vận hành nền tảng Domest Job. Đối tác nhượng quyền sẽ là đại diện độc quyền của chúng tôi tại địa phương, chịu trách nhiệm kết nối doanh nghiệp trong các khu công nghiệp với nguồn lao động và sinh viên.
               </p>
               <Image
                 src="https://placehold.co/600x400.png"
@@ -51,7 +51,7 @@ export default function FranchisePage() {
                     <Handshake className="h-8 w-8 text-primary mt-1" />
                     <div>
                       <h3 className="font-bold">Hệ thống & Thương hiệu</h3>
-                      <p className="text-muted-foreground">Sử dụng toàn bộ hệ thống công nghệ, branding chuyên nghiệp và quy trình vận hành chuẩn hóa từ KCN Connector.</p>
+                      <p className="text-muted-foreground">Sử dụng toàn bộ hệ thống công nghệ, branding chuyên nghiệp và quy trình vận hành chuẩn hóa từ Domest Job.</p>
                     </div>
                   </div>
                    <div className="flex gap-4">

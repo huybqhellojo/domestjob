@@ -8,8 +8,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <Briefcase className="h-6 w-6 text-primary" />
-              <span className="font-bold text-lg">KCN Connector</span>
+              <span className="font-bold text-lg">Domest Job</span>
             </Link>
             <p className="text-sm text-muted-foreground">
               Giải pháp nhân lực toàn diện cho các khu công nghiệp tại Việt Nam.
@@ -33,14 +32,14 @@ export function Footer() {
           <div>
             <h4 className="font-bold mb-4">Liên hệ</h4>
             <p className="text-sm text-muted-foreground">
-              KCN Connector JSC<br />
-              Email: contact@kcn-connector.vn<br />
+              Domest Job JSC<br />
+              Email: contact@domestjob.vn<br />
               Hotline: 1900 1234
             </p>
           </div>
         </div>
         <div className="mt-8 border-t pt-4 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} KCN Connector. All Rights Reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Domest Job. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

@@ -38,8 +38,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Briefcase className="h-6 w-6 text-primary" />
-          <span className="font-bold text-lg">KCN Connector</span>
+          <span className="font-bold text-lg">Domest Job</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
           {navLinks.map((link) => (
@@ -61,8 +60,7 @@ export function Header() {
                   className="flex items-center gap-2 mb-4"
                   onClick={() => setIsOpen(false)}
                 >
-                  <Briefcase className="h-6 w-6 text-primary" />
-                  <span className="font-bold text-lg">KCN Connector</span>
+                  <span className="font-bold text-lg">Domest Job</span>
                 </Link>
                 {navLinks.map((link) => (
                   <NavLink key={link.href} {...link} />

@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { HardHat, School, Star, Plane } from 'lucide-react';
 import React from 'react';

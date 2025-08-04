@@ -202,7 +202,7 @@ export function RegisterForm() {
           </Button>
         ) : <div />}
         {step < TOTAL_STEPS ? (
-          <Button onClick={handleNext} className="bg-accent-blue text-white hover:bg-accent-blue/90">
+          <Button onClick={handleNext} className="bg-accent-blue text-white hover:bg-accent-green/90">
             Tiếp theo <ChevronRight />
           </Button>
         ) : (

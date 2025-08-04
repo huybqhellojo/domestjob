@@ -22,9 +22,9 @@ body {
     --muted-foreground: 215 28% 45%;
     --accent: 199 81% 55%; /* Light Blue */
     --accent-foreground: 0 0% 98%;
-    --accent-orange: 45 89% 56%; /* Orange */
-    --accent-blue: 199 81% 55%; /* Light Blue */
-    --accent-green: 71 56% 49%; /* Green */
+    --accent-orange: 39 96% 56%; /* F97316 */
+    --accent-blue: 199 89% 53%; /* 0EA5E9 */
+    --accent-green: 82 59% 49%; /* 22C55E */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 210 29% 88%;
@@ -52,9 +52,9 @@ body {
     --muted-foreground: 215 28% 45%;
     --accent: 199 81% 55%; /* Light Blue */
     --accent-foreground: 0 0% 98%;
-    --accent-orange: 45 89% 56%; /* Orange */
-    --accent-blue: 199 81% 55%; /* Light Blue */
-    --accent-green: 71 56% 49%; /* Green */
+    --accent-orange: 39 96% 56%; /* F97316 */
+    --accent-blue: 199 89% 53%; /* 0EA5E9 */
+    --accent-green: 82 59% 49%; /* 22C55E */
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 217 33% 17%;
@@ -75,5 +75,29 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .bg-accent-orange {
+    background-color: hsl(var(--accent-orange));
+  }
+  .bg-accent-blue {
+    background-color: hsl(var(--accent-blue));
+  }
+  .bg-accent-green {
+    background-color: hsl(var(--accent-green));
+  }
+  .text-accent-orange {
+    color: hsl(var(--accent-orange));
+  }
+  .text-accent-blue {
+    color: hsl(var(--accent-blue));
+  }
+  .text-accent-green {
+    color: hsl(var(--accent-green));
+  }
+  .border-accent-orange {
+    border-color: hsl(var(--accent-orange));
   }
 }

@@ -14,22 +14,22 @@ body {
     --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-    --primary: 217 100% 44%; /* #005BE0 - xanh đậm */
+    --primary: 217 100% 44%; /* #005BE0 - xanh đậm (hellojob) */
     --primary-foreground: 0 0% 98%;
     --secondary: 210 29% 92%;
     --secondary-foreground: 222 47% 11%;
     --muted: 210 29% 90%;
     --muted-foreground: 215 28% 45%;
-    --accent: 196 84% 56%; /* #19A6DF - xanh nhạt */
+    --accent: 196 84% 56%; /* #19A6DF - xanh nhạt (hellojob) */
     --accent-foreground: 0 0% 98%;
-    --accent-orange: 45 89% 56%; /* #F2B92A - cam */
+    --accent-orange: 45 89% 56%; /* #F2B92A - cam (hellojob) */
     --accent-blue: 199 89% 53%; /* #0EA5E9 */
-    --accent-green: 74 46% 54%; /* #AFC536 - xanh lá */
+    --accent-green: 74 46% 54%; /* #AFC536 - xanh lá (hellojob) */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 210 29% 88%;
     --input: 210 29% 94%;
-    --ring: 217 100% 44%; /* #005BE0 - xanh đậm */
+    --ring: 217 100% 44%; /* #005BE0 - xanh đậm (hellojob) */
     --chart-1: 45 89% 56%; /* cam */
     --chart-2: 196 84% 56%; /* xanh nhạt */
     --chart-3: 74 46% 54%; /* xanh lá */

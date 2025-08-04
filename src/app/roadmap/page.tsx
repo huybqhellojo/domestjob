@@ -1,15 +1,23 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { HardHat, School, Star, Plane } from 'lucide-react';
+import { HardHat, School, Star, Plane, UserCheck, ShieldCheck } from 'lucide-react';
 import React from 'react';
 import Image from 'next/image';
 
 const roadmapSteps = [
   {
+    icon: UserCheck,
+    title: 'Định hướng & Đánh giá ban đầu',
+    description: 'Ứng viên thực hiện các bài đánh giá năng lực và sở thích để hệ thống gợi ý ngành nghề, lộ trình phát triển phù hợp nhất ngay từ đầu.',
+    color: 'orange',
+    image: 'https://placehold.co/500x300.png',
+    dataAiHint: 'career assessment test',
+  },
+  {
     icon: HardHat,
     title: 'Lao động phổ thông',
     description: 'Bắt đầu với các vị trí công việc không yêu cầu chuyên môn cao. Đây là bước đầu tiên để làm quen với môi trường khu công nghiệp, tích lũy kinh nghiệm thực tế và được định hướng nghề nghiệp.',
-    color: 'orange',
+    color: 'sky',
     image: 'https://placehold.co/500x300.png',
     dataAiHint: 'factory workers',
   },
@@ -17,17 +25,25 @@ const roadmapSteps = [
     icon: School,
     title: 'Học nghề & Đào tạo kỹ năng',
     description: 'Tham gia các khóa đào tạo trên nền tảng E-learning hoặc tại doanh nghiệp để nâng cao tay nghề, học ngoại ngữ (Nhật, Hàn), sẵn sàng cho các vị trí yêu cầu kỹ năng cao hơn.',
-    color: 'sky',
+    color: 'blue',
     image: 'https://placehold.co/500x300.png',
-    dataAiHint: 'vocational training',
+    dataAiHint: 'vocational training online',
   },
   {
     icon: Star,
-    title: 'Lao động có kỹ năng',
-    description: 'Trở thành lao động tay nghề cao, đảm nhận các vị trí quan trọng trong dây chuyền sản xuất, vận hành máy móc phức tạp và nhận được mức lương cùng chế độ đãi ngộ tốt hơn.',
+    title: 'Lao động có kỹ năng & Chứng nhận',
+    description: 'Trở thành lao động tay nghề cao, được hệ thống xác nhận và cấp chứng nhận kỹ năng, đảm nhận các vị trí quan trọng và nhận mức lương, đãi ngộ tốt hơn.',
     color: 'green',
     image: 'https://placehold.co/500x300.png',
-    dataAiHint: 'skilled labor',
+    dataAiHint: 'skilled labor certificate',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Chuyên viên / Tổ trưởng',
+    description: 'Phát triển lên các vị trí quản lý cấp trung như tổ trưởng, chuyền trưởng, chuyên viên kỹ thuật. Đây là bước quan trọng để trở thành nòng cốt của doanh nghiệp.',
+    color: 'teal',
+    image: 'https://placehold.co/500x300.png',
+    dataAiHint: 'factory team leader',
   },
   {
     icon: Plane,
@@ -35,14 +51,16 @@ const roadmapSteps = [
     description: 'Phát triển lên các vị trí chuyên gia, kỹ sư, hoặc tham gia chương trình xuất khẩu lao động. Hệ thống cũng chào đón và kết nối việc làm cho lực lượng lao động chất lượng cao từ nước ngoài trở về.',
     color: 'primary',
     image: 'https://placehold.co/500x300.png',
-    dataAiHint: 'engineer expert',
+    dataAiHint: 'engineer expert manager',
   },
 ];
 
 const circleColors: { [key: string]: string } = {
   orange: 'bg-accent-orange',
-  sky: 'bg-accent-blue',
+  sky: 'bg-sky-500',
+  blue: 'bg-blue-500',
   green: 'bg-accent-green',
+  teal: 'bg-teal-500',
   primary: 'bg-primary',
 };
 

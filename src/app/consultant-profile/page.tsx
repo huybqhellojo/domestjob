@@ -7,9 +7,9 @@ import { Award, Briefcase, CheckCircle, MessageSquare, PieChart, Send, ShieldChe
 import Image from 'next/image';
 
 const consultant = {
-  name: 'Nguyễn Thị Minh Anh',
+  name: 'Nguyễn Văn A',
   avatarUrl: 'https://placehold.co/200x200.png',
-  dataAiHint: 'professional woman portrait',
+  dataAiHint: 'professional man portrait',
   experience: '3 năm 2 tháng',
   mainExpertise: 'Tư vấn việc làm Kỹ năng đặc định (Tokutei) 2 đầu Nhật Việt',
   subExpertise: 'Tư vấn việc làm Thực tập sinh Nhật Bản',
@@ -107,7 +107,7 @@ export default function ConsultantProfilePage() {
           <div className="lg:col-span-2 space-y-8">
              <Card className="shadow-xl">
               <CardHeader>
-                <CardTitle className="font-headline text-2xl text-primary">Định vị Bbester</CardTitle>
+                <CardTitle className="font-headline text-2xl text-primary">Ưu điểm hệ thống</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 {companyValues.map(item => (

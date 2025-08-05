@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy } from 'lucide-react';
+import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, Grid } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { useState } from 'react';
@@ -75,7 +75,7 @@ export function Header() {
            <NavLink href="/employers" label="Nhà tuyển dụng" />
            <NavLink href="/dashboard" label="Dữ liệu" />
         </nav>
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-2">
             <Button asChild>
               <Link href="/register">Ứng viên</Link>
             </Button>
@@ -85,11 +85,9 @@ export function Header() {
             
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                  <Avatar className="h-10 w-10">
-                    <AvatarImage src="https://placehold.co/100x100.png" alt="User" data-ai-hint="user avatar" />
-                    <AvatarFallback>A</AvatarFallback>
-                  </Avatar>
+                 <Button variant="ghost" size="icon" className="rounded-full">
+                  <Grid className="h-5 w-5" />
+                  <span className="sr-only">Open Menu</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-80" align="end" forceMount>

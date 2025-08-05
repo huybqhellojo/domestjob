@@ -96,7 +96,9 @@ export default function RoadmapPage() {
                    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
                     <CardHeader>
                       <CardTitle className={`font-headline text-2xl ${index % 2 !== 0 ? 'md:text-left' : 'md:text-right'}`}>
-                        <span className="text-primary/50 mr-2">Bước {index + 1}:</span> {step.title}
+                        <>
+                          <span className="text-primary/50 mr-2">Bước {index + 1}:</span> {step.title}
+                        </>
                       </CardTitle>
                     </CardHeader>
                     <CardContent className={`${index % 2 !== 0 ? 'md:text-left' : 'md:text-right'}`}>

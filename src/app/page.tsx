@@ -1,7 +1,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { AreaChart, Briefcase, Users, ArrowRight, Building, BookOpen } from 'lucide-react';
+import { Briefcase, Users, ArrowRight, BookOpen, Search, Map, GraduationCap } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -40,72 +40,69 @@ const featuredCourses = [
 export default function Home() {
   return (
     <div className="flex flex-col items-center">
+      {/* Hero Section for Candidates */}
       <section className="w-full bg-gradient-to-br from-primary via-blue-800 to-blue-900 text-primary-foreground py-24 md:py-40">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
-            Giải pháp nhân lực cho Khu Công Nghiệp
+            Tìm kiếm cơ hội, phát triển sự nghiệp
           </h1>
           <p className="text-lg md:text-xl max-w-3xl mx-auto mb-10 text-primary-foreground/80">
-            Nền tảng thông minh, có thể mở rộng, kết nối các khu công nghiệp với nguồn nhân lực dồi dào là sinh viên và người lao động địa phương.
+            Hàng ngàn việc làm từ các công ty hàng đầu trong khu công nghiệp đang chờ đón bạn. Tạo hồ sơ ngay hôm nay để bắt đầu hành trình của bạn!
           </p>
-          <div className="flex flex-col items-center gap-4">
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link href="/post-job">Dành cho Nhà tuyển dụng <ArrowRight className="ml-2" /></Link>
-              </Button>
-               <Button asChild size="lg" className="bg-transparent border-2 border-white text-white hover:bg-white/10">
-                <Link href="/franchise">Mô hình Nhượng quyền</Link>
-              </Button>
-            </div>
-            <p className="text-sm mt-4">
-              Bạn là ứng viên? <Link href="/register" className="font-bold underline hover:text-accent">Tạo hồ sơ tại đây</Link>
-            </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
+              <Link href="/register">Tạo hồ sơ miễn phí <ArrowRight className="ml-2" /></Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="text-white border-white hover:bg-white/10">
+              <Link href="#">Tìm việc làm</Link>
+            </Button>
           </div>
         </div>
       </section>
 
+      {/* Why Choose Us for Candidates */}
       <section className="w-full py-20 md:py-28 bg-secondary">
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl md:text-4xl font-headline font-bold text-center mb-16">
-            Tại sao chọn Bbester?
+            Lợi ích dành cho bạn
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
               <CardHeader>
                 <div className="mx-auto bg-sky-100 rounded-full p-4 w-fit">
-                  <Users className="h-10 w-10 text-sky-500" />
+                  <Search className="h-10 w-10 text-sky-500" />
                 </div>
-                <CardTitle className="font-headline mt-4">Nguồn nhân lực quy mô lớn</CardTitle>
+                <CardTitle className="font-headline mt-4">Việc làm đa dạng</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Tiếp cận hàng ngàn sinh viên và người lao động có trình độ, sẵn sàng làm việc tại các khu công nghiệp.
+                  Khám phá hàng ngàn công việc từ các công ty uy tín trong nhiều lĩnh vực: Cơ khí, Điện tử, May mặc, và nhiều hơn nữa.
                 </p>
               </CardContent>
             </Card>
             <Card className="text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
               <CardHeader>
                 <div className="mx-auto bg-green-100 rounded-full p-4 w-fit">
-                  <Briefcase className="h-10 w-10 text-green-600" />
+                  <Map className="h-10 w-10 text-green-600" />
                 </div>
-                <CardTitle className="font-headline mt-4">Kết nối hiệu quả</CardTitle>
+                <CardTitle className="font-headline mt-4">Lộ trình rõ ràng</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Hệ thống thông minh giúp kết nối ứng viên phù hợp nhất với nhu cầu tuyển dụng của doanh nghiệp.
+                  Xem lộ trình phát triển sự nghiệp (SWR) để định hướng con đường thăng tiến của bạn trong ngành.
                 </p>
               </CardContent>
             </Card>
             <Card className="text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
               <CardHeader>
                 <div className="mx-auto bg-orange-100 rounded-full p-4 w-fit">
-                  <AreaChart className="h-10 w-10 text-orange-500" />
+                  <GraduationCap className="h-10 w-10 text-orange-500" />
                 </div>
-                <CardTitle className="font-headline mt-4">Dữ liệu & Phân tích</CardTitle>
+                <CardTitle className="font-headline mt-4">Nâng cao kỹ năng</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Cung cấp các báo cáo và phân tích sâu sắc về thị trường lao động để hỗ trợ việc ra quyết định.
+                  Tham gia các khóa học E-learning miễn phí để trau dồi kiến thức và kỹ năng cần thiết cho công việc.
                 </p>
               </CardContent>
             </Card>
@@ -113,12 +110,13 @@ export default function Home() {
         </div>
       </section>
 
-       <section className="w-full py-20 md:py-28 bg-background">
+      {/* Featured Employers */}
+      <section className="w-full py-20 md:py-28 bg-background">
         <div className="container mx-auto px-4 md:px-6">
            <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-headline font-bold">Đối tác hàng đầu</h2>
+            <h2 className="text-3xl md:text-4xl font-headline font-bold">Các nhà tuyển dụng hàng đầu</h2>
             <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto">
-              Chúng tôi tự hào được hợp tác với các doanh nghiệp uy tín tại các khu công nghiệp lớn.
+              Những công ty lớn và uy tín đang tìm kiếm những ứng viên như bạn.
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center">
@@ -128,15 +126,11 @@ export default function Home() {
               </div>
             ))}
           </div>
-           <div className="text-center mt-16">
-            <Button asChild size="lg" variant="outline">
-              <Link href="/employers">Xem tất cả nhà tuyển dụng <ArrowRight /></Link>
-            </Button>
-          </div>
         </div>
       </section>
 
-       <section className="w-full py-20 md:py-28 bg-secondary">
+      {/* Featured E-Learning Courses */}
+      <section className="w-full py-20 md:py-28 bg-secondary">
         <div className="container mx-auto px-4 md:px-6">
            <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-headline font-bold">Nâng cao kỹ năng với E-Learning</h2>
@@ -181,23 +175,23 @@ export default function Home() {
         </div>
       </section>
 
-
+      {/* For Employers & Franchise */}
       <section className="w-full py-20 md:py-28 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col md:flex-row items-center gap-12 rounded-lg bg-gradient-to-r from-blue-600 to-sky-500 text-white p-12 lg:p-16">
             <div className="md:w-1/2">
-              <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Mô hình Nhượng quyền Đột phá</h2>
+              <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Bạn là nhà tuyển dụng?</h2>
               <p className="text-lg text-white/80 mb-8">
-                Trở thành đối tác chiến lược của chúng tôi tại địa phương bạn. Tận dụng hệ thống, thương hiệu và công nghệ của Bbester để phát triển kinh doanh và tạo ra tác động tích cực cho cộng đồng.
+                Tìm kiếm và tiếp cận hàng ngàn ứng viên tiềm năng. Đăng tin tuyển dụng và quản lý hồ sơ một cách dễ dàng và hiệu quả.
               </p>
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link href="/franchise">Tìm hiểu về Nhượng quyền</Link>
+                <Link href="/employers">Dành cho Nhà tuyển dụng</Link>
               </Button>
             </div>
              <div className="md:w-1/2 flex justify-center">
               <Image
                 src="https://placehold.co/600x400.png"
-                alt="Mô hình nhượng quyền"
+                alt="Nhà tuyển dụng"
                 width={500}
                 height={350}
                 className="rounded-lg shadow-xl"

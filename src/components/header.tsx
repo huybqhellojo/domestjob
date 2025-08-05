@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Briefcase, Menu, X, Building, PlusCircle } from 'lucide-react';
+import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import { useState } from 'react';
@@ -14,6 +14,16 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import Image from 'next/image';
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuLabel, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger,
+  DropdownMenuGroup
+} from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const mainNavLinks = [
   { href: '/', label: 'Trang chủ' },
@@ -65,13 +75,94 @@ export function Header() {
            <NavLink href="/employers" label="Nhà tuyển dụng" />
            <NavLink href="/dashboard" label="Dữ liệu" />
         </nav>
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-4">
             <Button asChild>
               <Link href="/register">Ứng viên</Link>
             </Button>
             <Button asChild variant="outline">
               <Link href="/post-job">Đăng tin</Link>
             </Button>
+            
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src="https://placehold.co/100x100.png" alt="User" data-ai-hint="user avatar" />
+                    <AvatarFallback>A</AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-80" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-12 w-12">
+                      <AvatarImage src="https://placehold.co/100x100.png" alt="User" data-ai-hint="user avatar" />
+                      <AvatarFallback>A</AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-base font-medium leading-none">Nguyễn Quốc Việt</p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        Cán bộ tuyển dụng
+                      </p>
+                    </div>
+                  </div>
+                </DropdownMenuLabel>
+                 <DropdownMenuItem asChild>
+                    <Link href="/candidate-profile" className="cursor-pointer">
+                      <Button variant="outline" className="w-full justify-center">Xem hồ sơ của bạn</Button>
+                    </Link>
+                 </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <div className="grid grid-cols-2 gap-2 p-2">
+                    <DropdownMenuItem asChild>
+                       <Link href="/post-job" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
+                         <PlusCircle/>
+                         <span className="text-xs text-center mt-1">Dành cho nhà tuyển dụng</span>
+                       </Link>
+                    </DropdownMenuItem>
+                     <DropdownMenuItem asChild>
+                       <Link href="#" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
+                         <FileText/>
+                         <span className="text-xs text-center mt-1">Quy chế & Điều khoản</span>
+                       </Link>
+                    </DropdownMenuItem>
+                     <DropdownMenuItem asChild>
+                       <Link href="#" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
+                         <Shield/>
+                         <span className="text-xs text-center mt-1">Chính sách bảo mật</span>
+                       </Link>
+                    </DropdownMenuItem>
+                     <DropdownMenuItem asChild>
+                       <Link href="#" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
+                         <Gift/>
+                         <span className="text-xs text-center mt-1">Mã giới thiệu</span>
+                       </Link>
+                    </DropdownMenuItem>
+                     <DropdownMenuItem asChild>
+                       <Link href="#" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
+                         <MessageSquareWarning/>
+                         <span className="text-xs text-center mt-1">Góp ý cải tiến</span>
+                       </Link>
+                    </DropdownMenuItem>
+                     <DropdownMenuItem asChild>
+                       <Link href="#" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
+                         <LifeBuoy/>
+                         <span className="text-xs text-center mt-1">Về HelloJob</span>
+                       </Link>
+                    </DropdownMenuItem>
+                  </div>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="#" className="cursor-pointer">
+                      <LogOut className="mr-2 h-4 w-4" />
+                      <span>Đăng xuất</span>
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
         </div>
         <div className="md:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>

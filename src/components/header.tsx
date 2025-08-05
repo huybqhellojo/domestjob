@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, Grid, Sparkles, Home, Plane } from 'lucide-react';
+import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, Grid, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
@@ -28,13 +28,13 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const mainNavLinks = [
   { href: '/', label: 'Trang chủ' },
-  { href: '/employers', label: 'Việc làm' },
-  { href: '/jobs-japan', label: 'Việc làm Nhật Bản', icon: Plane },
   { href: '/roadmap', label: 'Lộ trình' },
   { href: '/learn', label: 'E-Learning' },
+  { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles},
 ];
 
 const employerLinks = [
+  { href: '/employers', label: 'Nhà tuyển dụng' },
   { href: '/dashboard', label: 'Dữ liệu' },
   { href: '/post-job', label: 'Đăng việc làm' },
   { href: '/franchise', label: 'Nhượng quyền' },
@@ -55,7 +55,7 @@ export function Header() {
       )}
       onClick={() => setIsOpen(false)}
     >
-      {Icon && <Icon className={cn("h-5 w-5", pathname === href ? "text-primary" : "text-accent-orange")} />}
+      {Icon && <Icon className="h-5 w-5 text-primary" />}
       {label}
     </Link>
   );
@@ -70,13 +70,25 @@ export function Header() {
           {mainNavLinks.map((link) => (
              <NavLink key={link.href} {...link} />
           ))}
+           <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="p-0 h-auto font-medium text-foreground/80 hover:text-primary data-[state=open]:text-primary">
+                    Dành cho nhà tuyển dụng
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {employerLinks.map((link) => (
+                   <DropdownMenuItem key={link.href} asChild><Link href={link.href}>{link.label}</Link></DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
         </nav>
         <div className="hidden md:flex items-center gap-2">
             <Button asChild variant="outline">
               <Link href="/candidate-profile">Hồ sơ của tôi</Link>
             </Button>
             <Button asChild>
-              <Link href="/post-job">Đăng tin</Link>
+              <Link href="/employers">Việc làm</Link>
             </Button>
             
             <DropdownMenu>
@@ -188,8 +200,8 @@ export function Header() {
                      {mainNavLinks.map((link) => (
                       <NavLink key={link.href} {...link} className="text-lg border-b"/>
                     ))}
-                     <NavLink href="/ai-profile" label="Tạo hồ sơ AI" icon={Sparkles} className="text-lg border-b"/>
                      <NavLink href="/candidate-profile" label="Hồ sơ của tôi" className="text-lg border-b"/>
+                     <NavLink href="/employers" label="Việc làm" className="text-lg border-b"/>
                     
                     <Accordion type="multiple" className="w-full">
                       <AccordionItem value="item-2">

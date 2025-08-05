@@ -44,13 +44,13 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center">
       {/* Hero Section for Candidates */}
-      <section className="w-full bg-accent text-primary-foreground py-20 md:py-28">
+      <section className="w-full bg-gradient-to-r from-blue-600 to-sky-500 text-white py-20 md:py-28">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
               Tìm kiếm cơ hội, phát triển sự nghiệp
             </h1>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto mb-10 text-primary-foreground/80">
+            <p className="text-lg md:text-xl max-w-3xl mx-auto mb-10 text-white/80">
               Hàng ngàn việc làm từ các công ty hàng đầu trong khu công nghiệp đang chờ đón bạn.
             </p>
           </div>
@@ -88,7 +88,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="md:col-span-2">
-                   <Button size="lg" className="w-full bg-accent-orange hover:bg-accent-orange/90 text-white text-lg">
+                   <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-white text-lg">
                     <Search className="mr-2 h-5 w-5" /> Tìm kiếm
                   </Button>
                 </div>
@@ -154,6 +154,15 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <Card className="overflow-hidden shadow-2xl">
             <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+              <div className="relative h-64 md:h-full order-last md:order-first">
+                <Image 
+                  src="https://placehold.co/600x600.png"
+                  alt="Lao động lành nghề"
+                  fill
+                  className="object-cover"
+                  data-ai-hint="happy factory worker"
+                />
+              </div>
               <div className="p-8 md:p-12 text-center md:text-left">
                 <h2 className="text-3xl md:text-4xl font-headline font-bold text-primary mb-4">
                   Lao động lành nghề <br /> thu nhập bao nhiêu?
@@ -166,15 +175,6 @@ export default function Home() {
                     <TrendingUp /> Xem ngay lộ trình
                   </Link>
                 </Button>
-              </div>
-              <div className="relative h-64 md:h-full">
-                <Image 
-                  src="https://placehold.co/600x600.png"
-                  alt="Lao động lành nghề"
-                  fill
-                  className="object-cover"
-                  data-ai-hint="happy factory worker"
-                />
               </div>
             </div>
           </Card>
@@ -249,10 +249,10 @@ export default function Home() {
       {/* For Employers & Franchise */}
       <section className="w-full py-20 md:py-28 bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col md:flex-row items-center gap-12 rounded-lg bg-gradient-to-r from-blue-600 to-sky-500 text-white p-12 lg:p-16">
+          <div className="flex flex-col md:flex-row items-center gap-12 rounded-lg bg-accent text-primary-foreground p-12 lg:p-16">
             <div className="md:w-1/2">
               <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Bạn là nhà tuyển dụng?</h2>
-              <p className="text-lg text-white/80 mb-8">
+              <p className="text-lg text-primary-foreground/80 mb-8">
                 Tìm kiếm và tiếp cận hàng ngàn ứng viên tiềm năng. Đăng tin tuyển dụng và quản lý hồ sơ một cách dễ dàng và hiệu quả.
               </p>
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">

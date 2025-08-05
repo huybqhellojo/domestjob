@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, Briefcase, Sparkles, User, Menu, Plane } from 'lucide-react';
+import { Home, Briefcase, Sparkles, User, Menu } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import {
@@ -25,13 +25,12 @@ import { useState } from 'react';
 
 const mainNavLinks = [
   { href: '/', label: 'Trang chủ' },
-  { href: '/employers', label: 'Việc làm' },
-  { href: '/jobs-japan', label: 'Việc làm Nhật Bản', icon: Plane },
   { href: '/roadmap', label: 'Lộ trình' },
   { href: '/learn', label: 'E-Learning' },
 ];
 
 const employerLinks = [
+  { href: '/employers', label: 'Nhà tuyển dụng' },
   { href: '/dashboard', label: 'Dữ liệu' },
   { href: '/post-job', label: 'Đăng việc làm' },
   { href: '/franchise', label: 'Nhượng quyền' },
@@ -58,7 +57,7 @@ export function MobileFooter() {
       )}
       onClick={() => setIsOpen(false)}
     >
-      {Icon && <Icon className={cn("h-5 w-5", pathname === href ? "text-primary" : "text-accent-orange")} />}
+      {Icon && <Icon className="h-5 w-5 text-primary" />}
       {label}
     </Link>
   );
@@ -100,6 +99,7 @@ export function MobileFooter() {
                 ))}
                  <MobileNavLink href="/ai-profile" label="Tạo hồ sơ AI" icon={Sparkles} className="text-lg border-b"/>
                  <MobileNavLink href="/candidate-profile" label="Hồ sơ của tôi" className="text-lg border-b"/>
+                 <MobileNavLink href="/employers" label="Việc làm" className="text-lg border-b"/>
                 
                 <Accordion type="multiple" className="w-full">
                   <AccordionItem value="item-2">

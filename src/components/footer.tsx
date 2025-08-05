@@ -25,7 +25,7 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="font-bold mb-4">Việc làm</h4>
+            <h4 className="font-bold mb-4">Dành cho nhà tuyển dụng</h4>
             <ul className="space-y-2 text-sm">
               <li><Link href="/post-job" className="hover:text-primary">Đăng tin tuyển dụng</Link></li>
               <li><Link href="/employers" className="hover:text-primary">Danh sách công ty</Link></li>

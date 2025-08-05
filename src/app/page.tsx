@@ -41,7 +41,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center">
       {/* Hero Section for Candidates */}
-      <section className="w-full bg-accent text-primary-foreground py-24 md:py-40">
+      <section className="w-full bg-gradient-to-r from-blue-600 to-sky-500 text-primary-foreground py-24 md:py-40">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
             Tìm kiếm cơ hội, phát triển sự nghiệp
@@ -178,7 +178,7 @@ export default function Home() {
       {/* For Employers & Franchise */}
       <section className="w-full py-20 md:py-28 bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col md:flex-row items-center gap-12 rounded-lg bg-gradient-to-r from-blue-600 to-sky-500 text-white p-12 lg:p-16">
+          <div className="flex flex-col md:flex-row items-center gap-12 rounded-lg bg-accent text-white p-12 lg:p-16">
             <div className="md:w-1/2">
               <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Bạn là nhà tuyển dụng?</h2>
               <p className="text-lg text-white/80 mb-8">

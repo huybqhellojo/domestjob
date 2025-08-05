@@ -67,7 +67,7 @@ export default function PostJobPage() {
               </div>
               <CardTitle className="font-headline text-4xl">Đăng tin tuyển dụng</CardTitle>
               <CardDescription className="!mt-3 text-lg">
-                Tiếp cận hàng ngàn ứng viên tiềm năng trên hệ thống Domest Job.
+                Tiếp cận hàng ngàn ứng viên tiềm năng trên hệ thống Bbester.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-6 md:p-8">
@@ -165,7 +165,7 @@ export default function PostJobPage() {
                     
                     <div className="flex items-center space-x-2">
                         <Checkbox id="terms" />
-                        <Label htmlFor="terms" className="text-sm text-muted-foreground">Tôi đồng ý với các <a href="#" className="underline text-primary">điều khoản dịch vụ</a> của Domest Job.</Label>
+                        <Label htmlFor="terms" className="text-sm text-muted-foreground">Tôi đồng ý với các <a href="#" className="underline text-primary">điều khoản dịch vụ</a> của Bbester.</Label>
                     </div>
 
                     <div className="text-center pt-4">

@@ -9,7 +9,7 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
-               <Image src="/logo.svg" alt="Domest Job Logo" width={140} height={40} />
+               <Image src="/logo.svg" alt="Bbester Logo" width={140} height={40} />
             </Link>
             <p className="text-sm text-muted-foreground">
               Giải pháp nhân lực toàn diện cho các khu công nghiệp tại Việt Nam.
@@ -36,14 +36,14 @@ export function Footer() {
           <div>
             <h4 className="font-bold mb-4">Liên hệ</h4>
             <p className="text-sm text-muted-foreground">
-              Domest Job JSC<br />
-              Email: contact@domestjob.vn<br />
+              Bbester JSC<br />
+              Email: contact@bbester.vn<br />
               Hotline: 1900 1234
             </p>
           </div>
         </div>
         <div className="mt-8 border-t pt-4 text-center text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} Domest Job. All Rights Reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Bbester. All Rights Reserved.</p>
         </div>
       </div>
     </footer>

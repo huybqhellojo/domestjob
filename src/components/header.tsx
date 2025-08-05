@@ -66,7 +66,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo.svg" alt="Domest Job Logo" width={120} height={40} />
+          <Image src="/logo.svg" alt="Bbester Logo" width={120} height={40} />
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
           {mainNavLinks.map((link) => (
@@ -146,7 +146,7 @@ export function Header() {
                      <DropdownMenuItem asChild>
                        <Link href="#" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
                          <LifeBuoy/>
-                         <span className="text-xs text-center mt-1">Về HelloJob</span>
+                         <span className="text-xs text-center mt-1">Về Bbester</span>
                        </Link>
                     </DropdownMenuItem>
                   </div>
@@ -178,7 +178,7 @@ export function Header() {
                     href="/"
                     className="flex items-center gap-2 mb-4"
                   >
-                    <Image src="/logo.svg" alt="Domest Job Logo" width={120} height={40} />
+                    <Image src="/logo.svg" alt="Bbester Logo" width={120} height={40} />
                   </Link>
                  </SheetClose>
               </SheetHeader>

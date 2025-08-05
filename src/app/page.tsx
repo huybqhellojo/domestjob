@@ -67,7 +67,7 @@ export default function Home() {
       <section className="w-full py-20 md:py-28 bg-secondary">
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl md:text-4xl font-headline font-bold text-center mb-16">
-            Tại sao chọn Domest Job?
+            Tại sao chọn Bbester?
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
@@ -188,7 +188,7 @@ export default function Home() {
             <div className="md:w-1/2">
               <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Mô hình Nhượng quyền Đột phá</h2>
               <p className="text-lg text-white/80 mb-8">
-                Trở thành đối tác chiến lược của chúng tôi tại địa phương bạn. Tận dụng hệ thống, thương hiệu và công nghệ của Domest Job để phát triển kinh doanh và tạo ra tác động tích cực cho cộng đồng.
+                Trở thành đối tác chiến lược của chúng tôi tại địa phương bạn. Tận dụng hệ thống, thương hiệu và công nghệ của Bbester để phát triển kinh doanh và tạo ra tác động tích cực cho cộng đồng.
               </p>
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
                 <Link href="/franchise">Tìm hiểu về Nhượng quyền</Link>

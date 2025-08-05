@@ -41,7 +41,7 @@ export default function FranchisePage() {
       <section className="w-full bg-primary text-primary-foreground py-24 md:py-32">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <h1 className="text-4xl md:text-5xl font-headline font-bold">
-            Mô hình Nhượng quyền Domest Job
+            Mô hình Nhượng quyền Bbester
           </h1>
           <p className="text-lg md:text-xl max-w-3xl mx-auto mt-4 text-primary-foreground/80">
             Trở thành đối tác chiến lược và cùng chúng tôi kiến tạo tương lai cho nguồn nhân lực Việt Nam.
@@ -92,7 +92,7 @@ export default function FranchisePage() {
             <div>
               <h2 className="text-3xl font-headline font-bold mb-4 text-primary">Nắm bắt cơ hội, làm chủ thị trường</h2>
               <p className="text-muted-foreground mb-6 text-lg">
-                Chúng tôi tìm kiếm các nhà đầu tư có tầm nhìn tại mỗi tỉnh/thành phố để cùng triển khai và vận hành nền tảng Domest Job. Đối tác nhượng quyền sẽ là đại diện độc quyền của chúng tôi tại địa phương, chịu trách nhiệm kết nối doanh nghiệp trong các khu công nghiệp với nguồn lao động và sinh viên.
+                Chúng tôi tìm kiếm các nhà đầu tư có tầm nhìn tại mỗi tỉnh/thành phố để cùng triển khai và vận hành nền tảng Bbester. Đối tác nhượng quyền sẽ là đại diện độc quyền của chúng tôi tại địa phương, chịu trách nhiệm kết nối doanh nghiệp trong các khu công nghiệp với nguồn lao động và sinh viên.
               </p>
               <Image
                 src="https://placehold.co/600x400.png"
@@ -120,7 +120,7 @@ export default function FranchisePage() {
                     <Handshake className="h-8 w-8 text-accent-green mt-1 flex-shrink-0" />
                     <div>
                       <h3 className="font-bold text-lg">Hệ thống & Thương hiệu</h3>
-                      <p className="text-muted-foreground text-sm">Sử dụng toàn bộ hệ thống công nghệ, branding chuyên nghiệp và quy trình vận hành chuẩn hóa từ Domest Job.</p>
+                      <p className="text-muted-foreground text-sm">Sử dụng toàn bộ hệ thống công nghệ, branding chuyên nghiệp và quy trình vận hành chuẩn hóa từ Bbester.</p>
                     </div>
                   </div>
                    <div className="flex gap-4">
@@ -174,7 +174,7 @@ export default function FranchisePage() {
                 </div>
                 <div>
                      <blockquote className="border-l-4 border-primary pl-6">
-                        <p className="text-xl text-muted-foreground italic">"Trở thành đối tác nhượng quyền của Domest Job là quyết định kinh doanh đúng đắn nhất của tôi. Mô hình thông minh, sự hỗ trợ tận tình và tiềm năng thị trường khổng lồ đã giúp chúng tôi đạt được thành công ngoài mong đợi chỉ sau 1 năm."</p>
+                        <p className="text-xl text-muted-foreground italic">"Trở thành đối tác nhượng quyền của Bbester là quyết định kinh doanh đúng đắn nhất của tôi. Mô hình thông minh, sự hỗ trợ tận tình và tiềm năng thị trường khổng lồ đã giúp chúng tôi đạt được thành công ngoài mong đợi chỉ sau 1 năm."</p>
                         <footer className="mt-4">
                             <p className="font-bold text-lg text-primary">Ông Trần Văn Hùng</p>
                             <p className="text-sm">Đối tác Nhượng quyền tại Bắc Ninh</p>

@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Building, Calendar, Clock, MapPin, Users, Video } from 'lucide-react';
+import { Building, Calendar, Clock, MapPin, Users, Video, Briefcase } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -99,7 +99,7 @@ export default function EmployerDetailPage({ params }: { params: { id: string } 
                             ))}
                         </ul>
                          <Button asChild className="w-full mt-6 bg-accent-orange text-white hover:bg-accent-orange/90">
-                            <Link href="/post-job">Xem tất cả việc làm</Link>
+                            <Link href="/employers">Xem tất cả việc làm <Briefcase/></Link>
                         </Button>
                     </CardContent>
                 </Card>
@@ -110,3 +110,4 @@ export default function EmployerDetailPage({ params }: { params: { id: string } 
     </div>
   );
 }
+

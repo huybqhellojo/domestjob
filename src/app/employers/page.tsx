@@ -1,212 +1,147 @@
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { AreaChart, Briefcase, Users, ArrowRight, Building, BookOpen } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Search, MapPin, Briefcase } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { JobCard } from '@/components/job-card';
 
-const featuredEmployers = [
-  { id: 'samsung', name: 'Samsung', logo: 'https://placehold.co/150x50.png', dataAiHint: 'samsung logo' },
-  { id: 'vinfast', name: 'Vinfast', logo: 'https://placehold.co/150x50.png', dataAiHint: 'vinfast logo' },
-  { id: 'fpt-software', name: 'FPT Software', logo: 'https://placehold.co/150x50.png', dataAiHint: 'fpt logo' },
-  { id: 'lg-electronics', name: 'LG Electronics', logo: 'https://placehold.co/150x50.png', dataAiHint: 'lg logo' },
-  { id: 'hoaphat', name: 'Hòa Phát Group', logo: 'https://placehold.co/150x50.png', dataAiHint: 'hoaphat logo' },
+const jobs = [
+  {
+    id: 'samsung-1',
+    companyId: 'samsung',
+    companyName: 'Samsung Electronics',
+    companyLogo: 'https://placehold.co/100x100.png',
+    title: 'Kỹ sư Vận hành Dây chuyền',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'production line worker',
+    location: 'Khu công nghệ cao, Q.9, TP.HCM',
+    salary: 'Thỏa thuận',
+    tags: ['Cơ điện tử', 'Tự động hóa', 'Làm việc theo ca'],
+  },
+  {
+    id: 'vinfast-1',
+    companyId: 'vinfast',
+    companyName: 'Vinfast',
+    companyLogo: 'https://placehold.co/100x100.png',
+    title: 'Công nhân Lắp ráp Ô tô',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'car assembly line',
+    location: 'Hải Phòng',
+    salary: '10-15 triệu',
+    tags: ['Lắp ráp', 'Cẩn thận', 'Sức khỏe tốt'],
+  },
+  {
+    id: 'fpt-1',
+    companyId: 'fpt-software',
+    companyName: 'FPT Software',
+    companyLogo: 'https://placehold.co/100x100.png',
+    title: 'Thực tập sinh Frontend',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'software developer intern',
+    location: 'Quận 7, TP.HCM',
+    salary: 'Hỗ trợ thực tập',
+    tags: ['ReactJS', 'HTML/CSS', 'Sinh viên'],
+  },
+  {
+    id: 'samsung-2',
+    companyId: 'samsung',
+    companyName: 'Samsung Electronics',
+    companyLogo: 'https://placehold.co/100x100.png',
+    title: 'Nhân viên Kiểm tra Chất lượng (QC)',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'quality control inspector',
+    location: 'Bắc Ninh',
+    salary: '12-18 triệu',
+    tags: ['Kiểm tra sản phẩm', 'Tỉ mỉ', 'ISO 9001'],
+  },
+    {
+    id: 'lg-1',
+    companyId: 'lg-electronics',
+    companyName: 'LG Electronics',
+    companyLogo: 'https://placehold.co/100x100.png',
+    title: 'Kỹ sư Thiết kế Mạch',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'circuit design engineer',
+    location: 'Hải Phòng',
+    salary: 'Cạnh tranh',
+    tags: ['Thiết kế mạch', 'Điện tử', 'Altium'],
+  },
+  {
+    id: 'hoaphat-1',
+    companyId: 'hoaphat',
+    companyName: 'Hòa Phát Group',
+    companyLogo: 'https://placehold.co/100x100.png',
+    title: 'Công nhân Vận hành Lò thép',
+    image: 'https://placehold.co/600x400.png',
+    dataAiHint: 'steel factory worker',
+    location: 'Dung Quất, Quảng Ngãi',
+    salary: '15-20 triệu',
+    tags: ['Luyện kim', 'An toàn lao động', 'Chịu nhiệt'],
+  },
 ];
 
-const featuredCourses = [
-   {
-    id: 'tieng-nhat-giao-tiep',
-    title: 'Tiếng Nhật giao tiếp cho người đi làm',
-    category: 'Ngoại ngữ',
-    image: 'https://placehold.co/600x400.png',
-    dataAiHint: 'Japanese language',
-  },
-  {
-    id: 'ky-nang-lam-viec-nhom',
-    title: 'Kỹ năng làm việc nhóm hiệu quả',
-    category: 'Kỹ năng mềm',
-    image: 'https://placehold.co/600x400.png',
-    dataAiHint: 'teamwork collaboration',
-  },
-  {
-    id: 'an-toan-lao-dong',
-    title: 'An toàn lao động trong sản xuất',
-    category: 'Kỹ thuật',
-    image: 'https://placehold.co/600x400.png',
-    dataAiHint: 'factory safety',
-  },
-]
 
 export default function EmployersPage() {
   return (
-    <div className="flex flex-col items-center">
-      <section className="w-full bg-accent text-primary-foreground py-24 md:py-40">
-        <div className="container mx-auto px-4 md:px-6 text-center">
-          <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
-            Giải pháp nhân lực cho Khu Công Nghiệp
-          </h1>
-          <p className="text-lg md:text-xl max-w-3xl mx-auto mb-10 text-primary-foreground/80">
-            Nền tảng thông minh, có thể mở rộng, kết nối các khu công nghiệp với nguồn nhân lực dồi dào là sinh viên và người lao động địa phương.
-          </p>
-          <div className="flex flex-col items-center gap-4">
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link href="/post-job">Dành cho Nhà tuyển dụng <ArrowRight className="ml-2" /></Link>
-              </Button>
-               <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-white hover:bg-white/10">
-                <Link href="/franchise">Mô hình Nhượng quyền</Link>
-              </Button>
-            </div>
-            <p className="text-sm mt-4">
-              Bạn là ứng viên? <Link href="/register" className="font-bold underline hover:text-accent-orange">Tạo hồ sơ tại đây</Link>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="w-full py-20 md:py-28 bg-secondary">
-        <div className="container mx-auto px-4 md:px-6">
-          <h2 className="text-3xl md:text-4xl font-headline font-bold text-center mb-16">
-            Tại sao chọn Bbester?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
-              <CardHeader>
-                <div className="mx-auto bg-sky-100 rounded-full p-4 w-fit">
-                  <Users className="h-10 w-10 text-sky-500" />
+    <div className="bg-secondary">
+      <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
+        <Card className="mb-8 shadow-lg">
+           <CardHeader>
+                <CardTitle className="font-headline text-3xl">Tìm việc làm</CardTitle>
+                <CardDescription>Tìm kiếm từ hàng ngàn cơ hội việc làm tại các khu công nghiệp hàng đầu.</CardDescription>
+           </CardHeader>
+           <CardContent>
+             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                <div className="md:col-span-2 space-y-2">
+                  <label htmlFor="search-title" className="font-semibold">Chức danh, từ khóa hoặc công ty</label>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input id="search-title" placeholder="VD: Công nhân, kỹ sư, Samsung..." className="pl-10" />
+                  </div>
                 </div>
-                <CardTitle className="font-headline mt-4">Nguồn nhân lực quy mô lớn</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Tiếp cận hàng ngàn sinh viên và người lao động có trình độ, sẵn sàng làm việc tại các khu công nghiệp.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
-              <CardHeader>
-                <div className="mx-auto bg-green-100 rounded-full p-4 w-fit">
-                  <Briefcase className="h-10 w-10 text-green-600" />
+                <div className="space-y-2">
+                   <label htmlFor="search-location" className="font-semibold">Địa điểm</label>
+                   <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input id="search-location" placeholder="VD: Quận 9, TP.HCM" className="pl-10" />
+                  </div>
                 </div>
-                <CardTitle className="font-headline mt-4">Kết nối hiệu quả</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Hệ thống thông minh giúp kết nối ứng viên phù hợp nhất với nhu cầu tuyển dụng của doanh nghiệp.
-                </p>
-              </CardContent>
-            </Card>
-            <Card className="text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
-              <CardHeader>
-                <div className="mx-auto bg-orange-100 rounded-full p-4 w-fit">
-                  <AreaChart className="h-10 w-10 text-orange-500" />
+                <div>
+                   <Button size="lg" className="w-full bg-accent-orange hover:bg-accent-orange/90 text-white text-lg">
+                    <Search className="mr-2 h-5 w-5" /> Tìm kiếm
+                  </Button>
                 </div>
-                <CardTitle className="font-headline mt-4">Dữ liệu & Phân tích</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Cung cấp các báo cáo và phân tích sâu sắc về thị trường lao động để hỗ trợ việc ra quyết định.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-       <section className="w-full py-20 md:py-28 bg-background">
-        <div className="container mx-auto px-4 md:px-6">
-           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-headline font-bold">Đối tác hàng đầu</h2>
-            <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto">
-              Chúng tôi tự hào được hợp tác với các doanh nghiệp uy tín tại các khu công nghiệp lớn.
-            </p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center">
-            {featuredEmployers.map(emp => (
-              <div key={emp.id} className="flex justify-center">
-                <Image src={emp.logo} alt={emp.name} width={150} height={50} className="grayscale hover:grayscale-0 transition-all duration-300" data-ai-hint={emp.dataAiHint}/>
               </div>
+           </CardContent>
+        </Card>
+        
+        <div className="flex justify-between items-center mb-6">
+            <p className="text-muted-foreground">Hiển thị <span className="font-bold text-foreground">{jobs.length}</span> kết quả</p>
+            <Select>
+                <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Sắp xếp theo" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="newest">Mới nhất</SelectItem>
+                    <SelectItem value="salary-desc">Lương cao nhất</SelectItem>
+                    <SelectItem value="salary-asc">Lương thấp nhất</SelectItem>
+                </SelectContent>
+            </Select>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {jobs.map((job) => (
+                <JobCard key={job.id} job={job} />
             ))}
-          </div>
-           <div className="text-center mt-16">
-            <Button asChild size="lg" variant="outline">
-              <Link href="/employers">Xem tất cả nhà tuyển dụng <ArrowRight /></Link>
-            </Button>
-          </div>
         </div>
-      </section>
-
-       <section className="w-full py-20 md:py-28 bg-secondary">
-        <div className="container mx-auto px-4 md:px-6">
-           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-headline font-bold">Nâng cao kỹ năng với E-Learning</h2>
-            <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto">
-              Đầu tư vào bản thân với các khóa học được thiết kế riêng, giúp bạn thăng tiến trong sự nghiệp.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {featuredCourses.map(course => (
-              <Card key={course.id} className="flex flex-col overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
-                <CardHeader className="p-0">
-                   <Link href={`/learn/${course.id}`} className="block">
-                      <Image
-                        src={course.image}
-                        alt={course.title}
-                        width={600}
-                        height={400}
-                        className="w-full h-48 object-cover"
-                        data-ai-hint={course.dataAiHint}
-                      />
-                   </Link>
-                </CardHeader>
-                <CardContent className="p-6 flex-grow">
-                  <p className="text-sm font-bold mb-2 text-primary">{course.category}</p>
-                  <Link href={`/learn/${course.id}`}>
-                      <CardTitle className="font-headline text-xl mb-2 h-14 group-hover:text-primary transition-colors">{course.title}</CardTitle>
-                  </Link>
-                </CardContent>
-                <CardFooter className="p-6 pt-0 mt-auto">
-                   <Link href={`/learn/${course.id}`} className="font-bold text-primary hover:underline flex items-center">
-                    Tìm hiểu thêm <ArrowRight className="ml-2" />
-                  </Link>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-           <div className="text-center mt-16">
-            <Button asChild size="lg">
-              <Link href="/learn">Khám phá tất cả khóa học <BookOpen /></Link>
-            </Button>
-          </div>
+        
+        <div className="flex justify-center mt-12">
+            <Button variant="outline">Xem thêm việc làm</Button>
         </div>
-      </section>
-
-
-      <section className="w-full py-20 md:py-28 bg-background">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col md:flex-row items-center gap-12 rounded-lg bg-gradient-to-r from-blue-600 to-sky-500 text-white p-12 lg:p-16">
-            <div className="md:w-1/2">
-              <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Mô hình Nhượng quyền Đột phá</h2>
-              <p className="text-lg text-white/80 mb-8">
-                Trở thành đối tác chiến lược của chúng tôi tại địa phương bạn. Tận dụng hệ thống, thương hiệu và công nghệ của Bbester để phát triển kinh doanh và tạo ra tác động tích cực cho cộng đồng.
-              </p>
-              <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link href="/franchise">Tìm hiểu về Nhượng quyền</Link>
-              </Button>
-            </div>
-             <div className="md:w-1/2 flex justify-center">
-              <Image
-                src="https://placehold.co/600x400.png"
-                alt="Mô hình nhượng quyền"
-                width={500}
-                height={350}
-                className="rounded-lg shadow-xl"
-                data-ai-hint="business meeting"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
     </div>
   );
 }

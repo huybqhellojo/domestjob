@@ -87,30 +87,10 @@ const jobs = [
 export default function EmployersPage() {
   return (
     <div className="bg-secondary">
-      <div className="w-full bg-accent text-primary-foreground py-20 md:py-28">
-         <div className="container mx-auto px-4 md:px-6">
-             <div className="max-w-4xl mx-auto text-center">
-                <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
-                  Tìm việc làm phù hợp
-                </h1>
-                <p className="text-lg md:text-xl max-w-3xl mx-auto mb-10 text-primary-foreground/80">
-                  Tiếp cận hàng ngàn ứng viên tiềm năng. Đăng tin tuyển dụng và quản lý hồ sơ một cách dễ dàng và hiệu quả.
-                </p>
-                 <div className="flex flex-wrap justify-center gap-4">
-                    <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                        <Link href="/post-job">Đăng tin tuyển dụng</Link>
-                    </Button>
-                    <Button asChild size="lg" variant="outline" className="text-white border-white hover:bg-white/10">
-                        <Link href="/franchise">Mô hình Nhượng quyền</Link>
-                    </Button>
-                 </div>
-            </div>
-          </div>
-      </div>
       <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
         <Card className="mb-8 shadow-lg">
            <CardHeader>
-                <CardTitle className="font-headline text-3xl">Tìm kiếm nâng cao</CardTitle>
+                <CardTitle className="font-headline text-3xl">Tìm kiếm việc làm</CardTitle>
                 <CardDescription>Tìm kiếm từ hàng ngàn cơ hội việc làm tại các khu công nghiệp hàng đầu.</CardDescription>
            </CardHeader>
            <CardContent>

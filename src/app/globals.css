@@ -14,26 +14,26 @@ body {
     --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-    --primary: 217 100% 44%; /* #005BE0 - xanh đậm (hellojob) */
+    --primary: 199 89% 42%; /* #0D8DC8 - Xanh Đậm */
     --primary-foreground: 0 0% 98%;
     --secondary: 210 29% 92%;
     --secondary-foreground: 222 47% 11%;
     --muted: 210 29% 90%;
     --muted-foreground: 215 28% 45%;
-    --accent: 196 84% 56%; /* #19A6DF - xanh nhạt (hellojob) */
+    --accent: 196 84% 56%; /* #19A6DF - Xanh Nhạt */
     --accent-foreground: 0 0% 98%;
-    --accent-orange: 45 89% 56%; /* #F2B92A - cam (hellojob) */
-    --accent-blue: 199 89% 53%; /* #0EA5E9 */
-    --accent-green: 74 46% 54%; /* #AFC536 - xanh lá (hellojob) */
+    --accent-orange: 45 89% 56%; /* #F2B92A - Cam */
+    --accent-blue: 199 89% 53%; /* #0EA5E9 - Fallback, will be overridden by primary */
+    --accent-green: 74 46% 54%; /* #AFC536 - Xanh Lá */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 210 29% 88%;
     --input: 210 29% 94%;
-    --ring: 217 100% 44%; /* #005BE0 - xanh đậm (hellojob) */
+    --ring: 199 89% 42%; /* #0D8DC8 - Xanh Đậm */
     --chart-1: 45 89% 56%; /* cam */
     --chart-2: 196 84% 56%; /* xanh nhạt */
     --chart-3: 74 46% 54%; /* xanh lá */
-    --chart-4: 217 100% 44%; /* xanh đậm */
+    --chart-4: 199 89% 42%; /* xanh đậm */
     --chart-5: 181 49% 44%; /* old accent */
     --radius: 0.75rem;
   }
@@ -44,7 +44,7 @@ body {
     --card-foreground: 210 40% 98%;
     --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
-    --primary: 217 100% 54%;
+    --primary: 199 89% 52%;
     --primary-foreground: 210 40% 98%;
     --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
@@ -59,11 +59,11 @@ body {
     --destructive-foreground: 0 0% 98%;
     --border: 217 33% 17%;
     --input: 217 33% 17%;
-    --ring: 217 100% 54%;
+    --ring: 199 89% 52%;
     --chart-1: 45 89% 56%;
     --chart-2: 196 84% 56%;
     --chart-3: 74 46% 54%;
-    --chart-4: 217 100% 54%;
+    --chart-4: 199 89% 52%;
     --chart-5: 181 49% 44%;
     --radius: 0.75rem;
   }

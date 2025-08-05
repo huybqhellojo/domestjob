@@ -53,7 +53,7 @@ export default function Home() {
             <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
               <Link href="/register">Tạo hồ sơ miễn phí <ArrowRight className="ml-2" /></Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="text-white border-white hover:bg-white/10">
+            <Button asChild size="lg" className="bg-accent-orange text-white hover:bg-accent-orange/90">
               <Link href="#">Tìm việc làm</Link>
             </Button>
           </div>

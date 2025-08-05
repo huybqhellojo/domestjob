@@ -22,6 +22,7 @@ export function Footer() {
               <li><Link href="/candidate-profile" className="hover:text-primary">Hồ sơ của tôi</Link></li>
               <li><Link href="/roadmap" className="hover:text-primary">Lộ trình sự nghiệp</Link></li>
               <li><Link href="/learn" className="hover:text-primary">Khóa học online</Link></li>
+              <li><Link href="/consultant-profile" className="hover:text-primary">Tư vấn viên</Link></li>
             </ul>
           </div>
           <div>

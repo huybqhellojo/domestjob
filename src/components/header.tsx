@@ -30,13 +30,13 @@ const mainNavLinks = [
   { href: '/', label: 'Trang chủ' },
   { href: '/roadmap', label: 'Lộ trình' },
   { href: '/learn', label: 'E-Learning' },
-  { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles},
+  { href: '/employers', label: 'Việc làm' },
+  
 ];
 
 const employerLinks = [
-  { href: '/employers', label: 'Nhà tuyển dụng' },
-  { href: '/dashboard', label: 'Dữ liệu' },
   { href: '/post-job', label: 'Đăng việc làm' },
+  { href: '/dashboard', label: 'Dữ liệu' },
   { href: '/franchise', label: 'Nhượng quyền' },
 ];
 
@@ -70,25 +70,11 @@ export function Header() {
           {mainNavLinks.map((link) => (
              <NavLink key={link.href} {...link} />
           ))}
-           <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="p-0 h-auto font-medium text-foreground/80 hover:text-primary data-[state=open]:text-primary">
-                    Dành cho nhà tuyển dụng
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                {employerLinks.map((link) => (
-                   <DropdownMenuItem key={link.href} asChild><Link href={link.href}>{link.label}</Link></DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+          <NavLink href="/ai-profile" label="Tạo hồ sơ AI" icon={Sparkles}/>
         </nav>
         <div className="hidden md:flex items-center gap-2">
             <Button asChild variant="outline">
               <Link href="/candidate-profile">Hồ sơ của tôi</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/employers">Việc làm</Link>
             </Button>
             
             <DropdownMenu>
@@ -120,7 +106,7 @@ export function Header() {
                  </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <div className="grid grid-cols-2 gap-2 p-2">
+                  <div className="grid grid-cols-3 gap-2 p-2">
                      <DropdownMenuItem asChild>
                        <Link href="/ai-profile" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
                          <Sparkles/>
@@ -130,7 +116,7 @@ export function Header() {
                     <DropdownMenuItem asChild>
                        <Link href="/post-job" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
                          <PlusCircle/>
-                         <span className="text-xs text-center mt-1">Dành cho nhà tuyển dụng</span>
+                         <span className="text-xs text-center mt-1">Đăng tuyển dụng</span>
                        </Link>
                     </DropdownMenuItem>
                      <DropdownMenuItem asChild>
@@ -146,21 +132,15 @@ export function Header() {
                        </Link>
                     </DropdownMenuItem>
                      <DropdownMenuItem asChild>
-                       <Link href="#" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
-                         <Gift/>
-                         <span className="text-xs text-center mt-1">Mã giới thiệu</span>
+                       <Link href="/consultant-profile" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
+                         <User/>
+                         <span className="text-xs text-center mt-1">Tư vấn viên</span>
                        </Link>
                     </DropdownMenuItem>
                      <DropdownMenuItem asChild>
                        <Link href="#" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
                          <MessageSquareWarning/>
-                         <span className="text-xs text-center mt-1">Góp ý cải tiến</span>
-                       </Link>
-                    </DropdownMenuItem>
-                     <DropdownMenuItem asChild>
-                       <Link href="#" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
-                         <LifeBuoy/>
-                         <span className="text-xs text-center mt-1">Về Bbester</span>
+                         <span className="text-xs text-center mt-1">Góp ý</span>
                        </Link>
                     </DropdownMenuItem>
                   </div>
@@ -201,7 +181,7 @@ export function Header() {
                       <NavLink key={link.href} {...link} className="text-lg border-b"/>
                     ))}
                      <NavLink href="/candidate-profile" label="Hồ sơ của tôi" className="text-lg border-b"/>
-                     <NavLink href="/employers" label="Việc làm" className="text-lg border-b"/>
+                     <NavLink href="/ai-profile" label="Tạo hồ sơ AI" className="text-lg border-b"/>
                     
                     <Accordion type="multiple" className="w-full">
                       <AccordionItem value="item-2">

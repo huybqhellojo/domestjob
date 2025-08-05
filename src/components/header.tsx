@@ -2,9 +2,9 @@
 'use client';
 
 import Link from 'next/link';
-import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, Grid } from 'lucide-react';
+import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, Grid, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -30,6 +30,7 @@ const mainNavLinks = [
   { href: '/', label: 'Trang chủ' },
   { href: '/roadmap', label: 'Lộ trình' },
   { href: '/learn', label: 'E-Learning' },
+  { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles },
 ];
 
 const candidateLinks = [
@@ -49,16 +50,17 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  const NavLink = ({ href, label, className }: { href: string; label: string, className?: string }) => (
+  const NavLink = ({ href, label, className, icon: Icon }: { href: string; label: string, className?: string, icon?: React.ElementType }) => (
     <Link
       href={href}
       className={cn(
-        'transition-colors hover:text-primary py-2 block',
+        'transition-colors hover:text-primary py-2 block font-medium flex items-center gap-2',
         pathname === href ? 'text-primary font-bold' : 'text-foreground/80',
         className
       )}
       onClick={() => setIsOpen(false)}
     >
+      {Icon && <Icon className={cn("h-5 w-5", pathname === href ? "text-primary" : "text-accent-orange")} />}
       {label}
     </Link>
   );
@@ -69,7 +71,7 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2">
           <Image src="/logo.svg" alt="Bbester Logo" width={120} height={40} />
         </Link>
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+        <nav className="hidden md:flex items-center gap-6 text-sm">
           {mainNavLinks.map((link) => (
             <NavLink key={link.href} {...link} />
           ))}
@@ -173,7 +175,7 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-full">
               <SheetHeader>
-                <SheetTitle className="sr-only">Menu</SheetTitle>
+                 <SheetTitle className="sr-only">Menu</SheetTitle>
                  <SheetClose asChild>
                    <Link
                     href="/"

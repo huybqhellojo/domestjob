@@ -19,13 +19,13 @@ export function Footer() {
             <h4 className="font-bold mb-4">Dành cho ứng viên</h4>
             <ul className="space-y-2 text-sm">
               <li><Link href="/register" className="hover:text-primary">Đăng ký hồ sơ</Link></li>
-              <li><Link href="/candidate-profile" className="hover:text-primary">Xem hồ sơ</Link></li>
+              <li><Link href="/candidate-profile" className="hover:text-primary">Hồ sơ của tôi</Link></li>
               <li><Link href="/roadmap" className="hover:text-primary">Lộ trình sự nghiệp</Link></li>
               <li><Link href="/learn" className="hover:text-primary">Khóa học online</Link></li>
             </ul>
           </div>
           <div>
-            <h4 className="font-bold mb-4">Dành cho nhà tuyển dụng</h4>
+            <h4 className="font-bold mb-4">Việc làm</h4>
             <ul className="space-y-2 text-sm">
               <li><Link href="/post-job" className="hover:text-primary">Đăng tin tuyển dụng</Link></li>
               <li><Link href="/employers" className="hover:text-primary">Danh sách công ty</Link></li>

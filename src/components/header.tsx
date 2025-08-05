@@ -28,18 +28,14 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const mainNavLinks = [
   { href: '/', label: 'Trang chủ' },
+  { href: '/employers', label: 'Việc làm' },
   { href: '/roadmap', label: 'Lộ trình' },
   { href: '/learn', label: 'E-Learning' },
   { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles },
-];
-
-const candidateLinks = [
-  { href: '/register', label: 'Đăng ký hồ sơ' },
   { href: '/candidate-profile', label: 'Hồ sơ của tôi' },
 ];
 
 const employerLinks = [
-  { href: '/employers', label: 'Danh sách công ty' },
   { href: '/dashboard', label: 'Dữ liệu' },
   { href: '/post-job', label: 'Đăng việc làm' },
   { href: '/franchise', label: 'Nhượng quyền' },
@@ -73,18 +69,10 @@ export function Header() {
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm">
           {mainNavLinks.map((link) => (
-            <NavLink key={link.href} {...link} />
+             <NavLink key={link.href} {...link} />
           ))}
-           <NavLink href="/employers" label="Nhà tuyển dụng" />
-           <NavLink href="/dashboard" label="Dữ liệu" />
         </nav>
         <div className="hidden md:flex items-center gap-2">
-            <Button asChild>
-              <Link href="/candidate-profile">Hồ sơ của tôi</Link>
-            </Button>
-            <Button asChild variant="outline">
-              <Link href="/post-job">Đăng tin</Link>
-            </Button>
             
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -123,15 +111,15 @@ export function Header() {
                        </Link>
                     </DropdownMenuItem>
                      <DropdownMenuItem asChild>
-                       <Link href="#" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
+                       <Link href="/dashboard" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
                          <FileText/>
-                         <span className="text-xs text-center mt-1">Quy chế & Điều khoản</span>
+                         <span className="text-xs text-center mt-1">Dữ liệu & Báo cáo</span>
                        </Link>
                     </DropdownMenuItem>
                      <DropdownMenuItem asChild>
-                       <Link href="#" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
+                       <Link href="/franchise" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
                          <Shield/>
-                         <span className="text-xs text-center mt-1">Chính sách bảo mật</span>
+                         <span className="text-xs text-center mt-1">Nhượng quyền</span>
                        </Link>
                     </DropdownMenuItem>
                      <DropdownMenuItem asChild>
@@ -191,14 +179,6 @@ export function Header() {
                     ))}
                     
                     <Accordion type="multiple" className="w-full">
-                      <AccordionItem value="item-1">
-                        <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-2">Dành cho ứng viên</AccordionTrigger>
-                        <AccordionContent className="pl-4">
-                           {candidateLinks.map((link) => (
-                            <NavLink key={link.href} {...link} className="border-b" />
-                          ))}
-                        </AccordionContent>
-                      </AccordionItem>
                       <AccordionItem value="item-2">
                         <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-2">Dành cho nhà tuyển dụng</AccordionTrigger>
                         <AccordionContent className="pl-4">

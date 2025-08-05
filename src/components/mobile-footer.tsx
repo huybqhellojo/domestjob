@@ -25,18 +25,14 @@ import { useState } from 'react';
 
 const mainNavLinks = [
   { href: '/', label: 'Trang chủ' },
+  { href: '/employers', label: 'Việc làm' },
   { href: '/roadmap', label: 'Lộ trình' },
   { href: '/learn', label: 'E-Learning' },
   { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles },
-];
-
-const candidateLinks = [
-  { href: '/register', label: 'Đăng ký hồ sơ' },
   { href: '/candidate-profile', label: 'Hồ sơ của tôi' },
 ];
 
 const employerLinks = [
-  { href: '/employers', label: 'Danh sách công ty' },
   { href: '/dashboard', label: 'Dữ liệu' },
   { href: '/post-job', label: 'Đăng việc làm' },
   { href: '/franchise', label: 'Nhượng quyền' },
@@ -105,14 +101,6 @@ export function MobileFooter() {
                 ))}
                 
                 <Accordion type="multiple" className="w-full">
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-2">Dành cho ứng viên</AccordionTrigger>
-                    <AccordionContent className="pl-4">
-                       {candidateLinks.map((link) => (
-                        <MobileNavLink key={link.href} {...link} className="border-b" />
-                      ))}
-                    </AccordionContent>
-                  </AccordionItem>
                   <AccordionItem value="item-2">
                     <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-2">Dành cho nhà tuyển dụng</AccordionTrigger>
                     <AccordionContent className="pl-4">

@@ -121,7 +121,7 @@ export default function ConsultantProfilePage() {
                  <a href="#" aria-label="Chat on Zalo" className="bg-white rounded-full p-1.5 hover:opacity-90 transition-opacity">
                     <ZaloIcon className="h-8 w-8"/>
                 </a>
-                <span className="text-lg font-semibold">Liên hệ tư vấn viên</span>
+                <span className="text-lg font-semibold">Liên hệ tư vấn</span>
               </div>
             </div>
           </div>

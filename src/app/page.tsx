@@ -41,7 +41,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center">
       {/* Hero Section for Candidates */}
-      <section className="w-full bg-primary text-primary-foreground py-24 md:py-40">
+      <section className="w-full bg-accent text-primary-foreground py-24 md:py-40">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
             Tìm kiếm cơ hội, phát triển sự nghiệp

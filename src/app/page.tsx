@@ -1,9 +1,12 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Briefcase, Users, ArrowRight, BookOpen, Search, Map, GraduationCap } from 'lucide-react';
+import { Briefcase, Users, ArrowRight, BookOpen, Search, Map, GraduationCap, Building, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
 
 const featuredEmployers = [
   { id: 'samsung', name: 'Samsung', logo: 'https://placehold.co/150x50.png', dataAiHint: 'samsung logo' },
@@ -41,22 +44,58 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center">
       {/* Hero Section for Candidates */}
-      <section className="w-full bg-gradient-to-r from-blue-600 to-sky-500 text-primary-foreground py-24 md:py-40">
-        <div className="container mx-auto px-4 md:px-6 text-center">
-          <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
-            Tìm kiếm cơ hội, phát triển sự nghiệp
-          </h1>
-          <p className="text-lg md:text-xl max-w-3xl mx-auto mb-10 text-primary-foreground/80">
-            Hàng ngàn việc làm từ các công ty hàng đầu trong khu công nghiệp đang chờ đón bạn. Tạo hồ sơ ngay hôm nay để bắt đầu hành trình của bạn!
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-              <Link href="/register">Tạo hồ sơ miễn phí <ArrowRight className="ml-2" /></Link>
-            </Button>
-            <Button asChild size="lg" className="bg-accent-orange text-white hover:bg-accent-orange/90">
-              <Link href="#">Tìm việc làm</Link>
-            </Button>
+      <section className="w-full bg-accent text-primary-foreground py-20 md:py-28">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
+              Tìm kiếm cơ hội, phát triển sự nghiệp
+            </h1>
+            <p className="text-lg md:text-xl max-w-3xl mx-auto mb-10 text-primary-foreground/80">
+              Hàng ngàn việc làm từ các công ty hàng đầu trong khu công nghiệp đang chờ đón bạn.
+            </p>
           </div>
+
+          <Card className="max-w-5xl mx-auto mt-[-2rem] shadow-2xl z-10 relative">
+            <CardContent className="p-4 md:p-6">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+                <div className="md:col-span-4 space-y-2">
+                  <Label htmlFor="search-title" className="text-foreground">Chức danh, kỹ năng</Label>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input id="search-title" placeholder="Công nhân, kỹ sư, CNC..." className="pl-10" />
+                  </div>
+                </div>
+                <div className="md:col-span-3 space-y-2">
+                  <Label htmlFor="search-industry" className="text-foreground">Ngành nghề</Label>
+                   <Select>
+                      <SelectTrigger id="search-industry">
+                        <SelectValue placeholder="Tất cả ngành nghề" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="it">Công nghệ thông tin</SelectItem>
+                        <SelectItem value="cokhi">Cơ khí</SelectItem>
+                        <SelectItem value="detmay">Dệt may</SelectItem>
+                        <SelectItem value="dientu">Điện tử</SelectItem>
+                        <SelectItem value="logistics">Logistics</SelectItem>
+                      </SelectContent>
+                    </Select>
+                </div>
+                <div className="md:col-span-3 space-y-2">
+                  <Label htmlFor="search-location" className="text-foreground">Khu vực</Label>
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <Input id="search-location" placeholder="Quận 9, TP.HCM" className="pl-10" />
+                  </div>
+                </div>
+                <div className="md:col-span-2">
+                   <Button size="lg" className="w-full bg-accent-orange hover:bg-accent-orange/90 text-white text-lg">
+                    <Search className="mr-2 h-5 w-5" /> Tìm kiếm
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
         </div>
       </section>
 
@@ -178,7 +217,7 @@ export default function Home() {
       {/* For Employers & Franchise */}
       <section className="w-full py-20 md:py-28 bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col md:flex-row items-center gap-12 rounded-lg bg-accent text-white p-12 lg:p-16">
+          <div className="flex flex-col md:flex-row items-center gap-12 rounded-lg bg-gradient-to-r from-blue-600 to-sky-500 text-white p-12 lg:p-16">
             <div className="md:w-1/2">
               <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Bạn là nhà tuyển dụng?</h2>
               <p className="text-lg text-white/80 mb-8">

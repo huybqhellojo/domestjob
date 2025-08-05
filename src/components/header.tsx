@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, Grid, Sparkles, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
@@ -165,12 +165,14 @@ export function Header() {
             </DropdownMenu>
 
         </div>
-        {/* This Sheet is for the original mobile menu, which is now being replaced by the MobileFooter. 
-            However, the menu logic from MobileFooter re-uses this sheet, so we keep the trigger here, but hidden.
-            It's a bit of a workaround but keeps the functionality without a major refactor.
-        */}
         <div className="md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                <SheetTrigger asChild>
+                    <button className="flex flex-col items-center justify-center text-xs text-muted-foreground hover:text-primary transition-colors">
+                        <Menu className="h-6 w-6 mb-1" />
+                        <span>Menu</span>
+                    </button>
+                </SheetTrigger>
                 <SheetContent side="right" className="w-full">
                   <SheetHeader>
                      <SheetTitle className="sr-only">Menu</SheetTitle>

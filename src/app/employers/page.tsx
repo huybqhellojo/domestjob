@@ -40,7 +40,7 @@ const featuredCourses = [
 export default function EmployersPage() {
   return (
     <div className="flex flex-col items-center">
-      <section className="w-full bg-gradient-to-br from-primary via-blue-800 to-blue-900 text-primary-foreground py-24 md:py-40">
+      <section className="w-full bg-accent text-primary-foreground py-24 md:py-40">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
             Giải pháp nhân lực cho Khu Công Nghiệp
@@ -53,12 +53,12 @@ export default function EmployersPage() {
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
                 <Link href="/post-job">Dành cho Nhà tuyển dụng <ArrowRight className="ml-2" /></Link>
               </Button>
-               <Button asChild size="lg" className="bg-transparent border-2 border-white text-white hover:bg-white/10">
+               <Button asChild size="lg" variant="outline" className="bg-transparent border-2 border-white text-white hover:bg-white/10">
                 <Link href="/franchise">Mô hình Nhượng quyền</Link>
               </Button>
             </div>
             <p className="text-sm mt-4">
-              Bạn là ứng viên? <Link href="/register" className="font-bold underline hover:text-accent">Tạo hồ sơ tại đây</Link>
+              Bạn là ứng viên? <Link href="/register" className="font-bold underline hover:text-accent-orange">Tạo hồ sơ tại đây</Link>
             </p>
           </div>
         </div>

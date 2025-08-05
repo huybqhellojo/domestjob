@@ -29,11 +29,9 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 const mainNavLinks = [
   { href: '/', label: 'Trang chủ' },
   { href: '/employers', label: 'Việc làm' },
-  { href: '/employers#jobs-japan', label: 'Việc làm Nhật Bản', icon: Plane },
+  { href: '/jobs-japan', label: 'Việc làm Nhật Bản', icon: Plane },
   { href: '/roadmap', label: 'Lộ trình' },
   { href: '/learn', label: 'E-Learning' },
-  { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles },
-  { href: '/candidate-profile', label: 'Hồ sơ của tôi' },
 ];
 
 const employerLinks = [
@@ -74,6 +72,12 @@ export function Header() {
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-2">
+            <Button asChild variant="outline">
+              <Link href="/candidate-profile">Hồ sơ của tôi</Link>
+            </Button>
+            <Button asChild>
+              <Link href="/post-job">Đăng tin</Link>
+            </Button>
             
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -184,6 +188,8 @@ export function Header() {
                      {mainNavLinks.map((link) => (
                       <NavLink key={link.href} {...link} className="text-lg border-b"/>
                     ))}
+                     <NavLink href="/ai-profile" label="Tạo hồ sơ AI" icon={Sparkles} className="text-lg border-b"/>
+                     <NavLink href="/candidate-profile" label="Hồ sơ của tôi" className="text-lg border-b"/>
                     
                     <Accordion type="multiple" className="w-full">
                       <AccordionItem value="item-2">

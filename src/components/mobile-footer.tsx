@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, Briefcase, Sparkles, User, Menu } from 'lucide-react';
+import { Home, Briefcase, Sparkles, User, Menu, Plane } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import {
@@ -26,10 +26,9 @@ import { useState } from 'react';
 const mainNavLinks = [
   { href: '/', label: 'Trang chủ' },
   { href: '/employers', label: 'Việc làm' },
+  { href: '/jobs-japan', label: 'Việc làm Nhật Bản', icon: Plane },
   { href: '/roadmap', label: 'Lộ trình' },
   { href: '/learn', label: 'E-Learning' },
-  { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles },
-  { href: '/candidate-profile', label: 'Hồ sơ của tôi' },
 ];
 
 const employerLinks = [
@@ -99,6 +98,8 @@ export function MobileFooter() {
                  {mainNavLinks.map((link) => (
                   <MobileNavLink key={link.href} {...link} className="text-lg border-b"/>
                 ))}
+                 <MobileNavLink href="/ai-profile" label="Tạo hồ sơ AI" icon={Sparkles} className="text-lg border-b"/>
+                 <MobileNavLink href="/candidate-profile" label="Hồ sơ của tôi" className="text-lg border-b"/>
                 
                 <Accordion type="multiple" className="w-full">
                   <AccordionItem value="item-2">

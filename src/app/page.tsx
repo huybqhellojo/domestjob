@@ -1,7 +1,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Briefcase, Users, ArrowRight, BookOpen, Search, Map, GraduationCap, Building, MapPin } from 'lucide-react';
+import { Briefcase, Users, ArrowRight, BookOpen, Search, Map, GraduationCap, Building, MapPin, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
@@ -146,6 +146,38 @@ export default function Home() {
               </CardContent>
             </Card>
           </div>
+        </div>
+      </section>
+
+      {/* Skilled Labor CTA Section */}
+      <section className="w-full py-20 md:py-28 bg-accent/20">
+        <div className="container mx-auto px-4 md:px-6">
+          <Card className="overflow-hidden shadow-2xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 items-center">
+              <div className="p-8 md:p-12 text-center md:text-left">
+                <h2 className="text-3xl md:text-4xl font-headline font-bold text-primary mb-4">
+                  Lao động lành nghề <br /> thu nhập bao nhiêu?
+                </h2>
+                <p className="text-muted-foreground mb-8 max-w-md mx-auto md:mx-0">
+                  Khám phá lộ trình phát triển sự nghiệp để trở thành lao động tay nghề cao và đạt được mức thu nhập mơ ước.
+                </p>
+                <Button asChild size="lg" className="bg-accent-green hover:bg-accent-green/90 text-white">
+                  <Link href="/roadmap">
+                    <TrendingUp /> Xem ngay lộ trình
+                  </Link>
+                </Button>
+              </div>
+              <div className="relative h-64 md:h-full">
+                <Image 
+                  src="https://placehold.co/600x600.png"
+                  alt="Lao động lành nghề"
+                  fill
+                  className="object-cover"
+                  data-ai-hint="happy factory worker"
+                />
+              </div>
+            </div>
+          </Card>
         </div>
       </section>
 

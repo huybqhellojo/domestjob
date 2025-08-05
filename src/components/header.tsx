@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, Grid, Sparkles, Home } from 'lucide-react';
+import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, Grid, Sparkles, Home, Plane } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
@@ -29,6 +29,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 const mainNavLinks = [
   { href: '/', label: 'Trang chủ' },
   { href: '/employers', label: 'Việc làm' },
+  { href: '/jobs-japan', label: 'Việc làm Nhật Bản', icon: Plane },
   { href: '/roadmap', label: 'Lộ trình' },
   { href: '/learn', label: 'E-Learning' },
   { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles },
@@ -61,6 +62,8 @@ export function Header() {
     </Link>
   );
 
+  const mainNavDesktop = mainNavLinks.filter(link => !['/ai-profile', '/candidate-profile'].includes(link.href));
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
@@ -68,7 +71,7 @@ export function Header() {
           <Image src="/logo.svg" alt="Bbester Logo" width={120} height={40} />
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm">
-          {mainNavLinks.map((link) => (
+          {mainNavDesktop.map((link) => (
              <NavLink key={link.href} {...link} />
           ))}
         </nav>
@@ -98,12 +101,18 @@ export function Header() {
                 </DropdownMenuLabel>
                  <DropdownMenuItem asChild>
                     <Link href="/candidate-profile" className="cursor-pointer">
-                      <Button variant="outline" className="w-full justify-center">Xem hồ sơ của bạn</Button>
+                      <Button variant="outline" className="w-full justify-center">Hồ sơ của tôi</Button>
                     </Link>
                  </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <div className="grid grid-cols-2 gap-2 p-2">
+                     <DropdownMenuItem asChild>
+                       <Link href="/ai-profile" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
+                         <Sparkles/>
+                         <span className="text-xs text-center mt-1">Tạo hồ sơ AI</span>
+                       </Link>
+                    </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                        <Link href="/post-job" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
                          <PlusCircle/>

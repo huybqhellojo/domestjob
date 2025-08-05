@@ -3,6 +3,7 @@ import './globals.css';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Toaster } from '@/components/ui/toaster';
+import { MobileFooter } from '@/components/mobile-footer';
 
 export const metadata: Metadata = {
   title: 'Bbester',
@@ -24,10 +25,11 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-body antialiased">
+      <body className="font-body antialiased pb-20 md:pb-0">
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />
+        <MobileFooter />
         <Toaster />
       </body>
     </html>

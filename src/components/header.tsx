@@ -29,7 +29,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 const mainNavLinks = [
   { href: '/', label: 'Trang chủ' },
   { href: '/employers', label: 'Việc làm' },
-  { href: '/jobs-japan', label: 'Việc làm Nhật Bản', icon: Plane },
+  { href: '/employers#jobs-japan', label: 'Việc làm Nhật Bản', icon: Plane },
   { href: '/roadmap', label: 'Lộ trình' },
   { href: '/learn', label: 'E-Learning' },
   { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles },
@@ -62,8 +62,6 @@ export function Header() {
     </Link>
   );
 
-  const mainNavDesktop = mainNavLinks.filter(link => !['/ai-profile', '/candidate-profile'].includes(link.href));
-
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
@@ -71,7 +69,7 @@ export function Header() {
           <Image src="/logo.svg" alt="Bbester Logo" width={120} height={40} />
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm">
-          {mainNavDesktop.map((link) => (
+          {mainNavLinks.map((link) => (
              <NavLink key={link.href} {...link} />
           ))}
         </nav>

@@ -20,7 +20,7 @@ const CreateProfileInputSchema = z.object({
 });
 export type CreateProfileInput = z.infer<typeof CreateProfileInputSchema>;
 
-export const CandidateProfileSchema = z.object({
+const CandidateProfileSchema = z.object({
   name: z.string().describe('The full name of the candidate.'),
   headline: z.string().describe('A professional headline for the candidate (e.g., "Software Engineer at Google").'),
   location: z.string().describe('The city and country where the candidate is located.'),

@@ -34,31 +34,26 @@ export default function AiProfilePage() {
 
     // Initialize the web worker on component mount
     useEffect(() => {
-        // Dynamically import the worker to ensure it's client-side only
-        import('@/workers/face-detector.worker').then(WorkerModule => {
-            const faceDetectorWorker = new (WorkerModule as any).default() as Worker;
-            setWorker(faceDetectorWorker);
-        });
+        // Create a new worker instance.
+        // The URL constructor is used to tell Next.js where to find the worker file.
+        const faceDetectorWorker = new Worker(new URL('../workers/face-detector.worker.ts', import.meta.url));
+        setWorker(faceDetectorWorker);
 
         // Cleanup worker on component unmount
         return () => {
-            if (worker) {
-                worker.terminate();
-            }
+            faceDetectorWorker.terminate();
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []); // Run only once
+    }, []);
 
     const processFile = async (file: File) => {
         setIsLoading(true);
 
         try {
             // Setup worker message listener
-            const workerPromise = new Promise<string | null>((resolve, reject) => {
+            const workerPromise = new Promise<string | null>((resolve) => {
                 if (!worker) {
-                    // This should ideally not happen if worker initializes correctly
                     console.error("Worker not initialized!");
-                    resolve(null); // Resolve with null if worker is not ready
+                    resolve(null);
                     return;
                 }
                 
@@ -67,11 +62,12 @@ export default function AiProfilePage() {
                     worker.removeEventListener('message', handleWorkerMessage); // Clean up listener
                     if (error) {
                         console.error("Error from face detection worker:", error);
-                        toast({
-                            variant: "destructive",
-                            title: "Lỗi xử lý ảnh",
-                            description: "Không thể nhận diện khuôn mặt từ tệp.",
-                        });
+                        // Don't show destructive toast for now, just log it.
+                        // toast({
+                        //     variant: "destructive",
+                        //     title: "Lỗi xử lý ảnh",
+                        //     description: "Không thể nhận diện khuôn mặt từ tệp.",
+                        // });
                         resolve(null); // Resolve with null on error
                     } else {
                         resolve(avatarUrl);

@@ -1,5 +1,3 @@
-/// <reference lib="webworker" />
-
 import * as faceapi from '@vladmandic/face-api';
 import JSZip from 'jszip';
 

@@ -108,39 +108,39 @@ export function Header() {
                 <DropdownMenuGroup>
                   <div className="grid grid-cols-3 gap-2 p-2">
                      <DropdownMenuItem asChild>
-                       <Link href="/ai-profile" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
-                         <Sparkles/>
-                         <span className="text-xs text-center mt-1">Tạo hồ sơ AI</span>
+                       <Link href="/ai-profile" className="flex flex-col items-center justify-start p-2 h-20 cursor-pointer rounded-md hover:bg-accent">
+                         <div className="h-8 flex items-center justify-center"><Sparkles/></div>
+                         <span className="text-xs text-center mt-1 leading-tight">Tạo hồ sơ AI</span>
                        </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                       <Link href="/post-job" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
-                         <PlusCircle/>
-                         <span className="text-xs text-center mt-1">Đăng tuyển dụng</span>
+                       <Link href="/post-job" className="flex flex-col items-center justify-start p-2 h-20 cursor-pointer rounded-md hover:bg-accent">
+                         <div className="h-8 flex items-center justify-center"><PlusCircle/></div>
+                         <span className="text-xs text-center mt-1 leading-tight">Đăng tuyển dụng</span>
                        </Link>
                     </DropdownMenuItem>
                      <DropdownMenuItem asChild>
-                       <Link href="/dashboard" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
-                         <FileText/>
-                         <span className="text-xs text-center mt-1">Dữ liệu & Báo cáo</span>
+                       <Link href="/dashboard" className="flex flex-col items-center justify-start p-2 h-20 cursor-pointer rounded-md hover:bg-accent">
+                          <div className="h-8 flex items-center justify-center"><FileText/></div>
+                         <span className="text-xs text-center mt-1 leading-tight">Dữ liệu & Báo cáo</span>
                        </Link>
                     </DropdownMenuItem>
                      <DropdownMenuItem asChild>
-                       <Link href="/franchise" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
-                         <Shield/>
-                         <span className="text-xs text-center mt-1">Nhượng quyền</span>
+                       <Link href="/franchise" className="flex flex-col items-center justify-start p-2 h-20 cursor-pointer rounded-md hover:bg-accent">
+                          <div className="h-8 flex items-center justify-center"><Shield/></div>
+                         <span className="text-xs text-center mt-1 leading-tight">Nhượng quyền</span>
                        </Link>
                     </DropdownMenuItem>
                      <DropdownMenuItem asChild>
-                       <Link href="/consultant-profile" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
-                         <User/>
-                         <span className="text-xs text-center mt-1">Tư vấn viên</span>
+                       <Link href="/consultant-profile" className="flex flex-col items-center justify-start p-2 h-20 cursor-pointer rounded-md hover:bg-accent">
+                          <div className="h-8 flex items-center justify-center"><User/></div>
+                         <span className="text-xs text-center mt-1 leading-tight">Tư vấn viên</span>
                        </Link>
                     </DropdownMenuItem>
                      <DropdownMenuItem asChild>
-                       <Link href="#" className="flex flex-col items-center justify-center p-2 h-auto cursor-pointer">
-                         <MessageSquareWarning/>
-                         <span className="text-xs text-center mt-1">Góp ý</span>
+                       <Link href="#" className="flex flex-col items-center justify-start p-2 h-20 cursor-pointer rounded-md hover:bg-accent">
+                          <div className="h-8 flex items-center justify-center"><MessageSquareWarning/></div>
+                         <span className="text-xs text-center mt-1 leading-tight">Góp ý</span>
                        </Link>
                     </DropdownMenuItem>
                   </div>

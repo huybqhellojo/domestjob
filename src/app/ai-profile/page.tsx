@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Upload, FileText, FileUp, Sparkles, Send, Mic, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createProfile, CandidateProfile } from "@/ai/flows/create-profile-flow";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -18,8 +18,15 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import * as faceapi from '@vladmandic/face-api';
+import JSZip from 'jszip';
 
 type ProfileWithAvatar = CandidateProfile & { avatarUrl?: string };
+
+// Configuration for face-api.js
+const FACEAPI_MODEL_URL = '/models';
+const faceApiOptions = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.5 });
+
 
 export default function AiProfilePage() {
     const router = useRouter();
@@ -27,18 +34,87 @@ export default function AiProfilePage() {
     const [isLoading, setIsLoading] = useState(false);
     const [loadingMessage, setLoadingMessage] = useState("Đang phân tích...");
     const [fileInputKey, setFileInputKey] = useState(Date.now()); // Used to reset file input
-    const [analysisResult, setAnalysisResult] = useState<CandidateProfile | null>(null);
+    const [analysisResult, setAnalysisResult] = useState<ProfileWithAvatar | null>(null);
     const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
     const [textInput, setTextInput] = useState('');
+    const modelsLoaded = useRef(false);
+
+    // Load face-api.js models
+    useEffect(() => {
+        const loadModels = async () => {
+            try {
+                await faceapi.nets.ssdMobilenetv1.loadFromUri(FACEAPI_MODEL_URL);
+                await faceapi.nets.faceLandmark68Net.loadFromUri(FACEAPI_MODEL_URL);
+                await faceapi.nets.faceRecognitionNet.loadFromUri(FACEAPI_MODEL_URL);
+                modelsLoaded.current = true;
+                console.log("FaceAPI models loaded successfully.");
+            } catch (error) {
+                console.error("Error loading FaceAPI models:", error);
+                toast({
+                    variant: "destructive",
+                    title: "Lỗi tải mô hình AI",
+                    description: "Không thể tải các mô hình nhận diện khuôn mặt. Vui lòng thử tải lại trang.",
+                });
+            }
+        };
+        if (!modelsLoaded.current) {
+            loadModels();
+        }
+    }, [toast]);
     
+    // Function to extract avatar from an image buffer
+    const extractAvatar = async (imageBuffer: ArrayBuffer): Promise<string | null> => {
+        if (!modelsLoaded.current) {
+            toast({ variant: "destructive", title: "Mô hình chưa sẵn sàng", description: "Mô hình AI nhận diện khuôn mặt chưa được tải xong. Vui lòng đợi trong giây lát và thử lại." });
+            return null;
+        }
+
+        try {
+            const imageBlob = new Blob([imageBuffer]);
+            const image = await faceapi.bufferToImage(imageBlob);
+            
+            const detection = await faceapi.detectSingleFace(image, faceApiOptions)
+                .withFaceLandmarks()
+                .withFaceDescriptor();
+            
+            if (!detection) return null;
+
+            // Create a canvas to draw and crop the face
+            const canvas = document.createElement('canvas');
+            const box = detection.detection.box;
+
+            // Add some padding around the detected face
+            const padding = box.width * 0.4;
+            const sx = Math.max(0, box.x - padding);
+            const sy = Math.max(0, box.y - padding);
+            const sWidth = box.width + padding * 2;
+            const sHeight = box.height + padding * 2;
+            
+            canvas.width = sWidth;
+            canvas.height = sHeight;
+
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return null;
+
+            // Draw the cropped portion of the image onto the canvas
+            ctx.drawImage(image, sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight);
+            
+            return canvas.toDataURL('image/jpeg');
+
+        } catch (error) {
+            console.error("Error during face detection:", error);
+            return null;
+        }
+    };
+
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (!file) return;
 
         setIsLoading(true);
-        setLoadingMessage("Đang đọc và phân tích tệp...");
 
         try {
+            setLoadingMessage("Đang đọc và phân tích tệp...");
             const documentReader = new FileReader();
             documentReader.readAsDataURL(file);
 
@@ -49,10 +125,31 @@ export default function AiProfilePage() {
 
             const document = await documentPromise;
             
+            // Start both AI profile creation and avatar extraction in parallel
             setLoadingMessage("AI đang trích xuất thông tin...");
-            const profileData = await createProfile({ document });
+            const profilePromise = createProfile({ document });
 
-            setAnalysisResult(profileData);
+            let avatarPromise: Promise<string | null> = Promise.resolve(null);
+            if (file.type.startsWith('image/')) {
+                 avatarPromise = file.arrayBuffer().then(extractAvatar);
+            } else if (file.name.endsWith('.docx')) {
+                avatarPromise = file.arrayBuffer().then(async (buffer) => {
+                    const zip = await JSZip.loadAsync(buffer);
+                    const imageFile = zip.file(/word\/media\/image\d+\.(jpeg|jpg|png|gif)/i)[0];
+                    if (imageFile) {
+                        const imageBuffer = await imageFile.async('arraybuffer');
+                        return extractAvatar(imageBuffer);
+                    }
+                    return null;
+                });
+            }
+
+            // Wait for both promises to complete
+            const [profileData, avatarUrl] = await Promise.all([profilePromise, avatarPromise]);
+
+            const finalProfile: ProfileWithAvatar = { ...profileData, avatarUrl: avatarUrl || undefined };
+
+            setAnalysisResult(finalProfile);
             setIsResultDialogOpen(true);
              toast({
                 title: "Phân tích thành công!",
@@ -214,7 +311,19 @@ export default function AiProfilePage() {
                             Đây là dữ liệu thô mà AI đã trích xuất được. Kiểm tra và nhấn "Tiếp tục" để điền vào hồ sơ của bạn.
                         </DialogDescription>
                     </DialogHeader>
-                    <div className="my-4 max-h-[60vh] overflow-y-auto rounded-lg bg-secondary p-4">
+                     {analysisResult?.avatarUrl && (
+                        <div className="my-4 text-center">
+                            <p className="font-semibold mb-2">Ảnh đại diện đề xuất:</p>
+                             <Image 
+                                src={analysisResult.avatarUrl} 
+                                alt="Ảnh đại diện được tạo bởi AI" 
+                                width={128} 
+                                height={128} 
+                                className="rounded-full mx-auto border-4 border-primary shadow-lg"
+                             />
+                        </div>
+                     )}
+                    <div className="my-4 max-h-[50vh] overflow-y-auto rounded-lg bg-secondary p-4">
                         <pre className="text-sm">
                             <code>
                                 {JSON.stringify(analysisResult, null, 2)}
@@ -230,3 +339,5 @@ export default function AiProfilePage() {
         </>
     );
 }
+
+    

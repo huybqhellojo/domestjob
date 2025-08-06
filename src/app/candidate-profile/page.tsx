@@ -398,7 +398,7 @@ export default function CandidateProfilePage() {
                  <div className="p-6 flex flex-col md:flex-row items-center md:items-end -mt-16">
                  <div className="relative group">
                      <Avatar className="h-32 w-32 border-4 border-background bg-background shadow-lg">
-                      <AvatarImage src={candidate.avatarUrl} alt={candidate.name} data-ai-hint="professional headshot" />
+                      <AvatarImage src={candidate.avatarUrl} alt={candidate.name} data-ai-hint="professional headshot" className="object-cover" />
                       <AvatarFallback>{candidate.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <Label htmlFor="avatar-upload" className="absolute bottom-1 right-1 cursor-pointer bg-black/50 text-white p-2 rounded-full group-hover:bg-black/70 transition-colors">
@@ -422,7 +422,7 @@ export default function CandidateProfilePage() {
                              <div className="space-y-2">
                                 <Label>Ảnh đại diện (preview)</Label>
                                 <Avatar className="h-24 w-24">
-                                    <AvatarImage src={tempCandidate.avatarUrl} />
+                                    <AvatarImage src={tempCandidate.avatarUrl} className="object-cover" />
                                     <AvatarFallback>{tempCandidate.name.charAt(0)}</AvatarFallback>
                                 </Avatar>
                             </div>

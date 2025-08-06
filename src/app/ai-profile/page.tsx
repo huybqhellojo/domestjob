@@ -7,9 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Upload, FileText, FileUp, Sparkles, Send, Mic, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createProfile, CandidateProfile } from "@/ai/flows/create-profile-flow";
-import { extractAvatar } from "@/ai/flows/extract-avatar-flow";
 import { useToast } from "@/hooks/use-toast";
 import {
     Dialog,
@@ -19,20 +18,99 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import * as faceapi from '@vladmandic/face-api';
 
 type ProfileWithAvatar = CandidateProfile & { avatarUrl?: string };
 
+const FACEAPI_MODEL_URL = '/models';
 
 export default function AiProfilePage() {
     const router = useRouter();
     const { toast } = useToast();
     const [isLoading, setIsLoading] = useState(false);
     const [loadingMessage, setLoadingMessage] = useState("Đang phân tích...");
-    const [fileInputKey, setFileInputKey] = useState(Date.now()); // Used to reset file input
+    const [fileInputKey, setFileInputKey] = useState(Date.now());
     const [analysisResult, setAnalysisResult] = useState<ProfileWithAvatar | null>(null);
     const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
     const [textInput, setTextInput] = useState('');
+    const [modelsLoaded, setModelsLoaded] = useState(false);
     
+    useEffect(() => {
+      const loadModels = async () => {
+        try {
+            await Promise.all([
+                faceapi.nets.ssdMobilenetv1.loadFromUri(FACEAPI_MODEL_URL),
+                faceapi.nets.faceLandmark68Net.loadFromUri(FACEAPI_MODEL_URL),
+                faceapi.nets.faceRecognitionNet.loadFromUri(FACEAPI_MODEL_URL)
+            ]);
+            setModelsLoaded(true);
+            console.log("Face-api models loaded successfully");
+        } catch (error) {
+            console.error("Failed to load face-api models:", error);
+            toast({
+                variant: "destructive",
+                title: "Lỗi tải mô hình AI",
+                description: "Không thể tải các mô hình nhận dạng khuôn mặt. Vui lòng làm mới trang.",
+            });
+        }
+    };
+    loadModels();
+    }, [toast]);
+    
+    const extractAvatar = async (imageElement: HTMLImageElement): Promise<string | null> => {
+        if (!modelsLoaded) {
+            toast({
+                variant: "destructive",
+                title: "Mô hình chưa sẵn sàng",
+                description: "Mô hình AI cho việc nhận dạng khuôn mặt chưa được tải xong. Vui lòng đợi một lát và thử lại.",
+            });
+            return null;
+        }
+
+        const detections = await faceapi.detectAllFaces(imageElement).withFaceLandmarks().withFaceDescriptors();
+        if (!detections || detections.length === 0) {
+            console.log("No faces detected.");
+            return null;
+        }
+
+        // Use the largest face found
+        detections.sort((a, b) => b.detection.box.area - a.detection.box.area);
+        const bestDetection = detections[0];
+        
+        const canvas = faceapi.createCanvasFromMedia(imageElement);
+        const { width, height } = imageElement;
+        canvas.width = width;
+        canvas.height = height;
+        
+        const displaySize = { width, height };
+        faceapi.matchDimensions(canvas, displaySize);
+
+        const resizedDetections = faceapi.resizeResults(bestDetection, displaySize);
+        const box = resizedDetections.detection.box;
+
+        // Create a square bounding box with padding
+        const padding = 0.2;
+        const size = Math.max(box.width, box.height) * (1 + 2 * padding);
+        const centerX = box.x + box.width / 2;
+        const centerY = box.y + box.height / 2;
+        
+        const cropX = Math.max(0, centerX - size / 2);
+        const cropY = Math.max(0, centerY - size / 2);
+
+        const cropCanvas = document.createElement('canvas');
+        cropCanvas.width = size;
+        cropCanvas.height = size;
+        const ctx = cropCanvas.getContext('2d');
+        
+        if (ctx) {
+            ctx.drawImage(imageElement, cropX, cropY, size, size, 0, 0, size, size);
+            return cropCanvas.toDataURL('image/jpeg');
+        }
+
+        return null;
+    };
+
+
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (!file) return;
@@ -41,24 +119,28 @@ export default function AiProfilePage() {
 
         try {
             setLoadingMessage("Đang đọc và phân tích tệp...");
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
-
-            const dataUriPromise = new Promise<string>((resolve, reject) => {
+            const dataUri = await new Promise<string>((resolve, reject) => {
+                 const fileReader = new FileReader();
                  fileReader.onload = (e) => resolve(e.target?.result as string);
                  fileReader.onerror = (e) => reject(new Error("File reading failed"));
+                 fileReader.readAsDataURL(file);
             });
-
-            const dataUri = await dataUriPromise;
             
             // Start both AI profile creation and avatar extraction in parallel
             setLoadingMessage("AI đang trích xuất thông tin...");
             const profilePromise = createProfile({ document: dataUri });
 
             let avatarPromise: Promise<string | null> = Promise.resolve(null);
-            // Only attempt to extract avatar if the file is an image
             if (file.type.startsWith('image/')) {
-                 avatarPromise = extractAvatar(dataUri);
+                 avatarPromise = new Promise((resolve) => {
+                    const img = document.createElement('img');
+                    img.onload = async () => {
+                        const avatarUrl = await extractAvatar(img);
+                        resolve(avatarUrl);
+                    };
+                    img.onerror = () => resolve(null);
+                    img.src = dataUri;
+                });
             }
             
             // Wait for both promises to complete
@@ -165,7 +247,7 @@ export default function AiProfilePage() {
                                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
                                                 onChange={handleFileChange}
                                                 accept="image/*,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                                                disabled={isLoading}
+                                                disabled={isLoading || !modelsLoaded}
                                             />
                                         </>
                                     )}
@@ -256,5 +338,3 @@ export default function AiProfilePage() {
         </>
     );
 }
-
-    

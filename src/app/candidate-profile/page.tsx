@@ -29,7 +29,7 @@ const emptyCandidate: CandidateProfile & { avatarUrl?: string; videoUrl?: string
     name: 'Chưa có thông tin',
     headline: 'Vui lòng tạo hồ sơ bằng AI hoặc cập nhật thủ công',
     location: 'Chưa có thông tin',
-    about: 'Chưa có thông tin, vui lòng nhấn nút chỉnh sửa để thêm.',
+    about: '',
     education: [],
     experience: [],
     personalInfo: {
@@ -97,6 +97,8 @@ export default function CandidateProfilePage() {
             { src: 'https://placehold.co/600x400.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
         ],
       };
+      // Clear the storage after loading
+      localStorage.removeItem('generatedCandidateProfile');
     } else {
         // Fallback to an empty profile if nothing is in storage
         profileToLoad = { ...emptyCandidate };
@@ -277,7 +279,11 @@ export default function CandidateProfilePage() {
                     </EditDialog>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground whitespace-pre-line">{candidate.about}</p>
+                    {candidate.about ? (
+                      <p className="text-muted-foreground whitespace-pre-line">{candidate.about}</p>
+                    ) : (
+                      <p className="text-muted-foreground">Chưa có thông tin. <Link href="/ai-profile" className="text-primary hover:underline">Tạo hồ sơ bằng AI</Link> hoặc nhấn nút sửa để thêm.</p>
+                    )}
                   </CardContent>
                 </Card>
 
@@ -580,3 +586,5 @@ export default function CandidateProfilePage() {
     </div>
   );
 }
+
+    

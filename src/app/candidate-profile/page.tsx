@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Briefcase, Building, Cake, Dna, Edit, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon, PlusCircle, Trash2 } from 'lucide-react';
+import { Briefcase, Building, Cake, Dna, Edit, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon, PlusCircle, Trash2, RefreshCw } from 'lucide-react';
 import Image from 'next/image';
 import {
     Dialog,
@@ -266,11 +266,21 @@ export default function CandidateProfilePage() {
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between">
                         <CardTitle className="font-headline text-xl flex items-center"><ImageIcon className="mr-3 text-primary"/> Hình ảnh</CardTitle>
-                        <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
+                        <Button variant="ghost" size="icon"><PlusCircle className="h-4 w-4"/></Button>
                     </CardHeader>
                     <CardContent className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         {candidate.experienceImages.map((img, index) => (
-                            <Image key={index} src={img.src} alt={img.alt} width={400} height={300} className="rounded-lg object-cover aspect-video" data-ai-hint={img.dataAiHint} />
+                            <div key={index} className="relative group overflow-hidden rounded-lg">
+                                <Image src={img.src} alt={img.alt} width={400} height={300} className="rounded-lg object-cover aspect-video" data-ai-hint={img.dataAiHint} />
+                                <div className="absolute inset-0 bg-black/50 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 hover:text-white">
+                                        <RefreshCw className="h-5 w-5" />
+                                    </Button>
+                                    <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/20 hover:text-destructive">
+                                        <Trash2 className="h-5 w-5" />
+                                    </Button>
+                                </div>
+                            </div>
                         ))}
                     </CardContent>
                 </Card>
@@ -391,3 +401,5 @@ export default function CandidateProfilePage() {
     </div>
   );
 }
+
+    

@@ -7,8 +7,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { Upload, FileText, FileUp, Sparkles, Send, Mic } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function AiProfilePage() {
+    const router = useRouter();
+
+    const handleSend = () => {
+        // In a real app, you would handle the AI processing here.
+        // For this demo, we'll just navigate to the profile page.
+        router.push('/candidate-profile');
+    };
+
     return (
         <div className="bg-secondary flex-grow flex items-center justify-center">
             <div className="container mx-auto px-4 md:px-6 py-16 md:py-24">
@@ -41,7 +50,7 @@ export default function AiProfilePage() {
                                     placeholder="Sao chép và dán mô tả công việc, hoặc mô tả về bản thân bạn ở đây..."
                                     className="w-full h-40 text-base p-4 pr-24"
                                 />
-                                <Button className="absolute bottom-4 right-4 bg-primary text-white">
+                                <Button className="absolute bottom-4 right-4 bg-primary text-white" onClick={handleSend}>
                                     <Send />
                                     Gửi
                                 </Button>

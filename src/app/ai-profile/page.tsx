@@ -7,8 +7,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Upload, FileText, FileUp, Sparkles, Send, Mic, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { createProfile, CandidateProfile } from "@/ai/flows/create-profile-flow";
+import { extractAvatar } from "@/ai/flows/extract-avatar-flow";
 import { useToast } from "@/hooks/use-toast";
 import {
     Dialog,
@@ -18,14 +19,8 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import * as faceapi from '@vladmandic/face-api';
-import JSZip from 'jszip';
 
 type ProfileWithAvatar = CandidateProfile & { avatarUrl?: string };
-
-// Configuration for face-api.js
-const FACEAPI_MODEL_URL = '/models';
-const faceApiOptions = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.5 });
 
 
 export default function AiProfilePage() {
@@ -37,76 +32,7 @@ export default function AiProfilePage() {
     const [analysisResult, setAnalysisResult] = useState<ProfileWithAvatar | null>(null);
     const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
     const [textInput, setTextInput] = useState('');
-    const modelsLoaded = useRef(false);
-
-    // Load face-api.js models
-    useEffect(() => {
-        const loadModels = async () => {
-            try {
-                await faceapi.nets.ssdMobilenetv1.loadFromUri(FACEAPI_MODEL_URL);
-                await faceapi.nets.faceLandmark68Net.loadFromUri(FACEAPI_MODEL_URL);
-                await faceapi.nets.faceRecognitionNet.loadFromUri(FACEAPI_MODEL_URL);
-                modelsLoaded.current = true;
-                console.log("FaceAPI models loaded successfully.");
-            } catch (error) {
-                console.error("Error loading FaceAPI models:", error);
-                toast({
-                    variant: "destructive",
-                    title: "Lỗi tải mô hình AI",
-                    description: "Không thể tải các mô hình nhận diện khuôn mặt. Vui lòng thử tải lại trang.",
-                });
-            }
-        };
-        if (!modelsLoaded.current) {
-            loadModels();
-        }
-    }, [toast]);
     
-    // Function to extract avatar from an image buffer
-    const extractAvatar = async (imageBuffer: ArrayBuffer): Promise<string | null> => {
-        if (!modelsLoaded.current) {
-            toast({ variant: "destructive", title: "Mô hình chưa sẵn sàng", description: "Mô hình AI nhận diện khuôn mặt chưa được tải xong. Vui lòng đợi trong giây lát và thử lại." });
-            return null;
-        }
-
-        try {
-            const imageBlob = new Blob([imageBuffer]);
-            const image = await faceapi.bufferToImage(imageBlob);
-            
-            const detection = await faceapi.detectSingleFace(image, faceApiOptions)
-                .withFaceLandmarks()
-                .withFaceDescriptor();
-            
-            if (!detection) return null;
-
-            // Create a canvas to draw and crop the face
-            const canvas = document.createElement('canvas');
-            const box = detection.detection.box;
-
-            // Add some padding around the detected face
-            const padding = box.width * 0.4;
-            const sx = Math.max(0, box.x - padding);
-            const sy = Math.max(0, box.y - padding);
-            const sWidth = box.width + padding * 2;
-            const sHeight = box.height + padding * 2;
-            
-            canvas.width = sWidth;
-            canvas.height = sHeight;
-
-            const ctx = canvas.getContext('2d');
-            if (!ctx) return null;
-
-            // Draw the cropped portion of the image onto the canvas
-            ctx.drawImage(image, sx, sy, sWidth, sHeight, 0, 0, sWidth, sHeight);
-            
-            return canvas.toDataURL('image/jpeg');
-
-        } catch (error) {
-            console.error("Error during face detection:", error);
-            return null;
-        }
-    };
-
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (!file) return;
@@ -115,35 +41,26 @@ export default function AiProfilePage() {
 
         try {
             setLoadingMessage("Đang đọc và phân tích tệp...");
-            const documentReader = new FileReader();
-            documentReader.readAsDataURL(file);
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
 
-            const documentPromise = new Promise<string>((resolve, reject) => {
-                 documentReader.onload = (e) => resolve(e.target?.result as string);
-                 documentReader.onerror = (e) => reject(new Error("File reading failed"));
+            const dataUriPromise = new Promise<string>((resolve, reject) => {
+                 fileReader.onload = (e) => resolve(e.target?.result as string);
+                 fileReader.onerror = (e) => reject(new Error("File reading failed"));
             });
 
-            const document = await documentPromise;
+            const dataUri = await dataUriPromise;
             
             // Start both AI profile creation and avatar extraction in parallel
             setLoadingMessage("AI đang trích xuất thông tin...");
-            const profilePromise = createProfile({ document });
+            const profilePromise = createProfile({ document: dataUri });
 
             let avatarPromise: Promise<string | null> = Promise.resolve(null);
+            // Only attempt to extract avatar if the file is an image
             if (file.type.startsWith('image/')) {
-                 avatarPromise = file.arrayBuffer().then(extractAvatar);
-            } else if (file.name.endsWith('.docx')) {
-                avatarPromise = file.arrayBuffer().then(async (buffer) => {
-                    const zip = await JSZip.loadAsync(buffer);
-                    const imageFile = zip.file(/word\/media\/image\d+\.(jpeg|jpg|png|gif)/i)[0];
-                    if (imageFile) {
-                        const imageBuffer = await imageFile.async('arraybuffer');
-                        return extractAvatar(imageBuffer);
-                    }
-                    return null;
-                });
+                 avatarPromise = extractAvatar(dataUri);
             }
-
+            
             // Wait for both promises to complete
             const [profileData, avatarUrl] = await Promise.all([profilePromise, avatarPromise]);
 
@@ -156,12 +73,12 @@ export default function AiProfilePage() {
                 description: "AI đã phân tích và trích xuất thông tin từ tệp của bạn.",
             });
 
-        } catch (error) {
+        } catch (error: any) {
             console.error("Profile Generation Error:", error);
             toast({
                 variant: "destructive",
                 title: "Đã có lỗi xảy ra",
-                description: "Không thể xử lý tệp của bạn. Vui lòng thử lại.",
+                description: error.message || "Không thể xử lý tệp của bạn. Vui lòng thử lại.",
             });
         } finally {
             setIsLoading(false);

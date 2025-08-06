@@ -265,7 +265,7 @@ export default function CandidateProfilePage() {
 
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between">
-                        <CardTitle className="font-headline text-xl flex items-center"><ImageIcon className="mr-3 text-primary"/> Hình ảnh kinh nghiệm</CardTitle>
+                        <CardTitle className="font-headline text-xl flex items-center"><ImageIcon className="mr-3 text-primary"/> Hình ảnh</CardTitle>
                         <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
                     </CardHeader>
                     <CardContent className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

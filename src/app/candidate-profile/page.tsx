@@ -100,7 +100,8 @@ export default function CandidateProfilePage() {
           ],
         };
         // IMPORTANT: Clear the storage only AFTER successfully parsing and preparing the data
-        localStorage.removeItem('generatedCandidateProfile');
+        // localStorage.removeItem('generatedCandidateProfile');
+        console.log(profileToLoad)
       } catch (error) {
         console.error("Failed to parse candidate profile from localStorage", error);
         profileToLoad = { ...emptyCandidate };

@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Briefcase, Building, Cake, Dna, Edit, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon, PlusCircle, Trash2, RefreshCw } from 'lucide-react';
+import { Briefcase, Building, Cake, Dna, Edit, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon, PlusCircle, Trash2, RefreshCw, X } from 'lucide-react';
 import Image from 'next/image';
 import {
     Dialog,
@@ -25,7 +25,7 @@ import type { CandidateProfile } from '@/ai/flows/create-profile-flow';
 import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
 
-const emptyCandidate: CandidateProfile = {
+const emptyCandidate: CandidateProfile & { avatarUrl?: string; videoUrl?: string; experienceImages?: any[] } = {
     name: 'Chưa có thông tin',
     headline: 'Vui lòng tạo hồ sơ bằng AI hoặc cập nhật thủ công',
     location: 'Chưa có thông tin',
@@ -42,50 +42,11 @@ const emptyCandidate: CandidateProfile = {
     skills: [],
     certifications: [],
     desiredIndustry: 'N/A',
+    avatarUrl: 'https://placehold.co/128x128.png',
+    videoUrl: '',
+    experienceImages: [],
 };
 
-const initialCandidate: CandidateProfile & { avatarUrl?: string; videoUrl?: string; experienceImages?: any[] } = {
-    ...emptyCandidate,
-    name: 'Lê Thị An',
-    avatarUrl: 'https://placehold.co/128x128.png',
-    headline: 'Sinh viên năm cuối - ĐH Bách Khoa - Sẵn sàng đi làm',
-    location: 'Quận 10, TP. Hồ Chí Minh',
-    about: 'Là sinh viên năm cuối chuyên ngành Cơ khí Chế tạo máy, em có niềm đam mê với việc vận hành và tối ưu hóa các hệ thống sản xuất. Em học hỏi nhanh, có tinh thần trách nhiệm cao và mong muốn được áp dụng kiến thức đã học vào môi trường làm việc thực tế để đóng góp cho sự phát triển của công ty.',
-    education: [
-      {
-        school: 'Đại học Bách Khoa TP.HCM',
-        degree: 'Kỹ sư Cơ khí Chế tạo máy',
-        gradYear: 2024,
-      }
-    ],
-    experience: [
-        {
-            company: 'Công ty TNHH Chính Xác ABC',
-            role: 'Thực tập sinh Vận hành CNC',
-            period: '06/2023 - 09/2023',
-            description: 'Hỗ trợ đứng máy phay, tiện CNC. Đọc hiểu bản vẽ kỹ thuật cơ bản. Thực hiện kiểm tra chất lượng sản phẩm đầu ra theo tiêu chuẩn.'
-        }
-    ],
-    personalInfo: {
-      birthYear: 1999,
-      gender: 'Nữ',
-      phone: '0987 654 321',
-      language: 'Tiếng Anh - Giao tiếp cơ bản'
-    },
-    interests: ['Cơ khí', 'Điện tử', 'IT', 'Logistics'],
-    skills: ['Vận hành máy CNC', 'AutoCAD', 'Kiểm tra chất lượng', 'Làm việc nhóm', 'Giải quyết vấn đề'],
-    certifications: [
-        'Chứng chỉ An toàn lao động Bậc 2',
-        'Bằng lái xe B2'
-    ],
-    desiredIndustry: 'Cơ khí/Chế tạo',
-    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Placeholder
-    experienceImages: [
-        { src: 'https://placehold.co/600x400.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
-        { src: 'https://placehold.co/600x400.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
-        { src: 'https://placehold.co/600x400.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
-    ],
-};
 
 const commonSkills = ['Vận hành máy CNC', 'AutoCAD', 'Kiểm tra chất lượng', 'Làm việc nhóm', 'Giải quyết vấn đề', 'Tiếng Anh giao tiếp'];
 const commonInterests = ['Cơ khí', 'Điện tử', 'IT', 'Logistics', 'Dệt may', 'Chế biến thực phẩm'];
@@ -114,32 +75,32 @@ const EditDialog = ({ children, title, onSave, content, description }: { childre
 
 
 export default function CandidateProfilePage() {
-  const [candidate, setCandidate] = useState<typeof initialCandidate | null>(null);
-  const [tempCandidate, setTempCandidate] = useState<typeof initialCandidate | null>(null);
+  const [candidate, setCandidate] = useState<typeof emptyCandidate | null>(null);
+  const [tempCandidate, setTempCandidate] = useState<typeof emptyCandidate | null>(null);
   const [newSkill, setNewSkill] = useState('');
   const [newInterest, setNewInterest] = useState('');
 
   useEffect(() => {
     const storedProfile = localStorage.getItem('generatedCandidateProfile');
-    let profileToLoad: typeof initialCandidate;
+    let profileToLoad: typeof emptyCandidate;
 
     if (storedProfile) {
-      const parsedProfile = JSON.parse(storedProfile);
+      const parsedProfile: CandidateProfile = JSON.parse(storedProfile);
       profileToLoad = {
         ...parsedProfile,
         avatarUrl: 'https://placehold.co/128x128.png',
-        videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        videoUrl: '',
         experienceImages: [
             { src: 'https://placehold.co/600x400.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
             { src: 'https://placehold.co/600x400.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
             { src: 'https://placehold.co/600x400.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
         ],
       };
-      // Clean up local storage after loading
+      // Clean up local storage after loading to prevent stale data
       localStorage.removeItem('generatedCandidateProfile');
     } else {
-        // Fallback to initial (demo) data if nothing in storage
-        profileToLoad = initialCandidate;
+        // Fallback to an empty profile if nothing is in storage
+        profileToLoad = { ...emptyCandidate };
     }
     setCandidate(profileToLoad);
     setTempCandidate(JSON.parse(JSON.stringify(profileToLoad)));
@@ -232,6 +193,7 @@ export default function CandidateProfilePage() {
         const newValues = currentValues.includes(value)
           ? currentValues.filter((item: string) => item !== value)
           : [...currentValues, value];
+        // @ts-ignore
         newCandidate[field] = newValues;
         return newCandidate;
     });
@@ -243,6 +205,7 @@ export default function CandidateProfilePage() {
       if (valueToAdd && !tempCandidate[field].includes(valueToAdd)) {
           setTempCandidate(prev => ({
               ...prev!,
+              // @ts-ignore
               [field]: [...prev![field], valueToAdd]
           }));
           if (field === 'skills') {
@@ -619,5 +582,4 @@ export default function CandidateProfilePage() {
   );
 }
 
-// Re-importing X icon since it's used in the new Chip selection UI
-import { X } from 'lucide-react';
+    

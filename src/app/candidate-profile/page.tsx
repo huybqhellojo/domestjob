@@ -1,14 +1,28 @@
 
+'use client';
+
+import { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Briefcase, Building, Cake, Dna, Edit, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon } from 'lucide-react';
 import Image from 'next/image';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from '@/components/ui/textarea';
 
-export default function CandidateProfilePage() {
-  // Mock data for a candidate
-  const candidate = {
+
+const initialCandidate = {
     name: 'Lê Thị An',
     avatarUrl: 'https://placehold.co/128x128.png',
     headline: 'Sinh viên năm cuối - ĐH Bách Khoa - Sẵn sàng đi làm',
@@ -46,6 +60,54 @@ export default function CandidateProfilePage() {
         { src: 'https://placehold.co/600x400.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
         { src: 'https://placehold.co/600x400.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
     ],
+};
+
+const EditDialog = ({ children, title, onSave, content }: { children: React.ReactNode, title: string, onSave: () => void, content: React.ReactNode }) => (
+    <Dialog>
+        <DialogTrigger asChild>
+            {children}
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[600px]">
+            <DialogHeader>
+                <DialogTitle className="font-headline text-2xl">{title}</DialogTitle>
+                <DialogDescription>
+                    Cập nhật thông tin của bạn và nhấn lưu để hoàn tất.
+                </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+                {content}
+            </div>
+            <DialogFooter>
+                <Button type="submit" onClick={onSave} className="bg-primary text-white">Lưu thay đổi</Button>
+            </DialogFooter>
+        </DialogContent>
+    </Dialog>
+);
+
+
+export default function CandidateProfilePage() {
+  const [candidate, setCandidate] = useState(initialCandidate);
+  const [tempCandidate, setTempCandidate] = useState(initialCandidate);
+
+  const handleSave = (section: keyof typeof initialCandidate) => {
+    // In a real app, you would make an API call here.
+    // For this demo, we just update the main state.
+    setCandidate(tempCandidate);
+    // You might want to close the dialog here, which can be handled by controlling the 'open' state of the Dialog.
+  };
+
+  const handleChange = (section: keyof typeof tempCandidate, field: any, value: any, index: number | null = null) => {
+      setTempCandidate(prev => {
+          const newCandidate = { ...prev };
+          if (index !== null) {
+              // @ts-ignore
+              newCandidate[section][index][field] = value;
+          } else {
+              // @ts-ignore
+              newCandidate[section][field] = value;
+          }
+          return newCandidate;
+      });
   };
 
   return (
@@ -53,10 +115,10 @@ export default function CandidateProfilePage() {
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="max-w-5xl mx-auto">
           <Card className="shadow-2xl overflow-hidden">
-            <CardHeader className="p-0">
-              <div className="bg-gradient-to-tr from-primary to-accent h-32" />
-              <div className="p-6 flex flex-col md:flex-row items-center md:items-end -mt-16">
-                <Avatar className="h-32 w-32 border-4 border-background bg-background shadow-lg">
+             <CardHeader className="p-0">
+               <div className="bg-gradient-to-tr from-primary to-accent h-32" />
+                 <div className="p-6 flex flex-col md:flex-row items-center md:items-end -mt-16">
+                 <Avatar className="h-32 w-32 border-4 border-background bg-background shadow-lg">
                   <AvatarImage src={candidate.avatarUrl} alt={candidate.name} data-ai-hint="professional headshot" />
                   <AvatarFallback>{candidate.name.charAt(0)}</AvatarFallback>
                 </Avatar>
@@ -67,7 +129,28 @@ export default function CandidateProfilePage() {
                     <MapPin className="h-4 w-4" /> {candidate.location}
                   </p>
                 </div>
-                <Button className="md:ml-auto mt-4 md:mt-0" variant="outline"><Edit /> Sửa hồ sơ</Button>
+                 <EditDialog
+                    title="Chỉnh sửa thông tin cơ bản"
+                    onSave={() => handleSave('name')} // A bit of a hack, assumes all top level fields are saved together
+                    content={
+                        <div className="space-y-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="name-edit">Họ và tên</Label>
+                                <Input id="name-edit" value={tempCandidate.name} onChange={(e) => setTempCandidate({...tempCandidate, name: e.target.value})} />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="headline-edit">Tiêu đề hồ sơ</Label>
+                                <Input id="headline-edit" value={tempCandidate.headline} onChange={(e) => setTempCandidate({...tempCandidate, headline: e.target.value})} />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="location-edit">Địa điểm</Label>
+                                <Input id="location-edit" value={tempCandidate.location} onChange={(e) => setTempCandidate({...tempCandidate, location: e.target.value})} />
+                            </div>
+                        </div>
+                    }
+                >
+                  <Button className="md:ml-auto mt-4 md:mt-0" variant="outline"><Edit /> Sửa hồ sơ</Button>
+                 </EditDialog>
               </div>
             </CardHeader>
             <CardContent className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -75,8 +158,17 @@ export default function CandidateProfilePage() {
               <div className="lg:col-span-2 space-y-8">
                 
                 <Card>
-                  <CardHeader>
+                  <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle className="font-headline text-xl flex items-center"><User className="mr-3 text-primary"/> Giới thiệu bản thân</CardTitle>
+                     <EditDialog
+                        title="Chỉnh sửa Giới thiệu bản thân"
+                        onSave={() => handleSave('about')}
+                        content={
+                            <Textarea value={tempCandidate.about} onChange={(e) => setTempCandidate({...tempCandidate, about: e.target.value})} rows={6} />
+                        }
+                    >
+                      <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
+                    </EditDialog>
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground whitespace-pre-line">{candidate.about}</p>
@@ -84,8 +176,20 @@ export default function CandidateProfilePage() {
                 </Card>
 
                 <Card>
-                    <CardHeader>
+                    <CardHeader className="flex flex-row items-center justify-between">
                         <CardTitle className="font-headline text-xl flex items-center"><Video className="mr-3 text-primary"/> Video giới thiệu</CardTitle>
+                        <EditDialog
+                            title="Chỉnh sửa Video giới thiệu"
+                            onSave={() => handleSave('videoUrl')}
+                            content={
+                                <div className="space-y-2">
+                                    <Label htmlFor="video-url-edit">Link YouTube Video</Label>
+                                    <Input id="video-url-edit" value={tempCandidate.videoUrl} onChange={(e) => setTempCandidate({...tempCandidate, videoUrl: e.target.value})} />
+                                </div>
+                            }
+                        >
+                            <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
+                        </EditDialog>
                     </CardHeader>
                     <CardContent>
                         <div className="aspect-video rounded-lg overflow-hidden">
@@ -95,8 +199,30 @@ export default function CandidateProfilePage() {
                 </Card>
 
                 <Card>
-                  <CardHeader>
+                  <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle className="font-headline text-xl flex items-center"><Briefcase className="mr-3 text-primary"/> Kinh nghiệm làm việc</CardTitle>
+                     <EditDialog
+                        title="Chỉnh sửa Kinh nghiệm làm việc"
+                        onSave={() => handleSave('experience')}
+                        content={
+                            <div className="space-y-4">
+                                {tempCandidate.experience.map((exp, index) => (
+                                    <div key={index} className="p-4 border rounded-lg space-y-2">
+                                        <Label>Vai trò</Label>
+                                        <Input value={exp.role} onChange={e => handleChange('experience', 'role', e.target.value, index)} />
+                                        <Label>Công ty</Label>
+                                        <Input value={exp.company} onChange={e => handleChange('experience', 'company', e.target.value, index)} />
+                                        <Label>Thời gian</Label>
+                                        <Input value={exp.period} onChange={e => handleChange('experience', 'period', e.target.value, index)} />
+                                        <Label>Mô tả</Label>
+                                        <Textarea value={exp.description} onChange={e => handleChange('experience', 'description', e.target.value, index)} />
+                                    </div>
+                                ))}
+                             </div>
+                        }
+                    >
+                      <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
+                     </EditDialog>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {candidate.experience.map((exp, index) => (
@@ -111,8 +237,9 @@ export default function CandidateProfilePage() {
                 </Card>
 
                 <Card>
-                    <CardHeader>
+                    <CardHeader className="flex flex-row items-center justify-between">
                         <CardTitle className="font-headline text-xl flex items-center"><ImageIcon className="mr-3 text-primary"/> Hình ảnh kinh nghiệm</CardTitle>
+                        <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
                     </CardHeader>
                     <CardContent className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                         {candidate.experienceImages.map((img, index) => (
@@ -122,8 +249,24 @@ export default function CandidateProfilePage() {
                 </Card>
                 
                 <Card>
-                  <CardHeader>
+                  <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle className="font-headline text-xl flex items-center"><GraduationCap className="mr-3 text-primary"/> Học vấn</CardTitle>
+                     <EditDialog
+                        title="Chỉnh sửa Học vấn"
+                        onSave={() => handleSave('education')}
+                        content={
+                            <div className="space-y-4">
+                                <Label>Trường</Label>
+                                <Input value={tempCandidate.education.school} onChange={e => handleChange('education', 'school', e.target.value)} />
+                                <Label>Chuyên ngành</Label>
+                                <Input value={tempCandidate.education.degree} onChange={e => handleChange('education', 'degree', e.target.value)} />
+                                <Label>Năm tốt nghiệp</Label>
+                                <Input type="number" value={tempCandidate.education.gradYear} onChange={e => handleChange('education', 'gradYear', parseInt(e.target.value))} />
+                            </div>
+                        }
+                    >
+                      <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
+                    </EditDialog>
                   </CardHeader>
                   <CardContent className="space-y-2">
                     <p className="font-semibold flex items-center gap-2"><School className="h-4 w-4"/> {candidate.education.school}</p>
@@ -136,8 +279,26 @@ export default function CandidateProfilePage() {
               {/* Right Column */}
               <div className="lg:col-span-1 space-y-6">
                  <Card>
-                  <CardHeader>
+                  <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle className="font-headline text-xl flex items-center"><User className="mr-3 text-primary"/> Thông tin cá nhân</CardTitle>
+                    <EditDialog
+                        title="Chỉnh sửa Thông tin cá nhân"
+                        onSave={() => handleSave('personalInfo')}
+                        content={
+                            <div className="space-y-4">
+                                <Label>Năm sinh</Label>
+                                <Input type="number" value={tempCandidate.personalInfo.birthYear} onChange={e => handleChange('personalInfo', 'birthYear', parseInt(e.target.value))} />
+                                <Label>Giới tính</Label>
+                                <Input value={tempCandidate.personalInfo.gender} onChange={e => handleChange('personalInfo', 'gender', e.target.value)} />
+                                <Label>Số điện thoại</Label>
+                                <Input value={tempCandidate.personalInfo.phone} onChange={e => handleChange('personalInfo', 'phone', e.target.value)} />
+                                <Label>Ngoại ngữ</Label>
+                                <Input value={tempCandidate.personalInfo.language} onChange={e => handleChange('personalInfo', 'language', e.target.value)} />
+                            </div>
+                        }
+                    >
+                      <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
+                    </EditDialog>
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <p className="flex items-start gap-3"><Cake className="h-4 w-4 mt-1 text-muted-foreground"/> <span><strong>Năm sinh:</strong> {candidate.personalInfo.birthYear}</span></p>
@@ -149,8 +310,9 @@ export default function CandidateProfilePage() {
                 </Card>
 
                  <Card>
-                  <CardHeader>
+                  <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle className="font-headline text-xl flex items-center"><Star className="mr-3 text-primary"/> Kỹ năng & Lĩnh vực</CardTitle>
+                    <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
                   </CardHeader>
                   <CardContent>
                      <h4 className="font-semibold mb-2 text-sm">Kỹ năng</h4>
@@ -165,8 +327,9 @@ export default function CandidateProfilePage() {
                 </Card>
 
                  <Card>
-                  <CardHeader>
+                  <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle className="font-headline text-xl flex items-center"><Award className="mr-3 text-primary"/> Chứng chỉ & Giải thưởng</CardTitle>
+                    <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
                   </CardHeader>
                   <CardContent className="space-y-2">
                      {candidate.certifications.map((cert, index) => (

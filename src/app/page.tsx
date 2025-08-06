@@ -48,10 +48,10 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
-              Tìm kiếm cơ hội, phát triển sự nghiệp
+              Nâng cao kỹ năng, làm chủ tương lai
             </h1>
             <p className="text-lg md:text-xl max-w-3xl mx-auto mb-10 text-white/80">
-              Hàng ngàn việc làm từ các công ty hàng đầu trong khu công nghiệp đang chờ đón bạn.
+              Phát triển từ lao động phổ thông thành chuyên gia tay nghề cao với lộ trình đào tạo rõ ràng và hàng ngàn cơ hội việc làm.
             </p>
           </div>
 
@@ -103,22 +103,9 @@ export default function Home() {
       <section className="w-full py-20 md:py-28 bg-secondary">
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl md:text-4xl font-headline font-bold text-center mb-16">
-            Lợi ích dành cho bạn
+            Con đường phát triển của bạn
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
-              <CardHeader>
-                <div className="mx-auto bg-sky-100 rounded-full p-4 w-fit">
-                  <Search className="h-10 w-10 text-sky-500" />
-                </div>
-                <CardTitle className="font-headline mt-4">Việc làm đa dạng</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">
-                  Khám phá hàng ngàn công việc từ các công ty uy tín trong nhiều lĩnh vực: Cơ khí, Điện tử, May mặc, và nhiều hơn nữa.
-                </p>
-              </CardContent>
-            </Card>
             <Card className="text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
               <CardHeader>
                 <div className="mx-auto bg-green-100 rounded-full p-4 w-fit">
@@ -128,7 +115,7 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Xem lộ trình phát triển sự nghiệp (SWR) để định hướng con đường thăng tiến của bạn trong ngành.
+                  Xem lộ trình phát triển sự nghiệp (SWR) để định hướng con đường từ lao động phổ thông đến chuyên gia.
                 </p>
               </CardContent>
             </Card>
@@ -141,7 +128,20 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Tham gia các khóa học E-learning miễn phí để trau dồi kiến thức và kỹ năng cần thiết cho công việc.
+                  Tham gia các khóa học E-learning miễn phí để trau dồi kiến thức và kỹ năng cần thiết cho công việc mơ ước.
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
+              <CardHeader>
+                <div className="mx-auto bg-sky-100 rounded-full p-4 w-fit">
+                  <Briefcase className="h-10 w-10 text-sky-500" />
+                </div>
+                <CardTitle className="font-headline mt-4">Việc làm chất lượng</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">
+                  Sau khi hoàn thành đào tạo, tiếp cận hàng ngàn công việc chất lượng cao từ các nhà tuyển dụng hàng đầu.
                 </p>
               </CardContent>
             </Card>
@@ -275,3 +275,5 @@ export default function Home() {
     </div>
   );
 }
+
+    

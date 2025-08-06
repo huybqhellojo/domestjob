@@ -3,7 +3,7 @@ import * as faceapi from '@vladmandic/face-api';
 import JSZip from 'jszip';
 
 let modelsLoaded = false;
-let baseUrl = '';
+let baseUrl = 'https://domest.hellojob.jp';
 
 const loadModels = async () => {
     if (modelsLoaded) return;

@@ -36,7 +36,7 @@ export default function AiProfilePage() {
     useEffect(() => {
         // Create a new worker instance.
         // The URL constructor is used to tell Next.js where to find the worker file.
-        const faceDetectorWorker = new Worker(new URL('../../workers/face-detector.worker.ts', import.meta.url));
+        const faceDetectorWorker = new Worker(new URL('@/workers/face-detector.worker', import.meta.url));
         setWorker(faceDetectorWorker);
 
         // Cleanup worker on component unmount

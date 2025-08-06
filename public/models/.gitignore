@@ -1,6 +1,0 @@
-
-# This file is intentionally left blank.
-# It's created to ensure the /public/models directory is tracked by Git,
-# which is necessary because the face-api.js models were previously expected here.
-# Models are now loaded from a CDN, but this directory structure is kept
-# in case local models are used in the future.

@@ -19,7 +19,6 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import * as faceapi from '@vladmandic/face-api';
 
 type ProfileWithAvatar = CandidateProfile & { avatarUrl?: string };
 
@@ -32,21 +31,24 @@ export default function AiProfilePage() {
     const [analysisResult, setAnalysisResult] = useState<ProfileWithAvatar | null>(null);
     const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
     const [textInput, setTextInput] = useState('');
+    const [faceApi, setFaceApi] = useState<any>(null);
 
      useEffect(() => {
         // Load face-api models on component mount
-        const loadModels = async () => {
+        const loadFaceApi = async () => {
+            const faceapi = await import('@vladmandic/face-api');
             await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
             await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
             await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
+            setFaceApi(faceapi);
         };
-        loadModels();
+        loadFaceApi();
     }, []);
 
     const processAndStoreProfile = async (profileData: CandidateProfile) => {
         let finalProfile: ProfileWithAvatar = { ...profileData };
 
-        if (profileData.photoUrl) {
+        if (profileData.photoUrl && faceApi) {
             setLoadingMessage("Phát hiện ảnh, đang xử lý...");
             try {
                 const croppedImage = await cropFace(profileData.photoUrl);
@@ -165,11 +167,12 @@ export default function AiProfilePage() {
     };
 
     const cropFace = async (imageUrl: string): Promise<string | null> => {
+        if (!faceApi) return null;
         return new Promise((resolve, reject) => {
             const img = document.createElement('img');
             img.src = imageUrl;
             img.onload = async () => {
-                const detections = await faceapi.detectAllFaces(img).withFaceLandmarks().withFaceDescriptors();
+                const detections = await faceApi.detectAllFaces(img).withFaceLandmarks().withFaceDescriptors();
                 if (detections.length === 0) {
                     resolve(null);
                     return;
@@ -324,4 +327,5 @@ export default function AiProfilePage() {
             </Dialog>
         </>
     );
-}
+
+    

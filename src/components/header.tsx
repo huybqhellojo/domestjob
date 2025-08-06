@@ -1,8 +1,7 @@
-
 'use client';
 
 import Link from 'next/link';
-import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, Grid, Sparkles, BookOpen, Compass, Home } from 'lucide-react';
+import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, Grid, Sparkles, BookOpen, Compass } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
@@ -27,16 +26,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const mainNavLinks = [
-  { href: '/', label: 'Trang chủ', icon: Home },
-  { href: '/employers', label: 'Việc làm', icon: Briefcase },
-  { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles},
-  { href: '/roadmap', label: 'Lộ trình', icon: Compass },
-  { href: '/learn', label: 'E-Learning', icon: BookOpen },
-];
-
-const desktopNavLinks = [
-  { href: '/', label: 'Trang chủ' },
-  { href: '/employers', label: 'Việc làm' },
+  { href: '/', label: 'Trang chủ'},
+  { href: '/jobs', label: 'Việc làm' },
   { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles},
   { href: '/roadmap', label: 'Lộ trình' },
   { href: '/learn', label: 'E-Learning' },
@@ -75,7 +66,7 @@ export function Header() {
           <Image src="/logo.svg" alt="Bbester Logo" width={120} height={40} />
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm">
-          {desktopNavLinks.map((link) => (
+          {mainNavLinks.map((link) => (
              <NavLink key={link.href} {...link} />
           ))}
         </nav>

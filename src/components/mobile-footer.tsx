@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -30,7 +29,7 @@ const mainNavLinks = [
 ];
 
 const employerLinks = [
-  { href: '/employers', label: 'Nhà tuyển dụng' },
+  { href: '/jobs', label: 'Nhà tuyển dụng' },
   { href: '/dashboard', label: 'Dữ liệu' },
   { href: '/post-job', label: 'Đăng việc làm' },
   { href: '/franchise', label: 'Nhượng quyền' },
@@ -42,7 +41,7 @@ export function MobileFooter() {
 
   const footerLinks = [
     { href: '/', icon: Home, label: 'Trang chủ' },
-    { href: '/employers', icon: Briefcase, label: 'Việc làm' },
+    { href: '/jobs', icon: Briefcase, label: 'Việc làm' },
     { href: '/ai-profile', icon: Sparkles, label: 'Tạo hồ sơ AI' },
     { href: '/candidate-profile', icon: User, label: 'Hồ sơ' },
   ];
@@ -99,7 +98,7 @@ export function MobileFooter() {
                 ))}
                  <MobileNavLink href="/ai-profile" label="Tạo hồ sơ AI" icon={Sparkles} className="text-lg border-b"/>
                  <MobileNavLink href="/candidate-profile" label="Hồ sơ của tôi" className="text-lg border-b"/>
-                 <MobileNavLink href="/employers" label="Việc làm" className="text-lg border-b"/>
+                 <MobileNavLink href="/jobs" label="Việc làm" className="text-lg border-b"/>
                 
                 <Accordion type="multiple" className="w-full">
                   <AccordionItem value="item-2">

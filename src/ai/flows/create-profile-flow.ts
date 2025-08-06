@@ -9,7 +9,7 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit/zod';
+import { z } from 'zod';
 
 const CreateProfileInputSchema = z.object({
   document: z

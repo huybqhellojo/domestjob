@@ -34,9 +34,11 @@ export default function AiProfilePage() {
 
     // Initialize the web worker on component mount
     useEffect(() => {
-        // Create a new worker instance.
-        // The URL constructor is used to tell Next.js where to find the worker file.
         const faceDetectorWorker = new Worker(new URL('@/workers/face-detector.worker', import.meta.url));
+        
+        // Send the base URL to the worker so it knows where to load models from.
+        faceDetectorWorker.postMessage({ type: 'INIT', baseUrl: window.location.origin });
+
         setWorker(faceDetectorWorker);
 
         // Cleanup worker on component unmount
@@ -58,6 +60,9 @@ export default function AiProfilePage() {
                 }
                 
                 const handleWorkerMessage = (event: MessageEvent) => {
+                    // Ignore INIT_DONE messages
+                    if (event.data.type === 'INIT_DONE') return;
+
                     const { avatarUrl, error } = event.data;
                     worker.removeEventListener('message', handleWorkerMessage); // Clean up listener
                     if (error) {
@@ -75,7 +80,7 @@ export default function AiProfilePage() {
                 };
 
                 worker.addEventListener('message', handleWorkerMessage);
-                worker.postMessage({ file });
+                worker.postMessage({ type: 'DETECT', file });
             });
             
             // Read file for AI processing

@@ -2,31 +2,29 @@
 import * as faceapi from '@vladmandic/face-api';
 import JSZip from 'jszip';
 
-// Define constants
-const FACEAPI_MODEL_URL = '/models'; // <--- CHANGE: Load models locally
 let modelsLoaded = false;
+let baseUrl = '';
 
-// Function to load models if they haven't been loaded yet
 const loadModels = async () => {
     if (modelsLoaded) return;
+    if (!baseUrl) {
+        console.error("Worker: Base URL not set. Cannot load models.");
+        throw new Error('Base URL for models not provided.');
+    }
     try {
-        // Using specific models to potentially reduce load times
-        await faceapi.nets.ssdMobilenetv1.loadFromUri(FACEAPI_MODEL_URL);
-        await faceapi.nets.faceLandmark68Net.loadFromUri(FACEAPI_MODEL_URL);
-        await faceapi.nets.faceRecognitionNet.loadFromUri(FACEAPI_MODEL_URL);
+        const modelPath = `${baseUrl}/models`;
+        await faceapi.nets.ssdMobilenetv1.loadFromUri(modelPath);
+        await faceapi.nets.faceLandmark68Net.loadFromUri(modelPath);
+        await faceapi.nets.faceRecognitionNet.loadFromUri(modelPath);
         modelsLoaded = true;
     } catch (error) {
-        console.error("Worker: Failed to load face-api models", error);
-        // Post an error message back to the main thread
-        self.postMessage({ error: 'Failed to load models' });
-        throw error; // Rethrow to stop execution if models fail to load
+        console.error("Worker: Failed to load face-api models from", `${baseUrl}/models`, error);
+        throw new Error('Failed to load models');
     }
 };
 
 const cropFaceFromImage = async (imageUrl: string): Promise<string | null> => {
     return new Promise((resolve, reject) => {
-        // `createCanvasFromMedia` is not available in worker context.
-        // We need to use OffscreenCanvas.
         const img = new Image();
         img.crossOrigin = 'anonymous';
         img.src = imageUrl;
@@ -109,8 +107,6 @@ const extractAndCropImageFromFile = async (file: File): Promise<string | null> =
         }
     }
     
-    // PDF processing is complex and heavy for a worker without a library like pdf.js
-    // For now, we will skip it and can add it later.
     if (fileType === 'application/pdf') {
         self.postMessage({ notification: "PDF processing is not yet supported for face detection." });
     }
@@ -118,17 +114,40 @@ const extractAndCropImageFromFile = async (file: File): Promise<string | null> =
     return null;
 };
 
-
 // Listen for messages from the main thread
-self.addEventListener('message', async (event: MessageEvent<{ file: File }>) => {
-    const { file } = event.data;
+self.addEventListener('message', async (event: MessageEvent<{ type: string; file?: File; baseUrl?: string }>) => {
+    const { type, file, baseUrl: newBaseUrl } = event.data;
 
-    try {
-        await loadModels(); // Ensure models are loaded
-        const avatarUrl = await extractAndCropImageFromFile(file);
-        self.postMessage({ avatarUrl });
-    } catch (error) {
-        console.error("Worker: An error occurred during face detection processing:", error);
-        self.postMessage({ error: (error as Error).message });
+    if (type === 'INIT') {
+        if (newBaseUrl) {
+            baseUrl = newBaseUrl;
+            try {
+                await loadModels();
+                self.postMessage({ type: 'INIT_DONE' });
+            } catch (error) {
+                self.postMessage({ error: (error as Error).message });
+            }
+        }
+        return;
+    }
+
+    if (type === 'DETECT') {
+        if (!file) {
+            self.postMessage({ error: 'No file provided for detection.' });
+            return;
+        }
+
+        if (!modelsLoaded) {
+            self.postMessage({ error: 'Models not loaded yet. Please wait for INIT to complete.' });
+            return;
+        }
+        
+        try {
+            const avatarUrl = await extractAndCropImageFromFile(file);
+            self.postMessage({ avatarUrl });
+        } catch (error) {
+            console.error("Worker: An error occurred during face detection processing:", error);
+            self.postMessage({ error: (error as Error).message });
+        }
     }
 });

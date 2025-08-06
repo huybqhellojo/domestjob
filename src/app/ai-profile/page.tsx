@@ -46,7 +46,7 @@ export default function AiProfilePage() {
                 toast({
                     title: "Phân tích thành công!",
                     description: "AI đã phân tích và trích xuất thông tin từ hồ sơ của bạn.",
-                    className: "bg-green-500 text-white",
+                    className: "bg-accent-green text-white",
                 });
                 
                 setAnalysisResult(profileData);
@@ -93,7 +93,7 @@ export default function AiProfilePage() {
             toast({
                 title: "Phân tích thành công!",
                 description: "AI đã phân tích và trích xuất thông tin từ văn bản của bạn.",
-                className: "bg-green-500 text-white",
+                className: "bg-accent-green text-white",
             });
             
             setAnalysisResult(profileData);

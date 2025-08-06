@@ -97,9 +97,6 @@ export default function CandidateProfilePage() {
             { src: 'https://placehold.co/600x400.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
         ],
       };
-      console.log(profileToLoad)
-      // Clean up local storage after loading to prevent stale data on next visit
-    //   localStorage.removeItem('generatedCandidateProfile');
     } else {
         // Fallback to an empty profile if nothing is in storage
         profileToLoad = { ...emptyCandidate };
@@ -306,7 +303,7 @@ export default function CandidateProfilePage() {
                                 <iframe className="w-full h-full" src={candidate.videoUrl} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                             </div>
                         ) : (
-                            <div className="text-center text-muted-foreground p-4">Chưa có video giới thiệu.</div>
+                            <div className="text-center text-muted-foreground p-4">Chưa có video giới thiệu. <Link href="/ai-profile" className="text-primary hover:underline">Tạo bằng AI</Link> hoặc nhấn sửa để thêm.</div>
                         )}
                     </CardContent>
                 </Card>
@@ -423,7 +420,7 @@ export default function CandidateProfilePage() {
                             <p className="text-muted-foreground ml-6">Tốt nghiệp năm: {edu.gradYear}</p>
                         </div>
                      )) : (
-                        <p className="text-muted-foreground">Chưa có thông tin.</p>
+                        <p className="text-muted-foreground">Chưa có thông tin. <Link href="/ai-profile" className="text-primary hover:underline">Tạo hồ sơ bằng AI</Link> hoặc nhấn nút sửa để thêm.</p>
                      )}
                   </CardContent>
                 </Card>
@@ -530,7 +527,7 @@ export default function CandidateProfilePage() {
                   <CardContent>
                      <h4 className="font-semibold mb-2 text-sm">Kỹ năng</h4>
                      <div className="flex flex-wrap gap-2 mb-4">
-                        {candidate.skills.length > 0 ? candidate.skills.map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>) : <p className="text-muted-foreground text-sm">Chưa có kỹ năng.</p>}
+                        {candidate.skills.length > 0 ? candidate.skills.map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>) : <p className="text-muted-foreground text-sm">Chưa có kỹ năng. <Link href="/ai-profile" className="text-primary hover:underline">Tạo bằng AI</Link> hoặc nhấn sửa để thêm.</p>}
                      </div>
                      <h4 className="font-semibold mb-2 text-sm">Lĩnh vực quan tâm</h4>
                      <div className="flex flex-wrap gap-2">
@@ -570,7 +567,7 @@ export default function CandidateProfilePage() {
                   <CardContent className="space-y-2">
                      {candidate.certifications.length > 0 ? candidate.certifications.map((cert, index) => (
                          <p key={index} className="text-sm flex items-center gap-2"><Award className="h-4 w-4 text-muted-foreground"/>{cert}</p>
-                     )) : <p className="text-muted-foreground text-sm">Chưa có chứng chỉ.</p>}
+                     )) : <p className="text-muted-foreground text-sm">Chưa có chứng chỉ. <Link href="/ai-profile" className="text-primary hover:underline">Tạo bằng AI</Link> hoặc nhấn sửa để thêm.</p>}
                   </CardContent>
                 </Card>
 

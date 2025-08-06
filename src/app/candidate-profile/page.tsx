@@ -85,20 +85,26 @@ export default function CandidateProfilePage() {
     let profileToLoad: typeof emptyCandidate;
 
     if (storedProfile) {
-      const parsedProfile: CandidateProfile = JSON.parse(storedProfile);
-      profileToLoad = {
-        ...emptyCandidate, // Start with empty to ensure all fields are present
-        ...parsedProfile,
-        avatarUrl: 'https://placehold.co/128x128.png',
-        videoUrl: '',
-        experienceImages: [
-            { src: 'https://placehold.co/600x400.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
-            { src: 'https://placehold.co/600x400.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
-            { src: 'https://placehold.co/600x400.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
-        ],
-      };
-      // Clear the storage after loading
-      localStorage.removeItem('generatedCandidateProfile');
+      try {
+        const parsedProfile: CandidateProfile = JSON.parse(storedProfile);
+        profileToLoad = {
+          ...emptyCandidate, // Start with empty to ensure all fields are present
+          ...parsedProfile,
+          // Add default visual elements if they don't exist in the parsed profile
+          avatarUrl: 'https://placehold.co/128x128.png',
+          videoUrl: '', // Assuming no video URL from AI
+          experienceImages: [
+              { src: 'https://placehold.co/600x400.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
+              { src: 'https://placehold.co/600x400.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
+              { src: 'https://placehold.co/600x400.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
+          ],
+        };
+        // IMPORTANT: Clear the storage only AFTER successfully parsing and preparing the data
+        localStorage.removeItem('generatedCandidateProfile');
+      } catch (error) {
+        console.error("Failed to parse candidate profile from localStorage", error);
+        profileToLoad = { ...emptyCandidate };
+      }
     } else {
         // Fallback to an empty profile if nothing is in storage
         profileToLoad = { ...emptyCandidate };
@@ -415,12 +421,12 @@ export default function CandidateProfilePage() {
                     {candidate.about ? (
                       <p className="text-muted-foreground whitespace-pre-line">{candidate.about}</p>
                     ) : (
-                      <p className="text-muted-foreground">
-                        Chưa có thông tin.{" "}
+                      <div className="text-muted-foreground">
+                        <span>Chưa có thông tin. </span>
                         <EditDialog title="Chỉnh sửa Giới thiệu bản thân" onSave={handleSave} content={aboutEditDialogContent}>
                             <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
                         </EditDialog>
-                      </p>
+                      </div>
                     )}
                   </CardContent>
                 </Card>
@@ -442,12 +448,12 @@ export default function CandidateProfilePage() {
                                 <iframe className="w-full h-full" src={candidate.videoUrl} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                             </div>
                         ) : (
-                            <p className="text-muted-foreground">
-                                Chưa có video giới thiệu.{" "}
+                            <div className="text-muted-foreground">
+                                <span>Chưa có video giới thiệu. </span>
                                 <EditDialog title="Chỉnh sửa Video giới thiệu" onSave={handleSave} content={videoEditDialogContent}>
                                     <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
                                 </EditDialog>
-                            </p>
+                            </div>
                         )}
                     </CardContent>
                 </Card>
@@ -472,12 +478,12 @@ export default function CandidateProfilePage() {
                             <p className="text-sm text-muted-foreground">{exp.description}</p>
                         </div>
                     )) : (
-                        <p className="text-muted-foreground">
-                           Chưa có thông tin.{" "}
+                        <div className="text-muted-foreground">
+                           <span>Chưa có thông tin. </span>
                             <EditDialog title="Chỉnh sửa Kinh nghiệm làm việc" onSave={handleSave} content={experienceEditDialogContent}>
                                <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
                             </EditDialog>
-                        </p>
+                        </div>
                     )}
                   </CardContent>
                 </Card>
@@ -523,12 +529,12 @@ export default function CandidateProfilePage() {
                             <p className="text-muted-foreground ml-6">Tốt nghiệp năm: {edu.gradYear}</p>
                         </div>
                      )) : (
-                        <p className="text-muted-foreground">
-                            Chưa có thông tin.{" "}
+                        <div className="text-muted-foreground">
+                            <span>Chưa có thông tin. </span>
                             <EditDialog title="Chỉnh sửa Học vấn" onSave={handleSave} content={educationEditDialogContent}>
                                 <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
                             </EditDialog>
-                        </p>
+                        </div>
                      )}
                   </CardContent>
                 </Card>
@@ -583,22 +589,22 @@ export default function CandidateProfilePage() {
                      <h4 className="font-semibold mb-2 text-sm">Kỹ năng</h4>
                      <div className="flex flex-wrap gap-2 mb-4">
                         {candidate.skills.length > 0 ? candidate.skills.map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>) : 
-                        <p className="text-muted-foreground text-sm">
-                            Chưa có kỹ năng.{" "}
+                        <div className="text-muted-foreground text-sm">
+                            <span>Chưa có kỹ năng. </span>
                             <EditDialog title="Chỉnh sửa Kỹ năng & Lĩnh vực" description="Chọn các mục có sẵn hoặc thêm mới để làm nổi bật hồ sơ của bạn." onSave={handleSave} content={skillsInterestsEditDialogContent}>
                                <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
                             </EditDialog>
-                        </p>}
+                        </div>}
                      </div>
                      <h4 className="font-semibold mb-2 text-sm">Lĩnh vực quan tâm</h4>
                      <div className="flex flex-wrap gap-2">
                         {candidate.interests.length > 0 ? candidate.interests.map(interest => <Badge key={interest} className="bg-accent-blue text-white">{interest}</Badge>) : 
-                        <p className="text-muted-foreground text-sm">
-                            Chưa có lĩnh vực quan tâm.{" "}
+                        <div className="text-muted-foreground text-sm">
+                            <span>Chưa có lĩnh vực quan tâm. </span>
                             <EditDialog title="Chỉnh sửa Kỹ năng & Lĩnh vực" description="Chọn các mục có sẵn hoặc thêm mới để làm nổi bật hồ sơ của bạn." onSave={handleSave} content={skillsInterestsEditDialogContent}>
                                 <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
                             </EditDialog>
-                        </p>}
+                        </div>}
                      </div>
                   </CardContent>
                 </Card>
@@ -618,12 +624,12 @@ export default function CandidateProfilePage() {
                      {candidate.certifications.length > 0 ? candidate.certifications.map((cert, index) => (
                          <p key={index} className="text-sm flex items-center gap-2"><Award className="h-4 w-4 text-muted-foreground"/>{cert}</p>
                      )) : 
-                     <p className="text-muted-foreground text-sm">
-                        Chưa có chứng chỉ.{" "}
+                     <div className="text-muted-foreground text-sm">
+                        <span>Chưa có chứng chỉ. </span>
                         <EditDialog title="Chỉnh sửa Chứng chỉ & Giải thưởng" onSave={handleSave} content={certificationsEditDialogContent}>
                             <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
                         </EditDialog>
-                    </p>}
+                    </div>}
                   </CardContent>
                 </Card>
 
@@ -636,5 +642,3 @@ export default function CandidateProfilePage() {
     </div>
   );
 }
-
-    

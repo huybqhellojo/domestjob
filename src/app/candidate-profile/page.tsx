@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Briefcase, Building, Cake, Dna, Edit, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon, PlusCircle, Trash2, RefreshCw, X } from 'lucide-react';
+import { Briefcase, Building, Cake, Dna, Edit, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon, PlusCircle, Trash2, RefreshCw, X, Camera } from 'lucide-react';
 import Image from 'next/image';
 import {
     Dialog,
@@ -91,9 +91,9 @@ export default function CandidateProfilePage() {
           ...emptyCandidate, // Start with empty to ensure all fields are present
           ...parsedProfile,
           // Add default visual elements if they don't exist in the parsed profile
-          avatarUrl: 'https://placehold.co/128x128.png',
-          videoUrl: '', // Assuming no video URL from AI
-          experienceImages: [
+          avatarUrl: parsedProfile.avatarUrl || 'https://placehold.co/128x128.png',
+          videoUrl: parsedProfile.videoUrl || '', // Assuming no video URL from AI
+          experienceImages: parsedProfile.experienceImages || [
               { src: 'https://placehold.co/600x400.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
               { src: 'https://placehold.co/600x400.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
               { src: 'https://placehold.co/600x400.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
@@ -113,6 +113,14 @@ export default function CandidateProfilePage() {
     setCandidate(profileToLoad);
     setTempCandidate(JSON.parse(JSON.stringify(profileToLoad)));
   }, []);
+
+  useEffect(() => {
+    // Persist changes to localStorage whenever the main candidate object changes
+    if (candidate) {
+      localStorage.setItem('generatedCandidateProfile', JSON.stringify(candidate));
+    }
+  }, [candidate]);
+
 
   if (!candidate || !tempCandidate) {
       return (
@@ -142,6 +150,20 @@ export default function CandidateProfilePage() {
 
   const handleSave = () => {
     setCandidate(JSON.parse(JSON.stringify(tempCandidate)));
+  };
+
+  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setTempCandidate(prev => {
+          if (!prev) return null;
+          return { ...prev, avatarUrl: reader.result as string };
+        });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleChange = (section: keyof typeof tempCandidate, index: number, field: string, value: any) => {
@@ -368,10 +390,17 @@ export default function CandidateProfilePage() {
              <CardHeader className="p-0">
                <div className="bg-gradient-to-tr from-primary to-accent h-32" />
                  <div className="p-6 flex flex-col md:flex-row items-center md:items-end -mt-16">
-                 <Avatar className="h-32 w-32 border-4 border-background bg-background shadow-lg">
-                  <AvatarImage src={candidate.avatarUrl} alt={candidate.name} data-ai-hint="professional headshot" />
-                  <AvatarFallback>{candidate.name.charAt(0)}</AvatarFallback>
-                </Avatar>
+                 <div className="relative group">
+                     <Avatar className="h-32 w-32 border-4 border-background bg-background shadow-lg">
+                      <AvatarImage src={tempCandidate.avatarUrl} alt={tempCandidate.name} data-ai-hint="professional headshot" />
+                      <AvatarFallback>{tempCandidate.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <Label htmlFor="avatar-upload" className="absolute bottom-1 right-1 cursor-pointer bg-black/50 text-white p-2 rounded-full group-hover:bg-black/70 transition-colors">
+                        <Camera className="h-5 w-5" />
+                        <span className="sr-only">Change avatar</span>
+                    </Label>
+                    <Input id="avatar-upload" type="file" className="hidden" accept="image/png, image/jpeg, image/gif" onChange={handleAvatarChange}/>
+                 </div>
                 <div className="md:ml-6 mt-4 md:mt-0 text-center md:text-left">
                   <h1 className="text-3xl font-headline font-bold">{candidate.name}</h1>
                   <p className="text-muted-foreground">{candidate.headline}</p>
@@ -384,6 +413,13 @@ export default function CandidateProfilePage() {
                     onSave={handleSave}
                     content={
                         <div className="space-y-4">
+                             <div className="space-y-2">
+                                <Label>Ảnh đại diện (preview)</Label>
+                                <Avatar className="h-24 w-24">
+                                    <AvatarImage src={tempCandidate.avatarUrl} />
+                                    <AvatarFallback>{tempCandidate.name.charAt(0)}</AvatarFallback>
+                                </Avatar>
+                            </div>
                             <div className="space-y-2">
                                 <Label htmlFor="name-edit">Họ và tên</Label>
                                 <Input id="name-edit" value={tempCandidate.name} onChange={(e) => setTempCandidate({...tempCandidate, name: e.target.value})} />
@@ -643,3 +679,5 @@ export default function CandidateProfilePage() {
     </div>
   );
 }
+
+    

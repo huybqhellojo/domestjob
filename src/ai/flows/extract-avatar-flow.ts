@@ -5,6 +5,11 @@
  *
  * - extractAvatar - A function that handles the avatar extraction process.
  */
+// Polyfill for TextEncoder/TextDecoder
+import { TextDecoder, TextEncoder } from 'util';
+global.TextEncoder = TextEncoder;
+// @ts-ignore
+global.TextDecoder = TextDecoder;
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
@@ -106,5 +111,3 @@ export async function extractAvatar(
   return extractAvatarFlow(imageAsDataUri);
 }
 
-
-    

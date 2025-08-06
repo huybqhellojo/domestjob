@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Briefcase, Building, Cake, Dna, Edit, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon } from 'lucide-react';
+import { Briefcase, Building, Cake, Dna, Edit, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon, PlusCircle, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import {
     Dialog,
@@ -28,11 +28,13 @@ const initialCandidate = {
     headline: 'Sinh viên năm cuối - ĐH Bách Khoa - Sẵn sàng đi làm',
     location: 'Quận 10, TP. Hồ Chí Minh',
     about: 'Là sinh viên năm cuối chuyên ngành Cơ khí Chế tạo máy, em có niềm đam mê với việc vận hành và tối ưu hóa các hệ thống sản xuất. Em học hỏi nhanh, có tinh thần trách nhiệm cao và mong muốn được áp dụng kiến thức đã học vào môi trường làm việc thực tế để đóng góp cho sự phát triển của công ty.',
-    education: {
-      school: 'Đại học Bách Khoa TP.HCM',
-      degree: 'Kỹ sư Cơ khí Chế tạo máy',
-      gradYear: 2024,
-    },
+    education: [
+      {
+        school: 'Đại học Bách Khoa TP.HCM',
+        degree: 'Kỹ sư Cơ khí Chế tạo máy',
+        gradYear: 2024,
+      }
+    ],
     experience: [
         {
             company: 'Công ty TNHH Chính Xác ABC',
@@ -74,7 +76,7 @@ const EditDialog = ({ children, title, onSave, content }: { children: React.Reac
                     Cập nhật thông tin của bạn và nhấn lưu để hoàn tất.
                 </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
+            <div className="grid gap-4 py-4 max-h-[60vh] overflow-y-auto pr-4">
                 {content}
             </div>
             <DialogFooter>
@@ -87,25 +89,41 @@ const EditDialog = ({ children, title, onSave, content }: { children: React.Reac
 
 export default function CandidateProfilePage() {
   const [candidate, setCandidate] = useState(initialCandidate);
-  const [tempCandidate, setTempCandidate] = useState(initialCandidate);
+  const [tempCandidate, setTempCandidate] = useState(JSON.parse(JSON.stringify(initialCandidate)));
 
-  const handleSave = (section: keyof typeof initialCandidate) => {
+  const handleSave = (section: keyof typeof initialCandidate | null) => {
     // In a real app, you would make an API call here.
     // For this demo, we just update the main state.
-    setCandidate(tempCandidate);
+    setCandidate(JSON.parse(JSON.stringify(tempCandidate)));
     // You might want to close the dialog here, which can be handled by controlling the 'open' state of the Dialog.
   };
 
-  const handleChange = (section: keyof typeof tempCandidate, field: any, value: any, index: number | null = null) => {
+  const handleChange = (section: keyof typeof tempCandidate, index: number, field: string, value: any) => {
       setTempCandidate(prev => {
           const newCandidate = { ...prev };
-          if (index !== null) {
-              // @ts-ignore
-              newCandidate[section][index][field] = value;
-          } else {
-              // @ts-ignore
-              newCandidate[section][field] = value;
+          // @ts-ignore
+          newCandidate[section][index][field] = value;
+          return newCandidate;
+      });
+  };
+
+  const handleAddItem = (section: 'experience' | 'education') => {
+      setTempCandidate(prev => {
+          const newCandidate = { ...prev };
+          if (section === 'experience') {
+              newCandidate.experience.push({ company: '', role: '', period: '', description: '' });
+          } else if (section === 'education') {
+              newCandidate.education.push({ school: '', degree: '', gradYear: new Date().getFullYear() });
           }
+          return newCandidate;
+      });
+  };
+
+  const handleRemoveItem = (section: 'experience' | 'education', index: number) => {
+      setTempCandidate(prev => {
+          const newCandidate = { ...prev };
+          // @ts-ignore
+          newCandidate[section].splice(index, 1);
           return newCandidate;
       });
   };
@@ -131,7 +149,7 @@ export default function CandidateProfilePage() {
                 </div>
                  <EditDialog
                     title="Chỉnh sửa thông tin cơ bản"
-                    onSave={() => handleSave('name')} // A bit of a hack, assumes all top level fields are saved together
+                    onSave={() => handleSave(null)}
                     content={
                         <div className="space-y-4">
                             <div className="space-y-2">
@@ -205,19 +223,28 @@ export default function CandidateProfilePage() {
                         title="Chỉnh sửa Kinh nghiệm làm việc"
                         onSave={() => handleSave('experience')}
                         content={
-                            <div className="space-y-4">
+                            <div className="space-y-6">
                                 {tempCandidate.experience.map((exp, index) => (
-                                    <div key={index} className="p-4 border rounded-lg space-y-2">
+                                    <div key={index} className="p-4 border rounded-lg space-y-2 relative">
+                                        <div className="flex justify-between items-center mb-2">
+                                            <h4 className="font-bold">Kinh nghiệm #{index + 1}</h4>
+                                            <Button variant="ghost" size="icon" onClick={() => handleRemoveItem('experience', index)}>
+                                                <Trash2 className="h-4 w-4 text-destructive"/>
+                                            </Button>
+                                        </div>
                                         <Label>Vai trò</Label>
-                                        <Input value={exp.role} onChange={e => handleChange('experience', 'role', e.target.value, index)} />
+                                        <Input value={exp.role} onChange={e => handleChange('experience', index, 'role', e.target.value)} />
                                         <Label>Công ty</Label>
-                                        <Input value={exp.company} onChange={e => handleChange('experience', 'company', e.target.value, index)} />
+                                        <Input value={exp.company} onChange={e => handleChange('experience', index, 'company', e.target.value)} />
                                         <Label>Thời gian</Label>
-                                        <Input value={exp.period} onChange={e => handleChange('experience', 'period', e.target.value, index)} />
+                                        <Input value={exp.period} onChange={e => handleChange('experience', index, 'period', e.target.value)} />
                                         <Label>Mô tả</Label>
-                                        <Textarea value={exp.description} onChange={e => handleChange('experience', 'description', e.target.value, index)} />
+                                        <Textarea value={exp.description} onChange={e => handleChange('experience', index, 'description', e.target.value)} />
                                     </div>
                                 ))}
+                                <Button variant="outline" className="w-full" onClick={() => handleAddItem('experience')}>
+                                    <PlusCircle className="mr-2"/> Thêm kinh nghiệm
+                                </Button>
                              </div>
                         }
                     >
@@ -255,23 +282,40 @@ export default function CandidateProfilePage() {
                         title="Chỉnh sửa Học vấn"
                         onSave={() => handleSave('education')}
                         content={
-                            <div className="space-y-4">
-                                <Label>Trường</Label>
-                                <Input value={tempCandidate.education.school} onChange={e => handleChange('education', 'school', e.target.value)} />
-                                <Label>Chuyên ngành</Label>
-                                <Input value={tempCandidate.education.degree} onChange={e => handleChange('education', 'degree', e.target.value)} />
-                                <Label>Năm tốt nghiệp</Label>
-                                <Input type="number" value={tempCandidate.education.gradYear} onChange={e => handleChange('education', 'gradYear', parseInt(e.target.value))} />
+                            <div className="space-y-6">
+                                {tempCandidate.education.map((edu, index) => (
+                                    <div key={index} className="p-4 border rounded-lg space-y-2 relative">
+                                        <div className="flex justify-between items-center mb-2">
+                                            <h4 className="font-bold">Học vấn #{index + 1}</h4>
+                                            <Button variant="ghost" size="icon" onClick={() => handleRemoveItem('education', index)}>
+                                                <Trash2 className="h-4 w-4 text-destructive"/>
+                                            </Button>
+                                        </div>
+                                        <Label>Trường</Label>
+                                        <Input value={edu.school} onChange={e => handleChange('education', index, 'school', e.target.value)} />
+                                        <Label>Chuyên ngành</Label>
+                                        <Input value={edu.degree} onChange={e => handleChange('education', index, 'degree', e.target.value)} />
+                                        <Label>Năm tốt nghiệp</Label>
+                                        <Input type="number" value={edu.gradYear} onChange={e => handleChange('education', index, 'gradYear', parseInt(e.target.value))} />
+                                    </div>
+                                ))}
+                                <Button variant="outline" className="w-full" onClick={() => handleAddItem('education')}>
+                                    <PlusCircle className="mr-2"/> Thêm học vấn
+                                </Button>
                             </div>
                         }
                     >
                       <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
                     </EditDialog>
                   </CardHeader>
-                  <CardContent className="space-y-2">
-                    <p className="font-semibold flex items-center gap-2"><School className="h-4 w-4"/> {candidate.education.school}</p>
-                    <p className="text-muted-foreground ml-6">Chuyên ngành: {candidate.education.degree}</p>
-                    <p className="text-muted-foreground ml-6">Tốt nghiệp năm: {candidate.education.gradYear}</p>
+                  <CardContent className="space-y-4">
+                     {candidate.education.map((edu, index) => (
+                        <div key={index} className="relative pl-6 before:absolute before:left-0 before:top-2 before:h-2 before:w-2 before:rounded-full before:bg-primary">
+                            <p className="font-semibold flex items-center gap-2"><School className="h-4 w-4"/> {edu.school}</p>
+                            <p className="text-muted-foreground ml-6">Chuyên ngành: {edu.degree}</p>
+                            <p className="text-muted-foreground ml-6">Tốt nghiệp năm: {edu.gradYear}</p>
+                        </div>
+                     ))}
                   </CardContent>
                 </Card>
               </div>
@@ -287,13 +331,13 @@ export default function CandidateProfilePage() {
                         content={
                             <div className="space-y-4">
                                 <Label>Năm sinh</Label>
-                                <Input type="number" value={tempCandidate.personalInfo.birthYear} onChange={e => handleChange('personalInfo', 'birthYear', parseInt(e.target.value))} />
+                                <Input type="number" value={tempCandidate.personalInfo.birthYear} onChange={e => setTempCandidate({...tempCandidate, personalInfo: {...tempCandidate.personalInfo, birthYear: parseInt(e.target.value)} })} />
                                 <Label>Giới tính</Label>
-                                <Input value={tempCandidate.personalInfo.gender} onChange={e => handleChange('personalInfo', 'gender', e.target.value)} />
+                                <Input value={tempCandidate.personalInfo.gender} onChange={e => setTempCandidate({...tempCandidate, personalInfo: {...tempCandidate.personalInfo, gender: e.target.value} })} />
                                 <Label>Số điện thoại</Label>
-                                <Input value={tempCandidate.personalInfo.phone} onChange={e => handleChange('personalInfo', 'phone', e.target.value)} />
+                                <Input value={tempCandidate.personalInfo.phone} onChange={e => setTempCandidate({...tempCandidate, personalInfo: {...tempCandidate.personalInfo, phone: e.target.value} })} />
                                 <Label>Ngoại ngữ</Label>
-                                <Input value={tempCandidate.personalInfo.language} onChange={e => handleChange('personalInfo', 'language', e.target.value)} />
+                                <Input value={tempCandidate.personalInfo.language} onChange={e => setTempCandidate({...tempCandidate, personalInfo: {...tempCandidate.personalInfo, language: e.target.value} })} />
                             </div>
                         }
                     >

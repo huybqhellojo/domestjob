@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Upload, FileText, FileUp, Sparkles, Send, Mic, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createProfile, CandidateProfile } from "@/ai/flows/create-profile-flow";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -19,26 +19,71 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import * as faceapi from '@vladmandic/face-api';
+
+type ProfileWithAvatar = CandidateProfile & { avatarUrl?: string };
 
 export default function AiProfilePage() {
     const router = useRouter();
     const { toast } = useToast();
     const [isLoading, setIsLoading] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState("Đang phân tích...");
     const [fileInputKey, setFileInputKey] = useState(Date.now()); // Used to reset file input
-    const [analysisResult, setAnalysisResult] = useState<CandidateProfile | null>(null);
+    const [analysisResult, setAnalysisResult] = useState<ProfileWithAvatar | null>(null);
     const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
     const [textInput, setTextInput] = useState('');
+
+     useEffect(() => {
+        // Load face-api models on component mount
+        const loadModels = async () => {
+            await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
+            await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
+            await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
+        };
+        loadModels();
+    }, []);
+
+    const processAndStoreProfile = async (profileData: CandidateProfile) => {
+        let finalProfile: ProfileWithAvatar = { ...profileData };
+
+        if (profileData.photoUrl) {
+            setLoadingMessage("Phát hiện ảnh, đang xử lý...");
+            try {
+                const croppedImage = await cropFace(profileData.photoUrl);
+                if (croppedImage) {
+                    finalProfile.avatarUrl = croppedImage;
+                    toast({
+                        title: "Phát hiện khuôn mặt!",
+                        description: "Đã tự động cắt và đặt làm ảnh đại diện.",
+                        className: "bg-accent-green text-white",
+                    });
+                }
+            } catch (error) {
+                console.error("Face cropping error:", error);
+                toast({
+                    variant: "destructive",
+                    title: "Lỗi xử lý ảnh",
+                    description: "Không thể tự động cắt ảnh đại diện.",
+                });
+            }
+        }
+        
+        setAnalysisResult(finalProfile);
+        setIsResultDialogOpen(true);
+    };
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (!file) return;
 
         setIsLoading(true);
+        setLoadingMessage("Đang đọc tệp...");
 
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = async () => {
             const document = reader.result as string;
+            setLoadingMessage("AI đang phân tích hồ sơ...");
             
             try {
                 const profileData = await createProfile({ document });
@@ -49,8 +94,7 @@ export default function AiProfilePage() {
                     className: "bg-accent-green text-white",
                 });
                 
-                setAnalysisResult(profileData);
-                setIsResultDialogOpen(true);
+                await processAndStoreProfile(profileData);
 
             } catch (error) {
                 console.error("AI Profile Generation Error:", error);
@@ -62,6 +106,7 @@ export default function AiProfilePage() {
             } finally {
                 setIsLoading(false);
                 setFileInputKey(Date.now());
+                setLoadingMessage("Đang phân tích...");
             }
         };
         reader.onerror = (error) => {
@@ -87,6 +132,7 @@ export default function AiProfilePage() {
         }
 
         setIsLoading(true);
+        setLoadingMessage("AI đang phân tích văn bản...");
         try {
             const profileData = await createProfile({ text: textInput });
 
@@ -96,8 +142,7 @@ export default function AiProfilePage() {
                 className: "bg-accent-green text-white",
             });
             
-            setAnalysisResult(profileData);
-            setIsResultDialogOpen(true);
+            await processAndStoreProfile(profileData);
 
         } catch (error) {
             console.error("AI Profile Generation Error (Text):", error);
@@ -108,6 +153,7 @@ export default function AiProfilePage() {
             });
         } finally {
             setIsLoading(false);
+            setLoadingMessage("Đang phân tích...");
         }
     };
 
@@ -116,6 +162,52 @@ export default function AiProfilePage() {
             localStorage.setItem('generatedCandidateProfile', JSON.stringify(analysisResult));
             router.push('/candidate-profile');
         }
+    };
+
+    const cropFace = async (imageUrl: string): Promise<string | null> => {
+        return new Promise((resolve, reject) => {
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.onload = async () => {
+                const detections = await faceapi.detectAllFaces(img).withFaceLandmarks().withFaceDescriptors();
+                if (detections.length === 0) {
+                    resolve(null);
+                    return;
+                }
+
+                const detection = detections[0]; // Use the first detected face
+                const { x, y, width, height } = detection.detection.box;
+
+                const canvas = document.createElement('canvas');
+                // Add some padding to the crop
+                const padding = width * 0.4;
+                const canvasWidth = width + padding * 2;
+                const canvasHeight = height + padding * 2;
+                canvas.width = canvasWidth;
+                canvas.height = canvasHeight;
+                
+                const ctx = canvas.getContext('2d');
+                if (!ctx) {
+                    reject(new Error("Could not get canvas context"));
+                    return;
+                }
+
+                ctx.drawImage(
+                    img,
+                    x - padding,
+                    y - padding,
+                    width + padding * 2,
+                    height + padding * 2,
+                    0,
+                    0,
+                    canvasWidth,
+                    canvasHeight
+                );
+
+                resolve(canvas.toDataURL('image/png'));
+            };
+            img.onerror = (err) => reject(err);
+        });
     };
 
     return (
@@ -136,10 +228,10 @@ export default function AiProfilePage() {
                         <Card className="text-center p-8 md:p-12 border-2 border-dashed border-primary/20 hover:border-primary/50 transition-colors duration-300 shadow-lg">
                             <CardContent className="flex flex-col items-center justify-center gap-6">
                                  <div className="relative w-full bg-background rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-primary/5">
-                                    {isLoading && !analysisResult ? (
+                                    {isLoading ? (
                                         <>
                                             <Loader2 className="h-16 w-16 text-primary mb-4 animate-spin" />
-                                            <p className="font-bold text-xl mb-2">Đang phân tích...</p>
+                                            <p className="font-bold text-xl mb-2">{loadingMessage}</p>
                                             <p className="text-muted-foreground text-sm">Vui lòng đợi trong giây lát.</p>
                                         </>
                                     ) : (

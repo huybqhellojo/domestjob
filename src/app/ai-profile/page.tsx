@@ -36,7 +36,7 @@ export default function AiProfilePage() {
     useEffect(() => {
         // Dynamically import the worker to ensure it's client-side only
         import('@/workers/face-detector.worker').then(WorkerModule => {
-            const faceDetectorWorker = new WorkerModule() as Worker;
+            const faceDetectorWorker = new (WorkerModule as any).default() as Worker;
             setWorker(faceDetectorWorker);
         });
 

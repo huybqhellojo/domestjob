@@ -157,9 +157,15 @@ export default function CandidateProfilePage() {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
+        const newAvatarUrl = reader.result as string;
+        // Update both temp and main candidate state to ensure persistence
         setTempCandidate(prev => {
           if (!prev) return null;
-          return { ...prev, avatarUrl: reader.result as string };
+          return { ...prev, avatarUrl: newAvatarUrl };
+        });
+        setCandidate(prev => {
+          if (!prev) return null;
+          return { ...prev, avatarUrl: newAvatarUrl };
         });
       };
       reader.readAsDataURL(file);
@@ -392,8 +398,8 @@ export default function CandidateProfilePage() {
                  <div className="p-6 flex flex-col md:flex-row items-center md:items-end -mt-16">
                  <div className="relative group">
                      <Avatar className="h-32 w-32 border-4 border-background bg-background shadow-lg">
-                      <AvatarImage src={tempCandidate.avatarUrl} alt={tempCandidate.name} data-ai-hint="professional headshot" />
-                      <AvatarFallback>{tempCandidate.name.charAt(0)}</AvatarFallback>
+                      <AvatarImage src={candidate.avatarUrl} alt={candidate.name} data-ai-hint="professional headshot" />
+                      <AvatarFallback>{candidate.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <Label htmlFor="avatar-upload" className="absolute bottom-1 right-1 cursor-pointer bg-black/50 text-white p-2 rounded-full group-hover:bg-black/70 transition-colors">
                         <Camera className="h-5 w-5" />
@@ -679,5 +685,7 @@ export default function CandidateProfilePage() {
     </div>
   );
 }
+
+    
 
     

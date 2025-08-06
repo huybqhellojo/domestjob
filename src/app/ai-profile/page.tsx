@@ -151,57 +151,80 @@ export default function AiProfilePage() {
     const processFile = async (file: File) => {
         setIsLoading(true);
         setLoadingMessage("Đang đọc tệp...");
-
+    
         try {
             const documentReader = new FileReader();
             documentReader.readAsDataURL(file);
-            documentReader.onload = async () => {
-                const document = documentReader.result as string;
-
-                setLoadingMessage("AI đang phân tích & xử lý ảnh...");
-
-                // Run AI analysis and image processing in parallel
-                const [profileData, avatarUrl] = await Promise.all([
-                    createProfile({ document }),
-                    extractAndCropImageFromFile(file)
-                ]);
-
-                // Combine results
-                const finalProfile: ProfileWithAvatar = { ...profileData };
-                if (avatarUrl) {
-                    finalProfile.avatarUrl = avatarUrl;
-                    toast({
-                        title: "Phát hiện khuôn mặt!",
-                        description: "Đã tự động cắt và đặt làm ảnh đại diện.",
-                        className: "bg-accent-green text-white",
-                    });
-                } else {
-                     toast({
-                        title: "Phân tích thành công!",
-                        description: "AI đã trích xuất thông tin. Không tìm thấy ảnh đại diện phù hợp.",
-                    });
+    
+            // This onload will execute after the file is read.
+            documentReader.onload = async (e) => {
+                const document = e.target?.result as string;
+                if (!document) {
+                    throw new Error("Could not read file.");
                 }
-                
-                setAnalysisResult(finalProfile);
-                setIsResultDialogOpen(true);
+    
+                setLoadingMessage("AI đang phân tích & xử lý ảnh...");
+    
+                try {
+                    // Run AI analysis and image processing in parallel
+                    const [profileData, avatarUrl] = await Promise.all([
+                        createProfile({ document }),
+                        extractAndCropImageFromFile(file)
+                    ]);
+    
+                    // Combine results
+                    const finalProfile: ProfileWithAvatar = { ...profileData };
+                    if (avatarUrl) {
+                        finalProfile.avatarUrl = avatarUrl;
+                        toast({
+                            title: "Phát hiện khuôn mặt!",
+                            description: "Đã tự động cắt và đặt làm ảnh đại diện.",
+                            className: "bg-accent-green text-white",
+                        });
+                    } else {
+                        toast({
+                            title: "Phân tích thành công!",
+                            description: "AI đã trích xuất thông tin. Không tìm thấy ảnh đại diện phù hợp.",
+                        });
+                    }
+                    
+                    setAnalysisResult(finalProfile);
+                    setIsResultDialogOpen(true);
+                } catch (error) {
+                    console.error("Profile Generation Error:", error);
+                    toast({
+                        variant: "destructive",
+                        title: "Đã có lỗi xảy ra",
+                        description: "Không thể xử lý tệp của bạn. Vui lòng thử lại.",
+                    });
+                } finally {
+                    setIsLoading(false);
+                    setFileInputKey(Date.now());
+                    setLoadingMessage("Đang phân tích...");
+                }
             };
+    
             documentReader.onerror = (error) => {
-                 throw new Error("File Reading Error: " + error);
-            }
-
+                console.error("File Reading Error:", error);
+                toast({
+                    variant: "destructive",
+                    title: "Lỗi đọc tệp",
+                    description: "Không thể đọc được tệp bạn đã chọn.",
+                });
+                setIsLoading(false);
+            };
+    
         } catch (error) {
-            console.error("Profile Generation Error:", error);
+            console.error("Initial Processing Error:", error);
             toast({
                 variant: "destructive",
                 title: "Đã có lỗi xảy ra",
-                description: "Không thể xử lý tệp của bạn. Vui lòng thử lại.",
+                description: "Không thể bắt đầu xử lý tệp.",
             });
-        } finally {
             setIsLoading(false);
-            setFileInputKey(Date.now());
-            setLoadingMessage("Đang phân tích...");
         }
     };
+    
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];

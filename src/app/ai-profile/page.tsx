@@ -35,10 +35,6 @@ export default function AiProfilePage() {
     // Initialize the web worker on component mount
     useEffect(() => {
         const faceDetectorWorker = new Worker(new URL('@/workers/face-detector.worker', import.meta.url));
-        
-        // Send the base URL to the worker so it knows where to load models from.
-        faceDetectorWorker.postMessage({ type: 'INIT', baseUrl: window.location.origin });
-
         setWorker(faceDetectorWorker);
 
         // Cleanup worker on component unmount
@@ -60,22 +56,15 @@ export default function AiProfilePage() {
                 }
                 
                 const handleWorkerMessage = (event: MessageEvent) => {
-                    // Ignore INIT_DONE messages
-                    if (event.data.type === 'INIT_DONE') return;
-
-                    const { avatarUrl, error } = event.data;
-                    worker.removeEventListener('message', handleWorkerMessage); // Clean up listener
-                    if (error) {
-                        console.error("Error from face detection worker:", error);
-                        // Don't show destructive toast for now, just log it.
-                        // toast({
-                        //     variant: "destructive",
-                        //     title: "Lỗi xử lý ảnh",
-                        //     description: "Không thể nhận diện khuôn mặt từ tệp.",
-                        // });
-                        resolve(null); // Resolve with null on error
-                    } else {
+                    const { type, avatarUrl, error } = event.data;
+                    
+                    if (type === 'RESULT') {
+                        worker.removeEventListener('message', handleWorkerMessage); // Clean up listener
                         resolve(avatarUrl);
+                    } else if (type === 'ERROR') {
+                         worker.removeEventListener('message', handleWorkerMessage); // Clean up listener
+                        console.error("Error from face detection worker:", error);
+                        resolve(null); // Resolve with null on error
                     }
                 };
 

@@ -3,22 +3,17 @@ import * as faceapi from '@vladmandic/face-api';
 import JSZip from 'jszip';
 
 let modelsLoaded = false;
-let baseUrl = 'https://domest.hellojob.jp';
+const FACEAPI_MODEL_URL = 'https://domest.hellojob.jp/models';
 
 const loadModels = async () => {
     if (modelsLoaded) return;
-    if (!baseUrl) {
-        console.error("Worker: Base URL not set. Cannot load models.");
-        throw new Error('Base URL for models not provided.');
-    }
     try {
-        const modelPath = `${baseUrl}/models`;
-        await faceapi.nets.ssdMobilenetv1.loadFromUri(modelPath);
-        await faceapi.nets.faceLandmark68Net.loadFromUri(modelPath);
-        await faceapi.nets.faceRecognitionNet.loadFromUri(modelPath);
+        await faceapi.nets.ssdMobilenetv1.loadFromUri(FACEAPI_MODEL_URL);
+        await faceapi.nets.faceLandmark68Net.loadFromUri(FACEAPI_MODEL_URL);
+        await faceapi.nets.faceRecognitionNet.loadFromUri(FACEAPI_MODEL_URL);
         modelsLoaded = true;
     } catch (error) {
-        console.error("Worker: Failed to load face-api models from", `${baseUrl}/models`, error);
+        console.error("Worker: Failed to load face-api models from", FACEAPI_MODEL_URL, error);
         throw new Error('Failed to load models');
     }
 };
@@ -115,21 +110,8 @@ const extractAndCropImageFromFile = async (file: File): Promise<string | null> =
 };
 
 // Listen for messages from the main thread
-self.addEventListener('message', async (event: MessageEvent<{ type: string; file?: File; baseUrl?: string }>) => {
-    const { type, file, baseUrl: newBaseUrl } = event.data;
-
-    if (type === 'INIT') {
-        if (newBaseUrl) {
-            baseUrl = newBaseUrl;
-            try {
-                await loadModels();
-                self.postMessage({ type: 'INIT_DONE' });
-            } catch (error) {
-                self.postMessage({ error: (error as Error).message });
-            }
-        }
-        return;
-    }
+self.addEventListener('message', async (event: MessageEvent<{ type: string; file?: File; }>) => {
+    const { type, file } = event.data;
 
     if (type === 'DETECT') {
         if (!file) {
@@ -137,17 +119,14 @@ self.addEventListener('message', async (event: MessageEvent<{ type: string; file
             return;
         }
 
-        if (!modelsLoaded) {
-            self.postMessage({ error: 'Models not loaded yet. Please wait for INIT to complete.' });
-            return;
-        }
-        
         try {
+            // Ensure models are loaded before processing
+            await loadModels();
             const avatarUrl = await extractAndCropImageFromFile(file);
-            self.postMessage({ avatarUrl });
+            self.postMessage({ type: 'RESULT', avatarUrl });
         } catch (error) {
             console.error("Worker: An error occurred during face detection processing:", error);
-            self.postMessage({ error: (error as Error).message });
+            self.postMessage({ type: 'ERROR', error: (error as Error).message });
         }
     }
 });

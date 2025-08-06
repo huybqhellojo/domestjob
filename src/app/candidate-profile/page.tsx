@@ -91,11 +91,8 @@ export default function CandidateProfilePage() {
   const [candidate, setCandidate] = useState(initialCandidate);
   const [tempCandidate, setTempCandidate] = useState(JSON.parse(JSON.stringify(initialCandidate)));
 
-  const handleSave = (section: keyof typeof initialCandidate | null) => {
-    // In a real app, you would make an API call here.
-    // For this demo, we just update the main state.
+  const handleSave = (section: keyof typeof initialCandidate | 'skillsAndInterests' | null) => {
     setCandidate(JSON.parse(JSON.stringify(tempCandidate)));
-    // You might want to close the dialog here, which can be handled by controlling the 'open' state of the Dialog.
   };
 
   const handleChange = (section: keyof typeof tempCandidate, index: number, field: string, value: any) => {
@@ -107,23 +104,33 @@ export default function CandidateProfilePage() {
       });
   };
 
-  const handleAddItem = (section: 'experience' | 'education') => {
+  const handleAddItem = (section: 'experience' | 'education' | 'certifications') => {
       setTempCandidate(prev => {
           const newCandidate = { ...prev };
           if (section === 'experience') {
               newCandidate.experience.push({ company: '', role: '', period: '', description: '' });
           } else if (section === 'education') {
               newCandidate.education.push({ school: '', degree: '', gradYear: new Date().getFullYear() });
+          } else if (section === 'certifications') {
+              newCandidate.certifications.push('');
           }
           return newCandidate;
       });
   };
 
-  const handleRemoveItem = (section: 'experience' | 'education', index: number) => {
+  const handleRemoveItem = (section: 'experience' | 'education' | 'certifications', index: number) => {
       setTempCandidate(prev => {
           const newCandidate = { ...prev };
           // @ts-ignore
           newCandidate[section].splice(index, 1);
+          return newCandidate;
+      });
+  };
+  
+  const handleCertificationChange = (index: number, value: string) => {
+      setTempCandidate(prev => {
+          const newCandidate = { ...prev };
+          newCandidate.certifications[index] = value;
           return newCandidate;
       });
   };
@@ -366,7 +373,34 @@ export default function CandidateProfilePage() {
                  <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle className="font-headline text-xl flex items-center"><Star className="mr-3 text-primary"/> Kỹ năng & Lĩnh vực</CardTitle>
-                    <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
+                    <EditDialog
+                        title="Chỉnh sửa Kỹ năng & Lĩnh vực"
+                        onSave={() => handleSave('skillsAndInterests')}
+                        content={
+                            <div className="space-y-4">
+                                <div>
+                                    <Label htmlFor="skills-edit">Kỹ năng (phân cách bởi dấu phẩy)</Label>
+                                    <Textarea 
+                                        id="skills-edit" 
+                                        value={tempCandidate.skills.join(', ')} 
+                                        onChange={(e) => setTempCandidate({...tempCandidate, skills: e.target.value.split(',').map(s => s.trim())})} 
+                                        rows={4}
+                                    />
+                                </div>
+                                 <div>
+                                    <Label htmlFor="interests-edit">Lĩnh vực quan tâm (phân cách bởi dấu phẩy)</Label>
+                                    <Textarea 
+                                        id="interests-edit" 
+                                        value={tempCandidate.interests.join(', ')} 
+                                        onChange={(e) => setTempCandidate({...tempCandidate, interests: e.target.value.split(',').map(i => i.trim())})} 
+                                        rows={4}
+                                    />
+                                </div>
+                            </div>
+                        }
+                    >
+                      <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
+                    </EditDialog>
                   </CardHeader>
                   <CardContent>
                      <h4 className="font-semibold mb-2 text-sm">Kỹ năng</h4>
@@ -383,7 +417,30 @@ export default function CandidateProfilePage() {
                  <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle className="font-headline text-xl flex items-center"><Award className="mr-3 text-primary"/> Chứng chỉ & Giải thưởng</CardTitle>
-                    <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
+                     <EditDialog
+                        title="Chỉnh sửa Chứng chỉ & Giải thưởng"
+                        onSave={() => handleSave('certifications')}
+                        content={
+                             <div className="space-y-6">
+                                {tempCandidate.certifications.map((cert, index) => (
+                                    <div key={index} className="p-4 border rounded-lg space-y-2 relative">
+                                         <div className="flex justify-between items-center mb-2">
+                                            <Label htmlFor={`cert-${index}`}>Chứng chỉ #{index + 1}</Label>
+                                            <Button variant="ghost" size="icon" onClick={() => handleRemoveItem('certifications', index)}>
+                                                <Trash2 className="h-4 w-4 text-destructive"/>
+                                            </Button>
+                                        </div>
+                                        <Input id={`cert-${index}`} value={cert} onChange={(e) => handleCertificationChange(index, e.target.value)} />
+                                    </div>
+                                ))}
+                                <Button variant="outline" className="w-full" onClick={() => handleAddItem('certifications')}>
+                                    <PlusCircle className="mr-2"/> Thêm chứng chỉ
+                                </Button>
+                             </div>
+                        }
+                    >
+                      <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
+                    </EditDialog>
                   </CardHeader>
                   <CardContent className="space-y-2">
                      {candidate.certifications.map((cert, index) => (
@@ -401,5 +458,3 @@ export default function CandidateProfilePage() {
     </div>
   );
 }
-
-    

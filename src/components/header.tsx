@@ -34,6 +34,14 @@ const mainNavLinks = [
   { href: '/learn', label: 'E-Learning', icon: BookOpen },
 ];
 
+const desktopNavLinks = [
+  { href: '/', label: 'Trang chủ' },
+  { href: '/employers', label: 'Việc làm' },
+  { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles},
+  { href: '/roadmap', label: 'Lộ trình' },
+  { href: '/learn', label: 'E-Learning' },
+];
+
 const employerLinks = [
   { href: '/post-job', label: 'Đăng việc làm' },
   { href: '/dashboard', label: 'Dữ liệu' },
@@ -67,7 +75,7 @@ export function Header() {
           <Image src="/logo.svg" alt="Bbester Logo" width={120} height={40} />
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm">
-          {mainNavLinks.map((link) => (
+          {desktopNavLinks.map((link) => (
              <NavLink key={link.href} {...link} />
           ))}
         </nav>

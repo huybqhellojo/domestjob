@@ -25,7 +25,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-body antialiased pb-20 md:pb-0">
+      <body className="antialiased pb-20 md:pb-0">
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />

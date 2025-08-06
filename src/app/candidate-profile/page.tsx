@@ -20,6 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
 
 
 const initialCandidate = {
@@ -64,7 +65,10 @@ const initialCandidate = {
     ],
 };
 
-const EditDialog = ({ children, title, onSave, content }: { children: React.ReactNode, title: string, onSave: () => void, content: React.ReactNode }) => (
+const commonSkills = ['Vận hành máy CNC', 'AutoCAD', 'Kiểm tra chất lượng', 'Làm việc nhóm', 'Giải quyết vấn đề', 'Tiếng Anh giao tiếp'];
+const commonInterests = ['Cơ khí', 'Điện tử', 'IT', 'Logistics', 'Dệt may', 'Chế biến thực phẩm'];
+
+const EditDialog = ({ children, title, onSave, content, description }: { children: React.ReactNode, title: string, onSave: () => void, content: React.ReactNode, description?: string }) => (
     <Dialog>
         <DialogTrigger asChild>
             {children}
@@ -73,7 +77,7 @@ const EditDialog = ({ children, title, onSave, content }: { children: React.Reac
             <DialogHeader>
                 <DialogTitle className="font-headline text-2xl">{title}</DialogTitle>
                 <DialogDescription>
-                    Cập nhật thông tin của bạn và nhấn lưu để hoàn tất.
+                    {description || 'Cập nhật thông tin của bạn và nhấn lưu để hoàn tất.'}
                 </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4 max-h-[60vh] overflow-y-auto pr-4">
@@ -90,6 +94,8 @@ const EditDialog = ({ children, title, onSave, content }: { children: React.Reac
 export default function CandidateProfilePage() {
   const [candidate, setCandidate] = useState(initialCandidate);
   const [tempCandidate, setTempCandidate] = useState(JSON.parse(JSON.stringify(initialCandidate)));
+  const [newSkill, setNewSkill] = useState('');
+  const [newInterest, setNewInterest] = useState('');
 
   const handleSave = (section: keyof typeof initialCandidate | 'skillsAndInterests' | null) => {
     setCandidate(JSON.parse(JSON.stringify(tempCandidate)));
@@ -118,11 +124,16 @@ export default function CandidateProfilePage() {
       });
   };
 
-  const handleRemoveItem = (section: 'experience' | 'education' | 'certifications', index: number) => {
+  const handleRemoveItem = (section: 'experience' | 'education' | 'certifications' | 'skills' | 'interests', indexOrValue: number | string) => {
       setTempCandidate(prev => {
           const newCandidate = { ...prev };
-          // @ts-ignore
-          newCandidate[section].splice(index, 1);
+          if (section === 'skills' || section === 'interests') {
+              // @ts-ignore
+              newCandidate[section] = newCandidate[section].filter(item => item !== indexOrValue);
+          } else {
+            // @ts-ignore
+            newCandidate[section].splice(indexOrValue, 1);
+          }
           return newCandidate;
       });
   };
@@ -134,6 +145,34 @@ export default function CandidateProfilePage() {
           return newCandidate;
       });
   };
+  
+  const handleCheckboxChange = (field: 'skills' | 'interests', value: string) => {
+    setTempCandidate(prev => {
+        const newCandidate = { ...prev };
+        const currentValues = newCandidate[field];
+        const newValues = currentValues.includes(value)
+          ? currentValues.filter((item: string) => item !== value)
+          : [...currentValues, value];
+        newCandidate[field] = newValues;
+        return newCandidate;
+    });
+  };
+
+  const handleAddNewChip = (field: 'skills' | 'interests') => {
+      const valueToAdd = field === 'skills' ? newSkill.trim() : newInterest.trim();
+      if (valueToAdd && !tempCandidate[field].includes(valueToAdd)) {
+          setTempCandidate(prev => ({
+              ...prev,
+              [field]: [...prev[field], valueToAdd]
+          }));
+          if (field === 'skills') {
+              setNewSkill('');
+          } else {
+              setNewInterest('');
+          }
+      }
+  };
+
 
   return (
     <div className="bg-secondary">
@@ -375,26 +414,59 @@ export default function CandidateProfilePage() {
                     <CardTitle className="font-headline text-xl flex items-center"><Star className="mr-3 text-primary"/> Kỹ năng & Lĩnh vực</CardTitle>
                     <EditDialog
                         title="Chỉnh sửa Kỹ năng & Lĩnh vực"
+                        description="Chọn các mục có sẵn hoặc thêm mới để làm nổi bật hồ sơ của bạn."
                         onSave={() => handleSave('skillsAndInterests')}
                         content={
-                            <div className="space-y-4">
-                                <div>
-                                    <Label htmlFor="skills-edit">Kỹ năng (phân cách bởi dấu phẩy)</Label>
-                                    <Textarea 
-                                        id="skills-edit" 
-                                        value={tempCandidate.skills.join(', ')} 
-                                        onChange={(e) => setTempCandidate({...tempCandidate, skills: e.target.value.split(',').map(s => s.trim())})} 
-                                        rows={4}
-                                    />
+                            <div className="space-y-6">
+                                <div className="space-y-2">
+                                    <Label className="font-bold">Kỹ năng</Label>
+                                    <div className="flex flex-wrap gap-2 mb-4">
+                                        {tempCandidate.skills.map((skill) => (
+                                            <Badge key={skill} variant="secondary" className="pr-1">
+                                                {skill}
+                                                <button onClick={() => handleRemoveItem('skills', skill)} className="ml-2 rounded-full hover:bg-destructive/80 p-0.5">
+                                                    <X className="h-3 w-3" />
+                                                </button>
+                                            </Badge>
+                                        ))}
+                                    </div>
+                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                        {commonSkills.filter(s => !tempCandidate.skills.includes(s)).map((skill) => (
+                                          <div key={skill} className="flex items-center space-x-2">
+                                            <Checkbox id={`skill-${skill}`} onCheckedChange={() => handleCheckboxChange('skills', skill)} checked={tempCandidate.skills.includes(skill)}/>
+                                            <Label htmlFor={`skill-${skill}`} className="text-sm font-normal cursor-pointer">{skill}</Label>
+                                          </div>
+                                        ))}
+                                    </div>
+                                    <div className="flex gap-2 mt-2">
+                                        <Input value={newSkill} onChange={e => setNewSkill(e.target.value)} placeholder="Thêm kỹ năng khác..." />
+                                        <Button onClick={() => handleAddNewChip('skills')}>Thêm</Button>
+                                    </div>
                                 </div>
-                                 <div>
-                                    <Label htmlFor="interests-edit">Lĩnh vực quan tâm (phân cách bởi dấu phẩy)</Label>
-                                    <Textarea 
-                                        id="interests-edit" 
-                                        value={tempCandidate.interests.join(', ')} 
-                                        onChange={(e) => setTempCandidate({...tempCandidate, interests: e.target.value.split(',').map(i => i.trim())})} 
-                                        rows={4}
-                                    />
+                                 <div className="space-y-2">
+                                    <Label className="font-bold">Lĩnh vực quan tâm</Label>
+                                    <div className="flex flex-wrap gap-2 mb-4">
+                                        {tempCandidate.interests.map((interest) => (
+                                            <Badge key={interest} className="bg-accent-blue text-white pr-1">
+                                                {interest}
+                                                <button onClick={() => handleRemoveItem('interests', interest)} className="ml-2 rounded-full hover:bg-destructive/80 p-0.5">
+                                                    <X className="h-3 w-3" />
+                                                </button>
+                                            </Badge>
+                                        ))}
+                                    </div>
+                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                        {commonInterests.filter(i => !tempCandidate.interests.includes(i)).map((interest) => (
+                                          <div key={interest} className="flex items-center space-x-2">
+                                            <Checkbox id={`interest-${interest}`} onCheckedChange={() => handleCheckboxChange('interests', interest)} checked={tempCandidate.interests.includes(interest)}/>
+                                            <Label htmlFor={`interest-${interest}`} className="text-sm font-normal cursor-pointer">{interest}</Label>
+                                          </div>
+                                        ))}
+                                    </div>
+                                    <div className="flex gap-2 mt-2">
+                                        <Input value={newInterest} onChange={e => setNewInterest(e.target.value)} placeholder="Thêm lĩnh vực khác..." />
+                                        <Button onClick={() => handleAddNewChip('interests')}>Thêm</Button>
+                                    </div>
                                 </div>
                             </div>
                         }
@@ -458,3 +530,8 @@ export default function CandidateProfilePage() {
     </div>
   );
 }
+
+// Re-importing X icon since it's used in the new Chip selection UI
+import { X } from 'lucide-react';
+
+    

@@ -22,6 +22,8 @@ import { Input } from "@/components/ui/input";
 
 type ProfileWithAvatar = CandidateProfile & { avatarUrl?: string };
 
+const FACEAPI_MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model';
+
 export default function AiProfilePage() {
     const router = useRouter();
     const { toast } = useToast();
@@ -36,11 +38,20 @@ export default function AiProfilePage() {
      useEffect(() => {
         // Load face-api models on component mount
         const loadFaceApi = async () => {
-            const faceapi = await import('@vladmandic/face-api');
-            await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
-            await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
-            await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
-            setFaceApi(faceapi);
+            try {
+                const faceapi = await import('@vladmandic/face-api');
+                await faceapi.nets.ssdMobilenetv1.loadFromUri(FACEAPI_MODEL_URL);
+                await faceapi.nets.faceLandmark68Net.loadFromUri(FACEAPI_MODEL_URL);
+                await faceapi.nets.faceRecognitionNet.loadFromUri(FACEAPI_MODEL_URL);
+                setFaceApi(faceapi);
+            } catch (error) {
+                console.error("Error loading face-api models:", error);
+                toast({
+                    variant: "destructive",
+                    title: "Lỗi tải mô hình AI",
+                    description: "Không thể tải các mô hình nhận diện khuôn mặt. Vui lòng thử tải lại trang.",
+                });
+            }
         };
         loadFaceApi();
     }, []);
@@ -170,6 +181,7 @@ export default function AiProfilePage() {
         if (!faceApi) return null;
         return new Promise((resolve, reject) => {
             const img = document.createElement('img');
+            img.crossOrigin = 'anonymous';
             img.src = imageUrl;
             img.onload = async () => {
                 const detections = await faceApi.detectAllFaces(img).withFaceLandmarks().withFaceDescriptors();

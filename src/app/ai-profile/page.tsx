@@ -205,7 +205,12 @@ export default function AiProfilePage() {
             </div>
 
             <Dialog open={isResultDialogOpen} onOpenChange={setIsResultDialogOpen}>
-                <DialogContent className="sm:max-w-2xl">
+                <DialogContent 
+                    className="sm:max-w-2xl"
+                    onInteractOutside={(e) => {
+                        e.preventDefault();
+                    }}
+                >
                     <DialogHeader>
                         <DialogTitle className="font-headline text-2xl">Kết quả phân tích từ AI</DialogTitle>
                         <DialogDescription>

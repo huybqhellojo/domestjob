@@ -1,8 +1,3 @@
-// Polyfill for TextEncoder/TextDecoder. This must be at the top of the file.
-import { TextDecoder, TextEncoder } from 'util';
-global.TextEncoder = TextEncoder;
-// @ts-ignore
-global.TextDecoder = TextDecoder;
 
 'use server';
 /**
@@ -13,37 +8,29 @@ global.TextDecoder = TextDecoder;
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import * as tf from '@tensorflow/tfjs-node';
-import * as faceapi from '@vladmandic/face-api';
 import {Canvas, Image} from 'canvas';
 
-// Polyfill Canvas and Image for face-api.js in Node.js environment
-// @ts-ignore
-faceapi.env.monkeyPatch({Canvas, Image});
+// Schema for the output of the face detection prompt.
+const FaceLocationSchema = z.object({
+  x: z.number().describe('The x-coordinate of the top-left corner of the bounding box.'),
+  y: z.number().describe('The y-coordinate of the top-left corner of the bounding box.'),
+  width: z.number().describe('The width of the bounding box.'),
+  height: z.number().describe('The height of the bounding box.'),
+  faceFound: z.boolean().describe('Whether a face was found in the image.'),
+});
 
-// A flag to ensure models are loaded only once.
-let modelsLoaded = false;
+// The prompt to ask the AI to find a face in the image.
+const faceFinderPrompt = ai.definePrompt({
+    name: 'faceFinderPrompt',
+    input: { schema: z.object({ image: z.string() }) },
+    output: { schema: FaceLocationSchema },
+    prompt: `Analyze the following image and identify the location of the main human face.
+    Provide the coordinates of a square bounding box that perfectly frames the face.
+    If no clear human face is visible, set faceFound to false.
+    Image: {{media url=image}}`,
+    model: 'googleai/gemini-2.0-flash',
+});
 
-async function loadModels() {
-  if (modelsLoaded) {
-    return;
-  }
-  // This uses a reliable public CDN to load models.
-  const modelPath = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/';
-  try {
-    await Promise.all([
-      faceapi.nets.ssdMobilenetv1.loadFromUri(modelPath),
-      faceapi.nets.faceLandmark68Net.loadFromUri(modelPath),
-      faceapi.nets.faceRecognitionNet.loadFromUri(modelPath),
-    ]);
-    modelsLoaded = true;
-    console.log('FaceAPI models loaded successfully on server.');
-  } catch (error) {
-    console.error('Error loading FaceAPI models on server:', error);
-    // Throw error so the flow fails gracefully
-    throw new Error('Could not load face detection models on the server.');
-  }
-}
 
 const extractAvatarFlow = ai.defineFlow(
   {
@@ -55,8 +42,15 @@ const extractAvatarFlow = ai.defineFlow(
   },
   async (dataUri) => {
     try {
-      // Ensure AI models are loaded before proceeding.
-      await loadModels();
+      
+      const { output } = await faceFinderPrompt({ image: dataUri });
+
+      if (!output || !output.faceFound) {
+        console.log("No face found by AI.");
+        return null; // Return null if no face is found
+      }
+      
+      const box = output;
 
       // Convert data URI to a Buffer for processing
       const buffer = Buffer.from(dataUri.split(',')[1], 'base64');
@@ -68,16 +62,6 @@ const extractAvatarFlow = ai.defineFlow(
           image.onerror = reject;
           image.src = buffer;
       });
-
-      // Detect a single face with the highest confidence.
-      const detection = await faceapi.detectSingleFace(image as any, new faceapi.SsdMobilenetv1Options({minConfidence: 0.5}));
-      
-      // If no face is detected, return null.
-      if (!detection) {
-        return null;
-      }
-      
-      const box = detection.box;
       
       // Add some padding around the detected face to create a better avatar
       const padding = box.width * 0.4;

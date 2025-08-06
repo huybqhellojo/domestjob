@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Upload, FileText, FileUp, Sparkles, Send, Mic, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { createProfile, CandidateProfile } from "@/ai/flows/create-profile-flow";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -27,52 +27,18 @@ export default function AiProfilePage() {
     const [isLoading, setIsLoading] = useState(false);
     const [loadingMessage, setLoadingMessage] = useState("Đang phân tích...");
     const [fileInputKey, setFileInputKey] = useState(Date.now()); // Used to reset file input
-    const [analysisResult, setAnalysisResult] = useState<ProfileWithAvatar | null>(null);
+    const [analysisResult, setAnalysisResult] = useState<CandidateProfile | null>(null);
     const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
     const [textInput, setTextInput] = useState('');
-    const [worker, setWorker] = useState<Worker | null>(null);
+    
+    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
 
-    // Initialize the web worker on component mount
-    useEffect(() => {
-        const faceDetectorWorker = new Worker(new URL('@/workers/face-detector.worker', import.meta.url));
-        setWorker(faceDetectorWorker);
-
-        // Cleanup worker on component unmount
-        return () => {
-            faceDetectorWorker.terminate();
-        };
-    }, []);
-
-    const processFile = async (file: File) => {
         setIsLoading(true);
+        setLoadingMessage("Đang đọc và phân tích tệp...");
 
         try {
-            // Setup worker message listener
-            const workerPromise = new Promise<string | null>((resolve) => {
-                if (!worker) {
-                    console.error("Worker not initialized!");
-                    resolve(null);
-                    return;
-                }
-                
-                const handleWorkerMessage = (event: MessageEvent) => {
-                    const { type, avatarUrl, error } = event.data;
-                    
-                    if (type === 'RESULT') {
-                        worker.removeEventListener('message', handleWorkerMessage); // Clean up listener
-                        resolve(avatarUrl);
-                    } else if (type === 'ERROR') {
-                         worker.removeEventListener('message', handleWorkerMessage); // Clean up listener
-                        console.error("Error from face detection worker:", error);
-                        resolve(null); // Resolve with null on error
-                    }
-                };
-
-                worker.addEventListener('message', handleWorkerMessage);
-                worker.postMessage({ type: 'DETECT', file });
-            });
-            
-            // Read file for AI processing
             const documentReader = new FileReader();
             documentReader.readAsDataURL(file);
 
@@ -81,35 +47,17 @@ export default function AiProfilePage() {
                  documentReader.onerror = (e) => reject(new Error("File reading failed"));
             });
 
-            // Start both tasks
-            const [document] = await Promise.all([documentPromise]);
-
-            setLoadingMessage("AI đang phân tích & xử lý ảnh...");
-
-            // Run AI analysis and image processing in parallel
-            const [profileData, avatarUrl] = await Promise.all([
-                createProfile({ document }),
-                workerPromise
-            ]);
-
-            // Combine results
-            const finalProfile: ProfileWithAvatar = { ...profileData };
-            if (avatarUrl) {
-                finalProfile.avatarUrl = avatarUrl;
-                toast({
-                    title: "Phát hiện khuôn mặt!",
-                    description: "Đã tự động cắt và đặt làm ảnh đại diện.",
-                    className: "bg-accent-green text-white",
-                });
-            } else {
-                toast({
-                    title: "Phân tích thành công!",
-                    description: "AI đã trích xuất thông tin. Không tìm thấy ảnh đại diện phù hợp.",
-                });
-            }
+            const document = await documentPromise;
             
-            setAnalysisResult(finalProfile);
+            setLoadingMessage("AI đang trích xuất thông tin...");
+            const profileData = await createProfile({ document });
+
+            setAnalysisResult(profileData);
             setIsResultDialogOpen(true);
+             toast({
+                title: "Phân tích thành công!",
+                description: "AI đã phân tích và trích xuất thông tin từ tệp của bạn.",
+            });
 
         } catch (error) {
             console.error("Profile Generation Error:", error);
@@ -123,14 +71,6 @@ export default function AiProfilePage() {
             setFileInputKey(Date.now());
             setLoadingMessage("Đang phân tích...");
         }
-    };
-    
-
-    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (!file) return;
-        setLoadingMessage("Đang đọc tệp...");
-        await processFile(file);
     };
 
     const handleTextSubmit = async () => {
@@ -289,5 +229,4 @@ export default function AiProfilePage() {
             </Dialog>
         </>
     );
-
 }

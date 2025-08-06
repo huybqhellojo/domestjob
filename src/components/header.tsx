@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, Grid, Sparkles } from 'lucide-react';
+import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, Grid, Sparkles, BookOpen, Compass, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
@@ -27,11 +27,11 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const mainNavLinks = [
-  { href: '/', label: 'Trang chủ' },
-  { href: '/roadmap', label: 'Lộ trình' },
-  { href: '/learn', label: 'E-Learning' },
-  { href: '/employers', label: 'Việc làm' },
-  
+  { href: '/', label: 'Trang chủ', icon: Home },
+  { href: '/employers', label: 'Việc làm', icon: Briefcase },
+  { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles},
+  { href: '/roadmap', label: 'Lộ trình', icon: Compass },
+  { href: '/learn', label: 'E-Learning', icon: BookOpen },
 ];
 
 const employerLinks = [
@@ -55,7 +55,7 @@ export function Header() {
       )}
       onClick={() => setIsOpen(false)}
     >
-      {Icon && <Icon className="h-5 w-5 text-primary" />}
+      {Icon && <Icon className="h-5 w-5" />}
       {label}
     </Link>
   );
@@ -70,7 +70,6 @@ export function Header() {
           {mainNavLinks.map((link) => (
              <NavLink key={link.href} {...link} />
           ))}
-          <NavLink href="/ai-profile" label="Tạo hồ sơ AI" icon={Sparkles}/>
         </nav>
         <div className="hidden md:flex items-center gap-2">
             <Button asChild variant="outline">
@@ -181,7 +180,6 @@ export function Header() {
                       <NavLink key={link.href} {...link} className="text-lg border-b"/>
                     ))}
                      <NavLink href="/candidate-profile" label="Hồ sơ của tôi" className="text-lg border-b"/>
-                     <NavLink href="/ai-profile" label="Tạo hồ sơ AI" className="text-lg border-b"/>
                     
                     <Accordion type="multiple" className="w-full">
                       <AccordionItem value="item-2">

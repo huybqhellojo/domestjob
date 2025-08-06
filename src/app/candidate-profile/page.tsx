@@ -87,6 +87,7 @@ export default function CandidateProfilePage() {
     if (storedProfile) {
       const parsedProfile: CandidateProfile = JSON.parse(storedProfile);
       profileToLoad = {
+        ...emptyCandidate, // Start with empty to ensure all fields are present
         ...parsedProfile,
         avatarUrl: 'https://placehold.co/128x128.png',
         videoUrl: '',
@@ -96,7 +97,7 @@ export default function CandidateProfilePage() {
             { src: 'https://placehold.co/600x400.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
         ],
       };
-      // Clean up local storage after loading to prevent stale data
+      // Clean up local storage after loading to prevent stale data on next visit
       localStorage.removeItem('generatedCandidateProfile');
     } else {
         // Fallback to an empty profile if nothing is in storage
@@ -581,5 +582,3 @@ export default function CandidateProfilePage() {
     </div>
   );
 }
-
-    

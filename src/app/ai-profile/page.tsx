@@ -18,6 +18,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
 export default function AiProfilePage() {
     const router = useRouter();
@@ -174,7 +175,7 @@ export default function AiProfilePage() {
             <Dialog open={isResultDialogOpen} onOpenChange={setIsResultDialogOpen}>
                 <DialogContent className="sm:max-w-2xl">
                     <DialogHeader>
-                        <DialogTitle className="font-headline text-2xl">Kết quả phân tích từ AI (JSON)</DialogTitle>
+                        <DialogTitle className="font-headline text-2xl">Kết quả phân tích từ AI</DialogTitle>
                         <DialogDescription>
                             Đây là dữ liệu thô mà AI đã trích xuất được. Kiểm tra và nhấn "Tiếp tục" để điền vào hồ sơ của bạn.
                         </DialogDescription>
@@ -195,9 +196,3 @@ export default function AiProfilePage() {
         </>
     );
 }
-
-// We need a simple Input component that is not available yet
-// This is a simplified version for this page
-const Input = ({ ...props }) => (
-  <input {...props} />
-);

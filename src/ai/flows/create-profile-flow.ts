@@ -52,7 +52,6 @@ const CandidateProfileSchema = z.object({
   skills: z.array(z.string()).describe('A list of key skills.'),
   certifications: z.array(z.string()).describe('A list of certifications or awards.'),
   desiredIndustry: z.string().describe('The desired industry for future roles.'),
-  photoUrl: z.string().optional().describe("A data URI of the candidate's photo, if found in the document. Should be in format: 'data:image/png;base64,...'. If no photo is found, this field should be empty."),
 });
 
 export type CandidateProfile = z.infer<typeof CandidateProfileSchema>;
@@ -73,9 +72,7 @@ const prompt = ai.definePrompt({
   Analyze the content carefully and populate all the fields in the provided JSON schema.
   Pay close attention to dates, job titles, and skills.
 
-  IMPORTANT: If a photograph of the candidate is present in the document, extract it and return it as a data URI in the 'photoUrl' field. Do NOT crop or modify the photo. If no photo is found, leave the 'photoUrl' field empty.
-
-  If some other information is not available, leave the corresponding string fields empty and array fields as empty arrays.
+  If some information is not available, leave the corresponding string fields empty and array fields as empty arrays.
   
   {{#if document}}
   Document:

@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Upload, FileText, FileUp, Sparkles, Send, Mic, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { createProfile, CandidateProfile } from "@/ai/flows/create-profile-flow";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -16,9 +16,9 @@ import {
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import JSZip from 'jszip';
 
 type ProfileWithAvatar = CandidateProfile & { avatarUrl?: string };
 
@@ -35,10 +35,11 @@ export default function AiProfilePage() {
     const [textInput, setTextInput] = useState('');
     const [faceApi, setFaceApi] = useState<any>(null);
 
-     useEffect(() => {
-        // Load face-api models on component mount
+    // Load face-api models on component mount
+    useEffect(() => {
         const loadFaceApi = async () => {
             try {
+                // Dynamically import face-api.js on the client side
                 const faceapi = await import('@vladmandic/face-api');
                 await faceapi.nets.ssdMobilenetv1.loadFromUri(FACEAPI_MODEL_URL);
                 await faceapi.nets.faceLandmark68Net.loadFromUri(FACEAPI_MODEL_URL);
@@ -54,87 +55,161 @@ export default function AiProfilePage() {
             }
         };
         loadFaceApi();
-    }, []);
+    }, [toast]);
 
-    const processAndStoreProfile = async (profileData: CandidateProfile) => {
-        let finalProfile: ProfileWithAvatar = { ...profileData };
+    const cropFaceFromImage = useCallback(async (imageUrl: string): Promise<string | null> => {
+        if (!faceApi) return null;
+        return new Promise((resolve, reject) => {
+            const img = document.createElement('img');
+            img.crossOrigin = 'anonymous';
+            img.src = imageUrl;
+            img.onload = async () => {
+                const detections = await faceApi.detectAllFaces(img).withFaceLandmarks().withFaceDescriptors();
+                if (detections.length === 0) {
+                    resolve(null);
+                    return;
+                }
 
-        if (profileData.photoUrl && faceApi) {
-            setLoadingMessage("Phát hiện ảnh, đang xử lý...");
-            try {
-                const croppedImage = await cropFace(profileData.photoUrl);
-                if (croppedImage) {
-                    finalProfile.avatarUrl = croppedImage;
+                const detection = detections[0];
+                const { x, y, width, height } = detection.detection.box;
+
+                const canvas = document.createElement('canvas');
+                const padding = width * 0.4;
+                const canvasWidth = width + padding * 2;
+                const canvasHeight = height + padding * 2;
+                canvas.width = canvasWidth;
+                canvas.height = canvasHeight;
+                
+                const ctx = canvas.getContext('2d');
+                if (!ctx) {
+                    reject(new Error("Could not get canvas context"));
+                    return;
+                }
+
+                ctx.drawImage(
+                    img,
+                    x - padding, y - padding,
+                    width + padding * 2, height + padding * 2,
+                    0, 0,
+                    canvasWidth, canvasHeight
+                );
+
+                resolve(canvas.toDataURL('image/png'));
+            };
+            img.onerror = (err) => reject(err);
+        });
+    }, [faceApi]);
+    
+    const extractAndCropImageFromFile = useCallback(async (file: File): Promise<string | null> => {
+        const fileType = file.type;
+
+        // Handle direct image uploads
+        if (fileType.startsWith('image/')) {
+            const dataUrl = await new Promise<string>(resolve => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result as string);
+                reader.readAsDataURL(file);
+            });
+            return cropFaceFromImage(dataUrl);
+        }
+
+        // Handle DOCX files
+        if (fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+            const zip = await JSZip.loadAsync(file);
+            const imageFiles = zip.folder('word/media')?.files;
+            if (!imageFiles) return null;
+
+            for (const fileName in imageFiles) {
+                if (Object.prototype.hasOwnProperty.call(imageFiles, fileName)) {
+                    const imageFile = imageFiles[fileName];
+                    const blob = await imageFile.async('blob');
+                    const dataUrl = await new Promise<string>(resolve => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result as string);
+                        reader.readAsDataURL(blob);
+                    });
+
+                    const croppedImage = await cropFaceFromImage(dataUrl);
+                    if (croppedImage) {
+                        return croppedImage; // Return the first face found
+                    }
+                }
+            }
+        }
+        
+        // TODO: Handle PDF files
+        if (fileType === 'application/pdf') {
+             toast({
+                title: "Chưa hỗ trợ PDF",
+                description: "Tính năng trích xuất ảnh từ PDF sẽ được cập nhật sớm.",
+             });
+        }
+
+        return null;
+    }, [cropFaceFromImage, toast]);
+
+    const processFile = async (file: File) => {
+        setIsLoading(true);
+        setLoadingMessage("Đang đọc tệp...");
+
+        try {
+            const documentReader = new FileReader();
+            documentReader.readAsDataURL(file);
+            documentReader.onload = async () => {
+                const document = documentReader.result as string;
+
+                setLoadingMessage("AI đang phân tích & xử lý ảnh...");
+
+                // Run AI analysis and image processing in parallel
+                const [profileData, avatarUrl] = await Promise.all([
+                    createProfile({ document }),
+                    extractAndCropImageFromFile(file)
+                ]);
+
+                // Combine results
+                const finalProfile: ProfileWithAvatar = { ...profileData };
+                if (avatarUrl) {
+                    finalProfile.avatarUrl = avatarUrl;
                     toast({
                         title: "Phát hiện khuôn mặt!",
                         description: "Đã tự động cắt và đặt làm ảnh đại diện.",
                         className: "bg-accent-green text-white",
                     });
+                } else {
+                     toast({
+                        title: "Phân tích thành công!",
+                        description: "AI đã trích xuất thông tin. Không tìm thấy ảnh đại diện phù hợp.",
+                    });
                 }
-            } catch (error) {
-                console.error("Face cropping error:", error);
-                toast({
-                    variant: "destructive",
-                    title: "Lỗi xử lý ảnh",
-                    description: "Không thể tự động cắt ảnh đại diện.",
-                });
+                
+                setAnalysisResult(finalProfile);
+                setIsResultDialogOpen(true);
+            };
+            documentReader.onerror = (error) => {
+                 throw new Error("File Reading Error: " + error);
             }
+
+        } catch (error) {
+            console.error("Profile Generation Error:", error);
+            toast({
+                variant: "destructive",
+                title: "Đã có lỗi xảy ra",
+                description: "Không thể xử lý tệp của bạn. Vui lòng thử lại.",
+            });
+        } finally {
+            setIsLoading(false);
+            setFileInputKey(Date.now());
+            setLoadingMessage("Đang phân tích...");
         }
-        
-        setAnalysisResult(finalProfile);
-        setIsResultDialogOpen(true);
     };
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (!file) return;
-
-        setIsLoading(true);
-        setLoadingMessage("Đang đọc tệp...");
-
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = async () => {
-            const document = reader.result as string;
-            setLoadingMessage("AI đang phân tích hồ sơ...");
-            
-            try {
-                const profileData = await createProfile({ document });
-
-                toast({
-                    title: "Phân tích thành công!",
-                    description: "AI đã phân tích và trích xuất thông tin từ hồ sơ của bạn.",
-                    className: "bg-accent-green text-white",
-                });
-                
-                await processAndStoreProfile(profileData);
-
-            } catch (error) {
-                console.error("AI Profile Generation Error:", error);
-                toast({
-                    variant: "destructive",
-                    title: "Đã có lỗi xảy ra",
-                    description: "Không thể phân tích hồ sơ. Vui lòng thử lại.",
-                });
-            } finally {
-                setIsLoading(false);
-                setFileInputKey(Date.now());
-                setLoadingMessage("Đang phân tích...");
-            }
-        };
-        reader.onerror = (error) => {
-            console.error("File Reading Error:", error);
-            toast({
-                variant: "destructive",
-                title: "Lỗi đọc tệp",
-                description: "Không thể đọc tệp bạn đã chọn. Vui lòng thử lại.",
-            });
-            setIsLoading(false);
-            setFileInputKey(Date.now());
-        };
+        await processFile(file);
     };
 
-    const handleSend = async () => {
+    const handleTextSubmit = async () => {
         if (!textInput.trim()) {
             toast({
                 variant: "destructive",
@@ -148,14 +223,12 @@ export default function AiProfilePage() {
         setLoadingMessage("AI đang phân tích văn bản...");
         try {
             const profileData = await createProfile({ text: textInput });
-
-            toast({
+            setAnalysisResult(profileData); // No avatar from text input
+            setIsResultDialogOpen(true);
+             toast({
                 title: "Phân tích thành công!",
                 description: "AI đã phân tích và trích xuất thông tin từ văn bản của bạn.",
-                className: "bg-accent-green text-white",
             });
-            
-            await processAndStoreProfile(profileData);
 
         } catch (error) {
             console.error("AI Profile Generation Error (Text):", error);
@@ -177,53 +250,6 @@ export default function AiProfilePage() {
         }
     };
 
-    const cropFace = async (imageUrl: string): Promise<string | null> => {
-        if (!faceApi) return null;
-        return new Promise((resolve, reject) => {
-            const img = document.createElement('img');
-            img.crossOrigin = 'anonymous';
-            img.src = imageUrl;
-            img.onload = async () => {
-                const detections = await faceApi.detectAllFaces(img).withFaceLandmarks().withFaceDescriptors();
-                if (detections.length === 0) {
-                    resolve(null);
-                    return;
-                }
-
-                const detection = detections[0]; // Use the first detected face
-                const { x, y, width, height } = detection.detection.box;
-
-                const canvas = document.createElement('canvas');
-                // Add some padding to the crop
-                const padding = width * 0.4;
-                const canvasWidth = width + padding * 2;
-                const canvasHeight = height + padding * 2;
-                canvas.width = canvasWidth;
-                canvas.height = canvasHeight;
-                
-                const ctx = canvas.getContext('2d');
-                if (!ctx) {
-                    reject(new Error("Could not get canvas context"));
-                    return;
-                }
-
-                ctx.drawImage(
-                    img,
-                    x - padding,
-                    y - padding,
-                    width + padding * 2,
-                    height + padding * 2,
-                    0,
-                    0,
-                    canvasWidth,
-                    canvasHeight
-                );
-
-                resolve(canvas.toDataURL('image/png'));
-            };
-            img.onerror = (err) => reject(err);
-        });
-    };
 
     return (
         <>
@@ -260,7 +286,7 @@ export default function AiProfilePage() {
                                                 type="file" 
                                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
                                                 onChange={handleFileChange}
-                                                accept="image/*,.pdf,.doc,.docx"
+                                                accept="image/*,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
                                                 disabled={isLoading}
                                             />
                                         </>
@@ -279,7 +305,7 @@ export default function AiProfilePage() {
                                         onChange={(e) => setTextInput(e.target.value)}
                                         disabled={isLoading}
                                     />
-                                    <Button className="absolute bottom-4 right-4 bg-primary text-white" onClick={handleSend} disabled={isLoading}>
+                                    <Button className="absolute bottom-4 right-4 bg-primary text-white" onClick={handleTextSubmit} disabled={isLoading}>
                                         {isLoading ? <Loader2 className="animate-spin" /> : <Send />}
                                         Gửi
                                     </Button>
@@ -340,4 +366,4 @@ export default function AiProfilePage() {
         </>
     );
 
-    
+}

@@ -20,7 +20,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Checkbox } from "@/components/ui/checkbox";
 import type { CandidateProfile } from '@/ai/flows/create-profile-flow';
 import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -218,97 +218,139 @@ export default function CandidateProfilePage() {
   };
 
 
-  const aboutEditDialog = (
-    <EditDialog
-        title="Chỉnh sửa Giới thiệu bản thân"
-        onSave={handleSave}
-        content={
-            <Textarea value={tempCandidate.about} onChange={(e) => setTempCandidate({...tempCandidate, about: e.target.value})} rows={6} />
-        }
-    >
-        <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
-    </EditDialog>
+  const aboutEditDialogContent = (
+      <Textarea value={tempCandidate.about} onChange={(e) => setTempCandidate({...tempCandidate, about: e.target.value})} rows={6} />
   );
-
-  const videoEditDialog = (
-     <EditDialog
-        title="Chỉnh sửa Video giới thiệu"
-        onSave={handleSave}
-        content={
-            <div className="space-y-2">
-                <Label htmlFor="video-url-edit">Link YouTube Video</Label>
-                <Input id="video-url-edit" value={tempCandidate.videoUrl} onChange={(e) => setTempCandidate({...tempCandidate, videoUrl: e.target.value})} />
-            </div>
-        }
-    >
-        <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
-    </EditDialog>
+  
+  const videoEditDialogContent = (
+      <div className="space-y-2">
+          <Label htmlFor="video-url-edit">Link YouTube Video</Label>
+          <Input id="video-url-edit" value={tempCandidate.videoUrl} onChange={(e) => setTempCandidate({...tempCandidate, videoUrl: e.target.value})} />
+      </div>
   );
-
-  const experienceEditDialog = (
-     <EditDialog
-        title="Chỉnh sửa Kinh nghiệm làm việc"
-        onSave={handleSave}
-        content={
-            <div className="space-y-6">
-                {tempCandidate.experience.map((exp, index) => (
-                    <div key={index} className="p-4 border rounded-lg space-y-2 relative">
-                        <div className="flex justify-between items-center mb-2">
-                            <h4 className="font-bold">Kinh nghiệm #{index + 1}</h4>
-                            <Button variant="ghost" size="icon" onClick={() => handleRemoveItem('experience', index)}>
-                                <Trash2 className="h-4 w-4 text-destructive"/>
-                            </Button>
-                        </div>
-                        <Label>Vai trò</Label>
-                        <Input value={exp.role} onChange={e => handleChange('experience', index, 'role', e.target.value)} />
-                        <Label>Công ty</Label>
-                        <Input value={exp.company} onChange={e => handleChange('experience', index, 'company', e.target.value)} />
-                        <Label>Thời gian</Label>
-                        <Input value={exp.period} onChange={e => handleChange('experience', index, 'period', e.target.value)} />
-                        <Label>Mô tả</Label>
-                        <Textarea value={exp.description} onChange={e => handleChange('experience', index, 'description', e.target.value)} />
+  
+  const experienceEditDialogContent = (
+      <div className="space-y-6">
+          {tempCandidate.experience.map((exp, index) => (
+              <div key={index} className="p-4 border rounded-lg space-y-2 relative">
+                  <div className="flex justify-between items-center mb-2">
+                      <h4 className="font-bold">Kinh nghiệm #{index + 1}</h4>
+                      <Button variant="ghost" size="icon" onClick={() => handleRemoveItem('experience', index)}>
+                          <Trash2 className="h-4 w-4 text-destructive"/>
+                      </Button>
+                  </div>
+                  <Label>Vai trò</Label>
+                  <Input value={exp.role} onChange={e => handleChange('experience', index, 'role', e.target.value)} />
+                  <Label>Công ty</Label>
+                  <Input value={exp.company} onChange={e => handleChange('experience', index, 'company', e.target.value)} />
+                  <Label>Thời gian</Label>
+                  <Input value={exp.period} onChange={e => handleChange('experience', index, 'period', e.target.value)} />
+                  <Label>Mô tả</Label>
+                  <Textarea value={exp.description} onChange={e => handleChange('experience', index, 'description', e.target.value)} />
+              </div>
+          ))}
+          <Button variant="outline" className="w-full" onClick={() => handleAddItem('experience')}>
+              <PlusCircle className="mr-2"/> Thêm kinh nghiệm
+          </Button>
+      </div>
+  );
+  
+  const educationEditDialogContent = (
+      <div className="space-y-6">
+          {tempCandidate.education.map((edu, index) => (
+              <div key={index} className="p-4 border rounded-lg space-y-2 relative">
+                  <div className="flex justify-between items-center mb-2">
+                      <h4 className="font-bold">Học vấn #{index + 1}</h4>
+                      <Button variant="ghost" size="icon" onClick={() => handleRemoveItem('education', index)}>
+                          <Trash2 className="h-4 w-4 text-destructive"/>
+                      </Button>
+                  </div>
+                  <Label>Trường</Label>
+                  <Input value={edu.school} onChange={e => handleChange('education', index, 'school', e.target.value)} />
+                  <Label>Chuyên ngành</Label>
+                  <Input value={edu.degree} onChange={e => handleChange('education', index, 'degree', e.target.value)} />
+                  <Label>Năm tốt nghiệp</Label>
+                  <Input type="number" value={edu.gradYear} onChange={e => handleChange('education', index, 'gradYear', parseInt(e.target.value))} />
+              </div>
+          ))}
+          <Button variant="outline" className="w-full" onClick={() => handleAddItem('education')}>
+              <PlusCircle className="mr-2"/> Thêm học vấn
+          </Button>
+      </div>
+  );
+  
+  const skillsInterestsEditDialogContent = (
+      <div className="space-y-6">
+          <div className="space-y-2">
+              <Label className="font-bold">Kỹ năng</Label>
+              <div className="flex flex-wrap gap-2 mb-4">
+                  {tempCandidate.skills.map((skill) => (
+                      <Badge key={skill} variant="secondary" className="pr-1">
+                          {skill}
+                          <button onClick={() => handleRemoveItem('skills', skill)} className="ml-2 rounded-full hover:bg-destructive/80 p-0.5">
+                              <X className="h-3 w-3" />
+                          </button>
+                      </Badge>
+                  ))}
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  {commonSkills.filter(s => !tempCandidate.skills.includes(s)).map((skill) => (
+                    <div key={skill} className="flex items-center space-x-2">
+                      <Checkbox id={`skill-${skill}`} onCheckedChange={() => handleCheckboxChange('skills', skill)} checked={tempCandidate.skills.includes(skill)}/>
+                      <Label htmlFor={`skill-${skill}`} className="text-sm font-normal cursor-pointer">{skill}</Label>
                     </div>
-                ))}
-                <Button variant="outline" className="w-full" onClick={() => handleAddItem('experience')}>
-                    <PlusCircle className="mr-2"/> Thêm kinh nghiệm
-                </Button>
-             </div>
-        }
-    >
-       <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
-    </EditDialog>
-  );
-
-  const educationEditDialog = (
-     <EditDialog
-        title="Chỉnh sửa Học vấn"
-        onSave={handleSave}
-        content={
-            <div className="space-y-6">
-                {tempCandidate.education.map((edu, index) => (
-                    <div key={index} className="p-4 border rounded-lg space-y-2 relative">
-                        <div className="flex justify-between items-center mb-2">
-                            <h4 className="font-bold">Học vấn #{index + 1}</h4>
-                            <Button variant="ghost" size="icon" onClick={() => handleRemoveItem('education', index)}>
-                                <Trash2 className="h-4 w-4 text-destructive"/>
-                            </Button>
-                        </div>
-                        <Label>Trường</Label>
-                        <Input value={edu.school} onChange={e => handleChange('education', index, 'school', e.target.value)} />
-                        <Label>Chuyên ngành</Label>
-                        <Input value={edu.degree} onChange={e => handleChange('education', index, 'degree', e.target.value)} />
-                        <Label>Năm tốt nghiệp</Label>
-                        <Input type="number" value={edu.gradYear} onChange={e => handleChange('education', index, 'gradYear', parseInt(e.target.value))} />
+                  ))}
+              </div>
+              <div className="flex gap-2 mt-2">
+                  <Input value={newSkill} onChange={e => setNewSkill(e.target.value)} placeholder="Thêm kỹ năng khác..." />
+                  <Button onClick={() => handleAddNewChip('skills')}>Thêm</Button>
+              </div>
+          </div>
+           <div className="space-y-2">
+              <Label className="font-bold">Lĩnh vực quan tâm</Label>
+              <div className="flex flex-wrap gap-2 mb-4">
+                  {tempCandidate.interests.map((interest) => (
+                      <Badge key={interest} className="bg-accent-blue text-white pr-1">
+                          {interest}
+                          <button onClick={() => handleRemoveItem('interests', interest)} className="ml-2 rounded-full hover:bg-destructive/80 p-0.5">
+                              <X className="h-3 w-3" />
+                          </button>
+                      </Badge>
+                  ))}
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  {commonInterests.filter(i => !tempCandidate.interests.includes(i)).map((interest) => (
+                    <div key={interest} className="flex items-center space-x-2">
+                      <Checkbox id={`interest-${interest}`} onCheckedChange={() => handleCheckboxChange('interests', interest)} checked={tempCandidate.interests.includes(interest)}/>
+                      <Label htmlFor={`interest-${interest}`} className="text-sm font-normal cursor-pointer">{interest}</Label>
                     </div>
-                ))}
-                <Button variant="outline" className="w-full" onClick={() => handleAddItem('education')}>
-                    <PlusCircle className="mr-2"/> Thêm học vấn
-                </Button>
-            </div>
-        }
-    >
-        <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
-    </EditDialog>
+                  ))}
+              </div>
+              <div className="flex gap-2 mt-2">
+                  <Input value={newInterest} onChange={e => setNewInterest(e.target.value)} placeholder="Thêm lĩnh vực khác..." />
+                  <Button onClick={() => handleAddNewChip('interests')}>Thêm</Button>
+              </div>
+          </div>
+      </div>
+  );
+  
+  const certificationsEditDialogContent = (
+       <div className="space-y-6">
+          {tempCandidate.certifications.map((cert, index) => (
+              <div key={index} className="p-4 border rounded-lg space-y-2 relative">
+                   <div className="flex justify-between items-center mb-2">
+                      <Label htmlFor={`cert-${index}`}>Chứng chỉ #{index + 1}</Label>
+                      <Button variant="ghost" size="icon" onClick={() => handleRemoveItem('certifications', index)}>
+                          <Trash2 className="h-4 w-4 text-destructive"/>
+                      </Button>
+                  </div>
+                  <Input id={`cert-${index}`} value={cert} onChange={(e) => handleCertificationChange(index, e.target.value)} />
+              </div>
+          ))}
+          <Button variant="outline" className="w-full" onClick={() => handleAddItem('certifications')}>
+              <PlusCircle className="mr-2"/> Thêm chứng chỉ
+          </Button>
+       </div>
   );
 
   return (
@@ -364,9 +406,7 @@ export default function CandidateProfilePage() {
                      <EditDialog
                         title="Chỉnh sửa Giới thiệu bản thân"
                         onSave={handleSave}
-                        content={
-                            <Textarea value={tempCandidate.about} onChange={(e) => setTempCandidate({...tempCandidate, about: e.target.value})} rows={6} />
-                        }
+                        content={aboutEditDialogContent}
                     >
                       <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
                     </EditDialog>
@@ -375,7 +415,12 @@ export default function CandidateProfilePage() {
                     {candidate.about ? (
                       <p className="text-muted-foreground whitespace-pre-line">{candidate.about}</p>
                     ) : (
-                      <p className="text-muted-foreground">Chưa có thông tin. {aboutEditDialog}</p>
+                      <p className="text-muted-foreground">
+                        Chưa có thông tin.{" "}
+                        <EditDialog title="Chỉnh sửa Giới thiệu bản thân" onSave={handleSave} content={aboutEditDialogContent}>
+                            <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
+                        </EditDialog>
+                      </p>
                     )}
                   </CardContent>
                 </Card>
@@ -386,12 +431,7 @@ export default function CandidateProfilePage() {
                         <EditDialog
                             title="Chỉnh sửa Video giới thiệu"
                             onSave={handleSave}
-                            content={
-                                <div className="space-y-2">
-                                    <Label htmlFor="video-url-edit">Link YouTube Video</Label>
-                                    <Input id="video-url-edit" value={tempCandidate.videoUrl} onChange={(e) => setTempCandidate({...tempCandidate, videoUrl: e.target.value})} />
-                                </div>
-                            }
+                            content={videoEditDialogContent}
                         >
                             <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
                         </EditDialog>
@@ -402,7 +442,12 @@ export default function CandidateProfilePage() {
                                 <iframe className="w-full h-full" src={candidate.videoUrl} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                             </div>
                         ) : (
-                            <p className="text-muted-foreground">Chưa có video giới thiệu. {videoEditDialog}</p>
+                            <p className="text-muted-foreground">
+                                Chưa có video giới thiệu.{" "}
+                                <EditDialog title="Chỉnh sửa Video giới thiệu" onSave={handleSave} content={videoEditDialogContent}>
+                                    <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
+                                </EditDialog>
+                            </p>
                         )}
                     </CardContent>
                 </Card>
@@ -413,31 +458,7 @@ export default function CandidateProfilePage() {
                      <EditDialog
                         title="Chỉnh sửa Kinh nghiệm làm việc"
                         onSave={handleSave}
-                        content={
-                            <div className="space-y-6">
-                                {tempCandidate.experience.map((exp, index) => (
-                                    <div key={index} className="p-4 border rounded-lg space-y-2 relative">
-                                        <div className="flex justify-between items-center mb-2">
-                                            <h4 className="font-bold">Kinh nghiệm #{index + 1}</h4>
-                                            <Button variant="ghost" size="icon" onClick={() => handleRemoveItem('experience', index)}>
-                                                <Trash2 className="h-4 w-4 text-destructive"/>
-                                            </Button>
-                                        </div>
-                                        <Label>Vai trò</Label>
-                                        <Input value={exp.role} onChange={e => handleChange('experience', index, 'role', e.target.value)} />
-                                        <Label>Công ty</Label>
-                                        <Input value={exp.company} onChange={e => handleChange('experience', index, 'company', e.target.value)} />
-                                        <Label>Thời gian</Label>
-                                        <Input value={exp.period} onChange={e => handleChange('experience', index, 'period', e.target.value)} />
-                                        <Label>Mô tả</Label>
-                                        <Textarea value={exp.description} onChange={e => handleChange('experience', index, 'description', e.target.value)} />
-                                    </div>
-                                ))}
-                                <Button variant="outline" className="w-full" onClick={() => handleAddItem('experience')}>
-                                    <PlusCircle className="mr-2"/> Thêm kinh nghiệm
-                                </Button>
-                             </div>
-                        }
+                        content={experienceEditDialogContent}
                     >
                       <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
                      </EditDialog>
@@ -451,7 +472,12 @@ export default function CandidateProfilePage() {
                             <p className="text-sm text-muted-foreground">{exp.description}</p>
                         </div>
                     )) : (
-                        <p className="text-muted-foreground">Chưa có thông tin. {experienceEditDialog}</p>
+                        <p className="text-muted-foreground">
+                           Chưa có thông tin.{" "}
+                            <EditDialog title="Chỉnh sửa Kinh nghiệm làm việc" onSave={handleSave} content={experienceEditDialogContent}>
+                               <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
+                            </EditDialog>
+                        </p>
                     )}
                   </CardContent>
                 </Card>
@@ -484,29 +510,7 @@ export default function CandidateProfilePage() {
                      <EditDialog
                         title="Chỉnh sửa Học vấn"
                         onSave={handleSave}
-                        content={
-                            <div className="space-y-6">
-                                {tempCandidate.education.map((edu, index) => (
-                                    <div key={index} className="p-4 border rounded-lg space-y-2 relative">
-                                        <div className="flex justify-between items-center mb-2">
-                                            <h4 className="font-bold">Học vấn #{index + 1}</h4>
-                                            <Button variant="ghost" size="icon" onClick={() => handleRemoveItem('education', index)}>
-                                                <Trash2 className="h-4 w-4 text-destructive"/>
-                                            </Button>
-                                        </div>
-                                        <Label>Trường</Label>
-                                        <Input value={edu.school} onChange={e => handleChange('education', index, 'school', e.target.value)} />
-                                        <Label>Chuyên ngành</Label>
-                                        <Input value={edu.degree} onChange={e => handleChange('education', index, 'degree', e.target.value)} />
-                                        <Label>Năm tốt nghiệp</Label>
-                                        <Input type="number" value={edu.gradYear} onChange={e => handleChange('education', index, 'gradYear', parseInt(e.target.value))} />
-                                    </div>
-                                ))}
-                                <Button variant="outline" className="w-full" onClick={() => handleAddItem('education')}>
-                                    <PlusCircle className="mr-2"/> Thêm học vấn
-                                </Button>
-                            </div>
-                        }
+                        content={educationEditDialogContent}
                     >
                       <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
                     </EditDialog>
@@ -519,7 +523,12 @@ export default function CandidateProfilePage() {
                             <p className="text-muted-foreground ml-6">Tốt nghiệp năm: {edu.gradYear}</p>
                         </div>
                      )) : (
-                        <p className="text-muted-foreground">Chưa có thông tin. {educationEditDialog}</p>
+                        <p className="text-muted-foreground">
+                            Chưa có thông tin.{" "}
+                            <EditDialog title="Chỉnh sửa Học vấn" onSave={handleSave} content={educationEditDialogContent}>
+                                <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
+                            </EditDialog>
+                        </p>
                      )}
                   </CardContent>
                 </Card>
@@ -565,60 +574,7 @@ export default function CandidateProfilePage() {
                         title="Chỉnh sửa Kỹ năng & Lĩnh vực"
                         description="Chọn các mục có sẵn hoặc thêm mới để làm nổi bật hồ sơ của bạn."
                         onSave={handleSave}
-                        content={
-                            <div className="space-y-6">
-                                <div className="space-y-2">
-                                    <Label className="font-bold">Kỹ năng</Label>
-                                    <div className="flex flex-wrap gap-2 mb-4">
-                                        {tempCandidate.skills.map((skill) => (
-                                            <Badge key={skill} variant="secondary" className="pr-1">
-                                                {skill}
-                                                <button onClick={() => handleRemoveItem('skills', skill)} className="ml-2 rounded-full hover:bg-destructive/80 p-0.5">
-                                                    <X className="h-3 w-3" />
-                                                </button>
-                                            </Badge>
-                                        ))}
-                                    </div>
-                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                                        {commonSkills.filter(s => !tempCandidate.skills.includes(s)).map((skill) => (
-                                          <div key={skill} className="flex items-center space-x-2">
-                                            <Checkbox id={`skill-${skill}`} onCheckedChange={() => handleCheckboxChange('skills', skill)} checked={tempCandidate.skills.includes(skill)}/>
-                                            <Label htmlFor={`skill-${skill}`} className="text-sm font-normal cursor-pointer">{skill}</Label>
-                                          </div>
-                                        ))}
-                                    </div>
-                                    <div className="flex gap-2 mt-2">
-                                        <Input value={newSkill} onChange={e => setNewSkill(e.target.value)} placeholder="Thêm kỹ năng khác..." />
-                                        <Button onClick={() => handleAddNewChip('skills')}>Thêm</Button>
-                                    </div>
-                                </div>
-                                 <div className="space-y-2">
-                                    <Label className="font-bold">Lĩnh vực quan tâm</Label>
-                                    <div className="flex flex-wrap gap-2 mb-4">
-                                        {tempCandidate.interests.map((interest) => (
-                                            <Badge key={interest} className="bg-accent-blue text-white pr-1">
-                                                {interest}
-                                                <button onClick={() => handleRemoveItem('interests', interest)} className="ml-2 rounded-full hover:bg-destructive/80 p-0.5">
-                                                    <X className="h-3 w-3" />
-                                                </button>
-                                            </Badge>
-                                        ))}
-                                    </div>
-                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                                        {commonInterests.filter(i => !tempCandidate.interests.includes(i)).map((interest) => (
-                                          <div key={interest} className="flex items-center space-x-2">
-                                            <Checkbox id={`interest-${interest}`} onCheckedChange={() => handleCheckboxChange('interests', interest)} checked={tempCandidate.interests.includes(interest)}/>
-                                            <Label htmlFor={`interest-${interest}`} className="text-sm font-normal cursor-pointer">{interest}</Label>
-                                          </div>
-                                        ))}
-                                    </div>
-                                    <div className="flex gap-2 mt-2">
-                                        <Input value={newInterest} onChange={e => setNewInterest(e.target.value)} placeholder="Thêm lĩnh vực khác..." />
-                                        <Button onClick={() => handleAddNewChip('interests')}>Thêm</Button>
-                                    </div>
-                                </div>
-                            </div>
-                        }
+                        content={skillsInterestsEditDialogContent}
                     >
                       <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
                     </EditDialog>
@@ -626,11 +582,23 @@ export default function CandidateProfilePage() {
                   <CardContent>
                      <h4 className="font-semibold mb-2 text-sm">Kỹ năng</h4>
                      <div className="flex flex-wrap gap-2 mb-4">
-                        {candidate.skills.length > 0 ? candidate.skills.map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>) : <p className="text-muted-foreground text-sm">Chưa có kỹ năng. <EditDialog title="Chỉnh sửa Kỹ năng & Lĩnh vực" description="Chọn các mục có sẵn hoặc thêm mới để làm nổi bật hồ sơ của bạn." onSave={handleSave} content={ <div className="space-y-6"> <div className="space-y-2"> <Label className="font-bold">Kỹ năng</Label> <div className="flex flex-wrap gap-2 mb-4"> {tempCandidate.skills.map((skill) => ( <Badge key={skill} variant="secondary" className="pr-1"> {skill} <button onClick={() => handleRemoveItem('skills', skill)} className="ml-2 rounded-full hover:bg-destructive/80 p-0.5"> <X className="h-3 w-3" /> </button> </Badge> ))} </div> <div className="grid grid-cols-2 md:grid-cols-3 gap-2"> {commonSkills.filter(s => !tempCandidate.skills.includes(s)).map((skill) => ( <div key={skill} className="flex items-center space-x-2"> <Checkbox id={`skill-${skill}`} onCheckedChange={() => handleCheckboxChange('skills', skill)} checked={tempCandidate.skills.includes(skill)}/> <Label htmlFor={`skill-${skill}`} className="text-sm font-normal cursor-pointer">{skill}</Label> </div> ))} </div> <div className="flex gap-2 mt-2"> <Input value={newSkill} onChange={e => setNewSkill(e.target.value)} placeholder="Thêm kỹ năng khác..." /> <Button onClick={() => handleAddNewChip('skills')}>Thêm</Button> </div> </div> <div className="space-y-2"> <Label className="font-bold">Lĩnh vực quan tâm</Label> <div className="flex flex-wrap gap-2 mb-4"> {tempCandidate.interests.map((interest) => ( <Badge key={interest} className="bg-accent-blue text-white pr-1"> {interest} <button onClick={() => handleRemoveItem('interests', interest)} className="ml-2 rounded-full hover:bg-destructive/80 p-0.5"> <X className="h-3 w-3" /> </button> </Badge> ))} </div> <div className="grid grid-cols-2 md:grid-cols-3 gap-2"> {commonInterests.filter(i => !tempCandidate.interests.includes(i)).map((interest) => ( <div key={interest} className="flex items-center space-x-2"> <Checkbox id={`interest-${interest}`} onCheckedChange={() => handleCheckboxChange('interests', interest)} checked={tempCandidate.interests.includes(interest)}/> <Label htmlFor={`interest-${interest}`} className="text-sm font-normal cursor-pointer">{interest}</Label> </div> ))} </div> <div className="flex gap-2 mt-2"> <Input value={newInterest} onChange={e => setNewInterest(e.target.value)} placeholder="Thêm lĩnh vực khác..." /> <Button onClick={() => handleAddNewChip('interests')}>Thêm</Button> </div> </div> </div> } > <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button></EditDialog></p>}
+                        {candidate.skills.length > 0 ? candidate.skills.map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>) : 
+                        <p className="text-muted-foreground text-sm">
+                            Chưa có kỹ năng.{" "}
+                            <EditDialog title="Chỉnh sửa Kỹ năng & Lĩnh vực" description="Chọn các mục có sẵn hoặc thêm mới để làm nổi bật hồ sơ của bạn." onSave={handleSave} content={skillsInterestsEditDialogContent}>
+                               <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
+                            </EditDialog>
+                        </p>}
                      </div>
                      <h4 className="font-semibold mb-2 text-sm">Lĩnh vực quan tâm</h4>
                      <div className="flex flex-wrap gap-2">
-                        {candidate.interests.length > 0 ? candidate.interests.map(interest => <Badge key={interest} className="bg-accent-blue text-white">{interest}</Badge>) : <p className="text-muted-foreground text-sm">Chưa có lĩnh vực quan tâm. <EditDialog title="Chỉnh sửa Kỹ năng & Lĩnh vực" description="Chọn các mục có sẵn hoặc thêm mới để làm nổi bật hồ sơ của bạn." onSave={handleSave} content={ <div className="space-y-6"> <div className="space-y-2"> <Label className="font-bold">Kỹ năng</Label> <div className="flex flex-wrap gap-2 mb-4"> {tempCandidate.skills.map((skill) => ( <Badge key={skill} variant="secondary" className="pr-1"> {skill} <button onClick={() => handleRemoveItem('skills', skill)} className="ml-2 rounded-full hover:bg-destructive/80 p-0.5"> <X className="h-3 w-3" /> </button> </Badge> ))} </div> <div className="grid grid-cols-2 md:grid-cols-3 gap-2"> {commonSkills.filter(s => !tempCandidate.skills.includes(s)).map((skill) => ( <div key={skill} className="flex items-center space-x-2"> <Checkbox id={`skill-${skill}`} onCheckedChange={() => handleCheckboxChange('skills', skill)} checked={tempCandidate.skills.includes(skill)}/> <Label htmlFor={`skill-${skill}`} className="text-sm font-normal cursor-pointer">{skill}</Label> </div> ))} </div> <div className="flex gap-2 mt-2"> <Input value={newSkill} onChange={e => setNewSkill(e.target.value)} placeholder="Thêm kỹ năng khác..." /> <Button onClick={() => handleAddNewChip('skills')}>Thêm</Button> </div> </div> <div className="space-y-2"> <Label className="font-bold">Lĩnh vực quan tâm</Label> <div className="flex flex-wrap gap-2 mb-4"> {tempCandidate.interests.map((interest) => ( <Badge key={interest} className="bg-accent-blue text-white pr-1"> {interest} <button onClick={() => handleRemoveItem('interests', interest)} className="ml-2 rounded-full hover:bg-destructive/80 p-0.5"> <X className="h-3 w-3" /> </button> </Badge> ))} </div> <div className="grid grid-cols-2 md:grid-cols-3 gap-2"> {commonInterests.filter(i => !tempCandidate.interests.includes(i)).map((interest) => ( <div key={interest} className="flex items-center space-x-2"> <Checkbox id={`interest-${interest}`} onCheckedChange={() => handleCheckboxChange('interests', interest)} checked={tempCandidate.interests.includes(interest)}/> <Label htmlFor={`interest-${interest}`} className="text-sm font-normal cursor-pointer">{interest}</Label> </div> ))} </div> <div className="flex gap-2 mt-2"> <Input value={newInterest} onChange={e => setNewInterest(e.target.value)} placeholder="Thêm lĩnh vực khác..." /> <Button onClick={() => handleAddNewChip('interests')}>Thêm</Button> </div> </div> </div> } > <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button></EditDialog></p>}
+                        {candidate.interests.length > 0 ? candidate.interests.map(interest => <Badge key={interest} className="bg-accent-blue text-white">{interest}</Badge>) : 
+                        <p className="text-muted-foreground text-sm">
+                            Chưa có lĩnh vực quan tâm.{" "}
+                            <EditDialog title="Chỉnh sửa Kỹ năng & Lĩnh vực" description="Chọn các mục có sẵn hoặc thêm mới để làm nổi bật hồ sơ của bạn." onSave={handleSave} content={skillsInterestsEditDialogContent}>
+                                <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
+                            </EditDialog>
+                        </p>}
                      </div>
                   </CardContent>
                 </Card>
@@ -641,24 +609,7 @@ export default function CandidateProfilePage() {
                      <EditDialog
                         title="Chỉnh sửa Chứng chỉ & Giải thưởng"
                         onSave={handleSave}
-                        content={
-                             <div className="space-y-6">
-                                {tempCandidate.certifications.map((cert, index) => (
-                                    <div key={index} className="p-4 border rounded-lg space-y-2 relative">
-                                         <div className="flex justify-between items-center mb-2">
-                                            <Label htmlFor={`cert-${index}`}>Chứng chỉ #{index + 1}</Label>
-                                            <Button variant="ghost" size="icon" onClick={() => handleRemoveItem('certifications', index)}>
-                                                <Trash2 className="h-4 w-4 text-destructive"/>
-                                            </Button>
-                                        </div>
-                                        <Input id={`cert-${index}`} value={cert} onChange={(e) => handleCertificationChange(index, e.target.value)} />
-                                    </div>
-                                ))}
-                                <Button variant="outline" className="w-full" onClick={() => handleAddItem('certifications')}>
-                                    <PlusCircle className="mr-2"/> Thêm chứng chỉ
-                                </Button>
-                             </div>
-                        }
+                        content={certificationsEditDialogContent}
                     >
                       <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
                     </EditDialog>
@@ -666,9 +617,13 @@ export default function CandidateProfilePage() {
                   <CardContent className="space-y-2">
                      {candidate.certifications.length > 0 ? candidate.certifications.map((cert, index) => (
                          <p key={index} className="text-sm flex items-center gap-2"><Award className="h-4 w-4 text-muted-foreground"/>{cert}</p>
-                     )) : <p className="text-muted-foreground text-sm">Chưa có chứng chỉ. <EditDialog title="Chỉnh sửa Chứng chỉ & Giải thưởng" onSave={handleSave} content={ <div className="space-y-6"> {tempCandidate.certifications.map((cert, index) => ( <div key={index} className="p-4 border rounded-lg space-y-2 relative"> <div className="flex justify-between items-center mb-2"> <Label htmlFor={`cert-${index}`}>Chứng chỉ #{index + 1}</Label> <Button variant="ghost" size="icon" onClick={() => handleRemoveItem('certifications', index)}> <Trash2 className="h-4 w-4 text-destructive"/> </Button> </div> <Input id={`cert-${index}`} value={cert} onChange={(e) => handleCertificationChange(index, e.target.value)} /> </div> ))} <Button variant="outline" className="w-full" onClick={() => handleAddItem('certifications')}> <PlusCircle className="mr-2"/> Thêm chứng chỉ </Button> </div> } >
-                         <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
-                    </EditDialog></p>}
+                     )) : 
+                     <p className="text-muted-foreground text-sm">
+                        Chưa có chứng chỉ.{" "}
+                        <EditDialog title="Chỉnh sửa Chứng chỉ & Giải thưởng" onSave={handleSave} content={certificationsEditDialogContent}>
+                            <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
+                        </EditDialog>
+                    </p>}
                   </CardContent>
                 </Card>
 
@@ -681,3 +636,5 @@ export default function CandidateProfilePage() {
     </div>
   );
 }
+
+    

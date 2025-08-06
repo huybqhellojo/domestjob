@@ -1,3 +1,8 @@
+// Polyfill for TextEncoder/TextDecoder. This must be at the top of the file.
+import { TextDecoder, TextEncoder } from 'util';
+global.TextEncoder = TextEncoder;
+// @ts-ignore
+global.TextDecoder = TextDecoder;
 
 'use server';
 /**
@@ -5,11 +10,6 @@
  *
  * - extractAvatar - A function that handles the avatar extraction process.
  */
-// Polyfill for TextEncoder/TextDecoder
-import { TextDecoder, TextEncoder } from 'util';
-global.TextEncoder = TextEncoder;
-// @ts-ignore
-global.TextDecoder = TextDecoder;
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
@@ -110,4 +110,3 @@ export async function extractAvatar(
 ): Promise<string | null> {
   return extractAvatarFlow(imageAsDataUri);
 }
-

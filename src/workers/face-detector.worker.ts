@@ -133,6 +133,3 @@ self.addEventListener('message', async (event: MessageEvent<{ file: File }>) => 
         self.postMessage({ error: (error as Error).message });
     }
 });
-
-// This is needed to satisfy the module system
-export default null;

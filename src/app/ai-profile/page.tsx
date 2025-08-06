@@ -18,11 +18,8 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import JSZip from 'jszip';
 
 type ProfileWithAvatar = CandidateProfile & { avatarUrl?: string };
-
-const FACEAPI_MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model';
 
 export default function AiProfilePage() {
     const router = useRouter();
@@ -33,195 +30,108 @@ export default function AiProfilePage() {
     const [analysisResult, setAnalysisResult] = useState<ProfileWithAvatar | null>(null);
     const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
     const [textInput, setTextInput] = useState('');
-    const [faceApi, setFaceApi] = useState<any>(null);
+    const [worker, setWorker] = useState<Worker | null>(null);
 
-    // Load face-api models on component mount
+    // Initialize the web worker on component mount
     useEffect(() => {
-        const loadFaceApi = async () => {
-            try {
-                // Dynamically import face-api.js on the client side
-                const faceapi = await import('@vladmandic/face-api');
-                await faceapi.nets.ssdMobilenetv1.loadFromUri(FACEAPI_MODEL_URL);
-                await faceapi.nets.faceLandmark68Net.loadFromUri(FACEAPI_MODEL_URL);
-                await faceapi.nets.faceRecognitionNet.loadFromUri(FACEAPI_MODEL_URL);
-                setFaceApi(faceapi);
-            } catch (error) {
-                console.error("Error loading face-api models:", error);
-                toast({
-                    variant: "destructive",
-                    title: "Lỗi tải mô hình AI",
-                    description: "Không thể tải các mô hình nhận diện khuôn mặt. Vui lòng thử tải lại trang.",
-                });
+        // Dynamically import the worker to ensure it's client-side only
+        import('@/workers/face-detector.worker').then(WorkerModule => {
+            const faceDetectorWorker = new WorkerModule.default();
+            setWorker(faceDetectorWorker);
+        });
+
+        // Cleanup worker on component unmount
+        return () => {
+            if (worker) {
+                worker.terminate();
             }
         };
-        loadFaceApi();
-    }, [toast]);
-
-    const cropFaceFromImage = useCallback(async (imageUrl: string): Promise<string | null> => {
-        if (!faceApi) return null;
-        return new Promise((resolve, reject) => {
-            const img = document.createElement('img');
-            img.crossOrigin = 'anonymous';
-            img.src = imageUrl;
-            img.onload = async () => {
-                const detections = await faceApi.detectAllFaces(img).withFaceLandmarks().withFaceDescriptors();
-                if (detections.length === 0) {
-                    resolve(null);
-                    return;
-                }
-
-                const detection = detections[0];
-                const { x, y, width, height } = detection.detection.box;
-
-                const canvas = document.createElement('canvas');
-                const padding = width * 0.4;
-                const canvasWidth = width + padding * 2;
-                const canvasHeight = height + padding * 2;
-                canvas.width = canvasWidth;
-                canvas.height = canvasHeight;
-                
-                const ctx = canvas.getContext('2d');
-                if (!ctx) {
-                    reject(new Error("Could not get canvas context"));
-                    return;
-                }
-
-                ctx.drawImage(
-                    img,
-                    x - padding, y - padding,
-                    width + padding * 2, height + padding * 2,
-                    0, 0,
-                    canvasWidth, canvasHeight
-                );
-
-                resolve(canvas.toDataURL('image/png'));
-            };
-            img.onerror = (err) => reject(err);
-        });
-    }, [faceApi]);
-    
-    const extractAndCropImageFromFile = useCallback(async (file: File): Promise<string | null> => {
-        const fileType = file.type;
-
-        // Handle direct image uploads
-        if (fileType.startsWith('image/')) {
-            const dataUrl = await new Promise<string>(resolve => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result as string);
-                reader.readAsDataURL(file);
-            });
-            return cropFaceFromImage(dataUrl);
-        }
-
-        // Handle DOCX files
-        if (fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-            const zip = await JSZip.loadAsync(file);
-            const imageFiles = zip.folder('word/media')?.files;
-            if (!imageFiles) return null;
-
-            for (const fileName in imageFiles) {
-                if (Object.prototype.hasOwnProperty.call(imageFiles, fileName)) {
-                    const imageFile = imageFiles[fileName];
-                    const blob = await imageFile.async('blob');
-                    const dataUrl = await new Promise<string>(resolve => {
-                        const reader = new FileReader();
-                        reader.onload = () => resolve(reader.result as string);
-                        reader.readAsDataURL(blob);
-                    });
-
-                    const croppedImage = await cropFaceFromImage(dataUrl);
-                    if (croppedImage) {
-                        return croppedImage; // Return the first face found
-                    }
-                }
-            }
-        }
-        
-        // TODO: Handle PDF files
-        if (fileType === 'application/pdf') {
-             toast({
-                title: "Chưa hỗ trợ PDF",
-                description: "Tính năng trích xuất ảnh từ PDF sẽ được cập nhật sớm.",
-             });
-        }
-
-        return null;
-    }, [cropFaceFromImage, toast]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []); // Run only once
 
     const processFile = async (file: File) => {
         setIsLoading(true);
-        setLoadingMessage("Đang đọc tệp...");
-    
+
         try {
+            // Setup worker message listener
+            const workerPromise = new Promise<string | null>((resolve, reject) => {
+                if (!worker) {
+                    // This should ideally not happen if worker initializes correctly
+                    console.error("Worker not initialized!");
+                    resolve(null); // Resolve with null if worker is not ready
+                    return;
+                }
+                
+                const handleWorkerMessage = (event: MessageEvent) => {
+                    const { avatarUrl, error } = event.data;
+                    worker.removeEventListener('message', handleWorkerMessage); // Clean up listener
+                    if (error) {
+                        console.error("Error from face detection worker:", error);
+                        toast({
+                            variant: "destructive",
+                            title: "Lỗi xử lý ảnh",
+                            description: "Không thể nhận diện khuôn mặt từ tệp.",
+                        });
+                        resolve(null); // Resolve with null on error
+                    } else {
+                        resolve(avatarUrl);
+                    }
+                };
+
+                worker.addEventListener('message', handleWorkerMessage);
+                worker.postMessage({ file });
+            });
+            
+            // Read file for AI processing
             const documentReader = new FileReader();
             documentReader.readAsDataURL(file);
-    
-            // This onload will execute after the file is read.
-            documentReader.onload = async (e) => {
-                const document = e.target?.result as string;
-                if (!document) {
-                    throw new Error("Could not read file.");
-                }
-    
-                setLoadingMessage("AI đang phân tích & xử lý ảnh...");
-    
-                try {
-                    // Run AI analysis and image processing in parallel
-                    const [profileData, avatarUrl] = await Promise.all([
-                        createProfile({ document }),
-                        extractAndCropImageFromFile(file)
-                    ]);
-    
-                    // Combine results
-                    const finalProfile: ProfileWithAvatar = { ...profileData };
-                    if (avatarUrl) {
-                        finalProfile.avatarUrl = avatarUrl;
-                        toast({
-                            title: "Phát hiện khuôn mặt!",
-                            description: "Đã tự động cắt và đặt làm ảnh đại diện.",
-                            className: "bg-accent-green text-white",
-                        });
-                    } else {
-                        toast({
-                            title: "Phân tích thành công!",
-                            description: "AI đã trích xuất thông tin. Không tìm thấy ảnh đại diện phù hợp.",
-                        });
-                    }
-                    
-                    setAnalysisResult(finalProfile);
-                    setIsResultDialogOpen(true);
-                } catch (error) {
-                    console.error("Profile Generation Error:", error);
-                    toast({
-                        variant: "destructive",
-                        title: "Đã có lỗi xảy ra",
-                        description: "Không thể xử lý tệp của bạn. Vui lòng thử lại.",
-                    });
-                } finally {
-                    setIsLoading(false);
-                    setFileInputKey(Date.now());
-                    setLoadingMessage("Đang phân tích...");
-                }
-            };
-    
-            documentReader.onerror = (error) => {
-                console.error("File Reading Error:", error);
+
+            const documentPromise = new Promise<string>((resolve, reject) => {
+                 documentReader.onload = (e) => resolve(e.target?.result as string);
+                 documentReader.onerror = (e) => reject(new Error("File reading failed"));
+            });
+
+            // Start both tasks
+            const [document] = await Promise.all([documentPromise]);
+
+            setLoadingMessage("AI đang phân tích & xử lý ảnh...");
+
+            // Run AI analysis and image processing in parallel
+            const [profileData, avatarUrl] = await Promise.all([
+                createProfile({ document }),
+                workerPromise
+            ]);
+
+            // Combine results
+            const finalProfile: ProfileWithAvatar = { ...profileData };
+            if (avatarUrl) {
+                finalProfile.avatarUrl = avatarUrl;
                 toast({
-                    variant: "destructive",
-                    title: "Lỗi đọc tệp",
-                    description: "Không thể đọc được tệp bạn đã chọn.",
+                    title: "Phát hiện khuôn mặt!",
+                    description: "Đã tự động cắt và đặt làm ảnh đại diện.",
+                    className: "bg-accent-green text-white",
                 });
-                setIsLoading(false);
-            };
-    
+            } else {
+                toast({
+                    title: "Phân tích thành công!",
+                    description: "AI đã trích xuất thông tin. Không tìm thấy ảnh đại diện phù hợp.",
+                });
+            }
+            
+            setAnalysisResult(finalProfile);
+            setIsResultDialogOpen(true);
+
         } catch (error) {
-            console.error("Initial Processing Error:", error);
+            console.error("Profile Generation Error:", error);
             toast({
                 variant: "destructive",
                 title: "Đã có lỗi xảy ra",
-                description: "Không thể bắt đầu xử lý tệp.",
+                description: "Không thể xử lý tệp của bạn. Vui lòng thử lại.",
             });
+        } finally {
             setIsLoading(false);
+            setFileInputKey(Date.now());
+            setLoadingMessage("Đang phân tích...");
         }
     };
     
@@ -229,6 +139,7 @@ export default function AiProfilePage() {
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (!file) return;
+        setLoadingMessage("Đang đọc tệp...");
         await processFile(file);
     };
 

@@ -19,6 +19,22 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  webpack: (config, { isServer }) => {
+    // Config for web workers
+    config.module.rules.push({
+      test: /\.worker\.ts$/,
+      loader: 'worker-loader',
+      options: {
+        filename: 'static/chunks/[name].[contenthash].js',
+        publicPath: '/_next/',
+      },
+    });
+
+    // Overcome Webpack referencing `window` in chunks
+    config.output.globalObject = 'this';
+    
+    return config;
+  },
 };
 
 export default nextConfig;

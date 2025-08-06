@@ -1,7 +1,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Briefcase, Users, ArrowRight, BookOpen, Search, Map, GraduationCap, Building, MapPin, TrendingUp } from 'lucide-react';
+import { Briefcase, Users, ArrowRight, BookOpen, Search, Map, GraduationCap, Building, MapPin, TrendingUp, Cpu } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
@@ -251,22 +251,22 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col md:flex-row items-center gap-12 rounded-lg bg-accent text-primary-foreground p-12 lg:p-16">
             <div className="md:w-1/2">
-              <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Bạn là nhà tuyển dụng?</h2>
+              <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Giải pháp cho Khu Công Nghiệp</h2>
               <p className="text-lg text-primary-foreground/80 mb-8">
-                Tìm kiếm và tiếp cận hàng ngàn ứng viên tiềm năng. Đăng tin tuyển dụng và quản lý hồ sơ một cách dễ dàng và hiệu quả.
+                Xây dựng cổng thông tin nhân sự và đào tạo riêng cho KCN của bạn với mô hình PPaaS (Private Portal as a Service) - giải pháp toàn diện để thu hút, đào tạo và giữ chân nhân tài.
               </p>
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link href="/employers">Dành cho Nhà tuyển dụng</Link>
+                <Link href="/employers">Tìm hiểu về PPaaS Private Portal</Link>
               </Button>
             </div>
              <div className="md:w-1/2 flex justify-center">
               <Image
                 src="https://placehold.co/600x400.png"
-                alt="Nhà tuyển dụng"
+                alt="Kiến trúc hệ thống PPaaS"
                 width={500}
                 height={350}
                 className="rounded-lg shadow-xl"
-                data-ai-hint="business meeting"
+                data-ai-hint="system architecture diagram"
               />
             </div>
           </div>

@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -21,9 +21,31 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
+import type { CandidateProfile } from '@/ai/flows/create-profile-flow';
+import Link from 'next/link';
+import { Skeleton } from '@/components/ui/skeleton';
 
+const emptyCandidate: CandidateProfile = {
+    name: 'Chưa có thông tin',
+    headline: 'Vui lòng tạo hồ sơ bằng AI hoặc cập nhật thủ công',
+    location: 'Chưa có thông tin',
+    about: 'Chưa có thông tin, vui lòng nhấn nút chỉnh sửa để thêm.',
+    education: [],
+    experience: [],
+    personalInfo: {
+      birthYear: new Date().getFullYear(),
+      gender: 'N/A',
+      phone: 'N/A',
+      language: 'N/A'
+    },
+    interests: [],
+    skills: [],
+    certifications: [],
+    desiredIndustry: 'N/A',
+};
 
-const initialCandidate = {
+const initialCandidate: CandidateProfile & { avatarUrl?: string; videoUrl?: string; experienceImages?: any[] } = {
+    ...emptyCandidate,
     name: 'Lê Thị An',
     avatarUrl: 'https://placehold.co/128x128.png',
     headline: 'Sinh viên năm cuối - ĐH Bách Khoa - Sẵn sàng đi làm',
@@ -92,17 +114,70 @@ const EditDialog = ({ children, title, onSave, content, description }: { childre
 
 
 export default function CandidateProfilePage() {
-  const [candidate, setCandidate] = useState(initialCandidate);
-  const [tempCandidate, setTempCandidate] = useState(JSON.parse(JSON.stringify(initialCandidate)));
+  const [candidate, setCandidate] = useState<typeof initialCandidate | null>(null);
+  const [tempCandidate, setTempCandidate] = useState<typeof initialCandidate | null>(null);
   const [newSkill, setNewSkill] = useState('');
   const [newInterest, setNewInterest] = useState('');
 
-  const handleSave = (section: keyof typeof initialCandidate | 'skillsAndInterests' | null) => {
+  useEffect(() => {
+    const storedProfile = localStorage.getItem('generatedCandidateProfile');
+    let profileToLoad: typeof initialCandidate;
+
+    if (storedProfile) {
+      const parsedProfile = JSON.parse(storedProfile);
+      profileToLoad = {
+        ...parsedProfile,
+        avatarUrl: 'https://placehold.co/128x128.png',
+        videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+        experienceImages: [
+            { src: 'https://placehold.co/600x400.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
+            { src: 'https://placehold.co/600x400.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
+            { src: 'https://placehold.co/600x400.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
+        ],
+      };
+      // Clean up local storage after loading
+      localStorage.removeItem('generatedCandidateProfile');
+    } else {
+        // Fallback to initial (demo) data if nothing in storage
+        profileToLoad = initialCandidate;
+    }
+    setCandidate(profileToLoad);
+    setTempCandidate(JSON.parse(JSON.stringify(profileToLoad)));
+  }, []);
+
+  if (!candidate || !tempCandidate) {
+      return (
+        <div className="bg-secondary">
+            <div className="container mx-auto px-4 md:px-6 py-12">
+                <div className="max-w-5xl mx-auto">
+                    <Card className="shadow-2xl overflow-hidden">
+                        <CardHeader className="p-0">
+                            <Skeleton className="h-32 bg-gray-300" />
+                            <div className="p-6 flex flex-col md:flex-row items-center md:items-end -mt-16">
+                                <Skeleton className="h-32 w-32 rounded-full border-4 border-background bg-gray-400" />
+                                <div className="md:ml-6 mt-4 md:mt-0 text-center md:text-left space-y-2">
+                                    <Skeleton className="h-8 w-64" />
+                                    <Skeleton className="h-6 w-80" />
+                                </div>
+                            </div>
+                        </CardHeader>
+                        <CardContent className="p-6">
+                            <Skeleton className="h-96 w-full" />
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+        </div>
+      );
+  }
+
+  const handleSave = () => {
     setCandidate(JSON.parse(JSON.stringify(tempCandidate)));
   };
 
   const handleChange = (section: keyof typeof tempCandidate, index: number, field: string, value: any) => {
       setTempCandidate(prev => {
+          if (!prev) return null;
           const newCandidate = { ...prev };
           // @ts-ignore
           newCandidate[section][index][field] = value;
@@ -112,6 +187,7 @@ export default function CandidateProfilePage() {
 
   const handleAddItem = (section: 'experience' | 'education' | 'certifications') => {
       setTempCandidate(prev => {
+          if (!prev) return null;
           const newCandidate = { ...prev };
           if (section === 'experience') {
               newCandidate.experience.push({ company: '', role: '', period: '', description: '' });
@@ -126,6 +202,7 @@ export default function CandidateProfilePage() {
 
   const handleRemoveItem = (section: 'experience' | 'education' | 'certifications' | 'skills' | 'interests', indexOrValue: number | string) => {
       setTempCandidate(prev => {
+          if (!prev) return null;
           const newCandidate = { ...prev };
           if (section === 'skills' || section === 'interests') {
               // @ts-ignore
@@ -140,6 +217,7 @@ export default function CandidateProfilePage() {
   
   const handleCertificationChange = (index: number, value: string) => {
       setTempCandidate(prev => {
+          if (!prev) return null;
           const newCandidate = { ...prev };
           newCandidate.certifications[index] = value;
           return newCandidate;
@@ -148,6 +226,7 @@ export default function CandidateProfilePage() {
   
   const handleCheckboxChange = (field: 'skills' | 'interests', value: string) => {
     setTempCandidate(prev => {
+        if (!prev) return null;
         const newCandidate = { ...prev };
         const currentValues = newCandidate[field];
         const newValues = currentValues.includes(value)
@@ -159,11 +238,12 @@ export default function CandidateProfilePage() {
   };
 
   const handleAddNewChip = (field: 'skills' | 'interests') => {
+      if (!tempCandidate) return;
       const valueToAdd = field === 'skills' ? newSkill.trim() : newInterest.trim();
       if (valueToAdd && !tempCandidate[field].includes(valueToAdd)) {
           setTempCandidate(prev => ({
-              ...prev,
-              [field]: [...prev[field], valueToAdd]
+              ...prev!,
+              [field]: [...prev![field], valueToAdd]
           }));
           if (field === 'skills') {
               setNewSkill('');
@@ -195,7 +275,7 @@ export default function CandidateProfilePage() {
                 </div>
                  <EditDialog
                     title="Chỉnh sửa thông tin cơ bản"
-                    onSave={() => handleSave(null)}
+                    onSave={handleSave}
                     content={
                         <div className="space-y-4">
                             <div className="space-y-2">
@@ -226,7 +306,7 @@ export default function CandidateProfilePage() {
                     <CardTitle className="font-headline text-xl flex items-center"><User className="mr-3 text-primary"/> Giới thiệu bản thân</CardTitle>
                      <EditDialog
                         title="Chỉnh sửa Giới thiệu bản thân"
-                        onSave={() => handleSave('about')}
+                        onSave={handleSave}
                         content={
                             <Textarea value={tempCandidate.about} onChange={(e) => setTempCandidate({...tempCandidate, about: e.target.value})} rows={6} />
                         }
@@ -244,7 +324,7 @@ export default function CandidateProfilePage() {
                         <CardTitle className="font-headline text-xl flex items-center"><Video className="mr-3 text-primary"/> Video giới thiệu</CardTitle>
                         <EditDialog
                             title="Chỉnh sửa Video giới thiệu"
-                            onSave={() => handleSave('videoUrl')}
+                            onSave={handleSave}
                             content={
                                 <div className="space-y-2">
                                     <Label htmlFor="video-url-edit">Link YouTube Video</Label>
@@ -256,9 +336,13 @@ export default function CandidateProfilePage() {
                         </EditDialog>
                     </CardHeader>
                     <CardContent>
-                        <div className="aspect-video rounded-lg overflow-hidden">
-                            <iframe className="w-full h-full" src={candidate.videoUrl} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                        </div>
+                        {candidate.videoUrl ? (
+                            <div className="aspect-video rounded-lg overflow-hidden">
+                                <iframe className="w-full h-full" src={candidate.videoUrl} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                            </div>
+                        ) : (
+                            <div className="text-center text-muted-foreground p-4">Chưa có video giới thiệu.</div>
+                        )}
                     </CardContent>
                 </Card>
 
@@ -267,7 +351,7 @@ export default function CandidateProfilePage() {
                     <CardTitle className="font-headline text-xl flex items-center"><Briefcase className="mr-3 text-primary"/> Kinh nghiệm làm việc</CardTitle>
                      <EditDialog
                         title="Chỉnh sửa Kinh nghiệm làm việc"
-                        onSave={() => handleSave('experience')}
+                        onSave={handleSave}
                         content={
                             <div className="space-y-6">
                                 {tempCandidate.experience.map((exp, index) => (
@@ -298,14 +382,16 @@ export default function CandidateProfilePage() {
                      </EditDialog>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    {candidate.experience.map((exp, index) => (
+                    {candidate.experience.length > 0 ? candidate.experience.map((exp, index) => (
                         <div key={index} className="relative pl-6 before:absolute before:left-0 before:top-2 before:h-2 before:w-2 before:rounded-full before:bg-primary">
                             <h4 className="font-bold">{exp.role}</h4>
                             <p className="font-semibold text-sm text-primary">{exp.company}</p>
                             <p className="text-xs text-muted-foreground mb-1">{exp.period}</p>
                             <p className="text-sm text-muted-foreground">{exp.description}</p>
                         </div>
-                    ))}
+                    )) : (
+                        <p className="text-muted-foreground">Chưa có thông tin. <Link href="/ai-profile" className="text-primary hover:underline">Tạo hồ sơ bằng AI</Link> hoặc nhấn nút sửa để thêm.</p>
+                    )}
                   </CardContent>
                 </Card>
 
@@ -315,7 +401,7 @@ export default function CandidateProfilePage() {
                         <Button variant="ghost" size="icon"><PlusCircle className="h-4 w-4"/></Button>
                     </CardHeader>
                     <CardContent className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                        {candidate.experienceImages.map((img, index) => (
+                        {candidate.experienceImages && candidate.experienceImages.length > 0 ? candidate.experienceImages.map((img, index) => (
                             <div key={index} className="relative group overflow-hidden rounded-lg">
                                 <Image src={img.src} alt={img.alt} width={400} height={300} className="rounded-lg object-cover aspect-video" data-ai-hint={img.dataAiHint} />
                                 <div className="absolute inset-0 bg-black/50 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -327,7 +413,7 @@ export default function CandidateProfilePage() {
                                     </Button>
                                 </div>
                             </div>
-                        ))}
+                        )) : <p className="text-muted-foreground col-span-full">Chưa có hình ảnh.</p>}
                     </CardContent>
                 </Card>
                 
@@ -336,7 +422,7 @@ export default function CandidateProfilePage() {
                     <CardTitle className="font-headline text-xl flex items-center"><GraduationCap className="mr-3 text-primary"/> Học vấn</CardTitle>
                      <EditDialog
                         title="Chỉnh sửa Học vấn"
-                        onSave={() => handleSave('education')}
+                        onSave={handleSave}
                         content={
                             <div className="space-y-6">
                                 {tempCandidate.education.map((edu, index) => (
@@ -365,13 +451,15 @@ export default function CandidateProfilePage() {
                     </EditDialog>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                     {candidate.education.map((edu, index) => (
+                     {candidate.education.length > 0 ? candidate.education.map((edu, index) => (
                         <div key={index} className="relative pl-6 before:absolute before:left-0 before:top-2 before:h-2 before:w-2 before:rounded-full before:bg-primary">
                             <p className="font-semibold flex items-center gap-2"><School className="h-4 w-4"/> {edu.school}</p>
                             <p className="text-muted-foreground ml-6">Chuyên ngành: {edu.degree}</p>
                             <p className="text-muted-foreground ml-6">Tốt nghiệp năm: {edu.gradYear}</p>
                         </div>
-                     ))}
+                     )) : (
+                        <p className="text-muted-foreground">Chưa có thông tin.</p>
+                     )}
                   </CardContent>
                 </Card>
               </div>
@@ -383,7 +471,7 @@ export default function CandidateProfilePage() {
                     <CardTitle className="font-headline text-xl flex items-center"><User className="mr-3 text-primary"/> Thông tin cá nhân</CardTitle>
                     <EditDialog
                         title="Chỉnh sửa Thông tin cá nhân"
-                        onSave={() => handleSave('personalInfo')}
+                        onSave={handleSave}
                         content={
                             <div className="space-y-4">
                                 <Label>Năm sinh</Label>
@@ -415,7 +503,7 @@ export default function CandidateProfilePage() {
                     <EditDialog
                         title="Chỉnh sửa Kỹ năng & Lĩnh vực"
                         description="Chọn các mục có sẵn hoặc thêm mới để làm nổi bật hồ sơ của bạn."
-                        onSave={() => handleSave('skillsAndInterests')}
+                        onSave={handleSave}
                         content={
                             <div className="space-y-6">
                                 <div className="space-y-2">
@@ -477,11 +565,11 @@ export default function CandidateProfilePage() {
                   <CardContent>
                      <h4 className="font-semibold mb-2 text-sm">Kỹ năng</h4>
                      <div className="flex flex-wrap gap-2 mb-4">
-                        {candidate.skills.map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>)}
+                        {candidate.skills.length > 0 ? candidate.skills.map(skill => <Badge key={skill} variant="secondary">{skill}</Badge>) : <p className="text-muted-foreground text-sm">Chưa có kỹ năng.</p>}
                      </div>
                      <h4 className="font-semibold mb-2 text-sm">Lĩnh vực quan tâm</h4>
                      <div className="flex flex-wrap gap-2">
-                        {candidate.interests.map(interest => <Badge key={interest} className="bg-accent-blue text-white">{interest}</Badge>)}
+                        {candidate.interests.length > 0 ? candidate.interests.map(interest => <Badge key={interest} className="bg-accent-blue text-white">{interest}</Badge>) : <p className="text-muted-foreground text-sm">Chưa có lĩnh vực quan tâm.</p>}
                      </div>
                   </CardContent>
                 </Card>
@@ -491,7 +579,7 @@ export default function CandidateProfilePage() {
                     <CardTitle className="font-headline text-xl flex items-center"><Award className="mr-3 text-primary"/> Chứng chỉ & Giải thưởng</CardTitle>
                      <EditDialog
                         title="Chỉnh sửa Chứng chỉ & Giải thưởng"
-                        onSave={() => handleSave('certifications')}
+                        onSave={handleSave}
                         content={
                              <div className="space-y-6">
                                 {tempCandidate.certifications.map((cert, index) => (
@@ -515,9 +603,9 @@ export default function CandidateProfilePage() {
                     </EditDialog>
                   </CardHeader>
                   <CardContent className="space-y-2">
-                     {candidate.certifications.map((cert, index) => (
+                     {candidate.certifications.length > 0 ? candidate.certifications.map((cert, index) => (
                          <p key={index} className="text-sm flex items-center gap-2"><Award className="h-4 w-4 text-muted-foreground"/>{cert}</p>
-                     ))}
+                     )) : <p className="text-muted-foreground text-sm">Chưa có chứng chỉ.</p>}
                   </CardContent>
                 </Card>
 
@@ -533,5 +621,3 @@ export default function CandidateProfilePage() {
 
 // Re-importing X icon since it's used in the new Chip selection UI
 import { X } from 'lucide-react';
-
-    

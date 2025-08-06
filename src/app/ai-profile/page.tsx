@@ -4,17 +4,76 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Upload, FileText, FileUp, Sparkles, Send, Mic } from "lucide-react";
+import { Upload, FileText, FileUp, Sparkles, Send, Mic, Loader2 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { createProfile } from "@/ai/flows/create-profile-flow";
+import { useToast } from "@/hooks/use-toast";
 
 export default function AiProfilePage() {
     const router = useRouter();
+    const { toast } = useToast();
+    const [isLoading, setIsLoading] = useState(false);
+    const [fileInputKey, setFileInputKey] = useState(Date.now()); // Used to reset file input
+
+
+    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        setIsLoading(true);
+
+        // 1. Convert file to Data URI (base64)
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = async () => {
+            const document = reader.result as string;
+            
+            try {
+                // 2. Call the Genkit Flow (Server Action)
+                const profileData = await createProfile({ document });
+
+                // 3. Save the result to localStorage
+                localStorage.setItem('generatedCandidateProfile', JSON.stringify(profileData));
+                
+                toast({
+                    title: "Hồ sơ đã được tạo!",
+                    description: "AI đã phân tích và điền thông tin. Đang chuyển hướng...",
+                    className: "bg-green-500 text-white",
+                });
+
+                // 4. Redirect to the candidate profile page
+                router.push('/candidate-profile');
+
+            } catch (error) {
+                console.error("AI Profile Generation Error:", error);
+                toast({
+                    variant: "destructive",
+                    title: "Đã có lỗi xảy ra",
+                    description: "Không thể phân tích hồ sơ. Vui lòng thử lại với một tệp khác hoặc điền thông tin thủ công.",
+                });
+            } finally {
+                setIsLoading(false);
+                // Reset file input so user can upload the same file again if needed
+                setFileInputKey(Date.now());
+            }
+        };
+        reader.onerror = (error) => {
+            console.error("File Reading Error:", error);
+            toast({
+                variant: "destructive",
+                title: "Lỗi đọc tệp",
+                description: "Không thể đọc tệp bạn đã chọn. Vui lòng thử lại.",
+            });
+            setIsLoading(false);
+            setFileInputKey(Date.now());
+        };
+    };
 
     const handleSend = () => {
-        // In a real app, you would handle the AI processing here.
-        // For this demo, we'll just navigate to the profile page.
+        // This is a dummy function for now, but could be implemented to process text input.
+        // For this flow, we focus on file upload.
         router.push('/candidate-profile');
     };
 
@@ -34,11 +93,29 @@ export default function AiProfilePage() {
 
                     <Card className="text-center p-8 md:p-12 border-2 border-dashed border-primary/20 hover:border-primary/50 transition-colors duration-300 shadow-lg">
                         <CardContent className="flex flex-col items-center justify-center gap-6">
-                            <div className="w-full bg-background rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-primary/5">
-                                 <Upload className="h-16 w-16 text-primary mb-4" />
-                                <p className="font-bold text-xl mb-2">Tải lên hồ sơ, giấy tờ, bằng cấp</p>
-                                <p className="text-muted-foreground text-sm">Hỗ trợ các định dạng PDF, DOCX, PNG, JPG...</p>
-                                <Input id="ai-upload" type="file" className="sr-only" />
+                             <div className="relative w-full bg-background rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-primary/5">
+                                {isLoading ? (
+                                    <>
+                                        <Loader2 className="h-16 w-16 text-primary mb-4 animate-spin" />
+                                        <p className="font-bold text-xl mb-2">Đang phân tích hồ sơ...</p>
+                                        <p className="text-muted-foreground text-sm">Vui lòng đợi trong giây lát.</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Upload className="h-16 w-16 text-primary mb-4" />
+                                        <p className="font-bold text-xl mb-2">Tải lên hồ sơ, giấy tờ, bằng cấp</p>
+                                        <p className="text-muted-foreground text-sm">Hỗ trợ các định dạng PDF, DOCX, PNG, JPG...</p>
+                                        <Input 
+                                            key={fileInputKey}
+                                            id="ai-upload" 
+                                            type="file" 
+                                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                                            onChange={handleFileChange}
+                                            accept="image/*,.pdf,.doc,.docx"
+                                            disabled={isLoading}
+                                        />
+                                    </>
+                                )}
                             </div>
                             <div className="flex items-center gap-4 w-full">
                                 <hr className="flex-grow border-border"/>

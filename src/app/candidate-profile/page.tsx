@@ -97,8 +97,9 @@ export default function CandidateProfilePage() {
             { src: 'https://placehold.co/600x400.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
         ],
       };
+      console.log(profileToLoad)
       // Clean up local storage after loading to prevent stale data on next visit
-      localStorage.removeItem('generatedCandidateProfile');
+    //   localStorage.removeItem('generatedCandidateProfile');
     } else {
         // Fallback to an empty profile if nothing is in storage
         profileToLoad = { ...emptyCandidate };

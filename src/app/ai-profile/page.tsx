@@ -27,6 +27,7 @@ export default function AiProfilePage() {
     const [fileInputKey, setFileInputKey] = useState(Date.now()); // Used to reset file input
     const [analysisResult, setAnalysisResult] = useState<CandidateProfile | null>(null);
     const [isResultDialogOpen, setIsResultDialogOpen] = useState(false);
+    const [textInput, setTextInput] = useState('');
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -48,7 +49,6 @@ export default function AiProfilePage() {
                     className: "bg-green-500 text-white",
                 });
                 
-                // Show the result in a dialog instead of redirecting
                 setAnalysisResult(profileData);
                 setIsResultDialogOpen(true);
 
@@ -57,7 +57,7 @@ export default function AiProfilePage() {
                 toast({
                     variant: "destructive",
                     title: "Đã có lỗi xảy ra",
-                    description: "Không thể phân tích hồ sơ. Vui lòng thử lại với một tệp khác hoặc điền thông tin thủ công.",
+                    description: "Không thể phân tích hồ sơ. Vui lòng thử lại.",
                 });
             } finally {
                 setIsLoading(false);
@@ -76,10 +76,39 @@ export default function AiProfilePage() {
         };
     };
 
-    const handleSend = () => {
-        // This is a dummy function for now, but could be implemented to process text input.
-        // For this flow, we focus on file upload.
-        router.push('/candidate-profile');
+    const handleSend = async () => {
+        if (!textInput.trim()) {
+            toast({
+                variant: "destructive",
+                title: "Vui lòng nhập thông tin",
+                description: "Bạn cần nhập mô tả bản thân hoặc dán CV vào ô văn bản.",
+            });
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            const profileData = await createProfile({ text: textInput });
+
+            toast({
+                title: "Phân tích thành công!",
+                description: "AI đã phân tích và trích xuất thông tin từ văn bản của bạn.",
+                className: "bg-green-500 text-white",
+            });
+            
+            setAnalysisResult(profileData);
+            setIsResultDialogOpen(true);
+
+        } catch (error) {
+            console.error("AI Profile Generation Error (Text):", error);
+            toast({
+                variant: "destructive",
+                title: "Đã có lỗi xảy ra",
+                description: "Không thể phân tích văn bản. Vui lòng thử lại.",
+            });
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleProceed = () => {
@@ -107,10 +136,10 @@ export default function AiProfilePage() {
                         <Card className="text-center p-8 md:p-12 border-2 border-dashed border-primary/20 hover:border-primary/50 transition-colors duration-300 shadow-lg">
                             <CardContent className="flex flex-col items-center justify-center gap-6">
                                  <div className="relative w-full bg-background rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-primary/5">
-                                    {isLoading ? (
+                                    {isLoading && !analysisResult ? (
                                         <>
                                             <Loader2 className="h-16 w-16 text-primary mb-4 animate-spin" />
-                                            <p className="font-bold text-xl mb-2">Đang phân tích hồ sơ...</p>
+                                            <p className="font-bold text-xl mb-2">Đang phân tích...</p>
                                             <p className="text-muted-foreground text-sm">Vui lòng đợi trong giây lát.</p>
                                         </>
                                     ) : (
@@ -139,9 +168,12 @@ export default function AiProfilePage() {
                                     <Textarea 
                                         placeholder="Sao chép và dán mô tả công việc, hoặc mô tả về bản thân bạn ở đây..."
                                         className="w-full h-40 text-base p-4 pr-24"
+                                        value={textInput}
+                                        onChange={(e) => setTextInput(e.target.value)}
+                                        disabled={isLoading}
                                     />
-                                    <Button className="absolute bottom-4 right-4 bg-primary text-white" onClick={handleSend}>
-                                        <Send />
+                                    <Button className="absolute bottom-4 right-4 bg-primary text-white" onClick={handleSend} disabled={isLoading}>
+                                        {isLoading ? <Loader2 className="animate-spin" /> : <Send />}
                                         Gửi
                                     </Button>
                                  </div>

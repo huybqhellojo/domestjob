@@ -86,6 +86,21 @@ const industriesByMarketAndJobType: { [key: string]: { [key: string]: string[] }
       'Xây dựng', 
       'May mặc'
     ],
+    'Kỹ năng đặc định': [
+        'Ngư nghiệp',
+        'Nông nghiệp',
+        'Nhà hàng',
+        'Thực phầm',
+        'Sản xuất, dịch vụ tổng hợp',
+        'Điện, điện tử',
+        'Chế tạo Vật liệu',
+        'Cơ khí, chế tạo máy',
+        'Ô tô',
+        'Hàng không Vận tải Xây dựng',
+        'Vệ sinh toà nhà',
+        'Lưu trú, khách sạn',
+        'Điều dưỡng'
+    ]
   },
 };
 

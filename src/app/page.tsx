@@ -49,7 +49,7 @@ const jobTypesByMarket: { [key: string]: string[] } = {
 };
 
 const markets = [
-    { value: 'vn', label: 'Trong nước (KCN)' },
+    { value: 'vn', label: 'Trong nước (Khu công nghiệp)' },
     { value: 'jp', label: 'Nhật Bản' }
 ];
 

@@ -81,11 +81,16 @@ export default function Home() {
                     </Select>
                 </div>
                 <div className="md:col-span-3 space-y-2">
-                  <Label htmlFor="search-location" className="text-foreground">Khu vực</Label>
-                  <div className="relative">
-                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                    <Input id="search-location" placeholder="Quận 9, TP.HCM" className="pl-10" />
-                  </div>
+                   <Label htmlFor="search-market" className="text-foreground">Thị trường</Label>
+                   <Select>
+                      <SelectTrigger id="search-market">
+                        <SelectValue placeholder="Chọn thị trường" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="vn">Trong nước (KCN)</SelectItem>
+                        <SelectItem value="jp">Nhật Bản</SelectItem>
+                      </SelectContent>
+                    </Select>
                 </div>
                 <div className="md:col-span-2">
                    <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-white text-lg">
@@ -275,5 +280,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     

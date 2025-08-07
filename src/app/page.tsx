@@ -87,7 +87,7 @@ export default function Home() {
                     </Select>
                 </div>
                 <div className="md:col-span-3 space-y-2">
-                  <Label htmlFor="search-type" className="text-foreground">Loại hình, chức danh, kỹ năng</Label>
+                  <Label htmlFor="search-type" className="text-foreground">Loại hình, kỹ năng</Label>
                   <Select>
                     <SelectTrigger id="search-type" disabled={!selectedMarket}>
                       <SelectValue placeholder={selectedMarket ? "Chọn loại hình" : "Vui lòng chọn thị trường trước"} />

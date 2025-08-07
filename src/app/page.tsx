@@ -55,7 +55,7 @@ const jobTypesByMarket: { [key: string]: string[] } = {
 
 const locationsByMarket: { [key: string]: string[] } = {
     vn: [
-        'Hà Nội', 'TP. Hồ Chí Minh', 'Bắc Ninh', 'Hải Dương', 'Hưng Yên', 'Vĩnh Phúc', 'Hải Phòng', 'Quảng Ninh', 'Thái Nguyên', 'Bắc Giang', 'Phú Thọ', 'Hà Nam', 'Nam Định', 'Ninh Bình', 'Thanh Hóa', 'Nghệ An', 'Hà Tĩnh', 'Đà Nẵng', 'Quảng Nam', 'Quảng Ngãi', 'Bình Định', 'Khánh Hòa', 'Bình Dương', 'Đồng Nai', 'Bà Rịa - Vũng Tàu', 'Long An', 'Tây Ninh', 'Bình Phước', 'Tiền Giang', 'Bến Tre', 'Vĩnh Long', 'Cần Thơ', 'An Giang', 'Kiên Giang'
+        'An Giang', 'Bắc Ninh', 'Cà Mau', 'Cao Bằng', 'TP. Cần Thơ', 'TP. Đà Nẵng', 'Điện Biên', 'Đồng Nai', 'Đồng Tháp', 'Gia Lai', 'TP. Hà Nội', 'Hà Tĩnh', 'TP. Hải Phòng', 'Hưng Yên', 'Khánh Hoà', 'Lai Châu', 'Lào Cai', 'Lạng Sơn', 'Lâm Đồng', 'Ninh Bình', 'Nghệ An', 'Phú Thọ', 'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị', 'Sơn La', 'Tây Ninh', 'Thái Nguyên', 'Thanh Hóa', 'Tuyên Quang', 'Vĩnh Long', 'TP. Huế', 'TP. Hồ Chí Minh', 'Yên Bái'
     ],
     jp: [
         'Aichi', 'Akita', 'Aomori', 'Chiba', 'Ehime', 'Fukui', 'Fukuoka', 'Fukushima', 'Gifu', 'Gunma', 'Hiroshima', 'Hokkaido', 'Hyogo', 'Ibaraki', 'Ishikawa', 'Iwate', 'Kagawa', 'Kagoshima', 'Kanagawa', 'Kochi', 'Kumamoto', 'Kyoto', 'Mie', 'Miyagi', 'Miyazaki', 'Nagano', 'Nagasaki', 'Nara', 'Niigata', 'Oita', 'Okayama', 'Okinawa', 'Osaka', 'Saga', 'Saitama', 'Shiga', 'Shimane', 'Shizuoka', 'Tochigi', 'Tokushima', 'Tokyo', 'Tottori', 'Toyama', 'Wakayama', 'Yamagata', 'Yamaguchi', 'Yamanashi'

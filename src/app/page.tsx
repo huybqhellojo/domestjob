@@ -8,7 +8,7 @@ import { Briefcase, Users, ArrowRight, BookOpen, Search, Map, GraduationCap, Bui
 import Link from 'next/link';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 
 const featuredEmployers = [
@@ -53,25 +53,30 @@ const jobTypesByMarket: { [key: string]: string[] } = {
   jp: ['Thực tập sinh', 'Kỹ năng đặc định', 'Kỹ sư, tri thức'],
 };
 
-const locationsByMarket: { [key: string]: string[] } = {
-    vn: [
-        'An Giang', 'Bắc Ninh', 'Cà Mau', 'Cao Bằng', 'TP. Cần Thơ', 'TP. Đà Nẵng', 'Điện Biên', 'Đồng Nai', 'Đồng Tháp', 'Gia Lai', 'TP. Hà Nội', 'Hà Tĩnh', 'TP. Hải Phòng', 'Hưng Yên', 'Khánh Hoà', 'Lai Châu', 'Lào Cai', 'Lạng Sơn', 'Lâm Đồng', 'Ninh Bình', 'Nghệ An', 'Phú Thọ', 'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị', 'Sơn La', 'Tây Ninh', 'Thái Nguyên', 'Thanh Hóa', 'Tuyên Quang', 'Vĩnh Long', 'TP. Huế', 'TP. Hồ Chí Minh', 'Yên Bái'
-    ],
-    jp: [
-        'Aichi', 'Akita', 'Aomori', 'Chiba', 'Ehime', 'Fukui', 'Fukuoka', 'Fukushima', 'Gifu', 'Gunma', 'Hiroshima', 'Hokkaido', 'Hyogo', 'Ibaraki', 'Ishikawa', 'Iwate', 'Kagawa', 'Kagoshima', 'Kanagawa', 'Kochi', 'Kumamoto', 'Kyoto', 'Mie', 'Miyagi', 'Miyazaki', 'Nagano', 'Nagasaki', 'Nara', 'Niigata', 'Oita', 'Okayama', 'Okinawa', 'Osaka', 'Saga', 'Saitama', 'Shiga', 'Shimane', 'Shizuoka', 'Tochigi', 'Tokushima', 'Tokyo', 'Tottori', 'Toyama', 'Wakayama', 'Yamagata', 'Yamaguchi', 'Yamanashi'
-    ]
+const locationsByMarket: { [key: string]: { regions?: string[], prefectures: string[] } } = {
+    vn: {
+        prefectures: [
+            'An Giang', 'Bắc Ninh', 'Cà Mau', 'Cao Bằng', 'TP. Cần Thơ', 'TP. Đà Nẵng', 'Điện Biên', 'Đồng Nai', 'Đồng Tháp', 'Gia Lai', 'TP. Hà Nội', 'Hà Tĩnh', 'TP. Hải Phòng', 'Hưng Yên', 'Khánh Hoà', 'Lai Châu', 'Lào Cai', 'Lạng Sơn', 'Lâm Đồng', 'Ninh Bình', 'Nghệ An', 'Phú Thọ', 'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị', 'Sơn La', 'Tây Ninh', 'Thái Nguyên', 'Thanh Hóa', 'Tuyên Quang', 'Vĩnh Long', 'TP. Huế', 'TP. Hồ Chí Minh', 'Yên Bái'
+        ]
+    },
+    jp: {
+        regions: ['Hokkaido', 'Tohoku', 'Kanto', 'Chubu', 'Kansai', 'Chugoku', 'Shikoku', 'Kyushu'],
+        prefectures: [
+            'Aichi', 'Akita', 'Aomori', 'Chiba', 'Ehime', 'Fukui', 'Fukuoka', 'Fukushima', 'Gifu', 'Gunma', 'Hiroshima', 'Hokkaido', 'Hyogo', 'Ibaraki', 'Ishikawa', 'Iwate', 'Kagawa', 'Kagoshima', 'Kanagawa', 'Kochi', 'Kumamoto', 'Kyoto', 'Mie', 'Miyagi', 'Miyazaki', 'Nagano', 'Nagasaki', 'Nara', 'Niigata', 'Oita', 'Okayama', 'Okinawa', 'Osaka', 'Saga', 'Saitama', 'Shiga', 'Shimane', 'Shizuoka', 'Tochigi', 'Tokushima', 'Tokyo', 'Tottori', 'Toyama', 'Wakayama', 'Yamagata', 'Yamaguchi', 'Yamanashi'
+        ]
+    }
 };
 
 
 export default function Home() {
   const [selectedMarket, setSelectedMarket] = useState('');
   const [jobTypes, setJobTypes] = useState<string[]>([]);
-  const [locations, setLocations] = useState<string[]>([]);
+  const [locations, setLocations] = useState<{ regions?: string[], prefectures: string[] } | null>(null);
 
   const handleMarketChange = useCallback((value: string) => {
     setSelectedMarket(value);
     setJobTypes(jobTypesByMarket[value] || []);
-    setLocations(locationsByMarket[value] || []);
+    setLocations(locationsByMarket[value] || null);
   }, []);
 
   useEffect(() => {
@@ -146,9 +151,20 @@ export default function Home() {
                       <SelectValue placeholder={selectedMarket ? "Chọn địa điểm" : "Vui lòng chọn thị trường"} />
                     </SelectTrigger>
                     <SelectContent>
-                      {locations.map(loc => (
-                        <SelectItem key={loc} value={loc}>{loc}</SelectItem>
-                      ))}
+                        {locations?.regions && (
+                            <SelectGroup>
+                                <SelectLabel>Vùng</SelectLabel>
+                                {locations.regions.map(region => (
+                                    <SelectItem key={region} value={region}>{region}</SelectItem>
+                                ))}
+                            </SelectGroup>
+                        )}
+                         <SelectGroup>
+                            <SelectLabel>{locations?.regions ? 'Tỉnh' : 'Tỉnh/Thành phố'}</SelectLabel>
+                            {locations?.prefectures.map(loc => (
+                                <SelectItem key={loc} value={loc}>{loc}</SelectItem>
+                            ))}
+                        </SelectGroup>
                     </SelectContent>
                   </Select>
                 </div>

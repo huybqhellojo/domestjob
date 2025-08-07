@@ -71,10 +71,10 @@ export default function Home() {
             </p>
           </div>
 
-          <Card className="max-w-5xl mx-auto mt-[-2rem] shadow-2xl z-10 relative">
+          <Card className="max-w-6xl mx-auto mt-[-2rem] shadow-2xl z-10 relative">
             <CardContent className="p-4 md:p-6">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
-                <div className="md:col-span-4 space-y-2">
+                <div className="md:col-span-3 space-y-2">
                   <Label htmlFor="search-type" className="text-foreground">Loại hình, chức danh, kỹ năng</Label>
                   <Select>
                     <SelectTrigger id="search-type" disabled={!selectedMarket}>
@@ -102,7 +102,11 @@ export default function Home() {
                       </SelectContent>
                     </Select>
                 </div>
-                <div className="md:col-span-3 space-y-2">
+                 <div className="md:col-span-2 space-y-2">
+                   <Label htmlFor="search-location" className="text-foreground">Địa điểm, khu vực</Label>
+                   <Input id="search-location" placeholder="VD: Bắc Ninh, Tokyo" />
+                </div>
+                <div className="md:col-span-2 space-y-2">
                    <Label htmlFor="search-market" className="text-foreground">Thị trường</Label>
                    <Select onValueChange={handleMarketChange}>
                       <SelectTrigger id="search-market">

@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Briefcase, Users, ArrowRight, BookOpen, Search, Map, GraduationCap, Building, MapPin, TrendingUp, Cpu } from 'lucide-react';
@@ -48,14 +48,26 @@ const jobTypesByMarket: { [key: string]: string[] } = {
   jp: ['Thực tập sinh', 'Kỹ năng đặc định', 'Kỹ sư, tri thức'],
 };
 
+const markets = [
+    { value: 'vn', label: 'Trong nước (KCN)' },
+    { value: 'jp', label: 'Nhật Bản' }
+];
+
 export default function Home() {
   const [selectedMarket, setSelectedMarket] = useState('');
   const [jobTypes, setJobTypes] = useState<string[]>([]);
 
-  const handleMarketChange = (value: string) => {
+  const handleMarketChange = useCallback((value: string) => {
     setSelectedMarket(value);
     setJobTypes(jobTypesByMarket[value] || []);
-  };
+  }, []);
+
+  useEffect(() => {
+    // Randomize the default market on initial client load to avoid hydration mismatch
+    const randomMarket = markets[Math.floor(Math.random() * markets.length)];
+    handleMarketChange(randomMarket.value);
+  }, [handleMarketChange]);
+
 
   return (
     <div className="flex flex-col items-center">
@@ -76,13 +88,14 @@ export default function Home() {
               <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
                 <div className="md:col-span-3 space-y-2">
                    <Label htmlFor="search-market" className="text-foreground">Thị trường</Label>
-                   <Select onValueChange={handleMarketChange}>
+                   <Select onValueChange={handleMarketChange} value={selectedMarket}>
                       <SelectTrigger id="search-market">
                         <SelectValue placeholder="Chọn thị trường" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="vn">Trong nước (KCN)</SelectItem>
-                        <SelectItem value="jp">Nhật Bản</SelectItem>
+                        {markets.map(market => (
+                            <SelectItem key={market.value} value={market.value}>{market.label}</SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                 </div>
@@ -90,7 +103,7 @@ export default function Home() {
                   <Label htmlFor="search-type" className="text-foreground">Loại hình, kỹ năng</Label>
                   <Select>
                     <SelectTrigger id="search-type" disabled={!selectedMarket}>
-                      <SelectValue placeholder={selectedMarket ? "Chọn loại hình" : "Vui lòng chọn thị trường trước"} />
+                      <SelectValue placeholder={selectedMarket ? "Chọn loại hình" : "Vui lòng chọn thị trường"} />
                     </SelectTrigger>
                     <SelectContent>
                       {jobTypes.map(type => (
@@ -115,7 +128,7 @@ export default function Home() {
                     </Select>
                 </div>
                  <div className="md:col-span-2 space-y-2">
-                   <Label htmlFor="search-location" className="text-foreground">Địa điểm</Label>
+                   <Label htmlFor="search-location" className="text-foreground">Địa điểm, khu vực</Label>
                    <Input id="search-location" placeholder="VD: Bắc Ninh" />
                 </div>
                 <div className="md:col-span-2">

@@ -43,23 +43,35 @@ const featuredCourses = [
   },
 ]
 
-const jobTypesByMarket: { [key: string]: string[] } = {
-  vn: ['Lao động phổ thông', 'Lao động lành nghề', 'Kỹ sư, tri thức'],
-  jp: ['Thực tập sinh', 'Kỹ năng đặc định', 'Kỹ sư, tri thức'],
-};
-
 const markets = [
     { value: 'vn', label: 'Trong nước (Khu công nghiệp)' },
     { value: 'jp', label: 'Nhật Bản' }
 ];
 
+const jobTypesByMarket: { [key: string]: string[] } = {
+  vn: ['Lao động phổ thông', 'Lao động lành nghề', 'Kỹ sư, tri thức'],
+  jp: ['Thực tập sinh', 'Kỹ năng đặc định', 'Kỹ sư, tri thức'],
+};
+
+const locationsByMarket: { [key: string]: string[] } = {
+    vn: [
+        'An Giang', 'Bà Rịa - Vũng Tàu', 'Bắc Giang', 'Bắc Kạn', 'Bạc Liêu', 'Bắc Ninh', 'Bến Tre', 'Bình Định', 'Bình Dương', 'Bình Phước', 'Bình Thuận', 'Cà Mau', 'Cần Thơ', 'Cao Bằng', 'Đà Nẵng', 'Đắk Lắk', 'Đắk Nông', 'Điện Biên', 'Đồng Nai', 'Đồng Tháp', 'Gia Lai', 'Hà Giang', 'Hà Nam', 'Hà Nội', 'Hà Tĩnh', 'Hải Dương', 'Hải Phòng', 'Hậu Giang', 'Hòa Bình', 'Hưng Yên', 'Khánh Hòa', 'Kiên Giang', 'Kon Tum', 'Lai Châu', 'Lâm Đồng', 'Lạng Sơn', 'Lào Cai', 'Long An', 'Nam Định', 'Nghệ An', 'Ninh Bình', 'Ninh Thuận', 'Phú Thọ', 'Phú Yên', 'Quảng Bình', 'Quảng Nam', 'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị', 'Sóc Trăng', 'Sơn La', 'Tây Ninh', 'Thái Bình', 'Thái Nguyên', 'Thanh Hóa', 'Thừa Thiên Huế', 'Tiền Giang', 'TP. Hồ Chí Minh', 'Trà Vinh', 'Tuyên Quang', 'Vĩnh Long', 'Vĩnh Phúc', 'Yên Bái'
+    ],
+    jp: [
+        'Aichi', 'Akita', 'Aomori', 'Chiba', 'Ehime', 'Fukui', 'Fukuoka', 'Fukushima', 'Gifu', 'Gunma', 'Hiroshima', 'Hokkaido', 'Hyogo', 'Ibaraki', 'Ishikawa', 'Iwate', 'Kagawa', 'Kagoshima', 'Kanagawa', 'Kochi', 'Kumamoto', 'Kyoto', 'Mie', 'Miyagi', 'Miyazaki', 'Nagano', 'Nagasaki', 'Nara', 'Niigata', 'Oita', 'Okayama', 'Okinawa', 'Osaka', 'Saga', 'Saitama', 'Shiga', 'Shimane', 'Shizuoka', 'Tochigi', 'Tokushima', 'Tokyo', 'Tottori', 'Toyama', 'Wakayama', 'Yamagata', 'Yamaguchi', 'Yamanashi'
+    ]
+};
+
+
 export default function Home() {
   const [selectedMarket, setSelectedMarket] = useState('');
   const [jobTypes, setJobTypes] = useState<string[]>([]);
+  const [locations, setLocations] = useState<string[]>([]);
 
   const handleMarketChange = useCallback((value: string) => {
     setSelectedMarket(value);
     setJobTypes(jobTypesByMarket[value] || []);
+    setLocations(locationsByMarket[value] || []);
   }, []);
 
   useEffect(() => {
@@ -129,7 +141,16 @@ export default function Home() {
                 </div>
                  <div className="md:col-span-2 space-y-2">
                    <Label htmlFor="search-location" className="text-foreground">Địa điểm, khu vực</Label>
-                   <Input id="search-location" placeholder="VD: Bắc Ninh" />
+                   <Select>
+                    <SelectTrigger id="search-location" disabled={!selectedMarket}>
+                      <SelectValue placeholder={selectedMarket ? "Chọn địa điểm" : "Vui lòng chọn thị trường"} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {locations.map(loc => (
+                        <SelectItem key={loc} value={loc}>{loc}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="md:col-span-2">
                    <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-white text-lg">

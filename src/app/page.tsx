@@ -90,7 +90,7 @@ const industriesByMarketAndJobType: { [key: string]: { [key: string]: string[] }
         'Ngư nghiệp',
         'Nông nghiệp',
         'Nhà hàng',
-        'Thực phầm',
+        'Thực phẩm',
         'Sản xuất, dịch vụ tổng hợp',
         'Điện, điện tử',
         'Chế tạo Vật liệu',
@@ -100,6 +100,28 @@ const industriesByMarketAndJobType: { [key: string]: { [key: string]: string[] }
         'Vệ sinh toà nhà',
         'Lưu trú, khách sạn',
         'Điều dưỡng'
+    ],
+    'Kỹ sư, tri thức': [
+        'Nông lâm ngư nghiệp',
+        'Thực phẩm',
+        'Sản xuất, chế tạo, công nghệ',
+        'Cơ khí, máy móc',
+        'Công nghệ ô tô',
+        'Vận chuyển hàng hóa',
+        'Xây dựng',
+        'Khách sạn, lưu trú',
+        'Y tế, điều dưỡng',
+        'Kinh doanh, kinh tế',
+        'Tài chính, kế toán, bảo hiểm',
+        'Báo chí, truyền thông, marketing',
+        'Công nghệ thông tin',
+        'Nghiên cứu, phân tích',
+        'Giáo dục, đào tạo Hành chính, văn phòng',
+        'Pháp lý',
+        'Nghệ thuật, nghệ sĩ',
+        'Thể dục thể thao',
+        'Nghề có kỹ năng chuyên nghiệp',
+        'Việc làm bán chuyên nghiệp'
     ]
   },
 };

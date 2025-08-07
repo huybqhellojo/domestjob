@@ -75,6 +75,18 @@ export default function Home() {
             <CardContent className="p-4 md:p-6">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
                 <div className="md:col-span-3 space-y-2">
+                   <Label htmlFor="search-market" className="text-foreground">Thị trường</Label>
+                   <Select onValueChange={handleMarketChange}>
+                      <SelectTrigger id="search-market">
+                        <SelectValue placeholder="Chọn thị trường" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="vn">Trong nước (KCN)</SelectItem>
+                        <SelectItem value="jp">Nhật Bản</SelectItem>
+                      </SelectContent>
+                    </Select>
+                </div>
+                <div className="md:col-span-3 space-y-2">
                   <Label htmlFor="search-type" className="text-foreground">Loại hình, chức danh, kỹ năng</Label>
                   <Select>
                     <SelectTrigger id="search-type" disabled={!selectedMarket}>
@@ -87,11 +99,11 @@ export default function Home() {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="md:col-span-3 space-y-2">
+                <div className="md:col-span-2 space-y-2">
                   <Label htmlFor="search-industry" className="text-foreground">Ngành nghề</Label>
                    <Select>
                       <SelectTrigger id="search-industry">
-                        <SelectValue placeholder="Tất cả ngành nghề" />
+                        <SelectValue placeholder="Tất cả" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="it">Công nghệ thông tin</SelectItem>
@@ -103,20 +115,8 @@ export default function Home() {
                     </Select>
                 </div>
                  <div className="md:col-span-2 space-y-2">
-                   <Label htmlFor="search-location" className="text-foreground">Địa điểm, khu vực</Label>
-                   <Input id="search-location" placeholder="VD: Bắc Ninh, Tokyo" />
-                </div>
-                <div className="md:col-span-2 space-y-2">
-                   <Label htmlFor="search-market" className="text-foreground">Thị trường</Label>
-                   <Select onValueChange={handleMarketChange}>
-                      <SelectTrigger id="search-market">
-                        <SelectValue placeholder="Chọn thị trường" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="vn">Trong nước (KCN)</SelectItem>
-                        <SelectItem value="jp">Nhật Bản</SelectItem>
-                      </SelectContent>
-                    </Select>
+                   <Label htmlFor="search-location" className="text-foreground">Địa điểm</Label>
+                   <Input id="search-location" placeholder="VD: Bắc Ninh" />
                 </div>
                 <div className="md:col-span-2">
                    <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-white text-lg">

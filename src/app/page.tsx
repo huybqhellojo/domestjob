@@ -67,23 +67,54 @@ const locationsByMarket: { [key: string]: { regions?: string[], prefectures: str
     }
 };
 
+const defaultIndustries = [
+    'Công nghệ thông tin',
+    'Cơ khí',
+    'Dệt may',
+    'Điện tử',
+    'Logistics'
+];
+
+const industriesByMarketAndJobType: { [key: string]: { [key: string]: string[] } } = {
+  jp: {
+    'Thực tập sinh': [
+      'Ngư nghiệp', 
+      'Nông Nghiệp', 
+      'Thực phẩm', 
+      'Sản xuất, dịch vụ tổng hợp', 
+      'Cơ khí, kim loại', 
+      'Xây dựng', 
+      'May mặc'
+    ],
+  },
+};
 
 export default function Home() {
   const [selectedMarket, setSelectedMarket] = useState('');
+  const [selectedJobType, setSelectedJobType] = useState('');
   const [jobTypes, setJobTypes] = useState<string[]>([]);
   const [locations, setLocations] = useState<{ regions?: string[], prefectures: string[] } | null>(null);
+  const [industries, setIndustries] = useState<string[]>(defaultIndustries);
 
   const handleMarketChange = useCallback((value: string) => {
     setSelectedMarket(value);
+    setSelectedJobType(''); // Reset job type when market changes
     setJobTypes(jobTypesByMarket[value] || []);
     setLocations(locationsByMarket[value] || null);
   }, []);
 
   useEffect(() => {
     // Randomize the default market on initial client load to avoid hydration mismatch
-    const randomMarket = markets[Math.floor(Math.random() * markets.length)];
-    handleMarketChange(randomMarket.value);
-  }, [handleMarketChange]);
+    if (!selectedMarket) {
+      const randomMarket = markets[Math.floor(Math.random() * markets.length)];
+      handleMarketChange(randomMarket.value);
+    }
+  }, [handleMarketChange, selectedMarket]);
+
+  useEffect(() => {
+    const specificIndustries = industriesByMarketAndJobType[selectedMarket]?.[selectedJobType];
+    setIndustries(specificIndustries || defaultIndustries);
+  }, [selectedMarket, selectedJobType]);
 
 
   return (
@@ -118,7 +149,7 @@ export default function Home() {
                 </div>
                 <div className="md:col-span-3 space-y-2">
                   <Label htmlFor="search-type" className="text-foreground">Loại hình, kỹ năng</Label>
-                  <Select>
+                  <Select onValueChange={setSelectedJobType} value={selectedJobType}>
                     <SelectTrigger id="search-type" disabled={!selectedMarket}>
                       <SelectValue placeholder={selectedMarket ? "Chọn loại hình" : "Vui lòng chọn thị trường"} />
                     </SelectTrigger>
@@ -132,15 +163,13 @@ export default function Home() {
                 <div className="md:col-span-2 space-y-2">
                   <Label htmlFor="search-industry" className="text-foreground">Ngành nghề</Label>
                    <Select>
-                      <SelectTrigger id="search-industry">
+                      <SelectTrigger id="search-industry" disabled={!selectedMarket}>
                         <SelectValue placeholder="Tất cả" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="it">Công nghệ thông tin</SelectItem>
-                        <SelectItem value="cokhi">Cơ khí</SelectItem>
-                        <SelectItem value="detmay">Dệt may</SelectItem>
-                        <SelectItem value="dientu">Điện tử</SelectItem>
-                        <SelectItem value="logistics">Logistics</SelectItem>
+                        {industries.map(industry => (
+                          <SelectItem key={industry} value={industry}>{industry}</SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                 </div>

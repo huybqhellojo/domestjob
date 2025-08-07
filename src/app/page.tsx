@@ -1,4 +1,7 @@
 
+'use client';
+
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Briefcase, Users, ArrowRight, BookOpen, Search, Map, GraduationCap, Building, MapPin, TrendingUp, Cpu } from 'lucide-react';
@@ -40,7 +43,20 @@ const featuredCourses = [
   },
 ]
 
+const jobTypesByMarket: { [key: string]: string[] } = {
+  vn: ['Lao động phổ thông', 'Lao động lành nghề', 'Kỹ sư, tri thức'],
+  jp: ['Thực tập sinh', 'Kỹ năng đặc định', 'Kỹ sư, tri thức'],
+};
+
 export default function Home() {
+  const [selectedMarket, setSelectedMarket] = useState('');
+  const [jobTypes, setJobTypes] = useState<string[]>([]);
+
+  const handleMarketChange = (value: string) => {
+    setSelectedMarket(value);
+    setJobTypes(jobTypesByMarket[value] || []);
+  };
+
   return (
     <div className="flex flex-col items-center">
       {/* Hero Section for Candidates */}
@@ -59,11 +75,17 @@ export default function Home() {
             <CardContent className="p-4 md:p-6">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
                 <div className="md:col-span-4 space-y-2">
-                  <Label htmlFor="search-title" className="text-foreground">Chức danh, kỹ năng</Label>
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                    <Input id="search-title" placeholder="Công nhân, kỹ sư, CNC..." className="pl-10" />
-                  </div>
+                  <Label htmlFor="search-type" className="text-foreground">Loại hình, chức danh, kỹ năng</Label>
+                  <Select>
+                    <SelectTrigger id="search-type" disabled={!selectedMarket}>
+                      <SelectValue placeholder={selectedMarket ? "Chọn loại hình" : "Vui lòng chọn thị trường trước"} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {jobTypes.map(type => (
+                        <SelectItem key={type} value={type}>{type}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="md:col-span-3 space-y-2">
                   <Label htmlFor="search-industry" className="text-foreground">Ngành nghề</Label>
@@ -82,7 +104,7 @@ export default function Home() {
                 </div>
                 <div className="md:col-span-3 space-y-2">
                    <Label htmlFor="search-market" className="text-foreground">Thị trường</Label>
-                   <Select>
+                   <Select onValueChange={handleMarketChange}>
                       <SelectTrigger id="search-market">
                         <SelectValue placeholder="Chọn thị trường" />
                       </SelectTrigger>
@@ -280,7 +302,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
-
-    

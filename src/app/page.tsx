@@ -161,10 +161,10 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
-              Nâng cao kỹ năng, làm chủ tương lai
+              Định hình tư duy, Vững bước tương lai
             </h1>
             <p className="text-lg md:text-xl max-w-3xl mx-auto mb-10 text-white/80">
-              Phát triển từ lao động phổ thông thành chuyên gia tay nghề cao với lộ trình đào tạo rõ ràng và hàng ngàn cơ hội việc làm.
+             Chúng tôi không chỉ cung cấp việc làm, mà còn đào tạo tư duy và xây dựng lộ trình phát triển sự nghiệp (SWR) rõ ràng, giúp bạn từ lao động phổ thông trở thành chuyên gia lành nghề.
             </p>
           </div>
 

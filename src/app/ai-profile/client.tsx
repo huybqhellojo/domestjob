@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -7,8 +8,9 @@ import { Upload, FileText, FileUp, Sparkles, Send, Mic, Loader2, StopCircle } fr
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
-import { createProfile, CandidateProfile } from "@/ai/flows/create-profile-flow";
+import { createProfile } from "@/ai/flows/create-profile-flow";
 import { createProfileFromVoice } from "@/ai/flows/create-profile-from-voice-flow";
+import { type CandidateProfile } from "@/ai/schemas";
 import { useToast } from "@/hooks/use-toast";
 import {
     Dialog,

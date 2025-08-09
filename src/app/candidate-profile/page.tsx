@@ -21,7 +21,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from "@/components/ui/checkbox";
-import type { CandidateProfile } from '@/ai/flows/create-profile-flow';
+import type { CandidateProfile } from '@/ai/schemas';
 import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -689,3 +689,4 @@ export default function CandidateProfilePage() {
     
 
     
+

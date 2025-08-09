@@ -5,13 +5,12 @@
  *
  * - createProfileFromVoice - A function that handles the profile creation process from transcribed text.
  * - CreateProfileFromVoiceInput - The input type for the createProfileFromVoice function.
- * - CandidateProfile - The TypeScript type for the output profile data.
  * - textToSpeech - A function to convert text to speech audio data.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
-import {CandidateProfile, CandidateProfileSchema} from './create-profile-flow';
+import { CandidateProfileSchema, type CandidateProfile } from '@/ai/schemas';
 import wav from 'wav';
 
 export type CreateProfileFromVoiceInput = z.infer<typeof z.string>;

@@ -114,6 +114,15 @@ export default function CandidateProfilePage() {
       { src: 'https://placehold.co/400x600.png', alt: 'Toàn thân trái', dataAiHint: 'full body left' },
       { src: 'https://placehold.co/400x600.png', alt: 'Toàn thân phải', dataAiHint: 'full body right' },
     ];
+    
+    const defaultVideos: MediaItem[] = [
+        { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video giới thiệu bản thân', dataAiHint: 'self introduction video' },
+        { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video kỹ năng 1', dataAiHint: 'skill demonstration' },
+        { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video kỹ năng 2', dataAiHint: 'welding skill' },
+        { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video trả lời phỏng vấn', dataAiHint: 'interview answers' },
+        { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video dự án', dataAiHint: 'project showcase' },
+        { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video khác', dataAiHint: 'personal video' },
+    ];
 
     if (storedProfile) {
       try {
@@ -122,20 +131,16 @@ export default function CandidateProfilePage() {
           ...emptyCandidate,
           ...parsedProfile,
           avatarUrl: parsedProfile.avatarUrl || 'https://placehold.co/128x128.png',
-          videos: (parsedProfile.videos && parsedProfile.videos.length > 0) ? parsedProfile.videos : [
-            { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video giới thiệu bản thân', dataAiHint: 'self introduction video' },
-          ],
+          videos: (parsedProfile.videos && parsedProfile.videos.length > 0) ? parsedProfile.videos : defaultVideos,
           images: (parsedProfile.images && parsedProfile.images.length > 0) ? parsedProfile.images : defaultImages,
         };
       } catch (error) {
         console.error("Failed to parse candidate profile from localStorage", error);
-        profileToLoad = { ...emptyCandidate, videos: [], images: defaultImages };
+        profileToLoad = { ...emptyCandidate, videos: defaultVideos, images: defaultImages };
       }
     } else {
         profileToLoad = { ...emptyCandidate, 
-            videos: [
-                { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video giới thiệu bản thân', dataAiHint: 'self introduction video' },
-            ],
+            videos: defaultVideos,
             images: defaultImages
         };
     }
@@ -523,8 +528,8 @@ export default function CandidateProfilePage() {
       <CardContent>
         <Carousel className="w-full" opts={{align: "start", loop: true}}>
             <CarouselContent className="-ml-2 md:-ml-4">
-                {items.slice(0, 5).map((item, index) => (
-                    <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
+                {items.slice(0, 6).map((item, index) => (
+                    <CarouselItem key={index} className="pl-2 md:pl-4 basis-[30%] md:basis-1/3 lg:basis-1/4">
                        <div className="relative group overflow-hidden rounded-lg aspect-[9/16] cursor-pointer">
                             <Image src={item.thumbnail || item.src} alt={item.alt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={item.dataAiHint} />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -809,3 +814,5 @@ export default function CandidateProfilePage() {
     </div>
   );
 }
+
+

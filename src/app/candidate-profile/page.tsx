@@ -106,6 +106,15 @@ export default function CandidateProfilePage() {
     const storedProfile = localStorage.getItem('generatedCandidateProfile');
     let profileToLoad: EnrichedCandidateProfile;
 
+    const defaultImages: MediaItem[] = [
+      { src: 'https://placehold.co/400x600.png', alt: 'Ảnh trước', dataAiHint: 'front view portrait' },
+      { src: 'https://placehold.co/400x600.png', alt: 'Ảnh trái', dataAiHint: 'left side portrait' },
+      { src: 'https://placehold.co/400x600.png', alt: 'Ảnh phải', dataAiHint: 'right side portrait' },
+      { src: 'https://placehold.co/400x600.png', alt: 'Toàn thân trước', dataAiHint: 'full body front' },
+      { src: 'https://placehold.co/400x600.png', alt: 'Toàn thân trái', dataAiHint: 'full body left' },
+      { src: 'https://placehold.co/400x600.png', alt: 'Toàn thân phải', dataAiHint: 'full body right' },
+    ];
+
     if (storedProfile) {
       try {
         const parsedProfile: EnrichedCandidateProfile = JSON.parse(storedProfile);
@@ -115,30 +124,19 @@ export default function CandidateProfilePage() {
           avatarUrl: parsedProfile.avatarUrl || 'https://placehold.co/128x128.png',
           videos: (parsedProfile.videos && parsedProfile.videos.length > 0) ? parsedProfile.videos : [
             { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video giới thiệu bản thân', dataAiHint: 'self introduction video' },
-            { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video giới thiệu kỹ năng', dataAiHint: 'skill demonstration video' },
           ],
-          images: (parsedProfile.images && parsedProfile.images.length > 0) ? parsedProfile.images : [
-            { src: 'https://placehold.co/400x600.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
-            { src: 'https://placehold.co/400x600.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
-            { src: 'https://placehold.co/400x600.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
-            { src: 'https://placehold.co/400x600.png', alt: 'Chứng chỉ tay nghề', dataAiHint: 'skill certification' },
-            { src: 'https://placehold.co/400x600.png', alt: 'Hoạt động nhóm', dataAiHint: 'team activity' },
-          ],
+          images: (parsedProfile.images && parsedProfile.images.length > 0) ? parsedProfile.images : defaultImages,
         };
       } catch (error) {
         console.error("Failed to parse candidate profile from localStorage", error);
-        profileToLoad = { ...emptyCandidate };
+        profileToLoad = { ...emptyCandidate, videos: [], images: defaultImages };
       }
     } else {
         profileToLoad = { ...emptyCandidate, 
             videos: [
                 { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video giới thiệu bản thân', dataAiHint: 'self introduction video' },
             ],
-            images: [
-                { src: 'https://placehold.co/400x600.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
-                { src: 'https://placehold.co/400x600.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
-                { src: 'https://placehold.co/400x600.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
-            ] 
+            images: defaultImages
         };
     }
     setCandidate(profileToLoad);
@@ -181,25 +179,30 @@ export default function CandidateProfilePage() {
   const handleSave = () => {
     setCandidate(JSON.parse(JSON.stringify(tempCandidate)));
   };
-
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  
+  const handleMediaChange = (type: 'avatar' | 'image', e: React.ChangeEvent<HTMLInputElement>, index?: number) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        const newAvatarUrl = reader.result as string;
+        const newUrl = reader.result as string;
         setTempCandidate(prev => {
           if (!prev) return null;
-          return { ...prev, avatarUrl: newAvatarUrl };
-        });
-        setCandidate(prev => {
-          if (!prev) return null;
-          return { ...prev, avatarUrl: newAvatarUrl };
+          const newCandidate = {...prev};
+          if (type === 'avatar') {
+             newCandidate.avatarUrl = newUrl;
+          } else if (type === 'image' && index !== undefined) {
+             newCandidate.images[index].src = newUrl;
+          }
+          // Also update the final candidate state to reflect change immediately
+          setCandidate(JSON.parse(JSON.stringify(newCandidate)));
+          return newCandidate;
         });
       };
       reader.readAsDataURL(file);
     }
   };
+
 
   const handleChange = (section: keyof typeof tempCandidate, index: number, field: string, value: any) => {
       setTempCandidate(prev => {
@@ -511,10 +514,10 @@ export default function CandidateProfilePage() {
     </div>
   );
   
-  const MediaCarousel = ({ items, type, title }: { items: MediaItem[], type: 'video' | 'image', title: string }) => (
+  const MediaCarousel = ({ items, title }: { items: MediaItem[], title: string }) => (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="font-headline text-xl flex items-center">{type === 'video' ? <Video className="mr-3 text-primary"/> : <ImageIcon className="mr-3 text-primary"/>} {title}</CardTitle>
+          <CardTitle className="font-headline text-xl flex items-center"><Video className="mr-3 text-primary"/> {title}</CardTitle>
           <Button variant="ghost" size="icon"><PlusCircle className="h-5 w-5"/></Button>
       </CardHeader>
       <CardContent>
@@ -522,24 +525,14 @@ export default function CandidateProfilePage() {
             <CarouselContent className="-ml-2 md:-ml-4">
                 {items.slice(0, 5).map((item, index) => (
                     <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 sm:basis-1/3 lg:basis-1/4">
-                       <div className="relative group overflow-hidden rounded-lg aspect-[9/16] cursor-pointer">
+                       <div className="relative group overflow-hidden rounded-lg aspect-video cursor-pointer">
                             <Image src={item.thumbnail || item.src} alt={item.alt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={item.dataAiHint} />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                            {type === 'video' && (
-                                <div className="absolute inset-0 flex items-center justify-center">
-                                    <PlayCircle className="h-12 w-12 text-white/80 drop-shadow-lg" />
-                                </div>
-                            )}
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <PlayCircle className="h-12 w-12 text-white/80 drop-shadow-lg" />
+                            </div>
                             <div className="absolute bottom-2 left-2 text-white text-xs font-semibold drop-shadow-md p-1 bg-black/40 rounded">
                                 {item.alt}
-                            </div>
-                            <div className="absolute top-2 right-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <Button variant="ghost" size="icon" className="h-8 w-8 bg-black/50 text-white hover:bg-black/70 hover:text-white">
-                                    <RefreshCw className="h-4 w-4" />
-                                </Button>
-                                <Button variant="ghost" size="icon" className="h-8 w-8 bg-black/50 text-destructive hover:bg-destructive/70 hover:text-destructive-foreground">
-                                    <Trash2 className="h-4 w-4" />
-                                </Button>
                             </div>
                         </div>
                     </CarouselItem>
@@ -551,6 +544,40 @@ export default function CandidateProfilePage() {
       </CardContent>
     </Card>
   );
+
+  const BodyPhotos = ({items, onImageChange}: {items: MediaItem[], onImageChange: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void}) => (
+    <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle className="font-headline text-xl flex items-center"><ImageIcon className="mr-3 text-primary"/> Ảnh hình thể</CardTitle>
+             <Dialog>
+                <DialogTrigger asChild>
+                    <Button variant="ghost" size="icon"><PlusCircle className="h-5 w-5"/></Button>
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Cập nhật ảnh hình thể</DialogTitle>
+                        <DialogDescription>Tải lên các ảnh theo yêu cầu để hoàn thiện hồ sơ.</DialogDescription>
+                    </DialogHeader>
+                    {/* Add management UI here if needed */}
+                </DialogContent>
+             </Dialog>
+        </CardHeader>
+        <CardContent className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {items.map((item, index) => (
+                <div key={index} className="space-y-2">
+                    <div className="relative group aspect-[3/4] rounded-lg overflow-hidden border">
+                         <Image src={item.src} alt={item.alt} fill className="object-cover" data-ai-hint={item.dataAiHint} />
+                         <Label htmlFor={`image-upload-${index}`} className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                            <Camera className="h-8 w-8 text-white"/>
+                         </Label>
+                         <Input id={`image-upload-${index}`} type="file" className="hidden" accept="image/*" onChange={(e) => onImageChange(e, index)} />
+                    </div>
+                    <p className="text-center text-sm font-semibold text-muted-foreground">{item.alt}</p>
+                </div>
+            ))}
+        </CardContent>
+    </Card>
+  )
 
 
   return (
@@ -570,7 +597,7 @@ export default function CandidateProfilePage() {
                         <Camera className="h-5 w-5" />
                         <span className="sr-only">Change avatar</span>
                     </Label>
-                    <Input id="avatar-upload" type="file" className="hidden" accept="image/png, image/jpeg, image/gif" onChange={handleAvatarChange}/>
+                    <Input id="avatar-upload" type="file" className="hidden" accept="image/*" onChange={(e) => handleMediaChange('avatar', e)}/>
                  </div>
                 <div className="md:ml-6 mt-4 md:mt-0 text-center md:text-left">
                   <h1 className="text-3xl font-headline font-bold">{candidate.name}</h1>
@@ -618,8 +645,9 @@ export default function CandidateProfilePage() {
                   </CardContent>
                 </Card>
 
-                {candidate.videos.length > 0 && <MediaCarousel items={candidate.videos} type="video" title="Video giới thiệu" />}
-                {candidate.images.length > 0 && <MediaCarousel items={candidate.images} type="image" title="Thư viện ảnh" />}
+                {candidate.videos.length > 0 && <MediaCarousel items={candidate.videos} title="Video giới thiệu" />}
+                
+                {candidate.images.length > 0 && <BodyPhotos items={candidate.images} onImageChange={(e, index) => handleMediaChange('image', e, index)} />}
 
 
                 <Card>
@@ -773,3 +801,5 @@ export default function CandidateProfilePage() {
     </div>
   );
 }
+
+    

@@ -521,7 +521,7 @@ export default function CandidateProfilePage() {
           <Button variant="ghost" size="icon"><PlusCircle className="h-5 w-5"/></Button>
       </CardHeader>
       <CardContent>
-        <Carousel className="w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-none mx-auto" opts={{align: "start", loop: true}}>
+        <Carousel className="w-full" opts={{align: "start", loop: true}}>
             <CarouselContent className="-ml-2 md:-ml-4">
                 {items.slice(0, 5).map((item, index) => (
                     <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 sm:basis-1/3 lg:basis-1/4">
@@ -545,7 +545,7 @@ export default function CandidateProfilePage() {
     </Card>
   );
 
-  const BodyPhotos = ({items, onImageChange}: {items: MediaItem[], onImageChange: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void}) => (
+  const BodyPhotosCarousel = ({items, onImageChange}: {items: MediaItem[], onImageChange: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void}) => (
     <Card>
         <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="font-headline text-xl flex items-center"><ImageIcon className="mr-3 text-primary"/> Ảnh hình thể</CardTitle>
@@ -562,19 +562,27 @@ export default function CandidateProfilePage() {
                 </DialogContent>
              </Dialog>
         </CardHeader>
-        <CardContent className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {items.map((item, index) => (
-                <div key={index} className="space-y-2">
-                    <div className="relative group aspect-[3/4] rounded-lg overflow-hidden border">
-                         <Image src={item.src} alt={item.alt} fill className="object-cover" data-ai-hint={item.dataAiHint} />
-                         <Label htmlFor={`image-upload-${index}`} className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
-                            <Camera className="h-8 w-8 text-white"/>
-                         </Label>
-                         <Input id={`image-upload-${index}`} type="file" className="hidden" accept="image/*" onChange={(e) => onImageChange(e, index)} />
-                    </div>
-                    <p className="text-center text-sm font-semibold text-muted-foreground">{item.alt}</p>
-                </div>
-            ))}
+        <CardContent>
+            <Carousel className="w-full" opts={{align: "start"}}>
+                <CarouselContent className="-ml-2 md:-ml-4">
+                    {items.map((item, index) => (
+                        <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/3 md:basis-1/4 lg:basis-1/5">
+                           <div className="space-y-2">
+                                <div className="relative group aspect-[3/4] rounded-lg overflow-hidden border">
+                                     <Image src={item.src} alt={item.alt} fill className="object-cover" data-ai-hint={item.dataAiHint} />
+                                     <Label htmlFor={`image-upload-${index}`} className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                                        <Camera className="h-8 w-8 text-white"/>
+                                     </Label>
+                                     <Input id={`image-upload-${index}`} type="file" className="hidden" accept="image/*" onChange={(e) => onImageChange(e, index)} />
+                                </div>
+                                <p className="text-center text-sm font-semibold text-muted-foreground">{item.alt}</p>
+                            </div>
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+                <CarouselPrevious className="hidden md:flex" />
+                <CarouselNext className="hidden md:flex" />
+            </Carousel>
         </CardContent>
     </Card>
   )
@@ -647,7 +655,7 @@ export default function CandidateProfilePage() {
 
                 {candidate.videos.length > 0 && <MediaCarousel items={candidate.videos} title="Video giới thiệu" />}
                 
-                {candidate.images.length > 0 && <BodyPhotos items={candidate.images} onImageChange={(e, index) => handleMediaChange('image', e, index)} />}
+                {candidate.images.length > 0 && <BodyPhotosCarousel items={candidate.images} onImageChange={(e, index) => handleMediaChange('image', e, index)} />}
 
 
                 <Card>
@@ -801,5 +809,3 @@ export default function CandidateProfilePage() {
     </div>
   );
 }
-
-    

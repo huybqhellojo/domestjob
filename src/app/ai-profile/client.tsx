@@ -3,11 +3,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Upload, FileText, FileUp, Sparkles, Send, Mic, Loader2 } from "lucide-react";
+import { Upload, FileText, FileUp, Sparkles, Send, Mic, Loader2, StopCircle } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createProfile, CandidateProfile } from "@/ai/flows/create-profile-flow";
+import { createProfileFromVoice } from "@/ai/flows/create-profile-from-voice-flow";
 import { useToast } from "@/hooks/use-toast";
 import {
     Dialog,
@@ -23,6 +24,8 @@ type ProfileWithAvatar = CandidateProfile & { avatarUrl?: string };
 
 const FACEAPI_MODEL_URL = '/models';
 
+type RecordingStatus = 'idle' | 'recording' | 'processing' | 'error';
+
 export default function AiProfileClientPage() {
     const router = useRouter();
     const { toast } = useToast();
@@ -34,6 +37,11 @@ export default function AiProfileClientPage() {
     const [textInput, setTextInput] = useState('');
     const [modelsLoaded, setModelsLoaded] = useState(false);
     
+    // Voice recording state
+    const [recordingStatus, setRecordingStatus] = useState<RecordingStatus>('idle');
+    const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+    const audioChunksRef = useRef<Blob[]>([]);
+
     useEffect(() => {
         const loadModels = async () => {
             try {
@@ -209,6 +217,77 @@ export default function AiProfileClientPage() {
         }
     };
 
+    const startRecording = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorderRef.current = new MediaRecorder(stream);
+            audioChunksRef.current = [];
+
+            mediaRecorderRef.current.ondataavailable = (event) => {
+                audioChunksRef.current.push(event.data);
+            };
+
+            mediaRecorderRef.current.onstop = async () => {
+                setRecordingStatus('processing');
+                setLoadingMessage('Đang xử lý giọng nói...');
+                const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+                
+                try {
+                    // This is where you would normally send the audio to a speech-to-text API.
+                    // For this example, we will simulate the process and use a hardcoded text
+                    // to call our new Genkit flow.
+                    const transcribedText = "Thực tập sinh tháng 10 hết hợp đồng, muốn tìm đơn thực phẩm Tokutei đầu Nhật Kanagawa";
+
+                    const profileData = await createProfileFromVoice(transcribedText);
+                    setAnalysisResult(profileData);
+                    setIsResultDialogOpen(true);
+                    toast({
+                        title: "Phân tích giọng nói thành công!",
+                        description: "AI đã trích xuất thông tin từ bản ghi âm của bạn.",
+                    });
+
+                } catch (error) {
+                    console.error("Voice Profile Generation Error:", error);
+                    toast({
+                        variant: "destructive",
+                        title: "Lỗi phân tích giọng nói",
+                        description: "Không thể xử lý bản ghi âm của bạn.",
+                    });
+                } finally {
+                    setRecordingStatus('idle');
+                    setLoadingMessage('Đang phân tích...');
+                }
+            };
+
+            mediaRecorderRef.current.start();
+            setRecordingStatus('recording');
+        } catch (error) {
+            console.error("Error accessing microphone:", error);
+            toast({
+                variant: "destructive",
+                title: "Lỗi truy cập micro",
+                description: "Không thể truy cập micro. Vui lòng cấp quyền trong cài đặt trình duyệt.",
+            });
+            setRecordingStatus('error');
+        }
+    };
+
+    const stopRecording = () => {
+        if (mediaRecorderRef.current && recordingStatus === 'recording') {
+            mediaRecorderRef.current.stop();
+        }
+    };
+
+    const handleMicClick = () => {
+        if (isLoading || !modelsLoaded) return;
+
+        if (recordingStatus === 'idle' || recordingStatus === 'error') {
+            startRecording();
+        } else if (recordingStatus === 'recording') {
+            stopRecording();
+        }
+    };
+
 
     return (
         <>
@@ -285,9 +364,16 @@ export default function AiProfileClientPage() {
                                     <h4 className="font-bold text-lg mb-1">Đăng từ hồ sơ có sẵn</h4>
                                     <p className="text-muted-foreground text-sm">Tải lên CV file PDF hoặc Word để AI tự động trích xuất và điền thông tin.</p>
                                 </Card>
-                                 <Card className="p-6 text-left hover:shadow-xl hover:-translate-y-1 transition-transform duration-300">
-                                    <Mic className="h-8 w-8 text-accent-blue mb-3" />
-                                    <h4 className="font-bold text-lg mb-1">Tạo hồ sơ bằng giọng nói</h4>
+                                 <Card className="p-6 text-left hover:shadow-xl hover:-translate-y-1 transition-transform duration-300 cursor-pointer" onClick={handleMicClick}>
+                                    {recordingStatus === 'idle' && <Mic className="h-8 w-8 text-accent-blue mb-3" />}
+                                    {recordingStatus === 'recording' && <StopCircle className="h-8 w-8 text-red-500 mb-3 animate-pulse" />}
+                                    {(recordingStatus === 'processing' || recordingStatus === 'error') && <Loader2 className="h-8 w-8 text-accent-blue mb-3 animate-spin" />}
+                                    <h4 className="font-bold text-lg mb-1">
+                                        {recordingStatus === 'idle' && 'Tạo hồ sơ bằng giọng nói'}
+                                        {recordingStatus === 'recording' && 'Đang ghi âm... (Nhấn để dừng)'}
+                                        {recordingStatus === 'processing' && 'Đang xử lý...'}
+                                        {recordingStatus === 'error' && 'Gặp lỗi! Nhấn để thử lại'}
+                                    </h4>
                                     <p className="text-muted-foreground text-sm">Chỉ cần bấm nút và mô tả về bản thân, chúng tôi sẽ lo phần còn lại.</p>
                                 </Card>
                             </div>

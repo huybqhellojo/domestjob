@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -6,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Briefcase, Building, Cake, Dna, Edit, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon, PlusCircle, Trash2, RefreshCw, X, Camera } from 'lucide-react';
+import { Briefcase, Building, Cake, Dna, Edit, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon, PlusCircle, Trash2, RefreshCw, X, Camera, MessageSquare, Facebook, Contact, UserCog, Trophy } from 'lucide-react';
 import Image from 'next/image';
 import {
     Dialog,
@@ -73,6 +74,11 @@ const EditDialog = ({ children, title, onSave, content, description }: { childre
     </Dialog>
 );
 
+const ZaloIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg viewBox="0 0 262 263" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <path d="M131 0C58.649 0 0 58.649 0 131C0 203.351 58.649 262 131 262C203.351 262 262 203.351 262 131C262 58.649 203.351 0 131 0ZM197.838 170.368L173.962 194.244C171.139 197.067 167.247 197.68 163.639 196.223L126.541 182.903C125.129 182.413 123.824 181.711 122.625 180.892L74.832 144.37C71.748 142.029 70.832 137.989 72.585 134.577L84.975 111.758C86.728 108.347 90.722 106.889 94.276 108.347L131.374 121.612C132.786 122.102 134.091 122.748 135.29 123.623L183.083 160.145C186.167 162.486 187.083 166.526 185.33 169.937L197.838 170.368Z" fill="#0068FF"/>
+    </svg>
+)
 
 export default function CandidateProfilePage() {
   const [candidate, setCandidate] = useState<typeof emptyCandidate | null>(null);
@@ -388,6 +394,107 @@ export default function CandidateProfilePage() {
        </div>
   );
 
+  const personalInfoEditDialogContent = (
+    <div className="space-y-4">
+        <Label>Năm sinh</Label>
+        <Input type="number" value={tempCandidate.personalInfo.birthYear} onChange={e => setTempCandidate({...tempCandidate, personalInfo: {...tempCandidate.personalInfo, birthYear: parseInt(e.target.value)} })} />
+        <Label>Giới tính</Label>
+        <Input value={tempCandidate.personalInfo.gender} onChange={e => setTempCandidate({...tempCandidate, personalInfo: {...tempCandidate.personalInfo, gender: e.target.value} })} />
+        <Label>Số điện thoại</Label>
+        <Input value={tempCandidate.personalInfo.phone} onChange={e => setTempCandidate({...tempCandidate, personalInfo: {...tempCandidate.personalInfo, phone: e.target.value} })} />
+        <Label>Ngoại ngữ</Label>
+        <Input value={tempCandidate.personalInfo.language} onChange={e => setTempCandidate({...tempCandidate, personalInfo: {...tempCandidate.personalInfo, language: e.target.value} })} />
+    </div>
+  );
+
+  const mainEditDialogContent = (
+    <div className="space-y-4">
+        <div className="text-center">
+             <Image src="https://placehold.co/100x100.png" alt="AI Assistant" width={80} height={80} data-ai-hint="friendly robot mascot" className="mx-auto" />
+             <h3 className="text-2xl font-headline mt-2">TẠO PROFILE TÌM VIỆC</h3>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Card className="p-4 text-center cursor-pointer hover:shadow-lg transition-shadow border-2 border-orange-300">
+                        <h4 className="font-bold text-orange-500">Mức 1</h4>
+                        <User className="h-12 w-12 text-gray-300 mx-auto my-2" />
+                        <p className="text-sm text-muted-foreground">(Thông tin cơ bản)</p>
+                    </Card>
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader><DialogTitle>Chỉnh sửa Giới thiệu bản thân</DialogTitle></DialogHeader>
+                    {aboutEditDialogContent}
+                    <DialogFooter><Button onClick={handleSave}>Lưu</Button></DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Card className="p-4 text-center cursor-pointer hover:shadow-lg transition-shadow border-2 border-green-300">
+                        <h4 className="font-bold text-green-500">Mức 2</h4>
+                        <Briefcase className="h-12 w-12 text-gray-300 mx-auto my-2" />
+                        <p className="text-sm text-muted-foreground">(Thông tin đầy đủ)</p>
+                    </Card>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[600px]">
+                    <DialogHeader><DialogTitle>Chỉnh sửa Kinh nghiệm & Học vấn</DialogTitle></DialogHeader>
+                    <div className="max-h-[60vh] overflow-y-auto pr-4 space-y-4">
+                        <h3 className="font-bold text-lg">Kinh nghiệm</h3>
+                        {experienceEditDialogContent}
+                        <h3 className="font-bold text-lg mt-4">Học vấn</h3>
+                        {educationEditDialogContent}
+                    </div>
+                    <DialogFooter><Button onClick={handleSave}>Lưu</Button></DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Card className="p-4 text-center cursor-pointer hover:shadow-lg transition-shadow border-2 border-sky-300">
+                        <h4 className="font-bold text-sky-500">Mức 3</h4>
+                        <Trophy className="h-12 w-12 text-gray-300 mx-auto my-2" />
+                        <p className="text-sm text-muted-foreground">(Thông tin nâng cao)</p>
+                    </Card>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[600px]">
+                     <DialogHeader><DialogTitle>Chỉnh sửa Kỹ năng & Chứng chỉ</DialogTitle></DialogHeader>
+                    <div className="max-h-[60vh] overflow-y-auto pr-4 space-y-4">
+                        {skillsInterestsEditDialogContent}
+                        <h3 className="font-bold text-lg mt-4">Chứng chỉ & Giải thưởng</h3>
+                        {certificationsEditDialogContent}
+                    </div>
+                    <DialogFooter><Button onClick={handleSave}>Lưu</Button></DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Card className="p-4 text-center cursor-pointer hover:shadow-lg transition-shadow border-2 border-gray-300">
+                        <h4 className="font-bold text-gray-500">Mức 4</h4>
+                        <Contact className="h-12 w-12 text-gray-300 mx-auto my-2" />
+                        <div className="flex justify-center items-center gap-2 mt-1">
+                            <Facebook className="h-5 w-5 text-blue-600" />
+                            <MessageSquare className="h-5 w-5 text-blue-500" />
+                            <ZaloIcon className="h-5 w-5" />
+                            <Phone className="h-5 w-5 text-green-500" />
+                        </div>
+                        <p className="text-sm text-muted-foreground">(Thông tin liên hệ)</p>
+                    </Card>
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader><DialogTitle>Chỉnh sửa Thông tin liên hệ</DialogTitle></DialogHeader>
+                    {personalInfoEditDialogContent}
+                    <DialogFooter><Button onClick={handleSave}>Lưu</Button></DialogFooter>
+                </DialogContent>
+            </Dialog>
+
+        </div>
+        <p className="text-center mt-4 text-muted-foreground">Để <span className="text-primary font-semibold">Nhà tuyển dụng</span> hiểu rõ về bạn, hãy <span className="text-green-500 font-semibold">Cập nhật thông tin</span>.</p>
+    </div>
+  );
+
   return (
     <div className="bg-secondary">
       <div className="container mx-auto px-4 md:px-6 py-12">
@@ -415,33 +522,12 @@ export default function CandidateProfilePage() {
                   </p>
                 </div>
                  <EditDialog
-                    title="Chỉnh sửa thông tin cơ bản"
-                    onSave={handleSave}
-                    content={
-                        <div className="space-y-4">
-                             <div className="space-y-2">
-                                <Label>Ảnh đại diện (preview)</Label>
-                                <Avatar className="h-24 w-24">
-                                    <AvatarImage src={tempCandidate.avatarUrl} className="object-cover" />
-                                    <AvatarFallback>{tempCandidate.name.charAt(0)}</AvatarFallback>
-                                </Avatar>
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="name-edit">Họ và tên</Label>
-                                <Input id="name-edit" value={tempCandidate.name} onChange={(e) => setTempCandidate({...tempCandidate, name: e.target.value})} />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="headline-edit">Tiêu đề hồ sơ</Label>
-                                <Input id="headline-edit" value={tempCandidate.headline} onChange={(e) => setTempCandidate({...tempCandidate, headline: e.target.value})} />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="location-edit">Địa điểm</Label>
-                                <Input id="location-edit" value={tempCandidate.location} onChange={(e) => setTempCandidate({...tempCandidate, location: e.target.value})} />
-                            </div>
-                        </div>
-                    }
-                >
-                  <Button className="md:ml-auto mt-4 md:mt-0" variant="outline"><Edit /> Sửa hồ sơ</Button>
+                    title="Hoàn thiện hồ sơ"
+                    onSave={() => { /* No-op, saves happen in sub-dialogs */ }}
+                    content={mainEditDialogContent}
+                    description="Chọn một mục dưới đây để cập nhật hoặc hoàn thiện thông tin hồ sơ của bạn."
+                 >
+                    <Button className="md:ml-auto mt-4 md:mt-0" variant="outline"><Edit /> Sửa hồ sơ</Button>
                  </EditDialog>
               </div>
             </CardHeader>
@@ -587,22 +673,11 @@ export default function CandidateProfilePage() {
               <div className="lg:col-span-1 space-y-6">
                  <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle className="font-headline text-xl flex items-center"><User className="mr-3 text-primary"/> Thông tin cá nhân</CardTitle>
+                    <CardTitle className="font-headline text-xl flex items-center"><UserCog className="mr-3 text-primary"/> Thông tin cá nhân</CardTitle>
                     <EditDialog
                         title="Chỉnh sửa Thông tin cá nhân"
                         onSave={handleSave}
-                        content={
-                            <div className="space-y-4">
-                                <Label>Năm sinh</Label>
-                                <Input type="number" value={tempCandidate.personalInfo.birthYear} onChange={e => setTempCandidate({...tempCandidate, personalInfo: {...tempCandidate.personalInfo, birthYear: parseInt(e.target.value)} })} />
-                                <Label>Giới tính</Label>
-                                <Input value={tempCandidate.personalInfo.gender} onChange={e => setTempCandidate({...tempCandidate, personalInfo: {...tempCandidate.personalInfo, gender: e.target.value} })} />
-                                <Label>Số điện thoại</Label>
-                                <Input value={tempCandidate.personalInfo.phone} onChange={e => setTempCandidate({...tempCandidate, personalInfo: {...tempCandidate.personalInfo, phone: e.target.value} })} />
-                                <Label>Ngoại ngữ</Label>
-                                <Input value={tempCandidate.personalInfo.language} onChange={e => setTempCandidate({...tempCandidate, personalInfo: {...tempCandidate.personalInfo, language: e.target.value} })} />
-                            </div>
-                        }
+                        content={personalInfoEditDialogContent}
                     >
                       <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
                     </EditDialog>
@@ -689,4 +764,5 @@ export default function CandidateProfilePage() {
     
 
     
+
 

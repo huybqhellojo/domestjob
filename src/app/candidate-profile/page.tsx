@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Briefcase, Building, Cake, Dna, Edit, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon, PlusCircle, Trash2, RefreshCw, X, Camera, MessageSquare, Facebook, Contact, UserCog, Trophy } from 'lucide-react';
+import { Briefcase, Building, Cake, Dna, Edit, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon, PlusCircle, Trash2, RefreshCw, X, Camera, MessageSquare, Facebook, Contact, UserCog, Trophy, PlayCircle } from 'lucide-react';
 import Image from 'next/image';
 import {
     Dialog,
@@ -25,8 +25,23 @@ import { Checkbox } from "@/components/ui/checkbox";
 import type { CandidateProfile } from '@/ai/schemas';
 import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 
-const emptyCandidate: CandidateProfile & { avatarUrl?: string; videoUrl?: string; experienceImages?: any[] } = {
+type MediaItem = {
+  type: 'image' | 'video';
+  src: string;
+  thumbnail?: string; // For videos
+  alt: string;
+  dataAiHint: string;
+};
+
+type EnrichedCandidateProfile = CandidateProfile & { 
+  avatarUrl?: string;
+  mediaLibrary?: MediaItem[];
+};
+
+
+const emptyCandidate: EnrichedCandidateProfile = {
     name: 'Chưa có thông tin',
     headline: 'Vui lòng tạo hồ sơ bằng AI hoặc cập nhật thủ công',
     location: 'Chưa có thông tin',
@@ -44,8 +59,7 @@ const emptyCandidate: CandidateProfile & { avatarUrl?: string; videoUrl?: string
     certifications: [],
     desiredIndustry: 'N/A',
     avatarUrl: 'https://placehold.co/128x128.png',
-    videoUrl: '',
-    experienceImages: [],
+    mediaLibrary: [],
 };
 
 
@@ -81,28 +95,27 @@ const ZaloIcon = (props: React.SVGProps<SVGSVGElement>) => (
 )
 
 export default function CandidateProfilePage() {
-  const [candidate, setCandidate] = useState<typeof emptyCandidate | null>(null);
-  const [tempCandidate, setTempCandidate] = useState<typeof emptyCandidate | null>(null);
+  const [candidate, setCandidate] = useState<EnrichedCandidateProfile | null>(null);
+  const [tempCandidate, setTempCandidate] = useState<EnrichedCandidateProfile | null>(null);
   const [newSkill, setNewSkill] = useState('');
   const [newInterest, setNewInterest] = useState('');
 
   useEffect(() => {
     const storedProfile = localStorage.getItem('generatedCandidateProfile');
-    let profileToLoad: typeof emptyCandidate;
+    let profileToLoad: EnrichedCandidateProfile;
 
     if (storedProfile) {
       try {
-        const parsedProfile: CandidateProfile & { avatarUrl?: string; videoUrl?: string; experienceImages?: any[] } = JSON.parse(storedProfile);
+        const parsedProfile: EnrichedCandidateProfile = JSON.parse(storedProfile);
         profileToLoad = {
-          ...emptyCandidate, // Start with empty to ensure all fields are present
+          ...emptyCandidate,
           ...parsedProfile,
-          // Add default visual elements if they don't exist in the parsed profile
           avatarUrl: parsedProfile.avatarUrl || 'https://placehold.co/128x128.png',
-          videoUrl: parsedProfile.videoUrl || '', // Assuming no video URL from AI
-          experienceImages: parsedProfile.experienceImages && parsedProfile.experienceImages.length > 0 ? parsedProfile.experienceImages : [
-              { src: 'https://placehold.co/600x400.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
-              { src: 'https://placehold.co/600x400.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
-              { src: 'https://placehold.co/600x400.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
+          mediaLibrary: (parsedProfile.mediaLibrary && parsedProfile.mediaLibrary.length > 0) ? parsedProfile.mediaLibrary : [
+            { type: 'video', src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video giới thiệu', dataAiHint: 'self introduction video' },
+            { type: 'image', src: 'https://placehold.co/400x600.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
+            { type: 'image', src: 'https://placehold.co/400x600.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
+            { type: 'image', src: 'https://placehold.co/400x600.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
           ],
         };
       } catch (error) {
@@ -110,11 +123,11 @@ export default function CandidateProfilePage() {
         profileToLoad = { ...emptyCandidate };
       }
     } else {
-        // Fallback to an empty profile if nothing is in storage
-        profileToLoad = { ...emptyCandidate, experienceImages: [
-              { src: 'https://placehold.co/600x400.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
-              { src: 'https://placehold.co/600x400.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
-              { src: 'https://placehold.co/600x400.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
+        profileToLoad = { ...emptyCandidate, mediaLibrary: [
+            { type: 'video', src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video giới thiệu', dataAiHint: 'self introduction video' },
+            { type: 'image', src: 'https://placehold.co/400x600.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
+            { type: 'image', src: 'https://placehold.co/400x600.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
+            { type: 'image', src: 'https://placehold.co/400x600.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
         ] };
     }
     setCandidate(profileToLoad);
@@ -122,7 +135,6 @@ export default function CandidateProfilePage() {
   }, []);
 
   useEffect(() => {
-    // Persist changes to localStorage whenever the main candidate object changes
     if (candidate) {
       localStorage.setItem('generatedCandidateProfile', JSON.stringify(candidate));
     }
@@ -165,7 +177,6 @@ export default function CandidateProfilePage() {
       const reader = new FileReader();
       reader.onload = () => {
         const newAvatarUrl = reader.result as string;
-        // Update both temp and main candidate state to ensure persistence
         setTempCandidate(prev => {
           if (!prev) return null;
           return { ...prev, avatarUrl: newAvatarUrl };
@@ -262,13 +273,6 @@ export default function CandidateProfilePage() {
 
   const aboutEditDialogContent = (
       <Textarea value={tempCandidate.about} onChange={(e) => setTempCandidate({...tempCandidate, about: e.target.value})} rows={6} />
-  );
-  
-  const videoEditDialogContent = (
-      <div className="space-y-2">
-          <Label htmlFor="video-url-edit">Link YouTube Video</Label>
-          <Input id="video-url-edit" value={tempCandidate.videoUrl} onChange={(e) => setTempCandidate({...tempCandidate, videoUrl: e.target.value})} />
-      </div>
   );
   
   const experienceEditDialogContent = (
@@ -561,52 +565,45 @@ export default function CandidateProfilePage() {
                   </CardContent>
                 </Card>
 
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between">
-                        <CardTitle className="font-headline text-xl flex items-center"><Video className="mr-3 text-primary"/> Video giới thiệu</CardTitle>
-                        <EditDialog
-                            title="Chỉnh sửa Video giới thiệu"
-                            onSave={handleSave}
-                            content={videoEditDialogContent}
-                        >
-                            <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
-                        </EditDialog>
-                    </CardHeader>
-                    <CardContent>
-                        {candidate.videoUrl ? (
-                            <div className="aspect-video rounded-lg overflow-hidden">
-                                <iframe className="w-full h-full" src={candidate.videoUrl} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                            </div>
-                        ) : (
-                            <div className="text-muted-foreground">
-                                <span>Chưa có video giới thiệu. </span>
-                                <EditDialog title="Chỉnh sửa Video giới thiệu" onSave={handleSave} content={videoEditDialogContent}>
-                                    <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
-                                </EditDialog>
-                            </div>
-                        )}
-                    </CardContent>
-                </Card>
-
                  <Card>
                     <CardHeader className="flex flex-row items-center justify-between">
-                        <CardTitle className="font-headline text-xl flex items-center"><ImageIcon className="mr-3 text-primary"/> Hình ảnh</CardTitle>
-                        <Button variant="ghost" size="icon"><PlusCircle className="h-4 w-4"/></Button>
+                        <CardTitle className="font-headline text-xl flex items-center"><ImageIcon className="mr-3 text-primary"/> Thư viện</CardTitle>
+                        <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
                     </CardHeader>
-                    <CardContent className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                        {candidate.experienceImages && candidate.experienceImages.length > 0 ? candidate.experienceImages.map((img, index) => (
-                            <div key={index} className="relative group overflow-hidden rounded-lg">
-                                <Image src={img.src} alt={img.alt} width={400} height={300} className="rounded-lg object-cover aspect-video" data-ai-hint={img.dataAiHint} />
-                                <div className="absolute inset-0 bg-black/50 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 hover:text-white">
-                                        <RefreshCw className="h-5 w-5" />
-                                    </Button>
-                                    <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/20 hover:text-destructive">
-                                        <Trash2 className="h-5 w-5" />
-                                    </Button>
-                                </div>
-                            </div>
-                        )) : <p className="text-muted-foreground col-span-full">Chưa có hình ảnh.</p>}
+                    <CardContent>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
+                          {candidate.mediaLibrary && candidate.mediaLibrary.slice(0, 6).map((item, index) => (
+                              <div key={index} className={cn(
+                                  "relative group overflow-hidden rounded-lg aspect-[9/16] cursor-pointer",
+                                  index === 0 && "md:col-span-2 md:row-span-2 aspect-[9/8] md:aspect-auto"
+                              )}>
+                                  <Image src={item.thumbnail || item.src} alt={item.alt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={item.dataAiHint} />
+                                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                  
+                                  {item.type === 'video' && (
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                      <PlayCircle className="h-12 w-12 text-white/80 drop-shadow-lg" />
+                                    </div>
+                                  )}
+
+                                  <div className="absolute bottom-2 left-2 text-white text-xs font-semibold drop-shadow-md">
+                                    {item.alt}
+                                  </div>
+
+                                  <div className="absolute top-2 right-2 flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                      <Button variant="ghost" size="icon" className="h-8 w-8 bg-black/50 text-white hover:bg-black/70 hover:text-white">
+                                          <RefreshCw className="h-4 w-4" />
+                                      </Button>
+                                      <Button variant="ghost" size="icon" className="h-8 w-8 bg-black/50 text-destructive hover:bg-destructive/70 hover:text-destructive-foreground">
+                                          <Trash2 className="h-4 w-4" />
+                                      </Button>
+                                  </div>
+                              </div>
+                          ))}
+                      </div>
+                      {candidate.mediaLibrary && candidate.mediaLibrary.length > 6 && (
+                        <Button variant="outline" className="w-full mt-4">Xem tất cả</Button>
+                      )}
                     </CardContent>
                 </Card>
 

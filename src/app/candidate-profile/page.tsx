@@ -116,11 +116,11 @@ export default function CandidateProfilePage() {
     ];
     
     const defaultVideos: MediaItem[] = [
-        { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video giới thiệu bản thân', dataAiHint: 'self introduction video' },
-        { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video kỹ năng 1', dataAiHint: 'skill demonstration' },
-        { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video kỹ năng 2', dataAiHint: 'welding skill' },
-        { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video trả lời phỏng vấn', dataAiHint: 'interview answers' },
-        { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video dự án', dataAiHint: 'project showcase' },
+        { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Giới thiệu bản thân', dataAiHint: 'self introduction video' },
+        { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Tay nghề 1', dataAiHint: 'skill demonstration' },
+        { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Tay nghề 2', dataAiHint: 'welding skill' },
+        { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Trả lời phỏng vấn', dataAiHint: 'interview answers' },
+        { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Dự án đã làm', dataAiHint: 'project showcase' },
         { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video khác', dataAiHint: 'personal video' },
     ];
 
@@ -658,7 +658,7 @@ export default function CandidateProfilePage() {
                   </CardContent>
                 </Card>
 
-                {candidate.videos.length > 0 && <MediaCarousel items={candidate.videos} title="Video giới thiệu" />}
+                {candidate.videos.length > 0 && <MediaCarousel items={candidate.videos} title="Video" />}
                 
                 {candidate.images.length > 0 && <BodyPhotosCarousel items={candidate.images} onImageChange={(e, index) => handleMediaChange('image', e, index)} />}
 
@@ -814,5 +814,6 @@ export default function CandidateProfilePage() {
     </div>
   );
 }
+
 
 

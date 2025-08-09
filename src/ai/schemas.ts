@@ -22,11 +22,25 @@ export const CandidateProfileSchema = z.object({
     gender: z.string().describe('The gender of the candidate.'),
     phone: z.string().describe('The phone number of the candidate.'),
     language: z.string().describe('Languages spoken and proficiency (e.g., "English - Fluent").'),
+    dateOfBirth: z.string().optional().describe('The full date of birth (e.g., "12/12/2006").'),
+    height: z.string().optional().describe('The height of the candidate (e.g., "165 cm").'),
+    weight: z.string().optional().describe('The weight of the candidate (e.g., "55 kg").'),
+    tattooStatus: z.string().optional().describe('Tattoo status (e.g., "Xăm nhỏ", "Không có").'),
+    hepatitisBStatus: z.string().optional().describe('Hepatitis B status (e.g., "Không viêm gan B").'),
   }),
   interests: z.array(z.string()).describe('A list of professional interests or industries.'),
   skills: z.array(z.string()).describe('A list of key skills.'),
   certifications: z.array(z.string()).describe('A list of certifications or awards.'),
   desiredIndustry: z.string().describe('The desired industry for future roles.'),
+  aspirations: z.object({
+    desiredLocation: z.string().optional().describe('The desired work location (e.g., "Osaka").'),
+    desiredSalary: z.string().optional().describe('The desired basic salary (e.g., "180,000 yên").'),
+    desiredNetSalary: z.string().optional().describe('The desired net salary (e.g., "160,000 yên").'),
+    financialAbility: z.string().optional().describe('Financial ability (e.g., "90 triệu").'),
+    interviewLocation: z.string().optional().describe('The location for job interviews (e.g., "Hà Nội").'),
+    specialAspirations: z.string().optional().describe('Special requests or aspirations (e.g., "Tăng ca, hỗ trợ...").'),
+  }).optional(),
+  notes: z.string().optional().describe('Additional notes or descriptions.'),
 });
 
 export type CandidateProfile = z.infer<typeof CandidateProfileSchema>;

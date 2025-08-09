@@ -27,6 +27,7 @@ import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 type MediaItem = {
   src: string;
@@ -53,8 +54,22 @@ const emptyCandidate: EnrichedCandidateProfile = {
       birthYear: new Date().getFullYear(),
       gender: 'N/A',
       phone: 'N/A',
-      language: 'N/A'
+      language: 'N/A',
+      dateOfBirth: 'N/A',
+      height: 'N/A',
+      weight: 'N/A',
+      tattooStatus: 'N/A',
+      hepatitisBStatus: 'N/A',
     },
+    aspirations: {
+        desiredLocation: 'N/A',
+        desiredSalary: 'N/A',
+        desiredNetSalary: 'N/A',
+        financialAbility: 'N/A',
+        interviewLocation: 'N/A',
+        specialAspirations: 'N/A',
+    },
+    notes: '',
     interests: [],
     skills: [],
     certifications: [],
@@ -76,11 +91,9 @@ const EditDialog = ({ children, title, onSave, content, description }: { childre
         <DialogContent className="sm:max-w-[600px]">
             <DialogHeader>
                 <DialogTitle className="font-headline text-2xl">{title}</DialogTitle>
-                <DialogDescription>
-                    {description || 'Cập nhật thông tin của bạn và nhấn lưu để hoàn tất.'}
-                </DialogDescription>
+                {description && <DialogDescription>{description}</DialogDescription>}
             </DialogHeader>
-            <div className="grid gap-4 py-4 max-h-[60vh] overflow-y-auto pr-4">
+            <div className="grid gap-4 py-4 max-h-[70vh] overflow-y-auto pr-4">
                 {content}
             </div>
             <DialogFooter>
@@ -126,10 +139,12 @@ export default function CandidateProfilePage() {
 
     if (storedProfile) {
       try {
-        const parsedProfile: EnrichedCandidateProfile = JSON.parse(storedProfile);
+        const parsedProfile = JSON.parse(storedProfile);
         profileToLoad = {
           ...emptyCandidate,
           ...parsedProfile,
+          personalInfo: { ...emptyCandidate.personalInfo, ...parsedProfile.personalInfo },
+          aspirations: { ...emptyCandidate.aspirations, ...parsedProfile.aspirations },
           avatarUrl: parsedProfile.avatarUrl || 'https://placehold.co/128x128.png',
           videos: (parsedProfile.videos && parsedProfile.videos.length > 0) ? parsedProfile.videos : defaultVideos,
           images: (parsedProfile.images && parsedProfile.images.length > 0) ? parsedProfile.images : defaultImages,
@@ -209,12 +224,40 @@ export default function CandidateProfilePage() {
   };
 
 
-  const handleChange = (section: keyof typeof tempCandidate, index: number, field: string, value: any) => {
+  const handleNestedChange = (
+      section: 'personalInfo' | 'aspirations', 
+      field: string, 
+      value: any
+  ) => {
+      setTempCandidate(prev => {
+          if (!prev) return null;
+          return {
+              ...prev,
+              [section]: {
+                  ...prev[section],
+                  [field]: value
+              }
+          };
+      });
+  };
+
+  const handleSimpleChange = (field: keyof EnrichedCandidateProfile, value: any) => {
+    setTempCandidate(prev => {
+        if (!prev) return null;
+        return { ...prev, [field]: value };
+    });
+  };
+
+
+  const handleChange = (section: keyof EnrichedCandidateProfile, index: number, field: string, value: any) => {
       setTempCandidate(prev => {
           if (!prev) return null;
           const newCandidate = { ...prev };
           // @ts-ignore
-          newCandidate[section][index][field] = value;
+          if (Array.isArray(newCandidate[section])) {
+            // @ts-ignore
+            newCandidate[section][index][field] = value;
+          }
           return newCandidate;
       });
   };
@@ -289,10 +332,65 @@ export default function CandidateProfilePage() {
       }
   };
 
-
-  const aboutEditDialogContent = (
-      <Textarea value={tempCandidate.about} onChange={(e) => setTempCandidate({...tempCandidate, about: e.target.value})} rows={6} />
-  );
+  const Level1EditDialogContent = () => {
+    if (!tempCandidate) return null;
+    return (
+      <div className="space-y-4">
+          {[
+              { label: '1. Họ và tên', value: tempCandidate.name, field: 'name', type: 'simple' },
+              { label: '2. Số điện thoại', value: tempCandidate.personalInfo.phone, field: 'phone', type: 'personalInfo' },
+              { label: '3. Ngày sinh', value: tempCandidate.personalInfo.dateOfBirth, field: 'dateOfBirth', type: 'personalInfo' },
+              { label: '4. Ngành nghề mong muốn', value: tempCandidate.desiredIndustry, field: 'desiredIndustry', type: 'simple' },
+              { label: '5. Địa điểm mong muốn', value: tempCandidate.aspirations?.desiredLocation, field: 'desiredLocation', type: 'aspirations' },
+              { label: '6. Chiều cao', value: tempCandidate.personalInfo.height, field: 'height', type: 'personalInfo' },
+              { label: '7. Cân nặng', value: tempCandidate.personalInfo.weight, field: 'weight', type: 'personalInfo' },
+              { label: '8. Hình xăm', value: tempCandidate.personalInfo.tattooStatus, field: 'tattooStatus', type: 'personalInfo', options: ['Không có', 'Xăm nhỏ', 'Xăm lớn'] },
+              { label: '9. Viêm gan B', value: tempCandidate.personalInfo.hepatitisBStatus, field: 'hepatitisBStatus', type: 'personalInfo', options: ['Không viêm gan B', 'Có viêm gan B'] },
+              { label: '10. Lương cơ bản mong muốn', value: tempCandidate.aspirations?.desiredSalary, field: 'desiredSalary', type: 'aspirations' },
+              { label: '11. Thực lĩnh mong muốn', value: tempCandidate.aspirations?.desiredNetSalary, field: 'desiredNetSalary', type: 'aspirations' },
+              { label: '12. Khả năng tài chính', value: tempCandidate.aspirations?.financialAbility, field: 'financialAbility', type: 'aspirations' },
+              { label: '13. Tìm việc phỏng vấn, tuyển tại', value: tempCandidate.aspirations?.interviewLocation, field: 'interviewLocation', type: 'aspirations' },
+              { label: '14. Nguyện vọng đặc biệt', value: tempCandidate.aspirations?.specialAspirations, field: 'specialAspirations', type: 'aspirations' },
+              { label: '15. Mô tả/ghi chú', value: tempCandidate.notes, field: 'notes', type: 'simple', isTextarea: true },
+          ].map(item => (
+              <div key={item.label} className="grid grid-cols-3 items-center gap-4">
+                  <Label className="col-span-1 text-right">{item.label}</Label>
+                  <div className="col-span-2">
+                    {item.isTextarea ? (
+                         <Textarea 
+                            value={item.value || ''} 
+                            onChange={e => handleSimpleChange(item.field as keyof EnrichedCandidateProfile, e.target.value)} 
+                        />
+                    ) : item.options ? (
+                        <Select 
+                            value={item.value || ''} 
+                            onValueChange={value => handleNestedChange(item.type as 'personalInfo' | 'aspirations', item.field, value)}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder={`Chọn ${item.label.split('. ')[1].toLowerCase()}`} />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {item.options.map(option => <SelectItem key={option} value={option}>{option}</SelectItem>)}
+                            </SelectContent>
+                        </Select>
+                    ) : (
+                        <Input 
+                            value={item.value || ''} 
+                            onChange={e => {
+                                if (item.type === 'simple') {
+                                    handleSimpleChange(item.field as keyof EnrichedCandidateProfile, e.target.value);
+                                } else {
+                                    handleNestedChange(item.type as 'personalInfo' | 'aspirations', item.field, e.target.value);
+                                }
+                            }}
+                        />
+                    )}
+                  </div>
+              </div>
+          ))}
+      </div>
+    );
+  };
   
   const experienceEditDialogContent = (
       <div className="space-y-6">
@@ -418,19 +516,6 @@ export default function CandidateProfilePage() {
        </div>
   );
 
-  const personalInfoEditDialogContent = (
-    <div className="space-y-4">
-        <Label>Năm sinh</Label>
-        <Input type="number" value={tempCandidate.personalInfo.birthYear} onChange={e => setTempCandidate({...tempCandidate, personalInfo: {...tempCandidate.personalInfo, birthYear: parseInt(e.target.value)} })} />
-        <Label>Giới tính</Label>
-        <Input value={tempCandidate.personalInfo.gender} onChange={e => setTempCandidate({...tempCandidate, personalInfo: {...tempCandidate.personalInfo, gender: e.target.value} })} />
-        <Label>Số điện thoại</Label>
-        <Input value={tempCandidate.personalInfo.phone} onChange={e => setTempCandidate({...tempCandidate, personalInfo: {...tempCandidate.personalInfo, phone: e.target.value} })} />
-        <Label>Ngoại ngữ</Label>
-        <Input value={tempCandidate.personalInfo.language} onChange={e => setTempCandidate({...tempCandidate, personalInfo: {...tempCandidate.personalInfo, language: e.target.value} })} />
-    </div>
-  );
-
   const mainEditDialogContent = (
     <div className="space-y-4">
         <div className="text-center">
@@ -447,10 +532,16 @@ export default function CandidateProfilePage() {
                         <p className="text-sm text-muted-foreground">(Thông tin cơ bản)</p>
                     </Card>
                 </DialogTrigger>
-                <DialogContent>
-                    <DialogHeader><DialogTitle>Chỉnh sửa Giới thiệu bản thân</DialogTitle></DialogHeader>
-                    {aboutEditDialogContent}
-                    <DialogFooter><Button onClick={handleSave}>Lưu</Button></DialogFooter>
+                <DialogContent className="sm:max-w-xl">
+                    <DialogHeader>
+                        <DialogTitle className="font-headline text-2xl">Thông tin tài khoản ứng viên Mức 1</DialogTitle>
+                    </DialogHeader>
+                    <div className="max-h-[70vh] overflow-y-auto pr-4">
+                      <Level1EditDialogContent />
+                    </div>
+                    <DialogFooter>
+                        <Button onClick={handleSave} className="bg-primary text-white w-full">Đăng thông tin</Button>
+                    </DialogFooter>
                 </DialogContent>
             </Dialog>
 
@@ -490,7 +581,8 @@ export default function CandidateProfilePage() {
                 </DialogTrigger>
                 <DialogContent>
                     <DialogHeader><DialogTitle>Chỉnh sửa Thông tin liên hệ</DialogTitle></DialogHeader>
-                    {personalInfoEditDialogContent}
+                    {/* Placeholder for now */}
+                    <div>Coming soon...</div>
                     <DialogFooter><Button onClick={handleSave}>Lưu</Button></DialogFooter>
                 </DialogContent>
             </Dialog>
@@ -620,7 +712,8 @@ export default function CandidateProfilePage() {
                      <EditDialog
                         title="Chỉnh sửa Giới thiệu bản thân"
                         onSave={handleSave}
-                        content={aboutEditDialogContent}
+                        content={<Textarea value={tempCandidate.about} onChange={e => handleSimpleChange('about', e.target.value)} rows={6} />}
+                        description="Viết một đoạn giới thiệu ngắn về bản thân, kỹ năng và mục tiêu nghề nghiệp của bạn."
                     >
                       <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
                     </EditDialog>
@@ -631,7 +724,7 @@ export default function CandidateProfilePage() {
                     ) : (
                       <div className="text-muted-foreground">
                         <span>Chưa có thông tin. </span>
-                        <EditDialog title="Chỉnh sửa Giới thiệu bản thân" onSave={handleSave} content={aboutEditDialogContent}>
+                        <EditDialog title="Chỉnh sửa Giới thiệu bản thân" onSave={handleSave} content={<Textarea value={tempCandidate.about} onChange={e => handleSimpleChange('about', e.target.value)} rows={6} />}>
                             <button className="text-primary hover:underline">Nhấn vào đây để cập nhật</button>
                         </EditDialog>
                       </div>
@@ -712,7 +805,7 @@ export default function CandidateProfilePage() {
                     <EditDialog
                         title="Chỉnh sửa Thông tin cá nhân"
                         onSave={handleSave}
-                        content={personalInfoEditDialogContent}
+                        content={<Level1EditDialogContent />}
                     >
                       <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
                     </EditDialog>
@@ -775,7 +868,7 @@ export default function CandidateProfilePage() {
                   </CardHeader>
                   <CardContent className="space-y-2">
                      {candidate.certifications.length > 0 ? candidate.certifications.map((cert, index) => (
-                         <p key={index} className="text-sm flex items-center gap-2"><Award className="h-4 w-4 text-muted-foreground"/>{cert}</p>
+                         <p key={index} className="text-sm flex items-center gap-2"><Trophy className="h-4 w-4 text-muted-foreground"/>{cert}</p>
                      )) : 
                      <div className="text-muted-foreground text-sm">
                         <span>Chưa có chứng chỉ. </span>

@@ -476,8 +476,8 @@ export default function CandidateProfilePage() {
             
             <Dialog>
                 <DialogTrigger asChild>
-                    <Card className="p-4 text-center cursor-pointer hover:shadow-lg transition-shadow border-2 border-gray-300">
-                        <h4 className="font-bold text-gray-500">Mức 4</h4>
+                    <Card className="p-4 text-center cursor-pointer hover:shadow-lg transition-shadow border-2 border-blue-300">
+                        <h4 className="font-bold text-blue-500">Mức 3</h4>
                         <Contact className="h-12 w-12 text-gray-300 mx-auto my-2" />
                         <div className="flex justify-center items-center gap-2 mt-1">
                             <Facebook className="h-5 w-5 text-blue-600" />
@@ -795,7 +795,3 @@ export default function CandidateProfilePage() {
     </div>
   );
 }
-
-
-
-

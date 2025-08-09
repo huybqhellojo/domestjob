@@ -437,7 +437,7 @@ export default function CandidateProfilePage() {
              <Image src="https://placehold.co/100x100.png" alt="AI Assistant" width={80} height={80} data-ai-hint="friendly robot mascot" className="mx-auto" />
              <h3 className="text-2xl font-headline mt-2">TẠO PROFILE TÌM VIỆC</h3>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             
             <Dialog>
                 <DialogTrigger asChild>
@@ -473,26 +473,7 @@ export default function CandidateProfilePage() {
                     <DialogFooter><Button onClick={handleSave}>Lưu</Button></DialogFooter>
                 </DialogContent>
             </Dialog>
-
-            <Dialog>
-                <DialogTrigger asChild>
-                    <Card className="p-4 text-center cursor-pointer hover:shadow-lg transition-shadow border-2 border-sky-300">
-                        <h4 className="font-bold text-sky-500">Mức 3</h4>
-                        <Trophy className="h-12 w-12 text-gray-300 mx-auto my-2" />
-                        <p className="text-sm text-muted-foreground">(Thông tin nâng cao)</p>
-                    </Card>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[600px]">
-                     <DialogHeader><DialogTitle>Chỉnh sửa Kỹ năng & Chứng chỉ</DialogTitle></DialogHeader>
-                    <div className="max-h-[60vh] overflow-y-auto pr-4 space-y-4">
-                        {skillsInterestsEditDialogContent}
-                        <h3 className="font-bold text-lg mt-4">Chứng chỉ & Giải thưởng</h3>
-                        {certificationsEditDialogContent}
-                    </div>
-                    <DialogFooter><Button onClick={handleSave}>Lưu</Button></DialogFooter>
-                </DialogContent>
-            </Dialog>
-
+            
             <Dialog>
                 <DialogTrigger asChild>
                     <Card className="p-4 text-center cursor-pointer hover:shadow-lg transition-shadow border-2 border-gray-300">
@@ -814,6 +795,7 @@ export default function CandidateProfilePage() {
     </div>
   );
 }
+
 
 
 

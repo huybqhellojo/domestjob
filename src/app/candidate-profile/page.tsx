@@ -92,29 +92,30 @@ export default function CandidateProfilePage() {
 
     if (storedProfile) {
       try {
-        const parsedProfile: CandidateProfile = JSON.parse(storedProfile);
+        const parsedProfile: CandidateProfile & { avatarUrl?: string; videoUrl?: string; experienceImages?: any[] } = JSON.parse(storedProfile);
         profileToLoad = {
           ...emptyCandidate, // Start with empty to ensure all fields are present
           ...parsedProfile,
           // Add default visual elements if they don't exist in the parsed profile
           avatarUrl: parsedProfile.avatarUrl || 'https://placehold.co/128x128.png',
           videoUrl: parsedProfile.videoUrl || '', // Assuming no video URL from AI
-          experienceImages: parsedProfile.experienceImages || [
+          experienceImages: parsedProfile.experienceImages && parsedProfile.experienceImages.length > 0 ? parsedProfile.experienceImages : [
               { src: 'https://placehold.co/600x400.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
               { src: 'https://placehold.co/600x400.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
               { src: 'https://placehold.co/600x400.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
           ],
         };
-        // IMPORTANT: Clear the storage only AFTER successfully parsing and preparing the data
-        // localStorage.removeItem('generatedCandidateProfile');
-        console.log(profileToLoad)
       } catch (error) {
         console.error("Failed to parse candidate profile from localStorage", error);
         profileToLoad = { ...emptyCandidate };
       }
     } else {
         // Fallback to an empty profile if nothing is in storage
-        profileToLoad = { ...emptyCandidate };
+        profileToLoad = { ...emptyCandidate, experienceImages: [
+              { src: 'https://placehold.co/600x400.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
+              { src: 'https://placehold.co/600x400.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
+              { src: 'https://placehold.co/600x400.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
+        ] };
     }
     setCandidate(profileToLoad);
     setTempCandidate(JSON.parse(JSON.stringify(profileToLoad)));
@@ -587,6 +588,28 @@ export default function CandidateProfilePage() {
                     </CardContent>
                 </Card>
 
+                 <Card>
+                    <CardHeader className="flex flex-row items-center justify-between">
+                        <CardTitle className="font-headline text-xl flex items-center"><ImageIcon className="mr-3 text-primary"/> Hình ảnh</CardTitle>
+                        <Button variant="ghost" size="icon"><PlusCircle className="h-4 w-4"/></Button>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        {candidate.experienceImages && candidate.experienceImages.length > 0 ? candidate.experienceImages.map((img, index) => (
+                            <div key={index} className="relative group overflow-hidden rounded-lg">
+                                <Image src={img.src} alt={img.alt} width={400} height={300} className="rounded-lg object-cover aspect-video" data-ai-hint={img.dataAiHint} />
+                                <div className="absolute inset-0 bg-black/50 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 hover:text-white">
+                                        <RefreshCw className="h-5 w-5" />
+                                    </Button>
+                                    <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/20 hover:text-destructive">
+                                        <Trash2 className="h-5 w-5" />
+                                    </Button>
+                                </div>
+                            </div>
+                        )) : <p className="text-muted-foreground col-span-full">Chưa có hình ảnh.</p>}
+                    </CardContent>
+                </Card>
+
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle className="font-headline text-xl flex items-center"><Briefcase className="mr-3 text-primary"/> Kinh nghiệm làm việc</CardTitle>
@@ -615,28 +638,6 @@ export default function CandidateProfilePage() {
                         </div>
                     )}
                   </CardContent>
-                </Card>
-
-                <Card>
-                    <CardHeader className="flex flex-row items-center justify-between">
-                        <CardTitle className="font-headline text-xl flex items-center"><ImageIcon className="mr-3 text-primary"/> Hình ảnh</CardTitle>
-                        <Button variant="ghost" size="icon"><PlusCircle className="h-4 w-4"/></Button>
-                    </CardHeader>
-                    <CardContent className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                        {candidate.experienceImages && candidate.experienceImages.length > 0 ? candidate.experienceImages.map((img, index) => (
-                            <div key={index} className="relative group overflow-hidden rounded-lg">
-                                <Image src={img.src} alt={img.alt} width={400} height={300} className="rounded-lg object-cover aspect-video" data-ai-hint={img.dataAiHint} />
-                                <div className="absolute inset-0 bg-black/50 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 hover:text-white">
-                                        <RefreshCw className="h-5 w-5" />
-                                    </Button>
-                                    <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/20 hover:text-destructive">
-                                        <Trash2 className="h-5 w-5" />
-                                    </Button>
-                                </div>
-                            </div>
-                        )) : <p className="text-muted-foreground col-span-full">Chưa có hình ảnh.</p>}
-                    </CardContent>
                 </Card>
                 
                 <Card>
@@ -760,9 +761,3 @@ export default function CandidateProfilePage() {
     </div>
   );
 }
-
-    
-
-    
-
-

@@ -50,7 +50,16 @@ const markets = [
 
 const jobTypesByMarket: { [key: string]: string[] } = {
   vn: ['Lao động phổ thông', 'Lao động lành nghề', 'Kỹ sư, tri thức'],
-  jp: ['Thực tập sinh', 'Kỹ năng đặc định', 'Kỹ sư, tri thức'],
+  jp: [
+    'Thực tập sinh 3 năm',
+    'Thực tập sinh 1 năm',
+    'Thực tập sinh 3 Go',
+    'Đặc định đầu Việt',
+    'Đặc định đầu Nhật',
+    'Đặc định đi mới',
+    'Kỹ sư, tri thức đầu Việt',
+    'Kỹ sư, tri thức đầu Nhật'
+  ],
 };
 
 const locationsByMarket: { [key: string]: { regions?: string[], prefectures: string[] } } = {
@@ -149,7 +158,12 @@ export default function Home() {
   }, [handleMarketChange, selectedMarket]);
 
   useEffect(() => {
-    const specificIndustries = industriesByMarketAndJobType[selectedMarket]?.[selectedJobType];
+    let jobTypeKey = '';
+    if (selectedJobType.includes('Thực tập sinh')) jobTypeKey = 'Thực tập sinh';
+    else if (selectedJobType.includes('Đặc định')) jobTypeKey = 'Kỹ năng đặc định';
+    else if (selectedJobType.includes('Kỹ sư, tri thức')) jobTypeKey = 'Kỹ sư, tri thức';
+    
+    const specificIndustries = industriesByMarketAndJobType[selectedMarket]?.[jobTypeKey];
     setIndustries(specificIndustries || defaultIndustries);
   }, [selectedMarket, selectedJobType]);
 

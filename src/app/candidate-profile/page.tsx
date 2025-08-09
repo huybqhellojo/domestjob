@@ -26,18 +26,19 @@ import type { CandidateProfile } from '@/ai/schemas';
 import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 
 type MediaItem = {
-  type: 'image' | 'video';
   src: string;
-  thumbnail?: string; // For videos
+  thumbnail?: string; 
   alt: string;
   dataAiHint: string;
 };
 
 type EnrichedCandidateProfile = CandidateProfile & { 
   avatarUrl?: string;
-  mediaLibrary?: MediaItem[];
+  videos: MediaItem[];
+  images: MediaItem[];
 };
 
 
@@ -59,7 +60,8 @@ const emptyCandidate: EnrichedCandidateProfile = {
     certifications: [],
     desiredIndustry: 'N/A',
     avatarUrl: 'https://placehold.co/128x128.png',
-    mediaLibrary: [],
+    videos: [],
+    images: [],
 };
 
 
@@ -111,11 +113,16 @@ export default function CandidateProfilePage() {
           ...emptyCandidate,
           ...parsedProfile,
           avatarUrl: parsedProfile.avatarUrl || 'https://placehold.co/128x128.png',
-          mediaLibrary: (parsedProfile.mediaLibrary && parsedProfile.mediaLibrary.length > 0) ? parsedProfile.mediaLibrary : [
-            { type: 'video', src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video giới thiệu', dataAiHint: 'self introduction video' },
-            { type: 'image', src: 'https://placehold.co/400x600.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
-            { type: 'image', src: 'https://placehold.co/400x600.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
-            { type: 'image', src: 'https://placehold.co/400x600.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
+          videos: (parsedProfile.videos && parsedProfile.videos.length > 0) ? parsedProfile.videos : [
+            { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video giới thiệu bản thân', dataAiHint: 'self introduction video' },
+            { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video giới thiệu kỹ năng', dataAiHint: 'skill demonstration video' },
+          ],
+          images: (parsedProfile.images && parsedProfile.images.length > 0) ? parsedProfile.images : [
+            { src: 'https://placehold.co/400x600.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
+            { src: 'https://placehold.co/400x600.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
+            { src: 'https://placehold.co/400x600.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
+            { src: 'https://placehold.co/400x600.png', alt: 'Chứng chỉ tay nghề', dataAiHint: 'skill certification' },
+            { src: 'https://placehold.co/400x600.png', alt: 'Hoạt động nhóm', dataAiHint: 'team activity' },
           ],
         };
       } catch (error) {
@@ -123,12 +130,16 @@ export default function CandidateProfilePage() {
         profileToLoad = { ...emptyCandidate };
       }
     } else {
-        profileToLoad = { ...emptyCandidate, mediaLibrary: [
-            { type: 'video', src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video giới thiệu', dataAiHint: 'self introduction video' },
-            { type: 'image', src: 'https://placehold.co/400x600.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
-            { type: 'image', src: 'https://placehold.co/400x600.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
-            { type: 'image', src: 'https://placehold.co/400x600.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
-        ] };
+        profileToLoad = { ...emptyCandidate, 
+            videos: [
+                { src: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnail: 'https://placehold.co/400x600.png', alt: 'Video giới thiệu bản thân', dataAiHint: 'self introduction video' },
+            ],
+            images: [
+                { src: 'https://placehold.co/400x600.png', alt: 'Làm việc với máy CNC', dataAiHint: 'CNC machine operation' },
+                { src: 'https://placehold.co/400x600.png', alt: 'Kiểm tra sản phẩm', dataAiHint: 'product inspection' },
+                { src: 'https://placehold.co/400x600.png', alt: 'Môi trường làm việc', dataAiHint: 'work environment' },
+            ] 
+        };
     }
     setCandidate(profileToLoad);
     setTempCandidate(JSON.parse(JSON.stringify(profileToLoad)));
@@ -499,6 +510,48 @@ export default function CandidateProfilePage() {
         <p className="text-center mt-4 text-muted-foreground">Để <span className="text-primary font-semibold">Nhà tuyển dụng</span> hiểu rõ về bạn, hãy <span className="text-green-500 font-semibold">Cập nhật thông tin</span>.</p>
     </div>
   );
+  
+  const MediaCarousel = ({ items, type, title }: { items: MediaItem[], type: 'video' | 'image', title: string }) => (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle className="font-headline text-xl flex items-center">{type === 'video' ? <Video className="mr-3 text-primary"/> : <ImageIcon className="mr-3 text-primary"/>} {title}</CardTitle>
+          <Button variant="ghost" size="icon"><PlusCircle className="h-5 w-5"/></Button>
+      </CardHeader>
+      <CardContent>
+        <Carousel className="w-full max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-none mx-auto" opts={{align: "start", loop: true}}>
+            <CarouselContent className="-ml-2 md:-ml-4">
+                {items.slice(0, 5).map((item, index) => (
+                    <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 sm:basis-1/3 lg:basis-1/4">
+                       <div className="relative group overflow-hidden rounded-lg aspect-[9/16] cursor-pointer">
+                            <Image src={item.thumbnail || item.src} alt={item.alt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={item.dataAiHint} />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                            {type === 'video' && (
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <PlayCircle className="h-12 w-12 text-white/80 drop-shadow-lg" />
+                                </div>
+                            )}
+                            <div className="absolute bottom-2 left-2 text-white text-xs font-semibold drop-shadow-md p-1 bg-black/40 rounded">
+                                {item.alt}
+                            </div>
+                            <div className="absolute top-2 right-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <Button variant="ghost" size="icon" className="h-8 w-8 bg-black/50 text-white hover:bg-black/70 hover:text-white">
+                                    <RefreshCw className="h-4 w-4" />
+                                </Button>
+                                <Button variant="ghost" size="icon" className="h-8 w-8 bg-black/50 text-destructive hover:bg-destructive/70 hover:text-destructive-foreground">
+                                    <Trash2 className="h-4 w-4" />
+                                </Button>
+                            </div>
+                        </div>
+                    </CarouselItem>
+                ))}
+            </CarouselContent>
+            <CarouselPrevious className="hidden md:flex" />
+            <CarouselNext className="hidden md:flex" />
+        </Carousel>
+      </CardContent>
+    </Card>
+  );
+
 
   return (
     <div className="bg-secondary">
@@ -565,47 +618,9 @@ export default function CandidateProfilePage() {
                   </CardContent>
                 </Card>
 
-                 <Card>
-                    <CardHeader className="flex flex-row items-center justify-between">
-                        <CardTitle className="font-headline text-xl flex items-center"><ImageIcon className="mr-3 text-primary"/> Thư viện</CardTitle>
-                        <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
-                          {candidate.mediaLibrary && candidate.mediaLibrary.slice(0, 6).map((item, index) => (
-                              <div key={index} className={cn(
-                                  "relative group overflow-hidden rounded-lg aspect-[9/16] cursor-pointer",
-                                  index === 0 && "md:col-span-2 md:row-span-2 aspect-[9/8] md:aspect-auto"
-                              )}>
-                                  <Image src={item.thumbnail || item.src} alt={item.alt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={item.dataAiHint} />
-                                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                                  
-                                  {item.type === 'video' && (
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                      <PlayCircle className="h-12 w-12 text-white/80 drop-shadow-lg" />
-                                    </div>
-                                  )}
+                {candidate.videos.length > 0 && <MediaCarousel items={candidate.videos} type="video" title="Video giới thiệu" />}
+                {candidate.images.length > 0 && <MediaCarousel items={candidate.images} type="image" title="Thư viện ảnh" />}
 
-                                  <div className="absolute bottom-2 left-2 text-white text-xs font-semibold drop-shadow-md">
-                                    {item.alt}
-                                  </div>
-
-                                  <div className="absolute top-2 right-2 flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                      <Button variant="ghost" size="icon" className="h-8 w-8 bg-black/50 text-white hover:bg-black/70 hover:text-white">
-                                          <RefreshCw className="h-4 w-4" />
-                                      </Button>
-                                      <Button variant="ghost" size="icon" className="h-8 w-8 bg-black/50 text-destructive hover:bg-destructive/70 hover:text-destructive-foreground">
-                                          <Trash2 className="h-4 w-4" />
-                                      </Button>
-                                  </div>
-                              </div>
-                          ))}
-                      </div>
-                      {candidate.mediaLibrary && candidate.mediaLibrary.length > 6 && (
-                        <Button variant="outline" className="w-full mt-4">Xem tất cả</Button>
-                      )}
-                    </CardContent>
-                </Card>
 
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between">

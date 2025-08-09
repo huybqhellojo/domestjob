@@ -524,8 +524,8 @@ export default function CandidateProfilePage() {
         <Carousel className="w-full" opts={{align: "start", loop: true}}>
             <CarouselContent className="-ml-2 md:-ml-4">
                 {items.slice(0, 5).map((item, index) => (
-                    <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 sm:basis-1/3 lg:basis-1/4">
-                       <div className="relative group overflow-hidden rounded-lg aspect-video cursor-pointer">
+                    <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/4">
+                       <div className="relative group overflow-hidden rounded-lg aspect-[9/16] cursor-pointer">
                             <Image src={item.thumbnail || item.src} alt={item.alt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={item.dataAiHint} />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                             <div className="absolute inset-0 flex items-center justify-center">

@@ -1,8 +1,7 @@
-
 'use client';
 
 import Link from 'next/link';
-import { Home, Briefcase, Sparkles, User, Menu, LogOut, PlusCircle, Shield, FileText, MessageSquareWarning, LayoutGrid } from 'lucide-react';
+import { Home, Sparkles, User, LogOut, PlusCircle, Shield, FileText, MessageSquareWarning, LayoutGrid, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import {
@@ -104,7 +103,7 @@ export function MobileFooter() {
                <span className="text-center leading-tight">Menu</span>
              </button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-full max-w-sm">
+          <SheetContent side="right" className="w-full max-w-sm flex flex-col">
             <SheetHeader>
                <SheetTitle className="sr-only">Menu</SheetTitle>
                <SheetClose asChild>
@@ -116,7 +115,7 @@ export function MobileFooter() {
                 </Link>
                </SheetClose>
             </SheetHeader>
-            <div className="mt-6 flex flex-col h-full">
+            <div className="mt-6 flex flex-col h-full overflow-y-auto pr-2">
                <div className="flex items-center gap-3 p-2 rounded-lg bg-secondary">
                   <Avatar className="h-12 w-12">
                     <AvatarImage src="https://placehold.co/100x100.png" alt="User" data-ai-hint="user avatar" />
@@ -167,12 +166,17 @@ export function MobileFooter() {
                   </AccordionItem>
               </Accordion>
 
-              <div className="mt-auto pb-6">
+              <div className="mt-auto pt-6">
                   <DropdownMenuSeparator />
-                  <Link href="#" className="flex items-center gap-2 mt-4 text-foreground/80 hover:text-primary" onClick={() => setIsOpen(false)}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      <span>Đăng xuất</span>
-                  </Link>
+                  <div className="flex items-center justify-between mt-4">
+                      <Link href="#" className="flex items-center gap-2 text-foreground/80 hover:text-primary" onClick={() => setIsOpen(false)}>
+                          <LogOut className="mr-2 h-4 w-4" />
+                          <span>Đăng xuất</span>
+                      </Link>
+                      <SheetClose asChild>
+                        <Button variant="outline"><X className="mr-2 h-4 w-4"/> Đóng</Button>
+                      </SheetClose>
+                  </div>
               </div>
             </div>
           </SheetContent>

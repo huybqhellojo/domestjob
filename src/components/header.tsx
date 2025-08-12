@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, Grid, Sparkles, BookOpen, Compass, Home } from 'lucide-react';
+import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, LayoutGrid, Sparkles, BookOpen, Compass, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
@@ -90,7 +90,7 @@ export function Header() {
                 key={link.href} 
                 href={link.href}
                 label={link.label}
-                icon={link.icon}
+                icon={link.href === '/ai-profile' ? link.icon : undefined}
                 onClick={link.href === '/' ? handleHomeClick : undefined} 
              />
           ))}
@@ -103,7 +103,7 @@ export function Header() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                  <Button variant="ghost" size="icon" className="rounded-full">
-                  <Grid className="h-5 w-5" />
+                  <LayoutGrid className="h-5 w-5" />
                   <span className="sr-only">Open Menu</span>
                 </Button>
               </DropdownMenuTrigger>

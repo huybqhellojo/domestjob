@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, Briefcase, Sparkles, User, Menu, LogOut, PlusCircle, Shield, FileText, MessageSquareWarning, Grid } from 'lucide-react';
+import { Home, Briefcase, Sparkles, User, Menu, LogOut, PlusCircle, Shield, FileText, MessageSquareWarning, LayoutGrid } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import {
@@ -100,7 +100,7 @@ export function MobileFooter() {
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
              <button className="flex flex-col items-center justify-center text-xs text-muted-foreground hover:text-primary transition-colors w-1/4 pt-1">
-               <Grid className="h-6 w-6 mb-1" />
+               <LayoutGrid className="h-6 w-6 mb-1" />
                <span className="text-center leading-tight">Menu</span>
              </button>
           </SheetTrigger>

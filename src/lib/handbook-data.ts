@@ -1,3 +1,4 @@
+
 export type HandbookArticle = {
   slug: string;
   title: string;
@@ -91,7 +92,7 @@ export const articles: HandbookArticle[] = [
    {
     slug: 'kinh-nghiem-phong-van-tokutei',
     title: '5 Kinh nghiệm phỏng vấn Tokutei Ginou chắc chắn đậu',
-    category: 'Kỹ năng đặc định',
+    category: 'Kinh nghiệm phỏng vấn',
     author: 'HelloJob Team',
     readTime: '7 phút',
     image: 'https://placehold.co/1200x600.png',
@@ -107,6 +108,74 @@ export const articles: HandbookArticle[] = [
         slug: 'tac-phong-chuyen-nghiep',
         title: 'Tác phong chuyên nghiệp',
         body: '<p>Trang phục lịch sự, thái độ khiêm tốn, lễ phép và luôn đúng giờ là những yếu tố cực kỳ quan trọng trong văn hóa Nhật Bản.</p>'
+      },
+    ],
+  },
+  {
+    slug: 'van-hoa-lam-viec-nhat-ban',
+    title: 'Văn hóa làm việc tại công ty Nhật: Hou-Ren-Sou và những điều cần biết',
+    category: 'Cuộc sống ở Nhật',
+    author: 'Akira Lê',
+    readTime: '5 phút',
+    image: 'https://placehold.co/1200x600.png',
+    dataAiHint: 'japanese office meeting',
+    excerpt: 'Hiểu rõ về Hourensou (Báo cáo - Liên lạc - Thảo luận) và các quy tắc ngầm trong văn hóa công sở sẽ giúp bạn hòa nhập nhanh chóng và làm việc hiệu quả hơn tại Nhật.',
+    content: [
+      {
+        slug: 'hourensou-la-gi',
+        title: 'Hou-Ren-Sou là gì?',
+        body: '<p>Hou-Ren-Sou là viết tắt của 3 từ: Hokoku (報告 - Báo cáo), Renraku (連絡 - Liên lạc), và Sodan (相談 - Thảo luận). Đây là quy tắc giao tiếp cơ bản và quan trọng nhất trong môi trường làm việc tại Nhật Bản, giúp đảm bảo thông tin được truyền đạt thông suốt và công việc được tiến hành hiệu quả.</p>'
+      },
+    ],
+  },
+  {
+    slug: 'so-sanh-tts-vs-tokutei',
+    title: 'So sánh Thực tập sinh và Kỹ năng đặc định: Nên chọn chương trình nào?',
+    category: 'Thủ tục & Visa',
+    author: 'HelloJob Team',
+    readTime: '9 phút',
+    image: 'https://placehold.co/1200x600.png',
+    dataAiHint: 'crossroads sign japan',
+    excerpt: 'Thực tập sinh (TTS) và Kỹ năng đặc định (Tokutei Ginou) là hai con đường phổ biến để sang Nhật làm việc. Bài viết này sẽ phân tích ưu, nhược điểm của từng loại visa để bạn có lựa chọn phù hợp nhất.',
+    content: [
+      {
+        slug: 'muc-dich',
+        title: 'Về mục đích chương trình',
+        body: '<p>Chương trình TTS tập trung vào việc "đào tạo kỹ năng", chuyển giao công nghệ. Trong khi đó, Tokutei Ginou có mục đích chính là "bù đắp thiếu hụt lao động" cho Nhật Bản.</p>'
+      },
+    ],
+  },
+  {
+    slug: 'meo-viet-jikoshoukai',
+    title: 'Mẹo viết và trình bày Jikoshoukai (tự giới thiệu bản thân) ấn tượng',
+    category: 'Kinh nghiệm phỏng vấn',
+    author: 'Dung Mochi',
+    readTime: '6 phút',
+    image: 'https://placehold.co/1200x600.png',
+    dataAiHint: 'person writing resume',
+    excerpt: 'Jikoshoukai là phần không thể thiếu trong bất kỳ buổi phỏng vấn nào tại Nhật. Cùng học cách xây dựng một bài giới thiệu bản thân ngắn gọn, súc tích và ghi điểm với nhà tuyển dụng.',
+    content: [
+      {
+        slug: 'cau-truc-chuan',
+        title: 'Cấu trúc chuẩn của một bài Jikoshoukai',
+        body: '<p>Một bài Jikoshoukai hiệu quả thường bao gồm các phần: Chào hỏi, Giới thiệu tên và tuổi, Quê quán, Trình độ học vấn/kinh nghiệm, Lý do ứng tuyển và Lời cảm ơn.</p>'
+      },
+    ],
+  },
+  {
+    slug: 'xin-visa-vinh-tru',
+    title: 'Điều kiện xin visa vĩnh trú tại Nhật Bản năm 2024',
+    category: 'Thủ tục & Visa',
+    author: 'HelloJob Team',
+    readTime: '10 phút',
+    image: 'https://placehold.co/1200x600.png',
+    dataAiHint: 'permanent resident card japan',
+    excerpt: 'Visa vĩnh trú là mục tiêu của nhiều người nước ngoài muốn sinh sống và làm việc lâu dài tại Nhật. Bài viết sẽ cập nhật những điều kiện mới nhất bạn cần đáp ứng.',
+    content: [
+      {
+        slug: 'thoi-gian-luu-tru',
+        title: 'Yêu cầu về thời gian lưu trú',
+        body: '<p>Theo nguyên tắc, bạn cần phải sinh sống liên tục tại Nhật Bản ít nhất 10 năm. Tuy nhiên, có một số trường hợp được xét duyệt ưu tiên với thời gian ngắn hơn, ví dụ như người có đóng góp lớn cho Nhật Bản hoặc vợ/chồng của người Nhật.',
       },
     ],
   },

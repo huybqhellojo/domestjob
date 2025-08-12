@@ -4,12 +4,14 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Briefcase, Users, ArrowRight, BookOpen, Search, Map, GraduationCap, Building, MapPin, TrendingUp, Cpu } from 'lucide-react';
+import { Briefcase, Users, ArrowRight, BookOpen, Search, Map, GraduationCap, Building, MapPin, TrendingUp, Cpu, ListFilter, ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
+import { JobCard } from '@/components/job-card';
+import { jobData } from '@/lib/mock-data';
 
 const featuredEmployers = [
   { id: 'samsung', name: 'Samsung', logo: 'https://placehold.co/150x50.png', dataAiHint: 'samsung logo' },
@@ -138,9 +140,15 @@ const industriesByMarketAndJobType: { [key: string]: { [key: string]: string[] }
 export default function Home() {
   const [selectedMarket, setSelectedMarket] = useState('');
   const [selectedJobType, setSelectedJobType] = useState('');
+  const [selectedIndustry, setSelectedIndustry] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState('');
+
   const [jobTypes, setJobTypes] = useState<string[]>([]);
   const [locations, setLocations] = useState<{ regions?: string[], prefectures: string[] } | null>(null);
   const [industries, setIndustries] = useState<string[]>(defaultIndustries);
+  
+  const [isSearching, setIsSearching] = useState(false);
+
 
   const handleMarketChange = useCallback((value: string) => {
     setSelectedMarket(value);
@@ -166,6 +174,43 @@ export default function Home() {
     const specificIndustries = industriesByMarketAndJobType[selectedMarket]?.[jobTypeKey];
     setIndustries(specificIndustries || defaultIndustries);
   }, [selectedMarket, selectedJobType]);
+
+  const CompactSearchForm = () => (
+    <div className="bg-primary text-primary-foreground p-2 md:hidden sticky top-16 z-40">
+        <Button variant="ghost" className="w-full justify-start text-left h-auto" onClick={() => setIsSearching(false)}>
+            <ChevronLeft className="mr-2"/>
+            <div className="flex-grow">
+                <p className="font-bold text-base">{selectedJobType || 'Tất cả loại hình'} - {selectedIndustry || 'Tất cả ngành nghề'}</p>
+                <p className="text-sm text-primary-foreground/80">{selectedLocation || 'Tất cả địa điểm'}</p>
+            </div>
+        </Button>
+    </div>
+  )
+
+  const SearchResults = () => (
+     <>
+        <CompactSearchForm />
+        <div className="container mx-auto px-4 md:px-6 py-6">
+            <div className="flex justify-between items-center mb-4">
+                 <h2 className="text-xl font-bold">Kết quả ({jobData.length})</h2>
+                 <Button variant="ghost" size="sm" className="flex items-center gap-1">
+                    <ListFilter className="w-4 h-4" />
+                    Lọc
+                  </Button>
+            </div>
+            <div className="p-2 md:p-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              {jobData.map((job) => (
+                <JobCard key={job.id} job={job} />
+              ))}
+            </div>
+        </div>
+     </>
+  );
+
+
+  if (isSearching) {
+    return <SearchResults />;
+  }
 
 
   return (
@@ -213,7 +258,7 @@ export default function Home() {
                 </div>
                 <div className="md:col-span-2 space-y-2">
                   <Label htmlFor="search-industry" className="text-foreground">Ngành nghề</Label>
-                   <Select>
+                   <Select onValueChange={setSelectedIndustry}>
                       <SelectTrigger id="search-industry" disabled={!selectedMarket}>
                         <SelectValue placeholder="Tất cả" />
                       </SelectTrigger>
@@ -226,7 +271,7 @@ export default function Home() {
                 </div>
                  <div className="md:col-span-2 space-y-2">
                    <Label htmlFor="search-location" className="text-foreground">Địa điểm, khu vực</Label>
-                   <Select>
+                   <Select onValueChange={setSelectedLocation}>
                     <SelectTrigger id="search-location" disabled={!selectedMarket}>
                       <SelectValue placeholder={selectedMarket ? "Chọn địa điểm" : "Vui lòng chọn thị trường"} />
                     </SelectTrigger>
@@ -249,7 +294,7 @@ export default function Home() {
                   </Select>
                 </div>
                 <div className="md:col-span-2">
-                   <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-white text-lg">
+                   <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-white text-lg" onClick={() => setIsSearching(true)}>
                     <Search className="mr-2 h-5 w-5" /> Tìm kiếm
                   </Button>
                 </div>
@@ -436,3 +481,5 @@ export default function Home() {
     </div>
   );
 }
+
+    

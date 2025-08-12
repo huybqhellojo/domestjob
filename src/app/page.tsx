@@ -12,6 +12,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGr
 import { Label } from '@/components/ui/label';
 import { JobCard } from '@/components/job-card';
 import { jobData } from '@/lib/mock-data';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Slider } from '@/components/ui/slider';
 
 const featuredEmployers = [
   { id: 'samsung', name: 'Samsung', logo: 'https://placehold.co/150x50.png', dataAiHint: 'samsung logo' },
@@ -191,36 +193,98 @@ export default function Home() {
     </div>
   );
 
+  const FilterSidebar = () => (
+    <div className="md:col-span-1 lg:col-span-1">
+        <Card>
+            <CardHeader>
+                <CardTitle className="text-xl">Bộ lọc</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+                <div className="space-y-2">
+                    <Label>Mức lương (triệu VND)</Label>
+                    <Slider defaultValue={[20, 50]} max={100} step={1} />
+                    <div className="flex justify-between text-xs text-muted-foreground">
+                        <span>20tr</span>
+                        <span>100tr</span>
+                    </div>
+                </div>
+                <div className="space-y-2">
+                    <Label>Loại hình công việc</Label>
+                    <div className="space-y-2">
+                        {['Toàn thời gian', 'Bán thời gian', 'Thực tập'].map(item => (
+                            <div key={item} className="flex items-center space-x-2">
+                                <Checkbox id={`type-${item}`} />
+                                <Label htmlFor={`type-${item}`} className="font-normal">{item}</Label>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="space-y-2">
+                    <Label>Cấp bậc</Label>
+                    <div className="space-y-2">
+                        {['Thực tập sinh', 'Nhân viên', 'Chuyên viên', 'Trưởng nhóm'].map(item => (
+                            <div key={item} className="flex items-center space-x-2">
+                                <Checkbox id={`level-${item}`} />
+                                <Label htmlFor={`level-${item}`} className="font-normal">{item}</Label>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <Button className="w-full bg-primary text-white">Áp dụng</Button>
+            </CardContent>
+        </Card>
+    </div>
+  );
+
   const SearchResults = () => (
-     <div className="flex-grow w-full">
-        <CompactSearchForm />
+     <div className="w-full">
+        {/* Mobile Compact Search Bar */}
+        <div className="md:hidden">
+            <CompactSearchForm />
+        </div>
+        
         <div className="container mx-auto px-4 md:px-6 py-6">
-            <div className="flex justify-between items-center mb-4">
-                 <h2 className="text-xl font-bold">Kết quả ({jobData.length})</h2>
-                 <Button variant="ghost" size="sm" className="flex items-center gap-1">
-                    <ListFilter className="w-4 h-4" />
-                    Lọc
-                  </Button>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-              {jobData.map((job) => (
-                <JobCard key={job.id} job={job} />
-              ))}
+            <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-8">
+                {/* Desktop Filter Sidebar */}
+                <div className="hidden md:block">
+                  <FilterSidebar />
+                </div>
+
+                {/* Job Listings */}
+                <div className="md:col-span-3 lg:col-span-3">
+                    <div className="flex justify-between items-center mb-4">
+                        <h2 className="text-xl font-bold">Kết quả ({jobData.length})</h2>
+                        <Button variant="ghost" size="sm" className="flex items-center gap-1 md:hidden">
+                            <ListFilter className="w-4 h-4" />
+                            Lọc
+                        </Button>
+                         <Select>
+                            <SelectTrigger className="w-[180px] hidden md:flex">
+                                <SelectValue placeholder="Sắp xếp theo" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="newest">Mới nhất</SelectItem>
+                                <SelectItem value="salary_desc">Lương cao đến thấp</SelectItem>
+                                <SelectItem value="salary_asc">Lương thấp đến cao</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                      {jobData.map((job) => (
+                        <JobCard key={job.id} job={job} />
+                      ))}
+                    </div>
+                </div>
             </div>
         </div>
      </div>
   );
 
 
-  if (isSearching) {
-    return <SearchResults />;
-  }
-
-
-  return (
-    <div className="flex flex-col items-center">
+  const MainContent = () => (
+    <>
       {/* Hero Section for Candidates */}
-      <section className="w-full bg-gradient-to-r from-blue-600 to-sky-500 text-white py-20 md:py-28">
+      <section className="w-full bg-gradient-to-r from-blue-600 to-sky-500 text-white pt-20 md:pt-28 pb-10">
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
@@ -230,8 +294,12 @@ export default function Home() {
              Chúng tôi không chỉ cung cấp việc làm, mà còn đào tạo tư duy và xây dựng lộ trình phát triển sự nghiệp (SWR) rõ ràng, giúp bạn từ lao động phổ thông trở thành chuyên gia lành nghề.
             </p>
           </div>
+          </div>
+      </section>
 
-          <Card className="max-w-6xl mx-auto mt-[-2rem] shadow-2xl z-10 relative">
+      {/* Search Card */}
+       <div className="container mx-auto px-4 md:px-6 mt-[-6rem] md:mt-[-4rem] relative z-10">
+          <Card className="max-w-6xl mx-auto shadow-2xl">
             <CardContent className="p-4 md:p-6">
               <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
                 <div className="md:col-span-3 space-y-2">
@@ -305,12 +373,10 @@ export default function Home() {
               </div>
             </CardContent>
           </Card>
-          
-        </div>
-      </section>
+      </div>
 
       {/* Why Choose Us for Candidates */}
-      <section className="w-full py-20 md:py-28 bg-secondary">
+      <section className="w-full pt-20 md:pt-28 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl md:text-4xl font-headline font-bold text-center mb-16">
             Con đường phát triển của bạn
@@ -482,6 +548,14 @@ export default function Home() {
           </div>
         </div>
       </section>
+    </>
+  );
+
+  return (
+    <div className="flex flex-col items-center min-h-screen">
+      {isSearching ? <SearchResults /> : <MainContent />}
     </div>
   );
 }
+
+    

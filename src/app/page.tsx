@@ -140,6 +140,7 @@ const industriesByJobType: { [key: string]: string[] } = {
 export default function Home() {
   const [selectedJobType, setSelectedJobType] = useState('');
   const [selectedIndustry, setSelectedIndustry] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
   const [industries, setIndustries] = useState<string[]>(defaultIndustries);
   const [isSearching, setIsSearching] = useState(false);
@@ -153,7 +154,8 @@ export default function Home() {
     
     const specificIndustries = industriesByJobType[jobTypeKey];
     setIndustries(specificIndustries || defaultIndustries);
-    setSelectedIndustry(''); // Reset industry when job type changes
+    setSelectedIndustry('');
+    setSearchQuery('');
   }, [selectedJobType]);
 
   const handleSearchClick = () => {
@@ -480,25 +482,28 @@ export default function Home() {
                                     className="w-full justify-between h-10 font-normal text-sm"
                                     disabled={!selectedJobType}
                                 >
-                                    {selectedIndustry
-                                        ? industries.find((industry) => industry.toLowerCase() === selectedIndustry.toLowerCase())
-                                        : "Tất cả"}
+                                    <span className="truncate">{searchQuery || selectedIndustry || "Tất cả"}</span>
                                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
-                                <Command>
-                                    <CommandInput placeholder="Tìm ngành nghề..." />
+                                <Command shouldFilter={false}>
+                                    <CommandInput 
+                                        placeholder="Tìm ngành nghề..." 
+                                        value={searchQuery}
+                                        onValueChange={setSearchQuery}
+                                    />
                                     <CommandList>
                                         <CommandEmpty>Không tìm thấy.</CommandEmpty>
                                         <CommandGroup>
-                                            {industries.map((industry) => (
+                                            {industries.filter(industry => industry.toLowerCase().includes(searchQuery.toLowerCase())).map((industry) => (
                                                 <CommandItem
                                                     key={industry}
                                                     value={industry}
                                                     onSelect={(currentValue) => {
-                                                        setSelectedIndustry(currentValue === selectedIndustry.toLowerCase() ? "" : currentValue)
-                                                        setComboboxOpen(false)
+                                                        setSelectedIndustry(currentValue === selectedIndustry.toLowerCase() ? "" : currentValue);
+                                                        setSearchQuery("");
+                                                        setComboboxOpen(false);
                                                     }}
                                                 >
                                                     <Check

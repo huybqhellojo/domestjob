@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -43,7 +44,6 @@ export function MobileFooter() {
 
   const footerLinks = [
     { href: '/', icon: Home, label: 'Trang chủ' },
-    { href: '/jobs', icon: Briefcase, label: 'Việc làm' },
     { href: '/ai-profile', icon: Sparkles, label: 'Tạo hồ sơ AI' },
     { href: '/candidate-profile', icon: User, label: 'Hồ sơ' },
   ];
@@ -69,7 +69,7 @@ export function MobileFooter() {
         {footerLinks.map(({ href, icon: Icon, label }) => {
            const isActive = pathname === href;
            return (
-            <Link href={href} key={href} className="flex flex-col items-center justify-center text-xs text-muted-foreground hover:text-primary transition-colors w-1/4 pt-1">
+            <Link href={href} key={href} className="flex flex-col items-center justify-center text-xs text-muted-foreground hover:text-primary transition-colors w-1/3 pt-1">
               <Icon className={cn("h-6 w-6 mb-1", isActive ? 'text-primary' : '')} />
               <span className={cn( "text-center leading-tight", isActive ? 'text-primary font-bold' : '')}>{label}</span>
             </Link>

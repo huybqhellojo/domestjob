@@ -28,7 +28,6 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const mainNavLinks = [
   { href: '/', label: 'Trang chủ'},
-  { href: '/jobs', label: 'Việc làm' },
   { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles },
   { href: '/roadmap', label: 'Lộ trình' },
   { href: '/learn', label: 'E-Learning' },

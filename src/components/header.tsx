@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -118,7 +119,7 @@ export function Header() {
                       <AvatarFallback>A</AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col space-y-1">
-                      <p className="text-base font-medium leading-none">Nguyễn Quốc Việt</p>
+                      <p className="text-base font-medium leading-none">HelloJob</p>
                       <p className="text-xs leading-none text-muted-foreground">
                         Cán bộ tuyển dụng
                       </p>

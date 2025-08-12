@@ -49,7 +49,7 @@ export default function EmployersPage() {
                   </Link>
                 </Button>
                 <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white/20 hover:text-white">
-                  <Link href="/franchise">Mô hình Nhượng quyền</Link>
+                  <Link href="/franchise">Đối tác tại Nhật</Link>
                 </Button>
               </div>
             </div>

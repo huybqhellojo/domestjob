@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, LayoutGrid, Sparkles, BookOpen, Compass, Home, Info } from 'lucide-react';
+import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, LayoutGrid, Sparkles, BookOpen, Compass, Home, Info, Handshake } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
@@ -38,7 +38,7 @@ const mainNavLinks = [
 const employerLinks = [
   { href: '/post-job', label: 'Đăng việc làm' },
   { href: '/dashboard', label: 'Dữ liệu' },
-  { href: '/franchise', label: 'Nhượng quyền' },
+  { href: '/franchise', label: 'Đối tác tại Nhật' },
 ];
 
 const quickAccessLinks = [
@@ -47,7 +47,7 @@ const quickAccessLinks = [
     { href: '/learn', label: 'E-Learning', icon: BookOpen },
     { href: '/post-job', label: 'Đăng tuyển dụng', icon: PlusCircle },
     { href: '/dashboard', label: 'Dữ liệu & Báo cáo', icon: FileText },
-    { href: '/franchise', label: 'Nhượng quyền', icon: Shield },
+    { href: '/franchise', label: 'Đối tác tại Nhật', icon: Handshake },
     { href: '/consultant-profile', label: 'Tư vấn viên', icon: User },
     { href: '/handbook', label: 'Cẩm nang', icon: LifeBuoy },
     { href: '/about', label: 'Giới thiệu', icon: Info },

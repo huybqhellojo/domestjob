@@ -31,7 +31,7 @@ export function Footer() {
               <li><Link href="/post-job" className="hover:text-primary">Đăng tin tuyển dụng</Link></li>
               <li><Link href="/jobs" className="hover:text-primary">Danh sách công ty</Link></li>
               <li><Link href="/dashboard" className="hover:text-primary">Báo cáo dữ liệu</Link></li>
-              <li><Link href="/franchise" className="hover:text-primary">Mô hình nhượng quyền</Link></li>
+              <li><Link href="/franchise" className="hover:text-primary">Đối tác tại Nhật</Link></li>
             </ul>
           </div>
           <div>

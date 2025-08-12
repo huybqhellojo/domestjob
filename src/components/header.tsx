@@ -31,7 +31,8 @@ const mainNavLinks = [
   { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles },
   { href: '/roadmap', label: 'Lộ trình' },
   { href: '/learn', label: 'E-Learning' },
-  { href: '/handbook', label: 'Cẩm nang', icon: Compass },
+  { href: '/handbook', label: 'Cẩm nang'},
+  { href: '/about', label: 'Giới thiệu' },
 ];
 
 const employerLinks = [

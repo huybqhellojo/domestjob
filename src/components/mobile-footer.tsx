@@ -26,6 +26,8 @@ const mainNavLinks = [
   { href: '/', label: 'Trang chủ' },
   { href: '/roadmap', label: 'Lộ trình' },
   { href: '/learn', label: 'E-Learning' },
+  { href: '/handbook', label: 'Cẩm nang' },
+  { href: '/about', label: 'Giới thiệu' },
 ];
 
 const employerLinks = [

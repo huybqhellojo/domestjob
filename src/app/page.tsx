@@ -28,6 +28,7 @@ import {
   CommandList,
 } from "@/components/ui/command"
 import { cn } from '@/lib/utils';
+import { industriesByJobType, type Industry } from '@/lib/industry-data';
 
 
 const featuredEmployers = [
@@ -80,80 +81,24 @@ const japanLocations = {
     ]
 };
 
-const defaultIndustries = [
-    'Công nghệ thông tin',
-    'Cơ khí',
-    'Dệt may',
-    'Điện tử',
-    'Logistics'
-];
-
-const industriesByJobType: { [key: string]: string[] } = {
-    'Thực tập sinh': [
-      'Ngư nghiệp', 
-      'Nông Nghiệp', 
-      'Thực phẩm', 
-      'Sản xuất, dịch vụ tổng hợp', 
-      'Cơ khí, kim loại', 
-      'Xây dựng', 
-      'May mặc'
-    ],
-    'Kỹ năng đặc định': [
-        'Ngư nghiệp',
-        'Nông nghiệp',
-        'Nhà hàng',
-        'Thực phẩm',
-        'Sản xuất, dịch vụ tổng hợp',
-        'Điện, điện tử',
-        'Chế tạo Vật liệu',
-        'Cơ khí, chế tạo máy',
-        'Ô tô',
-        'Hàng không Vận tải Xây dựng',
-        'Vệ sinh toà nhà',
-        'Lưu trú, khách sạn',
-        'Điều dưỡng'
-    ],
-    'Kỹ sư, tri thức': [
-        'Nông lâm ngư nghiệp',
-        'Thực phẩm',
-        'Sản xuất, chế tạo, công nghệ',
-        'Cơ khí, máy móc',
-        'Công nghệ ô tô',
-        'Vận chuyển hàng hóa',
-        'Xây dựng',
-        'Khách sạn, lưu trú',
-        'Y tế, điều dưỡng',
-        'Kinh doanh, kinh tế',
-        'Tài chính, kế toán, bảo hiểm',
-        'Báo chí, truyền thông, marketing',
-        'Công nghệ thông tin',
-        'Nghiên cứu, phân tích',
-        'Giáo dục, đào tạo Hành chính, văn phòng',
-        'Pháp lý',
-        'Nghệ thuật, nghệ sĩ',
-        'Thể dục thể thao',
-        'Nghề có kỹ năng chuyên nghiệp',
-        'Việc làm bán chuyên nghiệp'
-    ]
-};
-
 export default function Home() {
   const [selectedJobType, setSelectedJobType] = useState('');
   const [selectedIndustry, setSelectedIndustry] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
-  const [industries, setIndustries] = useState<string[]>(defaultIndustries);
+  const [availableIndustries, setAvailableIndustries] = useState<Industry[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [comboboxOpen, setComboboxOpen] = useState(false);
+  
+  const finalSearchTerm = searchQuery || selectedIndustry;
 
   useEffect(() => {
-    let jobTypeKey = '';
+    let jobTypeKey: keyof typeof industriesByJobType | 'Default' = 'Default';
     if (selectedJobType.includes('Thực tập sinh')) jobTypeKey = 'Thực tập sinh';
     else if (selectedJobType.includes('Đặc định')) jobTypeKey = 'Kỹ năng đặc định';
     else if (selectedJobType.includes('Kỹ sư, tri thức')) jobTypeKey = 'Kỹ sư, tri thức';
     
-    const specificIndustries = industriesByJobType[jobTypeKey];
-    setIndustries(specificIndustries || defaultIndustries);
+    setAvailableIndustries(industriesByJobType[jobTypeKey]);
     setSelectedIndustry('');
     setSearchQuery('');
   }, [selectedJobType]);
@@ -166,6 +111,15 @@ export default function Home() {
       setIsSearching(false);
   }
 
+  const getFilteredIndustries = () => {
+    if (!searchQuery) return availableIndustries;
+    const lowercasedQuery = searchQuery.toLowerCase();
+    return availableIndustries.filter(industry => 
+      industry.name.toLowerCase().includes(lowercasedQuery) || 
+      industry.keywords.some(keyword => keyword.toLowerCase().includes(lowercasedQuery))
+    );
+  }
+
   const CompactSearchForm = () => (
      <div className="bg-primary p-2 md:hidden sticky top-16 z-40 shadow-lg">
         <Button 
@@ -175,7 +129,7 @@ export default function Home() {
         >
             <ChevronLeft className="mr-2 text-muted-foreground"/>
             <div className="flex-grow overflow-hidden">
-                <p className="font-bold text-base truncate">{selectedJobType || 'Tất cả loại hình'} - {selectedIndustry || 'Tất cả ngành nghề'}</p>
+                <p className="font-bold text-base truncate">{selectedJobType || 'Tất cả loại hình'} - {finalSearchTerm || 'Tất cả ngành nghề'}</p>
                 <p className="text-sm text-muted-foreground truncate">{selectedLocation || 'Tất cả địa điểm'}</p>
             </div>
         </Button>
@@ -482,7 +436,7 @@ export default function Home() {
                                     className="w-full justify-between h-10 font-normal text-sm"
                                     disabled={!selectedJobType}
                                 >
-                                    <span className="truncate">{searchQuery || selectedIndustry || "Tất cả"}</span>
+                                    <span className="truncate">{finalSearchTerm || "Tất cả ngành nghề"}</span>
                                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                 </Button>
                             </PopoverTrigger>
@@ -496,12 +450,12 @@ export default function Home() {
                                     <CommandList>
                                         <CommandEmpty>Không tìm thấy.</CommandEmpty>
                                         <CommandGroup>
-                                            {industries.filter(industry => industry.toLowerCase().includes(searchQuery.toLowerCase())).map((industry) => (
+                                            {getFilteredIndustries().map((industry) => (
                                                 <CommandItem
-                                                    key={industry}
-                                                    value={industry}
+                                                    key={industry.slug}
+                                                    value={industry.name}
                                                     onSelect={(currentValue) => {
-                                                        setSelectedIndustry(currentValue === selectedIndustry.toLowerCase() ? "" : currentValue);
+                                                        setSelectedIndustry(currentValue === selectedIndustry ? "" : industry.name);
                                                         setSearchQuery("");
                                                         setComboboxOpen(false);
                                                     }}
@@ -509,10 +463,10 @@ export default function Home() {
                                                     <Check
                                                         className={cn(
                                                             "mr-2 h-4 w-4",
-                                                            selectedIndustry.toLowerCase() === industry.toLowerCase() ? "opacity-100" : "opacity-0"
+                                                            selectedIndustry === industry.name ? "opacity-100" : "opacity-0"
                                                         )}
                                                     />
-                                                    {industry}
+                                                    {industry.name}
                                                 </CommandItem>
                                             ))}
                                         </CommandGroup>

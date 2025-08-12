@@ -1,3 +1,4 @@
+
 export interface Job {
     id: string;
     isRecording: boolean;
@@ -109,4 +110,21 @@ export const jobData: Job[] = [
         },
         postedTime: '10:05 06/10/2024',
     },
+    {
+      id: 'JP-XYZ001',
+      isRecording: false,
+      image: { src: 'https://placehold.co/600x400.png', type: 'minhhoa'},
+      likes: '3k5',
+      salary: { actual: '28tr', basic: '33tr'},
+      title: 'Tuyển dụng 5 Nam TTS Hàn xì làm việc tại Aichi. Yêu cầu có kinh nghiệm.',
+      support: [],
+      recruiter: { name: 'Hoàng An', avatar: 'https://placehold.co/32x32.png', company: 'JapanWorks'},
+      status: 'Đang tuyển',
+      interviewDate: '15/03/2024',
+      interviewRounds: 2,
+      netFee: '105tr',
+      target: '8tr',
+      tags: ['Tay nghề cao'],
+      postedTime: '09:00 07/10/2024',
+    }
 ];

@@ -1,24 +1,78 @@
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Heart, Phone, HelpCircle, Download, Briefcase, User, Copy, Users, MoreHorizontal, MapPin } from 'lucide-react';
+import { Heart, Phone, Briefcase, User, MoreHorizontal, MapPin } from 'lucide-react';
 import { Job } from '@/lib/mock-data';
-import { ZaloIcon, JpgIcon, PdfIcon } from './custom-icons';
+import { ZaloIcon } from './custom-icons';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 
 export const JobCard = ({ job }: { job: Job }) => {
-  return (
-    <Card className="rounded-lg overflow-hidden shadow-sm border border-border hover:shadow-lg transition-shadow duration-300 flex flex-row items-stretch w-full">
+  // Desktop layout
+  const DesktopLayout = () => (
+    <div className="hidden md:flex flex-row items-stretch w-full p-4 gap-4">
       {/* Left side: Image */}
+      <div className="relative w-1/4 flex-shrink-0 aspect-video rounded-lg overflow-hidden">
+        <Image src={job.image.src} alt={job.title} fill className="object-cover" />
+        <div className="absolute top-2 left-2 bg-black/60 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1.5">
+          <div className={cn("w-2 h-2 rounded-full", job.isRecording ? 'bg-red-500 animate-pulse' : 'bg-gray-400')}></div>
+          <span>{job.id}</span>
+        </div>
+      </div>
+
+      {/* Middle side: Main Content */}
+      <div className="flex-grow flex flex-col justify-between py-1">
+        <div>
+          <h3 className="font-bold text-lg mb-2 hover:text-primary cursor-pointer leading-tight">{job.title}</h3>
+          <div className="flex items-center gap-2 mb-3">
+              {job.salary.actual && <Badge variant="secondary" className="text-sm bg-green-100 text-green-800 border-green-200 py-1 px-3">Thực lĩnh: {job.salary.actual}</Badge>}
+              <Badge variant="secondary" className="text-sm py-1 px-3">Cơ bản: {job.salary.basic}</Badge>
+          </div>
+          <p className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+              <MapPin className="h-4 w-4" />
+              <span>Nagasaki</span>
+          </p>
+        </div>
+        
+        <div className="mt-auto flex items-center gap-4 text-sm">
+          <Avatar className="w-10 h-10">
+            <AvatarImage src={job.recruiter.avatar} alt={job.recruiter.name} />
+            <AvatarFallback>{job.recruiter.name.charAt(0)}</AvatarFallback>
+          </Avatar>
+          <div>
+            <p className="font-semibold text-primary">{job.recruiter.name}</p>
+            <p className="text-muted-foreground">{job.recruiter.company}</p>
+          </div>
+           <Button variant="outline" size="sm" className="h-9"><Phone className="text-green-500 h-5 w-5"/></Button>
+           <ZaloIcon className="h-8 w-8 cursor-pointer" />
+        </div>
+      </div>
+      
+      {/* Right side: Actions and Meta */}
+      <div className="w-1/4 flex flex-col items-end justify-between text-right py-1">
+          <div className="flex items-center gap-2 text-muted-foreground">
+              <span>{job.likes}</span>
+              <Heart className="w-5 h-5 text-red-500/80 hover:fill-current cursor-pointer" />
+          </div>
+          <div className="space-y-2">
+            {job.tags.slice(0, 2).map(tag => <Badge key={tag} className="ml-1">{tag}</Badge>)}
+          </div>
+          <Button className="w-full bg-primary text-white mt-4">Xem chi tiết <Briefcase/></Button>
+      </div>
+
+    </div>
+  );
+
+  // Mobile layout
+  const MobileLayout = () => (
+     <div className="md:hidden flex flex-row items-stretch w-full">
       <div className="relative w-1/3 flex-shrink-0 aspect-[4/3]">
         <Image src={job.image.src} alt={job.title} fill className="object-cover" />
          <div className="absolute top-1 left-1 bg-black/50 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1">
@@ -33,7 +87,6 @@ export const JobCard = ({ job }: { job: Job }) => {
         </div>
       </div>
 
-      {/* Right side: Content */}
       <div className="w-2/3 p-3 flex-grow flex flex-col justify-between">
         <div>
             <h3 className="font-bold text-sm mb-2 hover:text-primary cursor-pointer leading-tight">{job.title}</h3>
@@ -73,17 +126,20 @@ export const JobCard = ({ job }: { job: Job }) => {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
-                            <DropdownMenuItem><Briefcase className="mr-2 h-4 w-4" /> Chi tiết đơn</DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem><Download className="mr-2 h-4 w-4" /> Tải JD</DropdownMenuItem>
-                            <DropdownMenuItem><JpgIcon className="mr-2 h-4 w-4" /> Tải ảnh JPG</DropdownMenuItem>
-                            <DropdownMenuItem><PdfIcon className="mr-2 h-4 w-4" /> Tải ảnh PDF</DropdownMenuItem>
+                            <DropdownMenuItem><Briefcase className="mr-2 h-4 w-4" /> Xem chi tiết</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>
             </div>
         </div>
       </div>
+    </div>
+  );
+
+  return (
+    <Card className="rounded-lg overflow-hidden shadow-sm border border-border hover:shadow-lg transition-shadow duration-300">
+        <MobileLayout />
+        <DesktopLayout />
     </Card>
   );
 };

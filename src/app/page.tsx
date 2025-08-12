@@ -237,7 +237,7 @@ export default function Home() {
   );
 
   const SearchResults = () => (
-     <div className="w-full">
+     <div className="w-full bg-secondary">
         {/* Mobile Compact Search Bar */}
         <div className="md:hidden">
             <CompactSearchForm />
@@ -283,98 +283,6 @@ export default function Home() {
 
   const MainContent = () => (
     <>
-      {/* Hero Section for Candidates */}
-      <section className="w-full bg-gradient-to-r from-blue-600 to-sky-500 text-white pt-20 md:pt-28 pb-10">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
-              Định hình tư duy, Vững bước tương lai
-            </h1>
-            <p className="text-lg md:text-xl max-w-3xl mx-auto mb-10 text-white/80">
-             Chúng tôi không chỉ cung cấp việc làm, mà còn đào tạo tư duy và xây dựng lộ trình phát triển sự nghiệp (SWR) rõ ràng, giúp bạn từ lao động phổ thông trở thành chuyên gia lành nghề.
-            </p>
-          </div>
-          </div>
-      </section>
-
-      {/* Search Card */}
-       <div className="container mx-auto px-4 md:px-6 mt-[-6rem] md:mt-[-4rem] relative z-10">
-          <Card className="max-w-6xl mx-auto shadow-2xl">
-            <CardContent className="p-4 md:p-6">
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
-                <div className="md:col-span-3 space-y-2">
-                   <Label htmlFor="search-market" className="text-foreground">Thị trường</Label>
-                   <Select onValueChange={handleMarketChange} value={selectedMarket}>
-                      <SelectTrigger id="search-market">
-                        <SelectValue placeholder="Chọn thị trường" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {markets.map(market => (
-                            <SelectItem key={market.value} value={market.value}>{market.label}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                </div>
-                <div className="md:col-span-3 space-y-2">
-                  <Label htmlFor="search-type" className="text-foreground">Loại hình, kỹ năng</Label>
-                  <Select onValueChange={setSelectedJobType} value={selectedJobType}>
-                    <SelectTrigger id="search-type" disabled={!selectedMarket}>
-                      <SelectValue placeholder={selectedMarket ? "Chọn loại hình" : "Vui lòng chọn thị trường"} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {jobTypes.map(type => (
-                        <SelectItem key={type} value={type}>{type}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="md:col-span-2 space-y-2">
-                  <Label htmlFor="search-industry" className="text-foreground">Ngành nghề</Label>
-                   <Select onValueChange={setSelectedIndustry}>
-                      <SelectTrigger id="search-industry" disabled={!selectedMarket}>
-                        <SelectValue placeholder="Tất cả" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {industries.map(industry => (
-                          <SelectItem key={industry} value={industry}>{industry}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                </div>
-                 <div className="md:col-span-2 space-y-2">
-                   <Label htmlFor="search-location" className="text-foreground">Địa điểm, khu vực</Label>
-                   <Select onValueChange={setSelectedLocation}>
-                    <SelectTrigger id="search-location" disabled={!selectedMarket}>
-                      <SelectValue placeholder={selectedMarket ? "Chọn địa điểm" : "Vui lòng chọn thị trường"} />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {locations?.regions && (
-                            <SelectGroup>
-                                <SelectLabel>Vùng</SelectLabel>
-                                {locations.regions.map(region => (
-                                    <SelectItem key={region} value={region}>{region}</SelectItem>
-                                ))}
-                            </SelectGroup>
-                        )}
-                         <SelectGroup>
-                            <SelectLabel>{locations?.regions ? 'Tỉnh' : 'Tỉnh/Thành phố'}</SelectLabel>
-                            {locations?.prefectures.map(loc => (
-                                <SelectItem key={loc} value={loc}>{loc}</SelectItem>
-                            ))}
-                        </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="md:col-span-2">
-                   <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-white text-lg" onClick={() => setIsSearching(true)}>
-                    <Search className="mr-2 h-5 w-5" /> Tìm kiếm
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-      </div>
-
       {/* Why Choose Us for Candidates */}
       <section className="w-full pt-20 md:pt-28 bg-background">
         <div className="container mx-auto px-4 md:px-6">
@@ -551,11 +459,111 @@ export default function Home() {
     </>
   );
 
+  const SearchModule = () => (
+    <section className="w-full bg-gradient-to-r from-blue-600 to-sky-500 text-white pt-20 md:pt-28 pb-10">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
+              Định hình tư duy, Vững bước tương lai
+            </h1>
+            <p className="text-lg md:text-xl max-w-3xl mx-auto mb-10 text-white/80">
+             Chúng tôi không chỉ cung cấp việc làm, mà còn đào tạo tư duy và xây dựng lộ trình phát triển sự nghiệp (SWR) rõ ràng, giúp bạn từ lao động phổ thông trở thành chuyên gia lành nghề.
+            </p>
+          </div>
+        </div>
+        <div className="container mx-auto px-4 md:px-6 mt-[-6rem] md:mt-4 relative z-10">
+            <Card className="max-w-6xl mx-auto shadow-2xl">
+                <CardContent className="p-4 md:p-6">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+                    <div className="md:col-span-3 space-y-2">
+                    <Label htmlFor="search-market" className="text-foreground">Thị trường</Label>
+                    <Select onValueChange={handleMarketChange} value={selectedMarket}>
+                        <SelectTrigger id="search-market">
+                            <SelectValue placeholder="Chọn thị trường" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {markets.map(market => (
+                                <SelectItem key={market.value} value={market.value}>{market.label}</SelectItem>
+                            ))}
+                        </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="md:col-span-3 space-y-2">
+                    <Label htmlFor="search-type" className="text-foreground">Loại hình, kỹ năng</Label>
+                    <Select onValueChange={setSelectedJobType} value={selectedJobType}>
+                        <SelectTrigger id="search-type" disabled={!selectedMarket}>
+                        <SelectValue placeholder={selectedMarket ? "Chọn loại hình" : "Vui lòng chọn thị trường"} />
+                        </SelectTrigger>
+                        <SelectContent>
+                        {jobTypes.map(type => (
+                            <SelectItem key={type} value={type}>{type}</SelectItem>
+                        ))}
+                        </SelectContent>
+                    </Select>
+                    </div>
+                    <div className="md:col-span-2 space-y-2">
+                    <Label htmlFor="search-industry" className="text-foreground">Ngành nghề</Label>
+                    <Select onValueChange={setSelectedIndustry}>
+                        <SelectTrigger id="search-industry" disabled={!selectedMarket}>
+                            <SelectValue placeholder="Tất cả" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {industries.map(industry => (
+                            <SelectItem key={industry} value={industry}>{industry}</SelectItem>
+                            ))}
+                        </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="md:col-span-2 space-y-2">
+                    <Label htmlFor="search-location" className="text-foreground">Địa điểm, khu vực</Label>
+                    <Select onValueChange={setSelectedLocation}>
+                        <SelectTrigger id="search-location" disabled={!selectedMarket}>
+                        <SelectValue placeholder={selectedMarket ? "Chọn địa điểm" : "Vui lòng chọn thị trường"} />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {locations?.regions && (
+                                <SelectGroup>
+                                    <SelectLabel>Vùng</SelectLabel>
+                                    {locations.regions.map(region => (
+                                        <SelectItem key={region} value={region}>{region}</SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            )}
+                            <SelectGroup>
+                                <SelectLabel>{locations?.regions ? 'Tỉnh' : 'Tỉnh/Thành phố'}</SelectLabel>
+                                {locations?.prefectures.map(loc => (
+                                    <SelectItem key={loc} value={loc}>{loc}</SelectItem>
+                                ))}
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                    </div>
+                    <div className="md:col-span-2">
+                    <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-white text-lg" onClick={() => setIsSearching(true)}>
+                        <Search className="mr-2 h-5 w-5" /> Tìm kiếm
+                    </Button>
+                    </div>
+                </div>
+                </CardContent>
+            </Card>
+        </div>
+    </section>
+  );
+
   return (
     <div className="flex flex-col items-center min-h-screen">
-      {isSearching ? <SearchResults /> : <MainContent />}
+      <div className="w-full">
+        {/* On mobile, only show compact search or hero, not both */}
+        <div className="md:hidden">
+            {isSearching ? <CompactSearchForm /> : <SearchModule />}
+        </div>
+        {/* On desktop, always show the search module */}
+        <div className="hidden md:block">
+            <SearchModule />
+        </div>
+      </div>
+
+      {isSearching ? <SearchResults /> : <div className="hidden md:block"><MainContent /></div>}
     </div>
   );
 }
-
-    

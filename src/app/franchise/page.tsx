@@ -56,22 +56,22 @@ export default function FranchisePage() {
       <section className="py-20 md:py-28 bg-secondary">
          <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-16">
-                 <h2 className="text-3xl font-headline font-bold text-primary">Thị trường nhân lực KCN - Mỏ vàng chưa được khai thác</h2>
-                 <p className="text-muted-foreground mt-4 max-w-3xl mx-auto text-lg">Việc đảm bảo nguồn nhân lực ổn định là yếu tố then chốt giúp các khu công nghiệp lấp đầy và hoạt động hiệu quả. Đây là cơ hội khổng lồ cho các nhà đầu tư có tầm nhìn.</p>
+                 <h2 className="text-3xl font-headline font-bold text-primary">Thị trường Kỹ năng Đặc định - Cơ hội rộng mở</h2>
+                 <p className="text-muted-foreground mt-4 max-w-3xl mx-auto text-lg">Nhu cầu tuyển dụng lao động có tay nghề theo chương trình Tokutei Ginou tại Nhật Bản ngày càng tăng cao, mở ra cơ hội khổng lồ cho các đối tác tuyển dụng có tầm nhìn.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <Card className="text-center">
                     <CardHeader><Users className="h-12 w-12 mx-auto text-accent-blue" /></CardHeader>
                     <CardContent>
-                        <p className="text-3xl font-bold">~5 triệu</p>
-                        <p className="text-muted-foreground mt-2">Lao động tại các KCN, KCX trên cả nước vào năm 2025 (dự kiến).</p>
+                        <p className="text-3xl font-bold">~345,000</p>
+                        <p className="text-muted-foreground mt-2">Lao động Tokutei Ginou dự kiến được tiếp nhận trong 5 năm tới.</p>
                     </CardContent>
                 </Card>
                  <Card className="text-center">
                     <CardHeader><TrendingUp className="h-12 w-12 mx-auto text-accent-green" /></CardHeader>
                     <CardContent>
-                        <p className="text-3xl font-bold">70%</p>
-                        <p className="text-muted-foreground mt-2">Doanh nghiệp trong KCN gặp khó khăn trong việc tuyển dụng lao động có tay nghề.</p>
+                        <p className="text-3xl font-bold">12 ngành</p>
+                        <p className="text-muted-foreground mt-2">Nhu cầu tuyển dụng đa dạng ở nhiều lĩnh vực như thực phẩm, cơ khí, điều dưỡng...</p>
                     </CardContent>
                 </Card>
                  <Card className="text-center">
@@ -92,7 +92,7 @@ export default function FranchisePage() {
             <div>
               <h2 className="text-3xl font-headline font-bold mb-4 text-primary">Nắm bắt cơ hội, làm chủ thị trường</h2>
               <p className="text-muted-foreground mb-6 text-lg">
-                Chúng tôi tìm kiếm các nhà đầu tư có tầm nhìn tại mỗi tỉnh/thành phố để cùng triển khai và vận hành nền tảng Bbester. Đối tác nhượng quyền sẽ là đại diện độc quyền của chúng tôi tại địa phương, chịu trách nhiệm kết nối doanh nghiệp trong các khu công nghiệp với nguồn lao động và sinh viên.
+                Chúng tôi tìm kiếm các nhà đầu tư có tầm nhìn tại mỗi tỉnh/thành phố để cùng triển khai và vận hành nền tảng Bbester. Đối tác nhượng quyền sẽ là đại diện độc quyền của chúng tôi tại địa phương, chịu trách nhiệm kết nối các đối tác tuyển dụng tại Nhật với nguồn lao động và sinh viên dồi dào.
               </p>
               <Image
                 src="https://placehold.co/600x400.png"

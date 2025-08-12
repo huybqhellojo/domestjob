@@ -401,22 +401,22 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col md:flex-row items-center gap-12 rounded-lg bg-accent text-primary-foreground p-12 lg:p-16">
             <div className="md:w-1/2">
-              <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Giải pháp cho Khu Công Nghiệp</h2>
+              <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Giải pháp cho các đối tác tuyển Tokutei đầu Nhật</h2>
               <p className="text-lg text-primary-foreground/80 mb-8">
-                Xây dựng cổng thông tin nhân sự và đào tạo riêng cho KCN của bạn với mô hình PPaaS (Private Portal as a Service) - giải pháp toàn diện để thu hút, đào tạo và giữ chân nhân tài.
+                Hợp tác cùng Bbester để tiếp cận nguồn ứng viên dồi dào, chất lượng cao và tối ưu hóa quy trình tuyển dụng Kỹ năng Đặc định.
               </p>
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link href="/employers">Tìm hiểu về PPaaS Private Portal</Link>
+                <Link href="/employers">Tìm hiểu về Mô hình Đối tác</Link>
               </Button>
             </div>
              <div className="md:w-1/2 flex justify-center">
               <Image
                 src="https://placehold.co/600x400.png"
-                alt="Kiến trúc hệ thống PPaaS"
+                alt="Hợp tác tuyển dụng"
                 width={500}
                 height={350}
                 className="rounded-lg shadow-xl"
-                data-ai-hint="system architecture diagram"
+                data-ai-hint="recruitment partnership"
               />
             </div>
           </div>
@@ -440,7 +440,7 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6 mt-[-6rem] md:mt-4 relative z-10">
             <Card className="max-w-6xl mx-auto shadow-2xl">
                 <CardContent className="p-4 md:p-6">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+                <div className="grid grid-cols-1 md:grid-cols-10 gap-4 items-end">
                     <div className="md:col-span-4 space-y-2">
                     <Label htmlFor="search-type" className="text-foreground">Loại hình, kỹ năng</Label>
                     <Select onValueChange={setSelectedJobType} value={selectedJobType}>
@@ -491,7 +491,7 @@ export default function Home() {
                         </SelectContent>
                     </Select>
                     </div>
-                    <div className="md:col-span-2">
+                    <div className="md:col-span-12 md:col-start-5">
                     <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-white text-lg" onClick={handleSearchClick}>
                         <Search className="mr-2 h-5 w-5" /> Tìm kiếm
                     </Button>

@@ -314,7 +314,8 @@ export default function Home() {
               </div>
               <div className="p-8 md:p-12 text-center md:text-left">
                 <h2 className="text-3xl md:text-4xl font-headline font-bold text-primary mb-4">
-                  Lao động lành nghề tại Nhật (Ginou 2) <br /> thu nhập bao nhiêu?
+                  Lao động lành nghề tại Nhật (Ginou 2){' '}
+                  <span className="text-foreground">thu nhập bao nhiêu?</span>
                 </h2>
                 <p className="text-muted-foreground mb-8 max-w-md mx-auto md:mx-0">
                   Khám phá lộ trình phát triển sự nghiệp để trở thành lao động tay nghề cao và đạt được mức thu nhập mơ ước.
@@ -342,7 +343,7 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center">
             {featuredEmployers.map(emp => (
               <div key={emp.id} className="flex justify-center">
-                <Image src={emp.logo} alt={emp.name} width={150} height={50} className="grayscale hover:grayscale-0 transition-all duration-300" data-ai-hint={emp.dataAiHint}/>
+                <Image src={emp.logo} alt={emp.name} width={150} height={50} className="grayscale hover:grayscale-0 transition-all duration-300" data-ai-hint={emp.logoHint}/>
               </div>
             ))}
           </div>
@@ -522,3 +523,5 @@ export default function Home() {
     </div>
   );
 }
+
+    

@@ -176,19 +176,23 @@ export default function Home() {
   }, [selectedMarket, selectedJobType]);
 
   const CompactSearchForm = () => (
-    <div className="bg-primary text-primary-foreground p-2 md:hidden sticky top-16 z-40">
-        <Button variant="ghost" className="w-full justify-start text-left h-auto" onClick={() => setIsSearching(false)}>
-            <ChevronLeft className="mr-2"/>
-            <div className="flex-grow">
-                <p className="font-bold text-base">{selectedJobType || 'Tất cả loại hình'} - {selectedIndustry || 'Tất cả ngành nghề'}</p>
-                <p className="text-sm text-primary-foreground/80">{selectedLocation || 'Tất cả địa điểm'}</p>
+     <div className="bg-primary p-2 md:hidden sticky top-16 z-40 shadow-lg">
+        <Button 
+            variant="outline" 
+            className="w-full justify-start text-left h-auto py-2 px-3 bg-background text-foreground hover:bg-background/90"
+            onClick={() => setIsSearching(false)}
+        >
+            <ChevronLeft className="mr-2 text-muted-foreground"/>
+            <div className="flex-grow overflow-hidden">
+                <p className="font-bold text-base truncate">{selectedJobType || 'Tất cả loại hình'} - {selectedIndustry || 'Tất cả ngành nghề'}</p>
+                <p className="text-sm text-muted-foreground truncate">{selectedLocation || 'Tất cả địa điểm'}</p>
             </div>
         </Button>
     </div>
-  )
+  );
 
   const SearchResults = () => (
-     <>
+     <div className="flex-grow w-full">
         <CompactSearchForm />
         <div className="container mx-auto px-4 md:px-6 py-6">
             <div className="flex justify-between items-center mb-4">
@@ -198,13 +202,13 @@ export default function Home() {
                     Lọc
                   </Button>
             </div>
-            <div className="p-2 md:p-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
               {jobData.map((job) => (
                 <JobCard key={job.id} job={job} />
               ))}
             </div>
         </div>
-     </>
+     </div>
   );
 
 
@@ -481,5 +485,3 @@ export default function Home() {
     </div>
   );
 }
-
-    

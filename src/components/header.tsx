@@ -63,7 +63,7 @@ export function Header() {
       href={href}
       className={cn(
         'transition-colors hover:text-primary py-2 block font-medium flex items-center gap-2',
-        pathname === href ? 'text-primary font-bold' : 'text-foreground/80',
+        pathname.startsWith(href) && href !== '/' || pathname === href ? 'text-primary font-bold' : 'text-foreground/80',
         className
       )}
        onClick={(e) => {
@@ -162,3 +162,4 @@ export function Header() {
     </header>
   );
 }
+

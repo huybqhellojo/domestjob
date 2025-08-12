@@ -7,7 +7,7 @@ import { MobileFooter } from '@/components/mobile-footer';
 
 export const metadata: Metadata = {
   title: 'Bbester',
-  description: 'Giải pháp nhân lực cho Khu Công Nghiệp',
+  description: 'Nền tảng việc làm và phát triển sự nghiệp tại Nhật Bản',
 };
 
 export default function RootLayout({
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="vi" className="scroll-smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

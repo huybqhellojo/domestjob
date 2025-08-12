@@ -48,14 +48,7 @@ const featuredCourses = [
   },
 ]
 
-const markets = [
-    { value: 'vn', label: 'Trong nước (Khu công nghiệp)' },
-    { value: 'jp', label: 'Nhật Bản' }
-];
-
-const jobTypesByMarket: { [key: string]: string[] } = {
-  vn: ['Lao động phổ thông', 'Lao động lành nghề', 'Kỹ sư, tri thức'],
-  jp: [
+const japanJobTypes = [
     'Thực tập sinh 3 năm',
     'Thực tập sinh 1 năm',
     'Thực tập sinh 3 Go',
@@ -64,21 +57,13 @@ const jobTypesByMarket: { [key: string]: string[] } = {
     'Đặc định đi mới',
     'Kỹ sư, tri thức đầu Việt',
     'Kỹ sư, tri thức đầu Nhật'
-  ],
-};
+];
 
-const locationsByMarket: { [key: string]: { regions?: string[], prefectures: string[] } } = {
-    vn: {
-        prefectures: [
-            'An Giang', 'Bắc Ninh', 'Cà Mau', 'Cao Bằng', 'TP. Cần Thơ', 'TP. Đà Nẵng', 'Điện Biên', 'Đồng Nai', 'Đồng Tháp', 'Gia Lai', 'TP. Hà Nội', 'Hà Tĩnh', 'TP. Hải Phòng', 'Hưng Yên', 'Khánh Hoà', 'Lai Châu', 'Lào Cai', 'Lạng Sơn', 'Lâm Đồng', 'Ninh Bình', 'Nghệ An', 'Phú Thọ', 'Quảng Ngãi', 'Quảng Ninh', 'Quảng Trị', 'Sơn La', 'Tây Ninh', 'Thái Nguyên', 'Thanh Hóa', 'Tuyên Quang', 'Vĩnh Long', 'TP. Huế', 'TP. Hồ Chí Minh', 'Yên Bái'
-        ]
-    },
-    jp: {
-        regions: ['Hokkaido', 'Tohoku', 'Kanto', 'Chubu', 'Kansai', 'Chugoku', 'Shikoku', 'Kyushu'],
-        prefectures: [
-            'Aichi', 'Akita', 'Aomori', 'Chiba', 'Ehime', 'Fukui', 'Fukuoka', 'Fukushima', 'Gifu', 'Gunma', 'Hiroshima', 'Hokkaido', 'Hyogo', 'Ibaraki', 'Ishikawa', 'Iwate', 'Kagawa', 'Kagoshima', 'Kanagawa', 'Kochi', 'Kumamoto', 'Kyoto', 'Mie', 'Miyagi', 'Miyazaki', 'Nagano', 'Nagasaki', 'Nara', 'Niigata', 'Oita', 'Okayama', 'Okinawa', 'Osaka', 'Saga', 'Saitama', 'Shiga', 'Shimane', 'Shizuoka', 'Tochigi', 'Tokushima', 'Tokyo', 'Tottori', 'Toyama', 'Wakayama', 'Yamagata', 'Yamaguchi', 'Yamanashi'
-        ]
-    }
+const japanLocations = {
+    regions: ['Hokkaido', 'Tohoku', 'Kanto', 'Chubu', 'Kansai', 'Chugoku', 'Shikoku', 'Kyushu'],
+    prefectures: [
+        'Aichi', 'Akita', 'Aomori', 'Chiba', 'Ehime', 'Fukui', 'Fukuoka', 'Fukushima', 'Gifu', 'Gunma', 'Hiroshima', 'Hokkaido', 'Hyogo', 'Ibaraki', 'Ishikawa', 'Iwate', 'Kagawa', 'Kagoshima', 'Kanagawa', 'Kochi', 'Kumamoto', 'Kyoto', 'Mie', 'Miyagi', 'Miyazaki', 'Nagano', 'Nagasaki', 'Nara', 'Niigata', 'Oita', 'Okayama', 'Okinawa', 'Osaka', 'Saga', 'Saitama', 'Shiga', 'Shimane', 'Shizuoka', 'Tochigi', 'Tokushima', 'Tokyo', 'Tottori', 'Toyama', 'Wakayama', 'Yamagata', 'Yamaguchi', 'Yamanashi'
+    ]
 };
 
 const defaultIndustries = [
@@ -89,8 +74,7 @@ const defaultIndustries = [
     'Logistics'
 ];
 
-const industriesByMarketAndJobType: { [key: string]: { [key: string]: string[] } } = {
-  jp: {
+const industriesByJobType: { [key: string]: string[] } = {
     'Thực tập sinh': [
       'Ngư nghiệp', 
       'Nông Nghiệp', 
@@ -137,36 +121,15 @@ const industriesByMarketAndJobType: { [key: string]: { [key: string]: string[] }
         'Nghề có kỹ năng chuyên nghiệp',
         'Việc làm bán chuyên nghiệp'
     ]
-  },
 };
 
 export default function Home() {
-  const [selectedMarket, setSelectedMarket] = useState('');
   const [selectedJobType, setSelectedJobType] = useState('');
   const [selectedIndustry, setSelectedIndustry] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
-
-  const [jobTypes, setJobTypes] = useState<string[]>([]);
-  const [locations, setLocations] = useState<{ regions?: string[], prefectures: string[] } | null>(null);
   const [industries, setIndustries] = useState<string[]>(defaultIndustries);
   
   const [isSearching, setIsSearching] = useState(false);
-
-
-  const handleMarketChange = useCallback((value: string) => {
-    setSelectedMarket(value);
-    setSelectedJobType(''); // Reset job type when market changes
-    setJobTypes(jobTypesByMarket[value] || []);
-    setLocations(locationsByMarket[value] || null);
-  }, []);
-
-  useEffect(() => {
-    // Randomize the default market on initial client load to avoid hydration mismatch
-    if (!selectedMarket) {
-      const randomMarket = markets[Math.floor(Math.random() * markets.length)];
-      handleMarketChange(randomMarket.value);
-    }
-  }, [handleMarketChange, selectedMarket]);
 
   useEffect(() => {
     let jobTypeKey = '';
@@ -174,9 +137,9 @@ export default function Home() {
     else if (selectedJobType.includes('Đặc định')) jobTypeKey = 'Kỹ năng đặc định';
     else if (selectedJobType.includes('Kỹ sư, tri thức')) jobTypeKey = 'Kỹ sư, tri thức';
     
-    const specificIndustries = industriesByMarketAndJobType[selectedMarket]?.[jobTypeKey];
+    const specificIndustries = industriesByJobType[jobTypeKey];
     setIndustries(specificIndustries || defaultIndustries);
-  }, [selectedMarket, selectedJobType]);
+  }, [selectedJobType]);
 
   const handleSearchClick = () => {
     setIsSearching(true);
@@ -477,36 +440,23 @@ export default function Home() {
             <Card className="max-w-6xl mx-auto shadow-2xl">
                 <CardContent className="p-4 md:p-6">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
-                    <div className="md:col-span-3 space-y-2">
-                    <Label htmlFor="search-market" className="text-foreground">Thị trường</Label>
-                    <Select onValueChange={handleMarketChange} value={selectedMarket}>
-                        <SelectTrigger id="search-market">
-                            <SelectValue placeholder="Chọn thị trường" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {markets.map(market => (
-                                <SelectItem key={market.value} value={market.value}>{market.label}</SelectItem>
-                            ))}
-                        </SelectContent>
-                        </Select>
-                    </div>
-                    <div className="md:col-span-3 space-y-2">
+                    <div className="md:col-span-4 space-y-2">
                     <Label htmlFor="search-type" className="text-foreground">Loại hình, kỹ năng</Label>
                     <Select onValueChange={setSelectedJobType} value={selectedJobType}>
-                        <SelectTrigger id="search-type" disabled={!selectedMarket}>
-                        <SelectValue placeholder={selectedMarket ? "Chọn loại hình" : "Vui lòng chọn thị trường"} />
+                        <SelectTrigger id="search-type">
+                        <SelectValue placeholder="Chọn loại hình" />
                         </SelectTrigger>
                         <SelectContent>
-                        {jobTypes.map(type => (
+                        {japanJobTypes.map(type => (
                             <SelectItem key={type} value={type}>{type}</SelectItem>
                         ))}
                         </SelectContent>
                     </Select>
                     </div>
-                    <div className="md:col-span-2 space-y-2">
+                    <div className="md:col-span-3 space-y-2">
                     <Label htmlFor="search-industry" className="text-foreground">Ngành nghề</Label>
                     <Select onValueChange={setSelectedIndustry}>
-                        <SelectTrigger id="search-industry" disabled={!selectedMarket}>
+                        <SelectTrigger id="search-industry">
                             <SelectValue placeholder="Tất cả" />
                         </SelectTrigger>
                         <SelectContent>
@@ -516,24 +466,24 @@ export default function Home() {
                         </SelectContent>
                         </Select>
                     </div>
-                    <div className="md:col-span-2 space-y-2">
+                    <div className="md:col-span-3 space-y-2">
                     <Label htmlFor="search-location" className="text-foreground">Địa điểm, khu vực</Label>
                     <Select onValueChange={setSelectedLocation}>
-                        <SelectTrigger id="search-location" disabled={!selectedMarket}>
-                        <SelectValue placeholder={selectedMarket ? "Chọn địa điểm" : "Vui lòng chọn thị trường"} />
+                        <SelectTrigger id="search-location">
+                        <SelectValue placeholder="Chọn địa điểm" />
                         </SelectTrigger>
                         <SelectContent>
-                            {locations?.regions && (
+                            {japanLocations.regions && (
                                 <SelectGroup>
                                     <SelectLabel>Vùng</SelectLabel>
-                                    {locations.regions.map(region => (
+                                    {japanLocations.regions.map(region => (
                                         <SelectItem key={region} value={region}>{region}</SelectItem>
                                     ))}
                                 </SelectGroup>
                             )}
                             <SelectGroup>
-                                <SelectLabel>{locations?.regions ? 'Tỉnh' : 'Tỉnh/Thành phố'}</SelectLabel>
-                                {locations?.prefectures.map(loc => (
+                                <SelectLabel>{japanLocations.regions ? 'Tỉnh' : 'Tỉnh/Thành phố'}</SelectLabel>
+                                {japanLocations.prefectures.map(loc => (
                                     <SelectItem key={loc} value={loc}>{loc}</SelectItem>
                                 ))}
                             </SelectGroup>

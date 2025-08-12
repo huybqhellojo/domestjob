@@ -1,65 +1,71 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { HardHat, School, Star, Plane, UserCheck, ShieldCheck } from 'lucide-react';
+import { HardHat, School, Star, Plane, UserCheck, ShieldCheck, TrendingUp, Briefcase, MapIcon, Compass } from 'lucide-react';
 import React from 'react';
 import Image from 'next/image';
 
 const roadmapSteps = [
   {
-    icon: UserCheck,
-    title: 'Định hướng & Đánh giá ban đầu',
-    description: 'Ứng viên thực hiện các bài đánh giá năng lực và sở thích để hệ thống gợi ý ngành nghề, lộ trình phát triển phù hợp nhất ngay từ đầu.',
+    icon: Compass,
+    title: 'Bước 1: Định hướng nghề nghiệp',
+    description: 'Bắt đầu từ tốt nghiệp PTTH, HelloJob sẽ cùng bạn đánh giá năng lực, định hướng con đường phù hợp nhất để trở thành lao động lành nghề, dù là làm việc trong nước hay chinh phục thị trường Nhật Bản.',
+    salary: 'Mức lương khởi điểm',
     color: 'orange',
     image: 'https://placehold.co/500x300.png',
-    dataAiHint: 'career assessment test',
-  },
-  {
-    icon: HardHat,
-    title: 'Lao động phổ thông',
-    description: 'Bắt đầu với các vị trí công việc không yêu cầu chuyên môn cao. Đây là bước đầu tiên để làm quen với môi trường khu công nghiệp, tích lũy kinh nghiệm thực tế và được định hướng nghề nghiệp.',
-    color: 'sky',
-    image: 'https://placehold.co/500x300.png',
-    dataAiHint: 'factory workers',
-  },
-  {
-    icon: School,
-    title: 'Học nghề & Đào tạo kỹ năng',
-    description: 'Tham gia các khóa đào tạo trên nền tảng E-learning hoặc tại doanh nghiệp để nâng cao tay nghề, học ngoại ngữ (Nhật, Hàn), sẵn sàng cho các vị trí yêu cầu kỹ năng cao hơn.',
-    color: 'blue',
-    image: 'https://placehold.co/500x300.png',
-    dataAiHint: 'vocational training online',
-  },
-  {
-    icon: Star,
-    title: 'Lao động có kỹ năng & Chứng nhận',
-    description: 'Trở thành lao động tay nghề cao, được hệ thống xác nhận và cấp chứng nhận kỹ năng, đảm nhận các vị trí quan trọng và nhận mức lương, đãi ngộ tốt hơn.',
-    color: 'green',
-    image: 'https://placehold.co/500x300.png',
-    dataAiHint: 'skilled labor certificate',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Chuyên viên / Tổ trưởng',
-    description: 'Phát triển lên các vị trí quản lý cấp trung như tổ trưởng, chuyền trưởng, chuyên viên kỹ thuật. Đây là bước quan trọng để trở thành nòng cốt của doanh nghiệp.',
-    color: 'teal',
-    image: 'https://placehold.co/500x300.png',
-    dataAiHint: 'factory team leader',
+    dataAiHint: 'career guidance compass',
   },
   {
     icon: Plane,
-    title: 'Chuyên gia & Lao động hồi hương',
-    description: 'Phát triển lên các vị trí chuyên gia, kỹ sư, hoặc tham gia chương trình xuất khẩu lao động. Hệ thống cũng chào đón và kết nối việc làm cho lực lượng lao động chất lượng cao từ nước ngoài trở về.',
+    title: 'Bước 2: Thực tập sinh tại Nhật (3-5 năm)',
+    description: 'Bắt đầu hành trình tại Nhật với vai trò Thực tập sinh kỹ năng. Đây là giai đoạn để bạn làm quen với môi trường, văn hóa làm việc chuyên nghiệp và tích lũy kinh nghiệm nền tảng đầu tiên.',
+    salary: '~30 triệu VNĐ/tháng',
+    color: 'sky',
+    image: 'https://placehold.co/500x300.png',
+    dataAiHint: 'trainee learning japan',
+  },
+  {
+    icon: Star,
+    title: 'Bước 3: Kỹ năng đặc định 1 (Tối đa 5 năm)',
+    description: 'Sau khi hoàn thành chương trình thực tập sinh, bạn sẽ được nâng cấp lên visa Kỹ năng đặc định (Tokutei Ginou 1). Tay nghề cao hơn, được phép chuyển việc trong ngành và nhận mức thu nhập cải thiện rõ rệt.',
+    salary: '40-50 triệu VNĐ/tháng',
+    color: 'blue',
+    image: 'https://placehold.co/500x300.png',
+    dataAiHint: 'skilled worker certificate',
+  },
+  {
+    icon: ShieldCheck,
+    title: 'Bước 4: Kỹ năng đặc định 2 (Lâu dài)',
+    description: 'Đây là cấp độ cao nhất của lao động kỹ năng. Với visa Tokutei Ginou 2, bạn có cơ hội bảo lãnh gia đình sang sinh sống và làm việc, đồng thời mở ra con đường xin visa vĩnh trú tại Nhật.',
+    salary: 'Tiếp tục tăng',
+    color: 'green',
+    image: 'https://placehold.co/500x300.png',
+    dataAiHint: 'family in japan',
+  },
+  {
+    icon: TrendingUp,
+    title: 'Bước 5: Chuyên gia lành nghề',
+    description: 'Với sự đồng hành và đào tạo chuyên sâu từ HelloJob, bạn sẽ trở thành chuyên gia trong lĩnh vực của mình, đảm nhận những vị trí quan trọng và đạt được mức thu nhập đỉnh cao.',
+    salary: '60-70 triệu VNĐ/tháng',
+    color: 'teal',
+    image: 'https://placehold.co/500x300.png',
+    dataAiHint: 'expert engineer meeting',
+  },
+  {
+    icon: Briefcase,
+    title: 'Bước 6: Sự nghiệp rộng mở',
+    description: 'Lựa chọn trở về Việt Nam với vị thế một chuyên gia được săn đón, hoặc tiếp tục con đường định cư và phát triển sự nghiệp lâu dài tại Nhật Bản. HelloJob luôn là đối tác tin cậy của bạn.',
+    salary: 'Thu nhập chuyên gia',
     color: 'primary',
     image: 'https://placehold.co/500x300.png',
-    dataAiHint: 'engineer expert manager',
+    dataAiHint: 'manager working office',
   },
 ];
 
 const circleColors: { [key: string]: string } = {
-  orange: 'bg-accent-orange',
+  orange: 'bg-orange-500',
   sky: 'bg-sky-500',
-  blue: 'bg-blue-500',
-  green: 'bg-accent-green',
+  blue: 'bg-blue-600',
+  green: 'bg-green-500',
   teal: 'bg-teal-500',
   primary: 'bg-primary',
 };
@@ -81,35 +87,45 @@ export default function RoadmapPage() {
           {/* Vertical line */}
           <div className="absolute left-1/2 -translate-x-1/2 top-4 bottom-4 w-1 bg-border rounded-full hidden md:block" />
 
-          <div className="space-y-16">
+          <div className="space-y-12 md:space-y-4">
             {roadmapSteps.map((step, index) => (
-              <div key={index} className="relative flex flex-col md:flex-row items-center group">
+              <div key={index} className="relative flex flex-col md:flex-row items-center group md:h-80">
                 {/* Timeline circle for desktop */}
                 <div className="hidden md:block absolute left-1/2 -translate-x-1/2 z-10">
                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${circleColors[step.color]} border-4 border-secondary group-hover:scale-110 transition-transform duration-300`}>
                       <step.icon className="h-6 w-6 text-white" />
                     </div>
                 </div>
+                
+                {/* Mobile Icon */}
+                 <div className="md:hidden flex items-center gap-4 mb-4 w-full">
+                    <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${circleColors[step.color]}`}>
+                        <step.icon className="h-6 w-6 text-white" />
+                    </div>
+                    <h2 className="font-headline text-2xl text-primary">{step.title}</h2>
+                </div>
 
-                {/* Content: Right side (for odd index on desktop) or all on mobile */}
-                <div className={`w-full md:w-1/2 ${index % 2 !== 0 ? 'md:pl-8' : 'md:pr-8'} ${index % 2 !== 0 ? 'md:order-2' : ''}`}>
-                   <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
-                    <CardHeader>
-                      <CardTitle className={`font-headline text-2xl ${index % 2 !== 0 ? 'md:text-left' : 'md:text-right'}`}>
-                        <>
-                          <span className="text-primary/50 mr-2">Bước {index + 1}:</span> {step.title}
-                        </>
+
+                {/* Content: Right side (for even index on desktop) or all on mobile */}
+                <div className={`w-full md:w-1/2 ${index % 2 !== 0 ? 'md:pl-16' : 'md:pr-16 md:text-right'} ${index % 2 !== 0 ? 'md:order-2' : ''}`}>
+                   <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4" style={{borderColor: `var(--${step.color})`}}>
+                     <CardHeader className="hidden md:block">
+                      <CardTitle className="font-headline text-2xl">
+                          {step.title}
                       </CardTitle>
                     </CardHeader>
-                    <CardContent className={`${index % 2 !== 0 ? 'md:text-left' : 'md:text-right'}`}>
-                      <p className="text-muted-foreground">{step.description}</p>
+                    <CardContent className="pt-6">
+                      <p className="text-muted-foreground mb-4">{step.description}</p>
+                       <div className={`font-bold text-lg ${index % 2 !== 0 ? 'md:text-left' : 'md:text-right'}`}>
+                         <span className="text-accent-green">{step.salary}</span>
+                       </div>
                     </CardContent>
                   </Card>
                 </div>
 
-                {/* Image: Left side (for odd index on desktop) or all on mobile */}
-                <div className={`w-full md:w-1/2 mt-6 md:mt-0 ${index % 2 !== 0 ? 'md:pr-8' : 'md:pl-8'} ${index % 2 !== 0 ? 'md:order-1' : ''}`}>
-                   <Image src={step.image} alt={step.title} width={500} height={300} className="rounded-lg shadow-xl" data-ai-hint={step.dataAiHint} />
+                {/* Image: Left side (for even index on desktop) */}
+                <div className={`hidden md:flex w-1/2 h-full items-center ${index % 2 !== 0 ? 'md:pr-16 md:order-1' : 'md:pl-16'}`}>
+                   <Image src={step.image} alt={step.title} width={500} height={300} className="rounded-lg shadow-xl object-cover w-full h-64" data-ai-hint={step.dataAiHint} />
                 </div>
               </div>
             ))}
@@ -119,3 +135,5 @@ export default function RoadmapPage() {
     </div>
   );
 }
+
+    

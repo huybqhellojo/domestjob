@@ -138,6 +138,7 @@ export default function Home() {
     
     const specificIndustries = industriesByJobType[jobTypeKey];
     setIndustries(specificIndustries || defaultIndustries);
+    setSelectedIndustry('');
   }, [selectedJobType]);
 
   const handleSearchClick = () => {
@@ -251,7 +252,7 @@ export default function Home() {
       <section className="w-full pt-20 md:pt-28 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl md:text-4xl font-headline font-bold text-center mb-16">
-            Con đường phát triển của bạn
+            Con đường phát triển của bạn tại Nhật Bản
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card className="text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
@@ -263,7 +264,7 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Xem lộ trình phát triển sự nghiệp (SWR) để định hướng con đường từ lao động phổ thông đến chuyên gia.
+                  Xem lộ trình phát triển sự nghiệp (SWR) để định hướng con đường từ Thực tập sinh đến chuyên gia tại Nhật.
                 </p>
               </CardContent>
             </Card>
@@ -276,7 +277,7 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Tham gia các khóa học E-learning miễn phí để trau dồi kiến thức và kỹ năng cần thiết cho công việc mơ ước.
+                  Tham gia các khóa học E-learning miễn phí về tiếng Nhật, văn hóa và kỹ năng làm việc để chuẩn bị tốt nhất.
                 </p>
               </CardContent>
             </Card>
@@ -289,7 +290,7 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  Sau khi hoàn thành đào tạo, tiếp cận hàng ngàn công việc chất lượng cao từ các nhà tuyển dụng hàng đầu.
+                  Tiếp cận hàng ngàn công việc chất lượng cao từ các nhà tuyển dụng hàng đầu trên khắp nước Nhật.
                 </p>
               </CardContent>
             </Card>
@@ -305,10 +306,10 @@ export default function Home() {
               <div className="relative h-64 md:h-full order-last md:order-first">
                 <Image 
                   src="https://placehold.co/600x600.png"
-                  alt="Lao động lành nghề"
+                  alt="Lao động lành nghề tại Nhật"
                   fill
                   className="object-cover"
-                  data-ai-hint="happy factory worker"
+                  data-ai-hint="happy factory worker japan"
                 />
               </div>
               <div className="p-8 md:p-12 text-center md:text-left">
@@ -334,16 +335,16 @@ export default function Home() {
       <section className="w-full py-20 md:py-28 bg-background">
         <div className="container mx-auto px-4 md:px-6">
            <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-headline font-bold">Các nhà tuyển dụng hàng đầu</h2>
+            <h2 className="text-3xl md:text-4xl font-headline font-bold">Các đối tác tuyển dụng hàng đầu</h2>
             <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto">
-              Những công ty lớn và uy tín đang tìm kiếm những ứng viên như bạn.
+              Những công ty và nghiệp đoàn lớn uy tín tại Nhật Bản đang tìm kiếm những ứng viên như bạn.
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center">
             {featuredEmployers.map(emp => (
-              <div key={emp.id} className="flex justify-center">
+              <Link href={`/employers/${emp.id}`} key={emp.id} className="flex justify-center">
                 <Image src={emp.logo} alt={emp.name} width={150} height={50} className="grayscale hover:grayscale-0 transition-all duration-300" data-ai-hint={emp.dataAiHint}/>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -355,7 +356,7 @@ export default function Home() {
            <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-headline font-bold">Nâng cao kỹ năng với E-Learning</h2>
             <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto">
-              Đầu tư vào bản thân với các khóa học được thiết kế riêng, giúp bạn thăng tiến trong sự nghiệp.
+              Đầu tư vào bản thân với các khóa học được thiết kế riêng, giúp bạn thăng tiến trong sự nghiệp tại Nhật.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -405,17 +406,17 @@ export default function Home() {
                 Hợp tác cùng HelloJob để tiếp cận nguồn ứng viên dồi dào, chất lượng cao và tối ưu hóa quy trình tuyển dụng Kỹ năng Đặc định.
               </p>
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link href="/employers">Tìm hiểu về Mô hình Đối tác</Link>
+                <Link href="/franchise">Tìm hiểu về Mô hình Đối tác</Link>
               </Button>
             </div>
              <div className="md:w-1/2 flex justify-center">
               <Image
                 src="https://placehold.co/600x400.png"
-                alt="Hợp tác tuyển dụng"
+                alt="Hợp tác tuyển dụng tại Nhật"
                 width={500}
                 height={350}
                 className="rounded-lg shadow-xl"
-                data-ai-hint="recruitment partnership"
+                data-ai-hint="recruitment partnership japan"
               />
             </div>
           </div>
@@ -429,7 +430,7 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-headline font-bold mb-4">
-              Định hình tư duy, Vững bước tương lai
+              Tìm việc làm tại Nhật Bản
             </h1>
             <p className="text-lg md:text-xl max-w-3xl mx-auto mb-10 text-white/80">
              Chúng tôi không chỉ cung cấp việc làm, mà còn đào tạo tư duy và xây dựng lộ trình phát triển sự nghiệp (SWR) rõ ràng, giúp bạn từ lao động phổ thông trở thành chuyên gia lành nghề.
@@ -455,8 +456,8 @@ export default function Home() {
                     </div>
                     <div className="md:col-span-3 space-y-2">
                         <Label htmlFor="search-industry" className="text-foreground">Ngành nghề</Label>
-                        <Select onValueChange={setSelectedIndustry}>
-                            <SelectTrigger id="search-industry">
+                        <Select onValueChange={setSelectedIndustry} value={selectedIndustry}>
+                            <SelectTrigger id="search-industry" disabled={!selectedJobType}>
                                 <SelectValue placeholder="Tất cả" />
                             </SelectTrigger>
                             <SelectContent>
@@ -470,19 +471,17 @@ export default function Home() {
                         <Label htmlFor="search-location" className="text-foreground">Địa điểm, khu vực</Label>
                         <Select onValueChange={setSelectedLocation}>
                             <SelectTrigger id="search-location">
-                            <SelectValue placeholder="Chọn địa điểm" />
+                            <SelectValue placeholder="Toàn quốc Nhật Bản" />
                             </SelectTrigger>
                             <SelectContent>
-                                {japanLocations.regions && (
-                                    <SelectGroup>
-                                        <SelectLabel>Vùng</SelectLabel>
-                                        {japanLocations.regions.map(region => (
-                                            <SelectItem key={region} value={region}>{region}</SelectItem>
-                                        ))}
-                                    </SelectGroup>
-                                )}
                                 <SelectGroup>
-                                    <SelectLabel>{japanLocations.regions ? 'Tỉnh' : 'Tỉnh/Thành phố'}</SelectLabel>
+                                    <SelectLabel>Vùng</SelectLabel>
+                                    {japanLocations.regions.map(region => (
+                                        <SelectItem key={region} value={region}>{region}</SelectItem>
+                                    ))}
+                                </SelectGroup>
+                                <SelectGroup>
+                                    <SelectLabel>Tỉnh/Thành phố</SelectLabel>
                                     {japanLocations.prefectures.map(loc => (
                                         <SelectItem key={loc} value={loc}>{loc}</SelectItem>
                                     ))}
@@ -505,22 +504,18 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center min-h-screen">
       <div className="w-full">
-        {/* On mobile, show compact search form when searching */}
         <div className="md:hidden">
             {isSearching ? <CompactSearchForm /> : <SearchModule />}
         </div>
         
-        {/* On desktop, always show the search module */}
         <div className="hidden md:block">
             <SearchModule />
         </div>
       </div>
       
-      <div className="w-full">
+      <div className="w-full flex-grow">
         {isSearching ? <SearchResults /> : <MainContent />}
       </div>
     </div>
   );
 }
-
-    

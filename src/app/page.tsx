@@ -313,7 +313,7 @@ export default function Home() {
               </div>
               <div className="p-8 md:p-12 text-center md:text-left">
                 <h2 className="text-3xl md:text-4xl font-headline font-bold text-primary mb-4">
-                  Lao động lành nghề tại Nhật (Ginou 2){' '}
+                  Ginou 2 - Lao động lành nghề tại Nhật{' '}
                   <span className="text-foreground">thu nhập bao nhiêu?</span>
                 </h2>
                 <p className="text-muted-foreground mb-8 max-w-md mx-auto md:mx-0">

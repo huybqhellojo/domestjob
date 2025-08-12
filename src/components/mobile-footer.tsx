@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, Sparkles, User, LogOut, PlusCircle, Shield, FileText, MessageSquareWarning, LayoutGrid, X } from 'lucide-react';
+import { Home, Sparkles, User, LogOut, PlusCircle, Shield, FileText, MessageSquareWarning, LayoutGrid, X, Compass, BookOpen, LifeBuoy, Info } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import {
@@ -22,10 +22,14 @@ import { DropdownMenuSeparator } from './ui/dropdown-menu';
 
 const quickAccessLinks = [
     { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles },
+    { href: '/roadmap', label: 'Lộ trình', icon: Compass },
+    { href: '/learn', label: 'E-Learning', icon: BookOpen },
     { href: '/post-job', label: 'Đăng tuyển dụng', icon: PlusCircle },
     { href: '/dashboard', label: 'Dữ liệu & Báo cáo', icon: FileText },
     { href: '/franchise', label: 'Nhượng quyền', icon: Shield },
     { href: '/consultant-profile', label: 'Tư vấn viên', icon: User },
+    { href: '/handbook', label: 'Cẩm nang', icon: LifeBuoy },
+    { href: '/about', label: 'Giới thiệu', icon: Info },
     { href: '#', label: 'Góp ý', icon: MessageSquareWarning },
 ];
 

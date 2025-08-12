@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, LayoutGrid, Sparkles, BookOpen, Compass, Home } from 'lucide-react';
+import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, LayoutGrid, Sparkles, BookOpen, Compass, Home, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
@@ -43,10 +43,14 @@ const employerLinks = [
 
 const quickAccessLinks = [
     { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles },
+    { href: '/roadmap', label: 'Lộ trình', icon: Compass },
+    { href: '/learn', label: 'E-Learning', icon: BookOpen },
     { href: '/post-job', label: 'Đăng tuyển dụng', icon: PlusCircle },
     { href: '/dashboard', label: 'Dữ liệu & Báo cáo', icon: FileText },
     { href: '/franchise', label: 'Nhượng quyền', icon: Shield },
     { href: '/consultant-profile', label: 'Tư vấn viên', icon: User },
+    { href: '/handbook', label: 'Cẩm nang', icon: LifeBuoy },
+    { href: '/about', label: 'Giới thiệu', icon: Info },
     { href: '#', label: 'Góp ý', icon: MessageSquareWarning },
 ];
 
@@ -107,7 +111,7 @@ export function Header() {
                   <span className="sr-only">Open Menu</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-80" align="end" forceMount>
+              <DropdownMenuContent className="w-[360px]" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex items-center gap-3">
                     <Avatar className="h-12 w-12">
@@ -129,7 +133,7 @@ export function Header() {
                  </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <div className="grid grid-cols-3 gap-2 p-2">
+                  <div className="grid grid-cols-4 gap-2 p-2">
                      {quickAccessLinks.map((link) => (
                          <DropdownMenuItem asChild key={link.href}>
                            <Link href={link.href} className="flex flex-col items-center justify-start p-2 h-20 cursor-pointer rounded-md hover:bg-accent">

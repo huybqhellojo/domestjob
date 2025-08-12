@@ -178,33 +178,19 @@ export default function Home() {
   }, [selectedMarket, selectedJobType]);
 
   const handleSearchClick = () => {
-    // Push a state to history so the back button works to exit search view
-    window.history.pushState({ searching: true }, '');
     setIsSearching(true);
   };
   
-  useEffect(() => {
-    const handlePopState = (event: PopStateEvent) => {
-      // If the state being popped is not our search state, it means user navigated away
-      // or pressed back from the search results, so we exit the search view.
-      if (isSearching && (!event.state || !event.state.searching)) {
-        setIsSearching(false);
-      }
-    };
-
-    window.addEventListener('popstate', handlePopState);
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [isSearching]);
-
+  const handleBackToSearch = () => {
+      setIsSearching(false);
+  }
 
   const CompactSearchForm = () => (
      <div className="bg-primary p-2 md:hidden sticky top-16 z-40 shadow-lg">
         <Button 
             variant="outline" 
             className="w-full justify-start text-left h-auto py-2 px-3 bg-background text-foreground hover:bg-background/90"
-            onClick={() => setIsSearching(false)}
+            onClick={handleBackToSearch}
         >
             <ChevronLeft className="mr-2 text-muted-foreground"/>
             <div className="flex-grow overflow-hidden">
@@ -568,10 +554,11 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center min-h-screen">
       <div className="w-full">
-        {/* On mobile, only show compact search or hero, not both */}
+        {/* On mobile, show compact search form when searching */}
         <div className="md:hidden">
-            {isSearching ? <SearchResults /> : <SearchModule />}
+            {isSearching ? <CompactSearchForm /> : <SearchModule />}
         </div>
+        
         {/* On desktop, always show the search module */}
         <div className="hidden md:block">
             <SearchModule />
@@ -579,9 +566,7 @@ export default function Home() {
       </div>
       
       <div className="w-full">
-        {isSearching 
-            ? <SearchResults /> 
-            : <div className="hidden md:block"><MainContent /></div>}
+        {isSearching ? <SearchResults /> : <div className="hidden md:block"><MainContent /></div>}
       </div>
     </div>
   );

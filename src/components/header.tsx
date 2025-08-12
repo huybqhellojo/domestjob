@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -55,7 +56,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  const NavLink = ({ href, label, className, icon: Icon }: { href: string; label: string, className?: string, icon?: React.ElementType }) => (
+  const NavLink = ({ href, label, className, icon: Icon, onClick }: { href: string; label: string, className?: string, icon?: React.ElementType, onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void }) => (
     <Link
       href={href}
       className={cn(
@@ -63,12 +64,22 @@ export function Header() {
         pathname === href ? 'text-primary font-bold' : 'text-foreground/80',
         className
       )}
-      onClick={() => setIsOpen(false)}
+      onClick={(e) => {
+        if(onClick) onClick(e);
+        setIsOpen(false)
+      }}
     >
       {Icon && <Icon className="h-5 w-5" />}
       {label}
     </Link>
   );
+  
+  const handleHomeClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+      if (pathname === '/') {
+        e.preventDefault();
+        window.location.reload();
+      }
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -78,7 +89,11 @@ export function Header() {
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm">
           {mainNavLinks.map((link) => (
-             <NavLink key={link.href} {...link} />
+             <NavLink 
+                key={link.href} 
+                {...link}
+                onClick={link.href === '/' ? handleHomeClick : undefined} 
+             />
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-2">
@@ -190,7 +205,11 @@ export function Header() {
                            <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-2">Điều hướng</AccordionTrigger>
                            <AccordionContent className="pl-4">
                             {mainNavLinks.map((link) => (
-                                <NavLink key={link.href} {...link} className="border-b" />
+                                <NavLink 
+                                    key={link.href} 
+                                    {...link}
+                                    onClick={link.href === '/' ? handleHomeClick : undefined} 
+                                />
                             ))}
                            </AccordionContent>
                         </AccordionItem>

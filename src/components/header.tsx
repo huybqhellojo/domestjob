@@ -88,7 +88,9 @@ export function Header() {
           {mainNavLinks.map((link) => (
              <NavLink 
                 key={link.href} 
-                {...link}
+                href={link.href}
+                label={link.label}
+                icon={link.icon}
                 onClick={link.href === '/' ? handleHomeClick : undefined} 
              />
           ))}

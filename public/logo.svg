@@ -1,18 +1,14 @@
-<svg width="200" height="50" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-<style>
-    .b-text {
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 900;
-        font-size: 32px;
-        fill: #19A6DF;
+<svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .hello {
+      font: bold 26px 'Montserrat', sans-serif;
+      fill: #0D8DC8;
     }
-    .s-text {
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 700;
-        font-size: 32px;
-        fill: #333;
+    .job {
+      font: bold 26px 'Montserrat', sans-serif;
+      fill: #1E3A8A;
     }
-</style>
-<text x="10" y="38" class="b-text">B</text>
-<text x="35" y="38" class="s-text">bester</text>
+  </style>
+  <text x="0" y="28" class="hello">Hello</text>
+  <text x="65" y="28" class="job">Job</text>
 </svg>

@@ -28,7 +28,7 @@ export function Footer() {
             <h4 className="font-bold mb-4">Dành cho nhà tuyển dụng</h4>
             <ul className="space-y-2 text-sm">
               <li><Link href="/post-job" className="hover:text-primary">Đăng tin tuyển dụng</Link></li>
-              <li><Link href="/jobs" className="hover:text-primary">Danh sách công ty</Link></li>
+              <li><Link href="/employers" className="hover:text-primary">Danh sách công ty</Link></li>
               <li><Link href="/dashboard" className="hover:text-primary">Báo cáo dữ liệu</Link></li>
               <li><Link href="/franchise" className="hover:text-primary">Đối tác tại Nhật</Link></li>
             </ul>

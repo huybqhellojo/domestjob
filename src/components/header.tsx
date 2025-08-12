@@ -30,6 +30,7 @@ const mainNavLinks = [
   { href: '/', label: 'Trang chủ'},
   { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles },
   { href: '/roadmap', label: 'Lộ trình' },
+  { href: '/career-orientation', label: 'Hướng nghiệp' },
   { href: '/learn', label: 'E-Learning' },
   { href: '/handbook', label: 'Cẩm nang'},
   { href: '/about', label: 'Giới thiệu' },

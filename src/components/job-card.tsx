@@ -19,7 +19,7 @@ export const JobCard = ({ job }: { job: Job }) => {
   return (
     <Card className="rounded-lg overflow-hidden shadow-sm border border-border hover:shadow-lg transition-shadow duration-300 flex flex-row items-stretch w-full">
       {/* Left side: Image */}
-      <div className="relative w-1/3 flex-shrink-0">
+      <div className="relative w-1/3 flex-shrink-0 aspect-[4/3]">
         <Image src={job.image.src} alt={job.title} fill className="object-cover" />
          <div className="absolute top-1 left-1 bg-black/50 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1">
           <div className={cn("w-1.5 h-1.5 rounded-full", job.isRecording ? 'bg-red-500 animate-pulse' : 'bg-gray-400')}></div>

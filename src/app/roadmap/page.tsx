@@ -75,7 +75,7 @@ export default function RoadmapPage() {
     <div className="bg-secondary">
       <div className="container mx-auto px-4 md:px-6 py-16 md:py-24">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-headline font-bold">
+          <h1 className="text-4xl md:text-5xl font-headline font-bold text-accent">
             Lộ trình phát triển sự nghiệp (SWR)
           </h1>
           <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto">
@@ -140,4 +140,3 @@ export default function RoadmapPage() {
     </div>
   );
 }
-

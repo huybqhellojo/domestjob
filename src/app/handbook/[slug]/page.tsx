@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,16 +8,17 @@ import { Badge } from '@/components/ui/badge';
 import { Scroll, Timer, UserCircle } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import { articles, type HandbookArticle } from '@/lib/handbook-data';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
 
-export default function ArticlePage({ params }: { params: { slug: string } }) {
+export default function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const [activeId, setActiveId] = useState('');
-
-  const article = articles.find((a) => a.slug === params.slug);
+  
+  const resolvedParams = use(params);
+  const article = articles.find((a) => a.slug === resolvedParams.slug);
 
   useEffect(() => {
     if (!article) return;
@@ -49,7 +51,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
     notFound();
   }
   
-  const otherArticles = articles.filter(a => a.slug !== params.slug).slice(0, 2);
+  const otherArticles = articles.filter(a => a.slug !== resolvedParams.slug).slice(0, 2);
 
   return (
     <div className="bg-secondary">
@@ -139,4 +141,3 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
     </div>
   );
 }
-

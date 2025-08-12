@@ -343,7 +343,7 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center">
             {featuredEmployers.map(emp => (
               <div key={emp.id} className="flex justify-center">
-                <Image src={emp.logo} alt={emp.name} width={150} height={50} className="grayscale hover:grayscale-0 transition-all duration-300" data-ai-hint={emp.logoHint}/>
+                <Image src={emp.logo} alt={emp.name} width={150} height={50} className="grayscale hover:grayscale-0 transition-all duration-300" data-ai-hint={emp.dataAiHint}/>
               </div>
             ))}
           </div>
@@ -440,61 +440,61 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6 mt-[-6rem] md:mt-4 relative z-10">
             <Card className="max-w-6xl mx-auto shadow-2xl">
                 <CardContent className="p-4 md:p-6">
-                <div className="grid grid-cols-1 md:grid-cols-10 gap-4 items-end">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
                     <div className="md:col-span-4 space-y-2">
-                    <Label htmlFor="search-type" className="text-foreground">Loại hình, kỹ năng</Label>
-                    <Select onValueChange={setSelectedJobType} value={selectedJobType}>
-                        <SelectTrigger id="search-type">
-                        <SelectValue placeholder="Chọn loại hình" />
-                        </SelectTrigger>
-                        <SelectContent>
-                        {japanJobTypes.map(type => (
-                            <SelectItem key={type} value={type}>{type}</SelectItem>
-                        ))}
-                        </SelectContent>
-                    </Select>
-                    </div>
-                    <div className="md:col-span-3 space-y-2">
-                    <Label htmlFor="search-industry" className="text-foreground">Ngành nghề</Label>
-                    <Select onValueChange={setSelectedIndustry}>
-                        <SelectTrigger id="search-industry">
-                            <SelectValue placeholder="Tất cả" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {industries.map(industry => (
-                            <SelectItem key={industry} value={industry}>{industry}</SelectItem>
+                        <Label htmlFor="search-type" className="text-foreground">Loại hình, kỹ năng</Label>
+                        <Select onValueChange={setSelectedJobType} value={selectedJobType}>
+                            <SelectTrigger id="search-type">
+                            <SelectValue placeholder="Chọn loại hình" />
+                            </SelectTrigger>
+                            <SelectContent>
+                            {japanJobTypes.map(type => (
+                                <SelectItem key={type} value={type}>{type}</SelectItem>
                             ))}
-                        </SelectContent>
+                            </SelectContent>
                         </Select>
                     </div>
                     <div className="md:col-span-3 space-y-2">
-                    <Label htmlFor="search-location" className="text-foreground">Địa điểm, khu vực</Label>
-                    <Select onValueChange={setSelectedLocation}>
-                        <SelectTrigger id="search-location">
-                        <SelectValue placeholder="Chọn địa điểm" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {japanLocations.regions && (
+                        <Label htmlFor="search-industry" className="text-foreground">Ngành nghề</Label>
+                        <Select onValueChange={setSelectedIndustry}>
+                            <SelectTrigger id="search-industry">
+                                <SelectValue placeholder="Tất cả" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {industries.map(industry => (
+                                <SelectItem key={industry} value={industry}>{industry}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="md:col-span-3 space-y-2">
+                        <Label htmlFor="search-location" className="text-foreground">Địa điểm, khu vực</Label>
+                        <Select onValueChange={setSelectedLocation}>
+                            <SelectTrigger id="search-location">
+                            <SelectValue placeholder="Chọn địa điểm" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {japanLocations.regions && (
+                                    <SelectGroup>
+                                        <SelectLabel>Vùng</SelectLabel>
+                                        {japanLocations.regions.map(region => (
+                                            <SelectItem key={region} value={region}>{region}</SelectItem>
+                                        ))}
+                                    </SelectGroup>
+                                )}
                                 <SelectGroup>
-                                    <SelectLabel>Vùng</SelectLabel>
-                                    {japanLocations.regions.map(region => (
-                                        <SelectItem key={region} value={region}>{region}</SelectItem>
+                                    <SelectLabel>{japanLocations.regions ? 'Tỉnh' : 'Tỉnh/Thành phố'}</SelectLabel>
+                                    {japanLocations.prefectures.map(loc => (
+                                        <SelectItem key={loc} value={loc}>{loc}</SelectItem>
                                     ))}
                                 </SelectGroup>
-                            )}
-                            <SelectGroup>
-                                <SelectLabel>{japanLocations.regions ? 'Tỉnh' : 'Tỉnh/Thành phố'}</SelectLabel>
-                                {japanLocations.prefectures.map(loc => (
-                                    <SelectItem key={loc} value={loc}>{loc}</SelectItem>
-                                ))}
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
+                            </SelectContent>
+                        </Select>
                     </div>
-                    <div className="md:col-span-12 md:col-start-5">
-                    <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-white text-lg" onClick={handleSearchClick}>
-                        <Search className="mr-2 h-5 w-5" /> Tìm kiếm
-                    </Button>
+                    <div className="md:col-span-2">
+                        <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-white text-lg" onClick={handleSearchClick}>
+                            <Search className="mr-2 h-5 w-5" /> Tìm kiếm
+                        </Button>
                     </div>
                 </div>
                 </CardContent>
@@ -523,5 +523,3 @@ export default function Home() {
     </div>
   );
 }
-
-    

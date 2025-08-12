@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -174,7 +175,7 @@ export function MobileFooter() {
                           <span>Đăng xuất</span>
                       </Link>
                       <SheetClose asChild>
-                        <Button variant="outline"><X className="mr-2 h-4 w-4"/> Đóng</Button>
+                        <Button variant="ghost"><X className="mr-2 h-4 w-4"/> Đóng</Button>
                       </SheetClose>
                   </div>
               </div>

@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { HardHat, School, Star, Plane, UserCheck, ShieldCheck, TrendingUp, Briefcase, MapIcon, Compass } from 'lucide-react';
 import React from 'react';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
 
 const roadmapSteps = [
   {
@@ -19,7 +20,7 @@ const roadmapSteps = [
     title: 'Bước 2: Thực tập sinh tại Nhật (3-5 năm)',
     description: 'Bắt đầu hành trình tại Nhật với vai trò Thực tập sinh kỹ năng. Đây là giai đoạn để bạn làm quen với môi trường, văn hóa làm việc chuyên nghiệp và tích lũy kinh nghiệm nền tảng đầu tiên.',
     salary: '~30 triệu VNĐ/tháng',
-    color: 'sky',
+    color: 'light-blue',
     image: 'https://placehold.co/500x300.png',
     dataAiHint: 'trainee learning japan',
   },
@@ -28,7 +29,7 @@ const roadmapSteps = [
     title: 'Bước 3: Kỹ năng đặc định 1 (Tối đa 5 năm)',
     description: 'Sau khi hoàn thành chương trình thực tập sinh, bạn sẽ được nâng cấp lên visa Kỹ năng đặc định (Tokutei Ginou 1). Tay nghề cao hơn, được phép chuyển việc trong ngành và nhận mức thu nhập cải thiện rõ rệt.',
     salary: '40-50 triệu VNĐ/tháng',
-    color: 'blue',
+    color: 'dark-blue',
     image: 'https://placehold.co/500x300.png',
     dataAiHint: 'skilled worker certificate',
   },
@@ -46,7 +47,7 @@ const roadmapSteps = [
     title: 'Bước 5: Chuyên gia lành nghề',
     description: 'Với sự đồng hành và đào tạo chuyên sâu từ HelloJob, bạn sẽ trở thành chuyên gia trong lĩnh vực của mình, đảm nhận những vị trí quan trọng và đạt được mức thu nhập đỉnh cao.',
     salary: '60-70 triệu VNĐ/tháng',
-    color: 'teal',
+    color: 'dark-blue',
     image: 'https://placehold.co/500x300.png',
     dataAiHint: 'expert engineer meeting',
   },
@@ -55,20 +56,19 @@ const roadmapSteps = [
     title: 'Bước 6: Sự nghiệp rộng mở',
     description: 'Lựa chọn trở về Việt Nam với vị thế một chuyên gia được săn đón, hoặc tiếp tục con đường định cư và phát triển sự nghiệp lâu dài tại Nhật Bản. HelloJob luôn là đối tác tin cậy của bạn.',
     salary: 'Thu nhập chuyên gia',
-    color: 'primary',
+    color: 'light-blue',
     image: 'https://placehold.co/500x300.png',
     dataAiHint: 'manager working office',
   },
 ];
 
-const circleColors: { [key: string]: string } = {
-  orange: 'bg-orange-500',
-  sky: 'bg-sky-500',
-  blue: 'bg-blue-600',
-  green: 'bg-green-500',
-  teal: 'bg-teal-500',
-  primary: 'bg-primary',
+const colorClasses: { [key: string]: { bg: string; text: string; border: string } } = {
+  orange: { bg: 'bg-accent-orange', text: 'text-accent-orange', border: 'border-accent-orange' },
+  'light-blue': { bg: 'bg-primary', text: 'text-primary', border: 'border-primary' },
+  'dark-blue': { bg: 'bg-accent', text: 'text-accent', border: 'border-accent' },
+  green: { bg: 'bg-accent-green', text: 'text-accent-green', border: 'border-accent-green' },
 };
+
 
 export default function RoadmapPage() {
   return (
@@ -88,29 +88,34 @@ export default function RoadmapPage() {
           <div className="absolute left-1/2 -translate-x-1/2 top-4 bottom-4 w-1 bg-border rounded-full hidden md:block" />
 
           <div className="space-y-12 md:space-y-4">
-            {roadmapSteps.map((step, index) => (
+            {roadmapSteps.map((step, index) => {
+              const colors = colorClasses[step.color] || colorClasses['light-blue'];
+              return (
               <div key={index} className="relative flex flex-col md:flex-row items-center group md:h-80">
                 {/* Timeline circle for desktop */}
                 <div className="hidden md:block absolute left-1/2 -translate-x-1/2 z-10">
-                   <div className={`w-12 h-12 rounded-full flex items-center justify-center ${circleColors[step.color]} border-4 border-secondary group-hover:scale-110 transition-transform duration-300`}>
+                   <div className={cn(
+                        "w-12 h-12 rounded-full flex items-center justify-center border-4 border-secondary group-hover:scale-110 transition-transform duration-300",
+                        colors.bg
+                    )}>
                       <step.icon className="h-6 w-6 text-white" />
                     </div>
                 </div>
                 
                 {/* Mobile Icon */}
                  <div className="md:hidden flex items-center gap-4 mb-4 w-full">
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${circleColors[step.color]}`}>
+                    <div className={cn("w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0", colors.bg)}>
                         <step.icon className="h-6 w-6 text-white" />
                     </div>
-                    <h2 className="font-headline text-2xl text-primary">{step.title}</h2>
+                    <h2 className={cn("font-headline text-2xl", colors.text)}>{step.title}</h2>
                 </div>
 
 
                 {/* Content: Right side (for even index on desktop) or all on mobile */}
                 <div className={`w-full md:w-1/2 ${index % 2 !== 0 ? 'md:pl-16' : 'md:pr-16 md:text-right'} ${index % 2 !== 0 ? 'md:order-2' : ''}`}>
-                   <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4" style={{borderColor: `var(--${step.color})`}}>
+                   <Card className={cn("shadow-lg hover:shadow-xl transition-shadow duration-300 border-t-4", colors.border)}>
                      <CardHeader className="hidden md:block">
-                      <CardTitle className="font-headline text-2xl">
+                      <CardTitle className={cn("font-headline text-2xl", colors.text)}>
                           {step.title}
                       </CardTitle>
                     </CardHeader>
@@ -128,7 +133,7 @@ export default function RoadmapPage() {
                    <Image src={step.image} alt={step.title} width={500} height={300} className="rounded-lg shadow-xl object-cover w-full h-64" data-ai-hint={step.dataAiHint} />
                 </div>
               </div>
-            ))}
+            )})}
           </div>
         </div>
       </div>
@@ -136,4 +141,3 @@ export default function RoadmapPage() {
   );
 }
 
-    

@@ -21,15 +21,15 @@ import { DropdownMenuSeparator } from './ui/dropdown-menu';
 
 
 const quickAccessLinks = [
-    { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles },
     { href: '/roadmap', label: 'Lộ trình', icon: Compass },
     { href: '/learn', label: 'E-Learning', icon: BookOpen },
+    { href: '/handbook', label: 'Cẩm nang', icon: LifeBuoy },
+    { href: '/about', label: 'Giới thiệu', icon: Info },
+    { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles },
     { href: '/post-job', label: 'Đăng tuyển dụng', icon: PlusCircle },
     { href: '/dashboard', label: 'Dữ liệu & Báo cáo', icon: FileText },
     { href: '/franchise', label: 'Nhượng quyền', icon: Shield },
     { href: '/consultant-profile', label: 'Tư vấn viên', icon: User },
-    { href: '/handbook', label: 'Cẩm nang', icon: LifeBuoy },
-    { href: '/about', label: 'Giới thiệu', icon: Info },
     { href: '#', label: 'Góp ý', icon: MessageSquareWarning },
 ];
 
@@ -65,6 +65,7 @@ export function MobileFooter() {
           </SheetTrigger>
           <SheetContent side="right" className="w-full max-w-sm flex flex-col p-0">
             <SheetHeader className="p-4 border-b flex flex-row items-center justify-between">
+                <SheetTitle className="sr-only">Main Menu</SheetTitle>
                <Link
                   href="/"
                   className="flex items-center gap-2"

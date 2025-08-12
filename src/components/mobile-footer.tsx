@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, Sparkles, User, LogOut, PlusCircle, Shield, FileText, MessageSquareWarning, LayoutGrid, X } from 'lucide-react';
+import { Home, Sparkles, User, LogOut, PlusCircle, Shield, FileText, MessageSquareWarning, LayoutGrid, X, Compass, BookOpen, UserCircle, Info } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import {
@@ -27,11 +27,10 @@ import { DropdownMenuSeparator } from './ui/dropdown-menu';
 
 
 const mainNavLinks = [
-  { href: '/', label: 'Trang chủ' },
-  { href: '/roadmap', label: 'Lộ trình' },
-  { href: '/learn', label: 'E-Learning' },
-  { href: '/handbook', label: 'Cẩm nang' },
-  { href: '/about', label: 'Giới thiệu' },
+  { href: '/roadmap', label: 'Lộ trình', icon: Compass },
+  { href: '/learn', label: 'E-Learning', icon: BookOpen },
+  { href: '/handbook', label: 'Cẩm nang', icon: UserCircle },
+  { href: '/about', label: 'Giới thiệu', icon: Info },
 ];
 
 const employerLinks = [
@@ -71,7 +70,7 @@ export function MobileFooter() {
     <Link
       href={href}
       className={cn(
-        'transition-colors hover:text-primary py-2 block font-medium flex items-center gap-2',
+        'transition-colors hover:text-primary py-3 block font-medium flex items-center gap-4 text-base border-b',
         pathname === href ? 'text-primary font-bold' : 'text-foreground/80',
         className
       )}
@@ -80,8 +79,8 @@ export function MobileFooter() {
         setIsOpen(false)
       }}
     >
-      {Icon && <Icon className="h-5 w-5 text-primary" />}
-      {label}
+      {Icon && <Icon className="h-6 w-6 text-primary" />}
+      <span>{label}</span>
     </Link>
   );
 
@@ -104,76 +103,83 @@ export function MobileFooter() {
                <span className="text-center leading-tight">Menu</span>
              </button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-full max-w-sm flex flex-col">
-            <SheetHeader>
+          <SheetContent side="right" className="w-full max-w-sm flex flex-col p-0">
+            <SheetHeader className="p-4 border-b">
                <SheetTitle className="sr-only">Menu</SheetTitle>
                <SheetClose asChild>
                  <Link
                   href="/"
-                  className="flex items-center gap-2 mb-4"
+                  className="flex items-center gap-2"
                 >
                   <Image src="/logo.svg" alt="Bbester Logo" width={120} height={40} />
                 </Link>
                </SheetClose>
             </SheetHeader>
-            <div className="mt-6 flex flex-col h-full overflow-y-auto pr-2">
-               <div className="flex items-center gap-3 p-2 rounded-lg bg-secondary">
-                  <Avatar className="h-12 w-12">
-                    <AvatarImage src="https://placehold.co/100x100.png" alt="User" data-ai-hint="user avatar" />
-                    <AvatarFallback>A</AvatarFallback>
-                  </Avatar>
-                  <div className="flex flex-col space-y-1">
-                    <p className="text-base font-medium leading-none">Nguyễn Quốc Việt</p>
-                    <p className="text-xs leading-none text-muted-foreground">
-                      Cán bộ tuyển dụng
-                    </p>
-                  </div>
-               </div>
-               <Button asChild variant="outline" className="mt-4 w-full" onClick={() => setIsOpen(false)}>
-                  <Link href="/candidate-profile">Hồ sơ của tôi</Link>
-               </Button>
-              <div className="grid grid-cols-3 gap-2 p-2 mt-4">
-                  {quickAccessLinks.map((link) => (
-                     <Link 
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setIsOpen(false)}
-                      className="flex flex-col items-center justify-start p-2 h-20 cursor-pointer rounded-md hover:bg-accent">
-                       <div className="h-8 flex items-center justify-center text-primary"><link.icon/></div>
-                       <span className="text-xs text-center leading-tight">{link.label}</span>
-                     </Link>
-                  ))}
+            <div className="flex flex-col h-full overflow-y-auto">
+              <div className="p-4">
+                 <div className="flex items-center gap-3 p-2 rounded-lg bg-secondary">
+                    <Avatar className="h-12 w-12">
+                      <AvatarImage src="https://placehold.co/100x100.png" alt="User" data-ai-hint="user avatar" />
+                      <AvatarFallback>A</AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-base font-medium leading-none">Nguyễn Quốc Việt</p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        Cán bộ tuyển dụng
+                      </p>
+                    </div>
+                 </div>
+                 <Button asChild variant="outline" className="mt-4 w-full" onClick={() => setIsOpen(false)}>
+                    <Link href="/candidate-profile">Hồ sơ của tôi</Link>
+                 </Button>
               </div>
-               <Accordion type="multiple" className="w-full mt-4">
-                  <AccordionItem value="main-nav">
-                     <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-2">Điều hướng</AccordionTrigger>
-                     <AccordionContent className="pl-4">
-                      {mainNavLinks.map((link) => (
-                          <MobileNavLink 
-                              key={link.href} 
-                              {...link}
-                              onClick={link.href === '/' ? handleHomeClick : undefined} 
-                          />
-                      ))}
+
+              <div className="px-4 py-2">
+                {mainNavLinks.map((link) => (
+                  <MobileNavLink 
+                      key={link.href} 
+                      {...link}
+                      onClick={link.href === '/' ? handleHomeClick : undefined} 
+                  />
+                ))}
+              </div>
+
+
+              <Accordion type="multiple" className="w-full mt-2 px-4">
+                  <AccordionItem value="quick-access">
+                     <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-3">Lối tắt</AccordionTrigger>
+                     <AccordionContent className="p-2">
+                        <div className="grid grid-cols-3 gap-2">
+                          {quickAccessLinks.map((link) => (
+                             <Link 
+                              key={link.href}
+                              href={link.href}
+                              onClick={() => setIsOpen(false)}
+                              className="flex flex-col items-center justify-start p-2 h-24 cursor-pointer rounded-md bg-secondary hover:bg-accent">
+                               <div className="h-10 flex items-center justify-center text-primary"><link.icon className="h-8 w-8"/></div>
+                               <span className="text-xs text-center leading-tight font-medium">{link.label}</span>
+                             </Link>
+                          ))}
+                      </div>
                      </AccordionContent>
                   </AccordionItem>
                   <AccordionItem value="employer-nav">
-                      <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-2">Dành cho nhà tuyển dụng</AccordionTrigger>
-                      <AccordionContent className="pl-4">
+                      <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-3">Dành cho nhà tuyển dụng</AccordionTrigger>
+                      <AccordionContent className="pl-0">
                         {employerLinks.map((link) => (
-                          <MobileNavLink key={link.href} {...link} className="border-b" />
+                          <MobileNavLink key={link.href} {...link} />
                         ))}
                       </AccordionContent>
                   </AccordionItem>
               </Accordion>
 
-              <div className="mt-auto pt-6">
+              <div className="mt-auto p-4">
                   <DropdownMenuSeparator />
                   <div className="flex items-center justify-between mt-4">
-                      <Link href="#" className="flex items-center gap-2 text-foreground/80 hover:text-primary" onClick={() => setIsOpen(false)}>
+                      <Button variant="ghost" className="text-foreground/80" onClick={() => setIsOpen(false)}>
                           <LogOut className="mr-2 h-4 w-4" />
                           <span>Đăng xuất</span>
-                      </Link>
+                      </Button>
                       <SheetClose asChild>
                         <Button variant="ghost"><X className="mr-2 h-4 w-4"/> Đóng</Button>
                       </SheetClose>

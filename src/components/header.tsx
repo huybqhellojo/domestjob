@@ -52,7 +52,6 @@ const quickAccessLinks = [
 
 
 export function Header() {
-  const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
   const NavLink = ({ href, label, className, icon: Icon, onClick }: { href: string; label: string, className?: string, icon?: React.ElementType, onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void }) => (
@@ -63,9 +62,8 @@ export function Header() {
         pathname === href ? 'text-primary font-bold' : 'text-foreground/80',
         className
       )}
-      onClick={(e) => {
+       onClick={(e) => {
         if(onClick) onClick(e);
-        setIsOpen(false)
       }}
     >
       {Icon && <Icon className="h-5 w-5" />}
@@ -152,86 +150,7 @@ export function Header() {
 
         </div>
         <div className="md:hidden">
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-                <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                        <Menu className="h-6 w-6" />
-                        <span className="sr-only">Open menu</span>
-                    </Button>
-                </SheetTrigger>
-                <SheetContent side="right" className="w-full max-w-sm">
-                  <SheetHeader>
-                     <SheetTitle className="sr-only">Menu</SheetTitle>
-                     <SheetClose asChild>
-                       <Link
-                        href="/"
-                        className="flex items-center gap-2 mb-4"
-                      >
-                        <Image src="/logo.svg" alt="Bbester Logo" width={120} height={40} />
-                      </Link>
-                     </SheetClose>
-                  </SheetHeader>
-                  <div className="mt-6 flex flex-col h-full">
-                     <div className="flex items-center gap-3 p-2 rounded-lg bg-secondary">
-                        <Avatar className="h-12 w-12">
-                          <AvatarImage src="https://placehold.co/100x100.png" alt="User" data-ai-hint="user avatar" />
-                          <AvatarFallback>A</AvatarFallback>
-                        </Avatar>
-                        <div className="flex flex-col space-y-1">
-                          <p className="text-base font-medium leading-none">Nguyễn Quốc Việt</p>
-                          <p className="text-xs leading-none text-muted-foreground">
-                            Cán bộ tuyển dụng
-                          </p>
-                        </div>
-                     </div>
-                     <Button asChild variant="outline" className="mt-4 w-full">
-                        <Link href="/candidate-profile" onClick={() => setIsOpen(false)}>Hồ sơ của tôi</Link>
-                     </Button>
-                    <div className="grid grid-cols-3 gap-2 p-2 mt-4">
-                        {quickAccessLinks.map((link) => (
-                           <Link 
-                            key={link.href}
-                            href={link.href}
-                            onClick={() => setIsOpen(false)}
-                            className="flex flex-col items-center justify-start p-2 h-20 cursor-pointer rounded-md hover:bg-accent">
-                             <div className="h-8 flex items-center justify-center text-primary"><link.icon/></div>
-                             <span className="text-xs text-center leading-tight">{link.label}</span>
-                           </Link>
-                        ))}
-                    </div>
-                     <Accordion type="multiple" className="w-full mt-4">
-                        <AccordionItem value="main-nav">
-                           <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-2">Điều hướng</AccordionTrigger>
-                           <AccordionContent className="pl-4">
-                            {mainNavLinks.map((link) => (
-                                <NavLink 
-                                    key={link.href} 
-                                    {...link}
-                                    onClick={link.href === '/' ? handleHomeClick : undefined} 
-                                />
-                            ))}
-                           </AccordionContent>
-                        </AccordionItem>
-                        <AccordionItem value="employer-nav">
-                            <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-2">Dành cho nhà tuyển dụng</AccordionTrigger>
-                            <AccordionContent className="pl-4">
-                              {employerLinks.map((link) => (
-                                <NavLink key={link.href} {...link} className="border-b" />
-                              ))}
-                            </AccordionContent>
-                        </AccordionItem>
-                    </Accordion>
-
-                    <div className="mt-auto pb-6">
-                        <DropdownMenuSeparator />
-                        <Link href="#" className="flex items-center gap-2 mt-4 text-foreground/80 hover:text-primary" onClick={() => setIsOpen(false)}>
-                            <LogOut className="mr-2 h-4 w-4" />
-                            <span>Đăng xuất</span>
-                        </Link>
-                    </div>
-                  </div>
-                </SheetContent>
-              </Sheet>
+            {/* The Sheet component is now in MobileFooter, this button can be removed or repurposed if needed */}
         </div>
       </div>
     </header>

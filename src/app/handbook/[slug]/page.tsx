@@ -5,13 +5,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Scroll, Timer, UserCircle } from 'lucide-react';
+import { Scroll, Timer, UserCircle, Briefcase } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { useEffect, useState, use } from 'react';
 import { articles, type HandbookArticle } from '@/lib/handbook-data';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { jobData } from '@/lib/mock-data';
+import { JobCard } from '@/components/job-card';
 
 
 export default function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -52,6 +54,7 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
   }
   
   const otherArticles = articles.filter(a => a.slug !== resolvedParams.slug).slice(0, 2);
+  const hotJobs = jobData.slice(0, 3); // Demo with first 3 jobs
 
   return (
     <div className="bg-secondary">
@@ -117,6 +120,19 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
                 ))}
               </div>
             </article>
+
+            {/* Hot Jobs Section */}
+            <section className="mt-16 pt-8 border-t">
+                 <h2 className="text-3xl font-headline font-bold mb-6 flex items-center">
+                    <Briefcase className="mr-3 text-primary" />
+                    Việc làm nổi bật liên quan
+                </h2>
+                <div className="space-y-4">
+                    {hotJobs.map(job => (
+                        <JobCard key={job.id} job={job} />
+                    ))}
+                </div>
+            </section>
           </main>
           
           {/* Related Articles */}

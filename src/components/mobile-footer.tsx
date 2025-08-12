@@ -27,10 +27,11 @@ import { DropdownMenuSeparator } from './ui/dropdown-menu';
 
 
 const mainNavLinks = [
-  { href: '/roadmap', label: 'Lộ trình', icon: Compass },
-  { href: '/learn', label: 'E-Learning', icon: BookOpen },
-  { href: '/handbook', label: 'Cẩm nang', icon: UserCircle },
-  { href: '/about', label: 'Giới thiệu', icon: Info },
+  { href: '/', label: 'Trang chủ'},
+  { href: '/roadmap', label: 'Lộ trình' },
+  { href: '/learn', label: 'E-Learning' },
+  { href: '/handbook', label: 'Cẩm nang'},
+  { href: '/about', label: 'Giới thiệu' },
 ];
 
 const employerLinks = [
@@ -134,18 +135,19 @@ export function MobileFooter() {
                  </Button>
               </div>
 
-              <div className="px-4 py-2">
-                {mainNavLinks.map((link) => (
-                  <MobileNavLink 
-                      key={link.href} 
-                      {...link}
-                      onClick={link.href === '/' ? handleHomeClick : undefined} 
-                  />
-                ))}
-              </div>
-
-
               <Accordion type="multiple" className="w-full mt-2 px-4">
+                  <AccordionItem value="main-nav">
+                     <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-3">Điều hướng</AccordionTrigger>
+                     <AccordionContent className="pl-0">
+                       {mainNavLinks.map((link) => (
+                          <MobileNavLink 
+                              key={link.href} 
+                              {...link}
+                              onClick={link.href === '/' ? handleHomeClick : undefined} 
+                          />
+                        ))}
+                     </AccordionContent>
+                  </AccordionItem>
                   <AccordionItem value="quick-access">
                      <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-3">Lối tắt</AccordionTrigger>
                      <AccordionContent className="p-2">

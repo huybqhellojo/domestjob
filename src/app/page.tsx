@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -516,8 +517,10 @@ export default function Home() {
       </div>
       
       <div className="w-full">
-        {isSearching ? <SearchResults /> : <div className="hidden md:block"><MainContent /></div>}
+        {isSearching ? <SearchResults /> : <MainContent />}
       </div>
     </div>
   );
 }
+
+    

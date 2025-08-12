@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Briefcase, Users, ArrowRight, BookOpen, Search, Map, GraduationCap, Building, MapPin, TrendingUp, Cpu, ListFilter, ChevronLeft } from 'lucide-react';
+import { Briefcase, Users, ArrowRight, BookOpen, Search, Map, GraduationCap, Building, MapPin, TrendingUp, Cpu, ListFilter, ChevronLeft, ChevronsUpDown, Check } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
@@ -14,6 +14,21 @@ import { JobCard } from '@/components/job-card';
 import { jobData } from '@/lib/mock-data';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+import { cn } from '@/lib/utils';
+
 
 const featuredEmployers = [
   { id: 'samsung', name: 'Samsung', logo: 'https://placehold.co/150x50.png', dataAiHint: 'samsung logo' },
@@ -127,8 +142,8 @@ export default function Home() {
   const [selectedIndustry, setSelectedIndustry] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
   const [industries, setIndustries] = useState<string[]>(defaultIndustries);
-  
   const [isSearching, setIsSearching] = useState(false);
+  const [comboboxOpen, setComboboxOpen] = useState(false);
 
   useEffect(() => {
     let jobTypeKey = '';
@@ -138,7 +153,7 @@ export default function Home() {
     
     const specificIndustries = industriesByJobType[jobTypeKey];
     setIndustries(specificIndustries || defaultIndustries);
-    setSelectedIndustry('');
+    setSelectedIndustry(''); // Reset industry when job type changes
   }, [selectedJobType]);
 
   const handleSearchClick = () => {
@@ -456,16 +471,50 @@ export default function Home() {
                     </div>
                     <div className="md:col-span-3 space-y-2">
                         <Label htmlFor="search-industry" className="text-foreground">Ngành nghề</Label>
-                        <Select onValueChange={setSelectedIndustry} value={selectedIndustry}>
-                            <SelectTrigger id="search-industry" disabled={!selectedJobType}>
-                                <SelectValue placeholder="Tất cả" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {industries.map(industry => (
-                                <SelectItem key={industry} value={industry}>{industry}</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
+                        <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    role="combobox"
+                                    aria-expanded={comboboxOpen}
+                                    className="w-full justify-between h-10 font-normal text-sm"
+                                    disabled={!selectedJobType}
+                                >
+                                    {selectedIndustry
+                                        ? industries.find((industry) => industry.toLowerCase() === selectedIndustry.toLowerCase())
+                                        : "Tất cả"}
+                                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                                <Command>
+                                    <CommandInput placeholder="Tìm ngành nghề..." />
+                                    <CommandList>
+                                        <CommandEmpty>Không tìm thấy.</CommandEmpty>
+                                        <CommandGroup>
+                                            {industries.map((industry) => (
+                                                <CommandItem
+                                                    key={industry}
+                                                    value={industry}
+                                                    onSelect={(currentValue) => {
+                                                        setSelectedIndustry(currentValue === selectedIndustry.toLowerCase() ? "" : currentValue)
+                                                        setComboboxOpen(false)
+                                                    }}
+                                                >
+                                                    <Check
+                                                        className={cn(
+                                                            "mr-2 h-4 w-4",
+                                                            selectedIndustry.toLowerCase() === industry.toLowerCase() ? "opacity-100" : "opacity-0"
+                                                        )}
+                                                    />
+                                                    {industry}
+                                                </CommandItem>
+                                            ))}
+                                        </CommandGroup>
+                                    </CommandList>
+                                </Command>
+                            </PopoverContent>
+                        </Popover>
                     </div>
                     <div className="md:col-span-3 space-y-2">
                         <Label htmlFor="search-location" className="text-foreground">Địa điểm, khu vực</Label>
@@ -504,13 +553,18 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center min-h-screen">
       <div className="w-full">
-        <div className="md:hidden">
-            {isSearching ? <CompactSearchForm /> : <SearchModule />}
-        </div>
-        
-        <div className="hidden md:block">
-            <SearchModule />
-        </div>
+        {isSearching ? (
+          <>
+            <div className="md:hidden">
+              <CompactSearchForm />
+            </div>
+            <div className="hidden md:block">
+              <SearchModule />
+            </div>
+          </>
+        ) : (
+          <SearchModule />
+        )}
       </div>
       
       <div className="w-full flex-grow">

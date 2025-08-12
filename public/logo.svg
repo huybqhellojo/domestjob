@@ -1,18 +1,9 @@
-<svg width="145" height="40" viewBox="0 0 145 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_103_2)">
-<path d="M25.4687 23.0561V12.1323H29.191V14.6593H29.3331C29.9882 13.2505 31.4283 11.8417 33.3523 11.8417C37.491 11.8417 38.6416 14.5172 38.6416 17.6521V23.0561H34.919V18.1565C34.919 16.4571 34.0583 15.4208 32.5133 15.4208C30.9682 15.4208 29.5841 16.5992 29.191 17.7942V23.0561H25.4687Z" fill="#0D8DC8"/>
-<path d="M42.4938 12.1323H46.2163V23.0561H42.4938V12.1323Z" fill="#0D8DC8"/>
-<path d="M42.4938 7.37476H46.2163V11.0972H42.4938V7.37476Z" fill="#0D8DC8"/>
-<path d="M57.6975 23.0561H53.9749L50.0538 12.1323H54.0044L55.8362 18.2986L57.6975 12.1323H61.42L57.6975 23.0561Z" fill="#F2B92A"/>
-<path d="M68.5833 23.0561H64.8607V12.1323H68.5833V23.0561Z" fill="#F2B92A"/>
-<path d="M78.6811 12.1323H72.241V14.8013H76.7725V17.0673H72.241V20.1983H76.9426V22.5976H72.241V23.0561H78.6811V12.1323Z" fill="#AFC536"/>
-<path d="M82.8711 12.1323H86.5936V20.0833C86.5936 21.7252 87.5399 22.5699 88.9385 22.5699C90.3371 22.5699 91.2834 21.7252 91.2834 20.0833V12.1323H95.0059V20.3739C95.0059 23.4801 92.4922 24.6585 88.9385 24.6585C85.3848 24.6585 82.8711 23.4801 82.8711 20.3739V12.1323Z" fill="#AFC536"/>
-<path d="M106.666 17.5947C106.666 22.0911 103.582 24.9491 99.3776 24.9491C95.1735 24.9491 92.0898 22.0911 92.0898 17.5947C92.0898 13.0983 95.1735 10.2402 99.3776 10.2402C103.582 10.2402 106.666 13.0983 106.666 17.5947ZM102.943 17.5947C102.943 14.8013 101.559 12.8772 99.3776 12.8772C97.1961 12.8772 95.812 14.8013 95.812 17.5947C95.812 20.3881 97.1961 22.3121 99.3776 22.3121C101.559 22.3121 102.943 20.3881 102.943 17.5947Z" fill="#19A6DF"/>
-<path d="M118.887 18.2393C118.887 15.6853 117.85 14.072 115.611 14.072C113.883 14.072 112.557 14.8588 111.96 16.0826L111.818 14.242H108.095V24.6H111.818V18.6723C111.818 17.0304 112.557 16.2723 113.826 16.2723C114.947 16.2723 115.162 17.0879 115.162 18.0144V24.6H118.887V18.2393Z" fill="#19A6DF"/>
-</g>
-<defs>
-<clipPath id="clip0_103_2">
-<rect width="145" height="40" fill="white"/>
-</clipPath>
-</defs>
+<svg width="158" height="40" viewBox="0 0 158 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<text fill="#0D8DC8" xml:space="preserve" style="white-space: pre" font-family="'Montserrat'" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="0" y="32.5312">H</tspan></text>
+<text fill="#F2B92A" xml:space="preserve" style="white-space: pre" font-family="'Montserrat'" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="24.448" y="32.5312">e</tspan></text>
+<text fill="#AFC536" xml:space="preserve" style="white-space: pre" font-family="'Montserrat'" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="42.272" y="32.5312">ll</tspan></text>
+<text fill="#19A6DF" xml:space="preserve" style="white-space: pre" font-family="'Montserrat'" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="67.52" y="32.5312">o</tspan></text>
+<text fill="#0D8DC8" xml:space="preserve" style="white-space: pre" font-family="'Montserrat'" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="87.04" y="32.5312">J</tspan></text>
+<text fill="#F2B92A" xml:space="preserve" style="white-space: pre" font-family="'Montserrat'" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="101.152" y="32.5312">o</tspan></text>
+<text fill="#AFC536" xml:space="preserve" style="white-space: pre" font-family="'Montserrat'" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="120.672" y="32.5312">b</tspan></text>
 </svg>

@@ -18,7 +18,7 @@ export default function HandbookPage() {
       <div className="container mx-auto px-4 md:px-6 py-16 md:py-24">
         <div className="text-center mb-12">
           <LifeBuoy className="h-16 w-16 mx-auto text-primary mb-4" />
-          <h1 className="text-4xl md:text-5xl font-headline font-bold">
+          <h1 className="text-4xl md:text-5xl font-headline font-bold text-accent">
             Cẩm nang HelloJob
           </h1>
           <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto">
@@ -48,10 +48,10 @@ export default function HandbookPage() {
                   />
                 </div>
                 <div className="p-8 md:p-12 flex flex-col justify-center">
-                  <Badge className="mb-4 w-fit">{featuredArticle.category}</Badge>
+                  <Badge className="mb-4 w-fit bg-accent-orange text-white">{featuredArticle.category}</Badge>
                   <CardTitle className="font-headline text-3xl xl:text-4xl mb-4 group-hover:text-primary transition-colors">{featuredArticle.title}</CardTitle>
                   <p className="text-muted-foreground text-base mb-6">{featuredArticle.excerpt}</p>
-                  <div className="flex items-center gap-3 font-semibold text-primary">
+                  <div className="flex items-center gap-3 font-bold text-primary">
                       <span>Đọc bài viết</span>
                   </div>
                 </div>
@@ -76,7 +76,7 @@ export default function HandbookPage() {
                     </div>
                   </CardHeader>
                   <CardContent className="p-6 flex-grow flex flex-col">
-                    <Badge className="mb-4 w-fit">{article.category}</Badge>
+                    <Badge className="mb-4 w-fit bg-accent-green text-white">{article.category}</Badge>
                     <CardTitle className="font-headline text-xl mb-3 flex-grow group-hover:text-primary transition-colors">{article.title}</CardTitle>
                     <p className="text-muted-foreground text-sm line-clamp-3">{article.excerpt}</p>
                   </CardContent>

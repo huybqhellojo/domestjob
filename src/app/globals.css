@@ -81,7 +81,7 @@ body {
     @apply text-foreground max-w-full;
   }
   .prose h2 {
-    @apply text-2xl font-bold font-headline mb-4 mt-8 border-b pb-2;
+    @apply text-2xl font-bold font-headline mb-4 mt-8 border-b pb-2 text-accent;
   }
   .prose p {
     @apply mb-4 leading-relaxed;

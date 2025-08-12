@@ -64,7 +64,7 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
           {/* Article Outline */}
           <aside className="hidden lg:block lg:col-span-3">
             <div className="sticky top-24">
-              <h3 className="text-lg font-bold mb-4 flex items-center">
+              <h3 className="text-lg font-bold mb-4 flex items-center text-accent">
                 <Scroll className="mr-2" />
                 Nội dung bài viết
               </h3>
@@ -92,8 +92,8 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
           <main className="lg:col-span-9 xl:col-span-6">
             <article>
               <header className="mb-8">
-                <Badge className="mb-4">{article.category}</Badge>
-                <h1 className="text-3xl md:text-4xl font-headline font-bold mb-4">{article.title}</h1>
+                <Badge className="mb-4 bg-accent-orange text-white">{article.category}</Badge>
+                <h1 className="text-3xl md:text-4xl font-headline font-bold mb-4 text-accent">{article.title}</h1>
                 <div className="flex items-center text-sm text-muted-foreground gap-6">
                   <div className="flex items-center gap-2">
                     <UserCircle className="h-5 w-5" />
@@ -123,7 +123,7 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
 
             {/* Hot Jobs Section */}
             <section className="mt-16 pt-8 border-t">
-                 <h2 className="text-3xl font-headline font-bold mb-6 flex items-center">
+                 <h2 className="text-3xl font-headline font-bold mb-6 flex items-center text-accent">
                     <Briefcase className="mr-3 text-primary" />
                     Việc làm nổi bật liên quan
                 </h2>
@@ -138,7 +138,7 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
           {/* Related Articles */}
           <aside className="hidden xl:block xl:col-span-3">
              <div className="sticky top-24">
-              <h3 className="text-lg font-bold mb-4">Bài viết liên quan</h3>
+              <h3 className="text-lg font-bold mb-4 text-accent">Bài viết liên quan</h3>
               <div className="space-y-6">
                 {otherArticles.map(other => (
                   <Link href={`/handbook/${other.slug}`} key={other.slug} className="group block">

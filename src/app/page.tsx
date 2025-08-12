@@ -177,6 +177,28 @@ export default function Home() {
     setIndustries(specificIndustries || defaultIndustries);
   }, [selectedMarket, selectedJobType]);
 
+  const handleSearchClick = () => {
+    // Push a state to history so the back button works to exit search view
+    window.history.pushState({ searching: true }, '');
+    setIsSearching(true);
+  };
+  
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      // If the state being popped is not our search state, it means user navigated away
+      // or pressed back from the search results, so we exit the search view.
+      if (isSearching && (!event.state || !event.state.searching)) {
+        setIsSearching(false);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isSearching]);
+
+
   const CompactSearchForm = () => (
      <div className="bg-primary p-2 md:hidden sticky top-16 z-40 shadow-lg">
         <Button 
@@ -238,19 +260,12 @@ export default function Home() {
 
   const SearchResults = () => (
      <div className="w-full bg-secondary">
-        {/* Mobile Compact Search Bar */}
-        <div className="md:hidden">
-            <CompactSearchForm />
-        </div>
-        
         <div className="container mx-auto px-4 md:px-6 py-6">
             <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-8">
-                {/* Desktop Filter Sidebar */}
                 <div className="hidden md:block">
                   <FilterSidebar />
                 </div>
 
-                {/* Job Listings */}
                 <div className="md:col-span-3 lg:col-span-3">
                     <div className="flex justify-between items-center mb-4">
                         <h2 className="text-xl font-bold">Kết quả ({jobData.length})</h2>
@@ -539,7 +554,7 @@ export default function Home() {
                     </Select>
                     </div>
                     <div className="md:col-span-2">
-                    <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-white text-lg" onClick={() => setIsSearching(true)}>
+                    <Button size="lg" className="w-full bg-primary hover:bg-primary/90 text-white text-lg" onClick={handleSearchClick}>
                         <Search className="mr-2 h-5 w-5" /> Tìm kiếm
                     </Button>
                     </div>
@@ -555,15 +570,19 @@ export default function Home() {
       <div className="w-full">
         {/* On mobile, only show compact search or hero, not both */}
         <div className="md:hidden">
-            {isSearching ? <CompactSearchForm /> : <SearchModule />}
+            {isSearching ? <SearchResults /> : <SearchModule />}
         </div>
         {/* On desktop, always show the search module */}
         <div className="hidden md:block">
             <SearchModule />
         </div>
       </div>
-
-      {isSearching ? <SearchResults /> : <div className="hidden md:block"><MainContent /></div>}
+      
+      <div className="w-full">
+        {isSearching 
+            ? <SearchResults /> 
+            : <div className="hidden md:block"><MainContent /></div>}
+      </div>
     </div>
   );
 }

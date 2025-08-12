@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -86,7 +85,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo.svg" alt="Bbester Logo" width={120} height={40} />
+          <Image src="/logo.svg" alt="HelloJob Logo" width={120} height={40} />
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm">
           {mainNavLinks.map((link) => (
@@ -156,10 +155,9 @@ export function Header() {
 
         </div>
         <div className="md:hidden">
-            {/* The Sheet component is now in MobileFooter, this button can be removed or repurposed if needed */}
+            {/* The Sheet component is now in MobileFooter, this button can be repurposed if needed */}
         </div>
       </div>
     </header>
   );
 }
-

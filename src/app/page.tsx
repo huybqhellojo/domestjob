@@ -1,5 +1,3 @@
-
-
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -403,7 +401,7 @@ export default function Home() {
             <div className="md:w-1/2">
               <h2 className="text-3xl md:text-4xl font-headline font-bold mb-4">Giải pháp cho các đối tác tuyển Tokutei đầu Nhật</h2>
               <p className="text-lg text-primary-foreground/80 mb-8">
-                Hợp tác cùng Bbester để tiếp cận nguồn ứng viên dồi dào, chất lượng cao và tối ưu hóa quy trình tuyển dụng Kỹ năng Đặc định.
+                Hợp tác cùng HelloJob để tiếp cận nguồn ứng viên dồi dào, chất lượng cao và tối ưu hóa quy trình tuyển dụng Kỹ năng Đặc định.
               </p>
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
                 <Link href="/employers">Tìm hiểu về Mô hình Đối tác</Link>

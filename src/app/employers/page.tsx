@@ -1,4 +1,3 @@
-
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Cpu, Database, Layers, ShieldCheck, Briefcase, Users, FileSignature, BarChart } from 'lucide-react';
@@ -19,7 +18,7 @@ const partnerBenefits = [
   { 
     icon: BarChart,
     title: 'Hỗ trợ Marketing & Vận hành', 
-    description: 'Được hỗ trợ quảng bá tin tuyển dụng trên các kênh của Bbester, tiếp cận đúng đối tượng mục tiêu và tối ưu hóa hiệu quả.'
+    description: 'Được hỗ trợ quảng bá tin tuyển dụng trên các kênh của HelloJob, tiếp cận đúng đối tượng mục tiêu và tối ưu hóa hiệu quả.'
   },
   {
     icon: ShieldCheck,
@@ -40,7 +39,7 @@ export default function EmployersPage() {
                 Nền tảng Đối tác Tuyển dụng Kỹ năng Đặc định
               </h1>
               <p className="text-lg md:text-xl max-w-md mx-auto md:mx-0 text-primary-foreground/80">
-                Hợp tác cùng Bbester để khai thác tối đa tiềm năng thị trường lao động Tokutei Ginou tại Nhật Bản.
+                Hợp tác cùng HelloJob để khai thác tối đa tiềm năng thị trường lao động Tokutei Ginou tại Nhật Bản.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
                 <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">

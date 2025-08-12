@@ -1,4 +1,3 @@
-
 export type HandbookArticle = {
   slug: string;
   title: string;
@@ -20,7 +19,7 @@ export const articles: HandbookArticle[] = [
     slug: 'tokutei-ginou-la-gi',
     title: 'Kỹ năng đặc định (Tokutei Ginou) là gì? Toàn bộ thông tin cần biết 2024',
     category: 'Kỹ năng đặc định',
-    author: 'Bbester Team',
+    author: 'HelloJob Team',
     readTime: '8 phút',
     image: 'https://placehold.co/1200x600.png',
     dataAiHint: 'tokyo city japan',
@@ -93,7 +92,7 @@ export const articles: HandbookArticle[] = [
     slug: 'kinh-nghiem-phong-van-tokutei',
     title: '5 Kinh nghiệm phỏng vấn Tokutei Ginou chắc chắn đậu',
     category: 'Kỹ năng đặc định',
-    author: 'Bbester Team',
+    author: 'HelloJob Team',
     readTime: '7 phút',
     image: 'https://placehold.co/1200x600.png',
     dataAiHint: 'job interview japan',

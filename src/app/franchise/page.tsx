@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -45,7 +44,7 @@ export default function FranchisePage() {
             Nền tảng Đối tác Tuyển dụng tại Nhật Bản
           </h1>
           <p className="text-lg md:text-xl max-w-3xl mx-auto mt-4 text-primary-foreground/80">
-            Hợp tác cùng Bbester để tìm kiếm nguồn nhân lực Kỹ năng Đặc định (Tokutei Ginou) chất lượng cao từ Việt Nam một cách hiệu quả và minh bạch.
+            Hợp tác cùng HelloJob để tìm kiếm nguồn nhân lực Kỹ năng Đặc định (Tokutei Ginou) chất lượng cao từ Việt Nam một cách hiệu quả và minh bạch.
           </p>
            <Dialog>
                 <DialogTrigger asChild>
@@ -63,7 +62,7 @@ export default function FranchisePage() {
                     <div className="grid gap-4 py-4">
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="name" className="text-right">Tên công ty</Label>
-                            <Input id="name" placeholder="Bbester Japan" className="col-span-3" />
+                            <Input id="name" placeholder="HelloJob Japan" className="col-span-3" />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="phone" className="text-right">Số điện thoại</Label>
@@ -71,7 +70,7 @@ export default function FranchisePage() {
                         </div>
                          <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="email" className="text-right">Email</Label>
-                            <Input id="email" type="email" placeholder="contact@bbester.jp" className="col-span-3" />
+                            <Input id="email" type="email" placeholder="contact@hellojob.jp" className="col-span-3" />
                         </div>
                     </div>
                     <DialogFooter>
@@ -86,7 +85,7 @@ export default function FranchisePage() {
       <section className="py-20 md:py-28 bg-secondary">
          <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-16">
-                 <h2 className="text-3xl font-headline font-bold text-primary">Tại sao nên hợp tác với Bbester?</h2>
+                 <h2 className="text-3xl font-headline font-bold text-primary">Tại sao nên hợp tác với HelloJob?</h2>
                  <p className="text-muted-foreground mt-4 max-w-3xl mx-auto text-lg">Chúng tôi không chỉ là một nền tảng, chúng tôi là cầu nối vững chắc, mang lại giải pháp tuyển dụng toàn diện cho các doanh nghiệp và nghiệp đoàn tại Nhật Bản.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -152,7 +151,7 @@ export default function FranchisePage() {
       <section className="bg-gradient-to-r from-blue-600 to-sky-500 text-white py-20 md:py-28">
         <div className="container mx-auto px-4 md:px-6 text-center">
             <h2 className="text-3xl font-headline font-bold mb-4">Sẵn sàng tìm kiếm nhân tài Việt Nam?</h2>
-            <p className="text-white/80 mb-8 max-w-2xl mx-auto text-lg">Hãy để lại thông tin, đội ngũ Bbester sẽ liên hệ và tư vấn chi tiết về mô hình hợp tác, giúp bạn giải quyết bài toán nhân sự một cách hiệu quả nhất.</p>
+            <p className="text-white/80 mb-8 max-w-2xl mx-auto text-lg">Hãy để lại thông tin, đội ngũ HelloJob sẽ liên hệ và tư vấn chi tiết về mô hình hợp tác, giúp bạn giải quyết bài toán nhân sự một cách hiệu quả nhất.</p>
             <Dialog>
                 <DialogTrigger asChild>
                     <Button size="lg" className="bg-white text-primary hover:bg-white/90">
@@ -169,7 +168,7 @@ export default function FranchisePage() {
                     <div className="grid gap-4 py-4">
                        <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="name" className="text-right">Tên công ty</Label>
-                            <Input id="name" placeholder="Bbester Japan" className="col-span-3" />
+                            <Input id="name" placeholder="HelloJob Japan" className="col-span-3" />
                         </div>
                         <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="phone" className="text-right">Số điện thoại</Label>
@@ -177,7 +176,7 @@ export default function FranchisePage() {
                         </div>
                          <div className="grid grid-cols-4 items-center gap-4">
                             <Label htmlFor="email" className="text-right">Email</Label>
-                            <Input id="email" type="email" placeholder="contact@bbester.jp" className="col-span-3" />
+                            <Input id="email" type="email" placeholder="contact@hellojob.jp" className="col-span-3" />
                         </div>
                     </div>
                     <DialogFooter>

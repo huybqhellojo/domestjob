@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -65,18 +64,18 @@ export function MobileFooter() {
           </SheetTrigger>
           <SheetContent side="right" className="w-full max-w-sm flex flex-col p-0">
             <SheetHeader className="p-4 border-b flex flex-row items-center justify-between">
-                <SheetTitle className="sr-only">Main Menu</SheetTitle>
                <Link
                   href="/"
                   className="flex items-center gap-2"
                   onClick={() => setIsOpen(false)}
                 >
-                  <Image src="/logo.svg" alt="Bbester Logo" width={120} height={40} />
+                  <Image src="/logo.svg" alt="HelloJob Logo" width={120} height={40} />
                 </Link>
                 <SheetClose asChild>
                     <Button variant="ghost" size="icon"><X className="h-5 w-5"/></Button>
                 </SheetClose>
             </SheetHeader>
+            <SheetTitle className="sr-only">Main Menu</SheetTitle>
             <div className="flex flex-col h-full overflow-y-auto">
               <div className="p-4">
                  <div className="flex items-center gap-3 p-2 rounded-lg bg-secondary">
@@ -133,4 +132,3 @@ export function MobileFooter() {
     </footer>
   );
 }
-

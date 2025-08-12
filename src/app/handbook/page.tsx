@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,7 +19,7 @@ export default function HandbookPage() {
         <div className="text-center mb-12">
           <LifeBuoy className="h-16 w-16 mx-auto text-primary mb-4" />
           <h1 className="text-4xl md:text-5xl font-headline font-bold">
-            Cẩm nang Bbester
+            Cẩm nang HelloJob
           </h1>
           <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto">
             Tất cả thông tin bạn cần biết về thị trường lao động, kỹ năng và cuộc sống tại Nhật Bản.

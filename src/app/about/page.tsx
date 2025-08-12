@@ -55,7 +55,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className="w-full bg-primary text-primary-foreground py-24 md:py-32">
         <div className="container mx-auto px-4 md:px-6 text-center">
-          <h1 className="text-4xl md:text-5xl font-headline font-bold">Về Bbester</h1>
+          <h1 className="text-4xl md:text-5xl font-headline font-bold">Về HelloJob</h1>
           <p className="text-lg md:text-xl max-w-3xl mx-auto mt-4 text-primary-foreground/80">
             Chúng tôi là cầu nối vững chắc giữa nguồn nhân lực chất lượng cao Việt Nam và các cơ hội việc làm tại thị trường Nhật Bản.
           </p>
@@ -69,7 +69,7 @@ export default function AboutPage() {
             <div className="relative aspect-square">
               <Image
                 src="https://placehold.co/600x600.png"
-                alt="Đội ngũ Bbester"
+                alt="Đội ngũ HelloJob"
                 fill
                 className="object-cover rounded-lg shadow-xl"
                 data-ai-hint="diverse team working"
@@ -80,7 +80,7 @@ export default function AboutPage() {
                 <Target className="h-12 w-12 text-accent-orange mb-4" />
                 <h2 className="text-3xl font-headline font-bold text-primary mb-2">Sứ mệnh của chúng tôi</h2>
                 <p className="text-muted-foreground text-lg">
-                  Sứ mệnh của Bbester là định hình tư duy, nâng cao kỹ năng và xây dựng lộ trình sự nghiệp rõ ràng cho người lao động Việt Nam, đồng thời cung cấp giải pháp tuyển dụng hiệu quả, minh bạch cho các đối tác tuyển dụng Kỹ năng Đặc định (Tokutei Ginou) tại Nhật Bản.
+                  Sứ mệnh của HelloJob là định hình tư duy, nâng cao kỹ năng và xây dựng lộ trình sự nghiệp rõ ràng cho người lao động Việt Nam, đồng thời cung cấp giải pháp tuyển dụng hiệu quả, minh bạch cho các đối tác tuyển dụng Kỹ năng Đặc định (Tokutei Ginou) tại Nhật Bản.
                 </p>
               </div>
               <div>
@@ -120,7 +120,7 @@ export default function AboutPage() {
           <div className="text-center mb-16">
             <h2 className="text-3xl font-headline font-bold text-primary">Đội ngũ của chúng tôi</h2>
             <p className="text-muted-foreground mt-4 max-w-3xl mx-auto text-lg">
-              Những con người tâm huyết đứng sau thành công của Bbester, luôn nỗ lực vì sự phát triển của bạn.
+              Những con người tâm huyết đứng sau thành công của HelloJob, luôn nỗ lực vì sự phát triển của bạn.
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -146,7 +146,7 @@ export default function AboutPage() {
       {/* CTA Section */}
       <section className="bg-accent text-white py-20 md:py-28">
         <div className="container mx-auto px-4 md:px-6 text-center">
-            <h2 className="text-3xl font-headline font-bold mb-4">Trở thành đối tác của Bbester</h2>
+            <h2 className="text-3xl font-headline font-bold mb-4">Trở thành đối tác của HelloJob</h2>
             <p className="text-white/80 mb-8 max-w-2xl mx-auto text-lg">
                 Bạn là một nhà tuyển dụng, một công ty phái cử hay một nhà đầu tư có tầm nhìn? Hãy liên hệ với chúng tôi để cùng khai thác tiềm năng của thị trường.
             </p>

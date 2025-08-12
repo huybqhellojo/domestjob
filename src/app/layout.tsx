@@ -6,7 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { MobileFooter } from '@/components/mobile-footer';
 
 export const metadata: Metadata = {
-  title: 'Bbester',
+  title: 'HelloJob',
   description: 'Nền tảng việc làm và phát triển sự nghiệp tại Nhật Bản',
 };
 

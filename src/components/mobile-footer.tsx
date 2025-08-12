@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, Sparkles, User, LogOut, PlusCircle, Shield, FileText, MessageSquareWarning, LayoutGrid, X, Compass, BookOpen, UserCircle, Info } from 'lucide-react';
+import { Home, Sparkles, User, LogOut, PlusCircle, Shield, FileText, MessageSquareWarning, LayoutGrid, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import {
@@ -14,32 +14,11 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import Image from 'next/image';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { DropdownMenuSeparator } from './ui/dropdown-menu';
 
-
-const mainNavLinks = [
-  { href: '/', label: 'Trang chủ'},
-  { href: '/roadmap', label: 'Lộ trình' },
-  { href: '/learn', label: 'E-Learning' },
-  { href: '/handbook', label: 'Cẩm nang'},
-  { href: '/about', label: 'Giới thiệu' },
-];
-
-const employerLinks = [
-  { href: '/employers', label: 'Nhà tuyển dụng' },
-  { href: '/dashboard', label: 'Dữ liệu' },
-  { href: '/post-job', label: 'Đăng việc làm' },
-  { href: '/franchise', label: 'Nhượng quyền' },
-];
 
 const quickAccessLinks = [
     { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles },
@@ -60,30 +39,6 @@ export function MobileFooter() {
     { href: '/candidate-profile', icon: User, label: 'Hồ sơ' },
   ];
   
-  const handleHomeClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-      if (pathname === '/') {
-        e.preventDefault();
-        window.location.reload();
-      }
-  }
-
-  const MobileNavLink = ({ href, label, className, icon: Icon, onClick }: { href: string; label: string, className?: string, icon?: React.ElementType, onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void }) => (
-    <Link
-      href={href}
-      className={cn(
-        'transition-colors hover:text-primary py-3 block font-medium flex items-center gap-4 text-base border-b',
-        pathname === href ? 'text-primary font-bold' : 'text-foreground/80',
-        className
-      )}
-       onClick={(e) => {
-        if(onClick) onClick(e);
-        setIsOpen(false)
-      }}
-    >
-      {Icon && <Icon className="h-6 w-6 text-primary" />}
-      <span>{label}</span>
-    </Link>
-  );
 
   return (
     <footer className="md:hidden fixed bottom-0 left-0 right-0 bg-background border-t z-50">
@@ -105,16 +60,17 @@ export function MobileFooter() {
              </button>
           </SheetTrigger>
           <SheetContent side="right" className="w-full max-w-sm flex flex-col p-0">
-            <SheetHeader className="p-4 border-b">
-               <SheetTitle className="sr-only">Menu</SheetTitle>
-               <SheetClose asChild>
-                 <Link
+            <SheetHeader className="p-4 border-b flex flex-row items-center justify-between">
+               <Link
                   href="/"
                   className="flex items-center gap-2"
+                  onClick={() => setIsOpen(false)}
                 >
                   <Image src="/logo.svg" alt="Bbester Logo" width={120} height={40} />
                 </Link>
-               </SheetClose>
+                <SheetClose asChild>
+                    <Button variant="ghost" size="icon"><X className="h-5 w-5"/></Button>
+                </SheetClose>
             </SheetHeader>
             <div className="flex flex-col h-full overflow-y-auto">
               <div className="p-4">
@@ -134,46 +90,24 @@ export function MobileFooter() {
                     <Link href="/candidate-profile">Hồ sơ của tôi</Link>
                  </Button>
               </div>
+              
+              <DropdownMenuSeparator />
 
-              <Accordion type="multiple" className="w-full mt-2 px-4">
-                  <AccordionItem value="main-nav">
-                     <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-3">Điều hướng</AccordionTrigger>
-                     <AccordionContent className="pl-0">
-                       {mainNavLinks.map((link) => (
-                          <MobileNavLink 
-                              key={link.href} 
-                              {...link}
-                              onClick={link.href === '/' ? handleHomeClick : undefined} 
-                          />
-                        ))}
-                     </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="quick-access">
-                     <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-3">Lối tắt</AccordionTrigger>
-                     <AccordionContent className="p-2">
-                        <div className="grid grid-cols-3 gap-2">
-                          {quickAccessLinks.map((link) => (
-                             <Link 
-                              key={link.href}
-                              href={link.href}
-                              onClick={() => setIsOpen(false)}
-                              className="flex flex-col items-center justify-start p-2 h-24 cursor-pointer rounded-md bg-secondary hover:bg-accent">
-                               <div className="h-10 flex items-center justify-center text-primary"><link.icon className="h-8 w-8"/></div>
-                               <span className="text-xs text-center leading-tight font-medium">{link.label}</span>
-                             </Link>
-                          ))}
-                      </div>
-                     </AccordionContent>
-                  </AccordionItem>
-                  <AccordionItem value="employer-nav">
-                      <AccordionTrigger className="text-lg text-foreground/80 hover:no-underline hover:text-primary font-medium py-3">Dành cho nhà tuyển dụng</AccordionTrigger>
-                      <AccordionContent className="pl-0">
-                        {employerLinks.map((link) => (
-                          <MobileNavLink key={link.href} {...link} />
-                        ))}
-                      </AccordionContent>
-                  </AccordionItem>
-              </Accordion>
+              <div className="p-2">
+                 <div className="grid grid-cols-3 gap-2">
+                    {quickAccessLinks.map((link) => (
+                       <Link 
+                        key={link.href}
+                        href={link.href}
+                        onClick={() => setIsOpen(false)}
+                        className="flex flex-col items-center justify-start p-2 h-24 cursor-pointer rounded-md bg-secondary hover:bg-accent/80">
+                         <div className="h-10 flex items-center justify-center text-primary"><link.icon className="h-8 w-8"/></div>
+                         <span className="text-xs text-center leading-tight font-medium">{link.label}</span>
+                       </Link>
+                    ))}
+                </div>
+              </div>
+              
 
               <div className="mt-auto p-4">
                   <DropdownMenuSeparator />
@@ -182,9 +116,9 @@ export function MobileFooter() {
                           <LogOut className="mr-2 h-4 w-4" />
                           <span>Đăng xuất</span>
                       </Button>
-                      <SheetClose asChild>
-                        <Button variant="ghost"><X className="mr-2 h-4 w-4"/> Đóng</Button>
-                      </SheetClose>
+                      <Button variant="ghost" onClick={() => setIsOpen(false)}>
+                        <X className="mr-2 h-4 w-4"/> Đóng
+                      </Button>
                   </div>
               </div>
             </div>

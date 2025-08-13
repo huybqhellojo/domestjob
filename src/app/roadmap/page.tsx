@@ -4,6 +4,12 @@ import { HardHat, School, Star, Plane, UserCheck, ShieldCheck, TrendingUp, Brief
 import React from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Lộ trình sự nghiệp (SWR) tại Nhật Bản',
+  description: 'Khám phá lộ trình phát triển sự nghiệp (SWR) bền vững từ Thực tập sinh, Kỹ năng đặc định (Tokutei Ginou) 1 & 2, đến chuyên gia tay nghề cao tại Nhật Bản cùng HelloJob.',
+};
 
 const roadmapSteps = [
   {

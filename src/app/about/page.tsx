@@ -1,8 +1,15 @@
 import { Button } from '@/components/ui/button';
+import type { Metadata } from 'next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Lightbulb, Target, Users, TrendingUp, Handshake, BarChart, FileSignature } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Về HelloJob',
+  description: 'Tìm hiểu về sứ mệnh, tầm nhìn, giá trị cốt lõi và đội ngũ tâm huyết của HelloJob trong việc kết nối nguồn nhân lực Việt Nam với thị trường Nhật Bản.',
+};
+
 
 const teamMembers = [
   {

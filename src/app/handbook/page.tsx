@@ -1,5 +1,4 @@
 
-'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -10,6 +9,13 @@ import { articles, HandbookArticle } from '@/lib/handbook-data';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Cẩm nang HelloJob - Thông tin việc làm & cuộc sống tại Nhật',
+  description: 'Tất cả thông tin bạn cần về Kỹ năng đặc định (Tokutei Ginou), kinh nghiệm phỏng vấn, thủ tục visa, và cuộc sống tại Nhật Bản được cập nhật liên tục.',
+};
+
 
 const categoryIcons: { [key: string]: React.ElementType } = {
   'Kỹ năng đặc định': Briefcase,

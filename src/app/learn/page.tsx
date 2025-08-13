@@ -4,6 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
 import { ArrowRight, BookOpen, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'E-Learning: Chinh phục tiếng Nhật và Kỹ năng làm việc',
+  description: 'Nâng cao kỹ năng, mở rộng cơ hội với các khóa học E-learning được thiết kế riêng cho người lao động Việt Nam muốn làm việc tại Nhật Bản.',
+};
+
 
 const course = {
   id: 'tieng-nhat-giao-tiep',

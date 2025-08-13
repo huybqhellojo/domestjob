@@ -5,9 +5,58 @@ import { Footer } from '@/components/footer';
 import { Toaster } from '@/components/ui/toaster';
 import { MobileFooter } from '@/components/mobile-footer';
 
+const siteConfig = {
+  name: "HelloJob",
+  url: "https://hellojob.vn", // Replace with your actual domain
+  description: "Nền tảng việc làm và phát triển sự nghiệp tại Nhật Bản. Tìm kiếm việc làm Kỹ năng đặc định (Tokutei Ginou), Thực tập sinh, Kỹ sư. Xây dựng lộ trình sự nghiệp (SWR) bền vững.",
+  ogImage: "https://hellojob.vn/og-image.png", // Replace with your actual OG image URL
+};
+
 export const metadata: Metadata = {
-  title: 'HelloJob',
-  description: 'Nền tảng việc làm và phát triển sự nghiệp tại Nhật Bản',
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.name,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  keywords: [
+    "việc làm Nhật Bản",
+    "Tokutei Ginou",
+    "Kỹ năng đặc định",
+    "Thực tập sinh Nhật Bản",
+    "xuất khẩu lao động",
+    "HelloJob",
+    "SWR",
+    "lộ trình sự nghiệp"
+  ],
+  authors: [{ name: "HelloJob Team", url: siteConfig.url }],
+  creator: "HelloJob Team",
+  openGraph: {
+    type: "website",
+    locale: "vi_VN",
+    url: siteConfig.url,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: siteConfig.name,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+    creator: "@hellojob", // Replace with your Twitter handle
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

@@ -184,11 +184,11 @@ export default function HollandTestPage() {
   return (
     <div className="bg-secondary py-12">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="relative">
+        <div className="relative max-w-4xl mx-auto">
           {/* Sticky Header - This is shown only when scrolled */}
           <div
             className={cn(
-              'sticky top-0 z-20 w-full transition-opacity max-w-4xl mx-auto',
+              'sticky top-0 z-20 w-full transition-opacity',
               isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
             )}
           >
@@ -211,7 +211,7 @@ export default function HollandTestPage() {
 
           <Card
             className={cn(
-              'max-w-4xl mx-auto shadow-xl overflow-visible',
+              'shadow-xl overflow-visible',
               isScrolled ? 'rounded-t-none border-t-0' : ''
             )}
           >
@@ -227,7 +227,7 @@ export default function HollandTestPage() {
             </CardHeader>
 
             {/* Static Header - visible on desktop before scroll, always on mobile */}
-            <div className="grid grid-cols-5 p-2 font-semibold border-t border-b bg-secondary/50">
+            <div className="hidden md:grid grid-cols-5 p-2 font-semibold border-t border-b bg-secondary/50">
               <div className="col-span-2 text-left pl-3">Hoạt động</div>
               {interestLevels.map((level) => (
                 <div key={level.value} className="text-center text-xs md:text-sm whitespace-nowrap">
@@ -290,4 +290,3 @@ export default function HollandTestPage() {
     </div>
   );
 }
-

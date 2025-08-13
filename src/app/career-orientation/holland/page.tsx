@@ -8,7 +8,7 @@ import { Progress } from '@/components/ui/progress';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 import { hollandData, HollandGroup } from '@/lib/holland-data';
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell, Tooltip } from 'recharts';
 import { Check, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
@@ -90,6 +90,14 @@ export default function HollandTestPage() {
                     <BarChart data={results} layout="vertical" margin={{ left: 120 }}>
                       <XAxis type="number" hide />
                       <YAxis dataKey="name" type="category" width={120} tickLine={false} axisLine={false} />
+                      <Tooltip 
+                        cursor={{fill: 'hsla(var(--muted), 0.5)'}}
+                        contentStyle={{
+                            backgroundColor: 'hsl(var(--background))',
+                            borderRadius: 'var(--radius)',
+                            border: '1px solid hsl(var(--border))'
+                        }}
+                      />
                       <Bar dataKey="score" fill="#8884d8" barSize={30}>
                         {results.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

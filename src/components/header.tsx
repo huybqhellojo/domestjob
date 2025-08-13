@@ -24,7 +24,7 @@ import {
   DropdownMenuGroup
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { VnFlagIcon, JpFlagIcon } from './custom-icons';
+import { VnFlagIcon, JpFlagIcon, EnFlagIcon } from './custom-icons';
 
 const mainNavLinks = [
   { href: '/', label: 'Trang chủ'},
@@ -59,20 +59,23 @@ const LanguageSwitcher = () => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center gap-2">
+                <Button variant="outline" className="flex items-center gap-2">
                     <VnFlagIcon className="h-5 w-5 rounded-sm" />
-                    <span className="hidden sm:inline">Tiếng Việt</span>
-                    <ChevronDown className="h-4 w-4 opacity-50" />
+                    <span className="font-bold">VN</span>
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" className="w-40">
                 <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
                     <VnFlagIcon className="h-5 w-5 rounded-sm" />
-                    <span>Tiếng Việt</span>
+                    <span>VN</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
                     <JpFlagIcon className="h-5 w-5 rounded-sm" />
-                    <span>日本語</span>
+                    <span>JP</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
+                    <EnFlagIcon className="h-5 w-5 rounded-sm" />
+                    <span>EN</span>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
@@ -137,6 +140,9 @@ export function Header() {
         </nav>
         <div className="hidden md:flex items-center gap-2">
             <LanguageSwitcher />
+             <Button asChild variant="outline">
+                <Link href="/candidate-profile">Hồ sơ của tôi</Link>
+            </Button>
             
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -160,11 +166,6 @@ export function Header() {
                     </div>
                   </div>
                 </DropdownMenuLabel>
-                 <DropdownMenuItem asChild>
-                    <Link href="/candidate-profile" className="cursor-pointer">
-                      <Button variant="outline" className="w-full justify-center">Hồ sơ của tôi</Button>
-                    </Link>
-                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <div className="grid grid-cols-4 gap-2 p-2">

@@ -17,7 +17,7 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { DropdownMenuSeparator } from './ui/dropdown-menu';
-import { VnFlagIcon, JpFlagIcon } from './custom-icons';
+import { VnFlagIcon, JpFlagIcon, EnFlagIcon } from './custom-icons';
 
 
 const quickAccessLinks = [
@@ -130,11 +130,15 @@ export function MobileFooter() {
                   <div className="space-y-2">
                      <Button variant="ghost" className="w-full justify-start gap-2 text-foreground/80">
                         <VnFlagIcon className="h-5 w-5 rounded-sm" />
-                        Tiếng Việt
+                        VN
                      </Button>
                      <Button variant="ghost" className="w-full justify-start gap-2 text-foreground/80">
                         <JpFlagIcon className="h-5 w-5 rounded-sm" />
-                        日本語
+                        JP
+                     </Button>
+                     <Button variant="ghost" className="w-full justify-start gap-2 text-foreground/80">
+                        <EnFlagIcon className="h-5 w-5 rounded-sm" />
+                        EN
                      </Button>
                   </div>
                   <DropdownMenuSeparator />

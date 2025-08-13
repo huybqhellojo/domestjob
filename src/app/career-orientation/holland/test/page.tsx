@@ -65,7 +65,7 @@ export default function HollandTestPage() {
       ([entry]) => {
         setIsScrolled(!entry.isIntersecting);
       },
-      { threshold: 0, rootMargin: "-1px 0px 0px 0px" } 
+      { rootMargin: "0px 0px 0px 0px", threshold: 1.0 } 
     );
 
     observer.observe(currentHeader);
@@ -75,7 +75,7 @@ export default function HollandTestPage() {
         observer.unobserve(currentHeader);
       }
     };
-  }, [hollandData]); // Rerun when data loads, which is stable
+  }, [hollandData]);
 
   if (!hollandData) {
       return (
@@ -184,76 +184,110 @@ export default function HollandTestPage() {
   return (
     <div className="bg-secondary py-12">
       <div className="container mx-auto px-4 md:px-6">
-        
-         {/* Sticky Header - This is shown only when scrolled */}
-        <div className={cn(
-            "sticky top-0 z-20 transition-opacity",
-            isScrolled ? "opacity-100" : "opacity-0 pointer-events-none"
-        )}>
+        <div className="relative">
+          {/* Sticky Header - This is shown only when scrolled */}
+          <div
+            className={cn(
+              'sticky top-0 z-20 w-full transition-opacity max-w-4xl mx-auto',
+              isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            )}
+          >
             <div className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 rounded-t-lg border-b border-x -mb-px">
-                 <div className="p-4">
-                    <h2 className="font-bold text-lg">
-                       {`Holland - ${groupNameShort} (${currentGroupIndex + 1}/${hollandData.length})`}
-                    </h2>
-                 </div>
-                 <div className="grid grid-cols-5 p-2 font-semibold border-t bg-secondary/50">
-                    <div className="col-span-2 text-left pl-3">Hoạt động</div>
-                    {interestLevels.map(level => (
-                        <div key={level.value} className="text-center text-xs md:text-sm whitespace-nowrap">{level.label}</div>
-                    ))}
-                </div>
-            </div>
-        </div>
-
-        <Card className={cn("max-w-4xl mx-auto shadow-xl overflow-visible", isScrolled ? "rounded-t-none border-t-0" : "")}>
-           <div ref={headerRef}>
-             <CardHeader>
-                <Progress value={progress} className="mb-4 h-2" />
-                 <h2 className="text-3xl font-headline font-bold">
-                    {`Trắc nghiệm Holland - ${currentGroup.name} (${currentGroupIndex + 1}/${hollandData.length})`}
-                </h2>
-                <CardDescription className="text-base mt-2">{currentGroup.description}</CardDescription>
-                <p className="text-sm text-muted-foreground pt-4">Với mỗi hoạt động dưới đây, hãy chọn mức độ bạn yêu thích khi thực hiện nó.</p>
-            </CardHeader>
-             <div className="grid grid-cols-5 p-2 font-semibold border-t border-b bg-secondary/50">
-                  <div className="col-span-2 text-left pl-3">Hoạt động</div>
-                  {interestLevels.map(level => (
-                     <div key={level.value} className="text-center text-xs md:text-sm whitespace-nowrap">{level.label}</div>
-                  ))}
+              <div className="p-4">
+                <h2 className="font-bold text-lg">{`Holland - ${groupNameShort} (${currentGroupIndex + 1}/${
+                  hollandData.length
+                })`}</h2>
               </div>
-           </div>
-            
-            <CardContent className="p-0">
-               <div className="min-w-full">
-                   {currentGroup.questions.map((q, index) => (
-                    <div key={`${currentGroup.code}-${q.id}`} className={cn("grid grid-cols-5 items-center border-b", index % 2 === 1 ? 'bg-secondary/50' : 'bg-background')}>
-                        <div className="col-span-2 p-3 text-sm">{q.text}</div>
-                        <div className="col-span-3">
-                            <RadioGroup
-                                value={answers[`${currentGroup.code}-${q.id}`]?.toString()}
-                                onValueChange={(value) => handleAnswerChange(q.id, value)}
-                                className="flex justify-around items-center w-full"
-                            >
-                                {interestLevels.map(level => (
-                                    <div key={`${currentGroup.code}-q${q.id}-l${level.value}`} className="flex items-center justify-center py-3 w-full">
-                                        <RadioGroupItem value={level.value.toString()} id={`${currentGroup.code}-q${q.id}-l${level.value}`} />
-                                    </div>
-                                ))}
-                            </RadioGroup>
-                        </div>
-                    </div>
-                   ))}
+              <div className="grid grid-cols-5 p-2 font-semibold border-t bg-secondary/50">
+                <div className="col-span-2 text-left pl-3">Hoạt động</div>
+                {interestLevels.map((level) => (
+                  <div key={level.value} className="text-center text-xs md:text-sm whitespace-nowrap">
+                    {level.label}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <Card
+            className={cn(
+              'max-w-4xl mx-auto shadow-xl overflow-visible',
+              isScrolled ? 'rounded-t-none border-t-0' : ''
+            )}
+          >
+            <CardHeader ref={headerRef}>
+              <Progress value={progress} className="mb-4 h-2" />
+              <h2 className="text-3xl font-headline font-bold">
+                {`Trắc nghiệm Holland - ${currentGroup.name} (${currentGroupIndex + 1}/${hollandData.length})`}
+              </h2>
+              <CardDescription className="text-base mt-2">{currentGroup.description}</CardDescription>
+              <p className="text-sm text-muted-foreground pt-4">
+                Với mỗi hoạt động dưới đây, hãy chọn mức độ bạn yêu thích khi thực hiện nó.
+              </p>
+            </CardHeader>
+
+            {/* Static Header - visible on desktop before scroll, always on mobile */}
+            <div className="grid grid-cols-5 p-2 font-semibold border-t border-b bg-secondary/50">
+              <div className="col-span-2 text-left pl-3">Hoạt động</div>
+              {interestLevels.map((level) => (
+                <div key={level.value} className="text-center text-xs md:text-sm whitespace-nowrap">
+                  {level.label}
                 </div>
+              ))}
+            </div>
+
+            <CardContent className="p-0">
+              <div className="min-w-full">
+                {currentGroup.questions.map((q, index) => (
+                  <div
+                    key={`${currentGroup.code}-${q.id}`}
+                    className={cn(
+                      'grid grid-cols-5 items-center border-b',
+                      index % 2 === 1 ? 'bg-secondary/50' : 'bg-background'
+                    )}
+                  >
+                    <div className="col-span-2 p-3 text-sm">{q.text}</div>
+                    <div className="col-span-3">
+                      <RadioGroup
+                        value={answers[`${currentGroup.code}-${q.id}`]?.toString()}
+                        onValueChange={(value) => handleAnswerChange(q.id, value)}
+                        className="flex justify-around items-center w-full"
+                      >
+                        {interestLevels.map((level) => (
+                          <div
+                            key={`${currentGroup.code}-q${q.id}-l${level.value}`}
+                            className="flex items-center justify-center py-3 w-full"
+                          >
+                            <RadioGroupItem
+                              value={level.value.toString()}
+                              id={`${currentGroup.code}-q${q.id}-l${level.value}`}
+                            />
+                          </div>
+                        ))}
+                      </RadioGroup>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </CardContent>
 
-          <CardFooter className="flex justify-end mt-4 p-4">
-            <Button onClick={handleNext} disabled={currentGroup.questions.some(q => answers[`${currentGroup.code}-${q.id}`] === undefined)}>
-              {currentGroupIndex < hollandData.length - 1 ? 'Tiếp theo' : 'Xem kết quả'}
-              {currentGroupIndex < hollandData.length - 1 ? <ArrowRight className="ml-2" /> : <Check className="ml-2" />}
-            </Button>
-          </CardFooter>
-        </Card>
+            <CardFooter className="flex justify-end mt-4 p-4">
+              <Button
+                onClick={handleNext}
+                disabled={currentGroup.questions.some((q) => answers[`${currentGroup.code}-${q.id}`] === undefined)}
+              >
+                {currentGroupIndex < hollandData.length - 1 ? 'Tiếp theo' : 'Xem kết quả'}
+                {currentGroupIndex < hollandData.length - 1 ? (
+                  <ArrowRight className="ml-2" />
+                ) : (
+                  <Check className="ml-2" />
+                )}
+              </Button>
+            </CardFooter>
+          </Card>
+        </div>
       </div>
     </div>
   );
 }
+

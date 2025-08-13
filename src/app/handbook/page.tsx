@@ -1,8 +1,8 @@
 
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { LifeBuoy, Search, ArrowRight, ChevronRight, BookText, Building2, Smile, Briefcase } from 'lucide-react';
+import { LifeBuoy, Search, ArrowRight, Video, FileText, Newspaper } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { articles, HandbookArticle } from '@/lib/handbook-data';
@@ -17,55 +17,80 @@ export const metadata: Metadata = {
 };
 
 
-const categoryIcons: { [key: string]: React.ElementType } = {
-  'Kỹ năng đặc định': Briefcase,
-  'Cuộc sống ở Nhật': Smile,
-  'Kinh nghiệm phỏng vấn': BookText,
-  'Thủ tục & Visa': Building2,
-};
-
-const HandbookCategoryCard = ({ category, description }: { category: string, description: string }) => {
-  const Icon = categoryIcons[category] || Briefcase;
-  return (
-    <Card className="group relative flex flex-col items-center justify-center p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden border-t-4 border-primary">
-      <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit mb-4">
-        <Icon className="h-10 w-10 text-primary" />
-      </div>
-      <h3 className="font-headline text-xl font-bold mb-2 text-foreground">{category}</h3>
-      <p className="text-muted-foreground text-sm mb-4 flex-grow">{description}</p>
-      <Button variant="ghost" size="sm" className="text-primary font-semibold">
-        Xem tất cả <ChevronRight className="h-4 w-4 ml-1" />
-      </Button>
+const ArticleCard = ({ article, className }: { article: HandbookArticle, className?: string }) => (
+  <Link href={`/handbook/${article.slug}`} className={cn("group block", className)}>
+    <Card className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1.5 rounded-xl">
+      <CardHeader className="p-0">
+        <div className="relative aspect-video">
+          <Image
+            src={article.image}
+            alt={article.title}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            data-ai-hint={article.dataAiHint}
+          />
+           {article.type === 'video' && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+              <Video className="h-12 w-12 text-white/80" />
+            </div>
+          )}
+        </div>
+      </CardHeader>
+      <CardContent className="p-5 flex-grow flex flex-col">
+        <Badge className={cn("mb-3 w-fit", 
+            article.category === 'Kỹ năng đặc định' ? 'bg-accent-blue/20 text-accent-blue border-accent-blue/30' : 
+            'bg-accent-green/20 text-accent-green border-accent-green/30'
+        )}>{article.category}</Badge>
+        <CardTitle className="font-headline text-lg mb-3 flex-grow group-hover:text-primary transition-colors leading-tight">{article.title}</CardTitle>
+        <p className="text-muted-foreground text-sm line-clamp-3">{article.excerpt}</p>
+      </CardContent>
     </Card>
-  )
-};
+  </Link>
+);
 
-const ArticleCardSmall = ({ article }: { article: HandbookArticle }) => (
-  <Link href={`/handbook/${article.slug}`} key={article.slug} className="group block">
-    <Card className="flex h-full overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-      <div className="relative w-1/3 flex-shrink-0">
-        <Image
-          src={article.image}
-          alt={article.title}
-          fill
-          className="object-cover"
-          data-ai-hint={article.dataAiHint}
-        />
-      </div>
-      <div className="p-4 flex flex-col justify-center w-2/3">
-        <Badge className="mb-2 w-fit bg-accent-green/20 text-accent-green border-accent-green/30">{article.category}</Badge>
-        <h4 className="font-headline text-base font-bold leading-tight line-clamp-2 group-hover:text-primary transition-colors">{article.title}</h4>
-      </div>
+const PostCard = ({ article }: { article: HandbookArticle }) => (
+  <Link href={`/handbook/${article.slug}`} className="group block">
+    <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 rounded-xl">
+       <CardContent className="p-5">
+         <Badge className={cn("mb-3 w-fit", 
+            article.category === 'Kinh nghiệm phỏng vấn' ? 'bg-accent-orange/20 text-accent-orange border-accent-orange/30' : 
+            'bg-accent-red/20 text-accent-red border-accent-red/30'
+        )}>{article.category}</Badge>
+         <p className="font-semibold text-foreground group-hover:text-primary transition-colors">{article.title}</p>
+         <p className="text-xs text-muted-foreground mt-2">{article.readTime} đọc</p>
+      </CardContent>
     </Card>
+  </Link>
+)
+
+const VideoCard = ({ article }: { article: HandbookArticle }) => (
+  <Link href={`/handbook/${article.slug}`} className="group block">
+      <Card className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 aspect-[9/16]">
+          <Image
+            src={article.image}
+            alt={article.title}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            data-ai-hint={article.dataAiHint}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+          <div className="absolute inset-0 flex flex-col justify-end p-4 text-white">
+             <Video className="h-10 w-10 mb-4 text-white/80" />
+             <h4 className="font-headline text-lg font-bold leading-tight line-clamp-3">{article.title}</h4>
+             <p className="text-xs mt-2 opacity-80">{article.category}</p>
+          </div>
+      </Card>
   </Link>
 );
 
 
 export default function HandbookPage() {
 
-  const featuredArticle = articles[0];
-  const topicArticles = articles.slice(1, 4);
-  const latestArticles = articles.slice(4);
+  const featuredArticle = articles.find(a => a.slug === 'tokutei-ginou-la-gi')!;
+  const mainArticles = articles.filter(a => a.type === 'article' && a.slug !== featuredArticle.slug);
+  const videos = articles.filter(a => a.type === 'video');
+  const posts = articles.filter(a => a.type === 'post');
+
 
   return (
     <div className="bg-secondary">
@@ -88,84 +113,77 @@ export default function HandbookPage() {
           </div>
         </div>
 
-        {/* Featured Article */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-headline font-bold mb-6 text-foreground">Bài viết nổi bật</h2>
-          <Link href={`/handbook/${featuredArticle.slug}`} className="group">
-             <Card className="grid md:grid-cols-2 overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300 rounded-2xl">
-                <div className="relative min-h-[300px] md:min-h-[450px]">
-                  <Image
-                    src={featuredArticle.image}
-                    alt={featuredArticle.title}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    data-ai-hint={featuredArticle.dataAiHint}
-                  />
-                </div>
-                <div className="p-8 md:p-12 flex flex-col justify-center">
-                  <Badge className="mb-4 w-fit bg-accent-orange text-white">{featuredArticle.category}</Badge>
-                  <CardTitle className="font-headline text-3xl xl:text-4xl mb-4 group-hover:text-primary transition-colors">{featuredArticle.title}</CardTitle>
-                  <p className="text-muted-foreground text-base mb-6">{featuredArticle.excerpt}</p>
-                  <div className="flex items-center gap-3 font-bold text-primary">
-                      <span>Đọc bài viết</span>
-                      <ArrowRight className="transition-transform group-hover:translate-x-1" />
-                  </div>
-                </div>
-              </Card>
-          </Link>
-        </div>
-
-        {/* Featured Topics */}
-        <div className="mb-16">
-            <h2 className="text-3xl font-headline font-bold mb-6 text-foreground">Chủ đề phổ biến</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <HandbookCategoryCard category="Kỹ năng đặc định" description="Tất tần tật về visa Tokutei, điều kiện, ngành nghề và cơ hội." />
-                <HandbookCategoryCard category="Cuộc sống ở Nhật" description="Khám phá văn hóa, chi phí sinh hoạt và các mẹo hữu ích khi sống tại Nhật." />
-                <HandbookCategoryCard category="Kinh nghiệm phỏng vấn" description="Bí quyết chinh phục nhà tuyển dụng Nhật Bản, từ Jikoshoukai đến tác phong." />
-                <HandbookCategoryCard category="Thủ tục & Visa" description="Hướng dẫn chi tiết các loại giấy tờ, quy trình cần thiết để sang Nhật làm việc." />
-            </div>
-        </div>
-
-        {/* Latest Articles */}
+        {/* Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            <div className="lg:col-span-8">
-                <h2 className="text-3xl font-headline font-bold mb-6 text-foreground">Mới nhất</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {topicArticles.map((article) => (
-                    <Link href={`/handbook/${article.slug}`} key={article.slug} className="group">
-                        <Card className="flex flex-col h-full overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 rounded-xl">
-                        <CardHeader className="p-0">
-                            <div className="relative aspect-video">
-                                <Image
-                                src={article.image}
-                                alt={article.title}
-                                fill
-                                className="object-cover"
-                                data-ai-hint={article.dataAiHint}
-                                />
+            {/* Main Content */}
+            <main className="lg:col-span-8 space-y-16">
+                {/* Featured Article */}
+                <section>
+                    <Link href={`/handbook/${featuredArticle.slug}`} className="group">
+                        <Card className="overflow-hidden shadow-xl hover:shadow-2xl transition-shadow duration-300 rounded-2xl">
+                            <div className="grid md:grid-cols-2">
+                                <div className="relative min-h-[300px] md:min-h-full">
+                                    <Image
+                                        src={featuredArticle.image}
+                                        alt={featuredArticle.title}
+                                        fill
+                                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                        data-ai-hint={featuredArticle.dataAiHint}
+                                    />
+                                </div>
+                                <div className="p-8 flex flex-col justify-center">
+                                    <Badge className="mb-4 w-fit bg-accent-orange text-white">{featuredArticle.category}</Badge>
+                                    <CardTitle className="font-headline text-2xl xl:text-3xl mb-4 group-hover:text-primary transition-colors">{featuredArticle.title}</CardTitle>
+                                    <CardDescription className="text-base mb-6">{featuredArticle.excerpt}</CardDescription>
+                                    <div className="flex items-center gap-3 font-bold text-primary">
+                                        <span>Đọc bài viết</span>
+                                        <ArrowRight className="transition-transform group-hover:translate-x-1" />
+                                    </div>
+                                </div>
                             </div>
-                        </CardHeader>
-                        <CardContent className="p-6 flex-grow flex flex-col">
-                            <Badge className={cn("mb-4 w-fit", 
-                                article.category === 'Kỹ năng đặc định' ? 'bg-accent-blue/20 text-accent-blue border-accent-blue/30' : 
-                                'bg-accent-green/20 text-accent-green border-accent-green/30'
-                            )}>{article.category}</Badge>
-                            <CardTitle className="font-headline text-xl mb-3 flex-grow group-hover:text-primary transition-colors">{article.title}</CardTitle>
-                            <p className="text-muted-foreground text-sm line-clamp-3">{article.excerpt}</p>
-                        </CardContent>
                         </Card>
                     </Link>
-                ))}
-                </div>
-            </div>
-            <div className="lg:col-span-4">
-                 <h2 className="text-3xl font-headline font-bold mb-6 text-foreground">Dành cho bạn</h2>
-                 <div className="space-y-4">
-                    {latestArticles.map((article) => (
-                        <ArticleCardSmall key={article.slug} article={article} />
-                    ))}
-                 </div>
-            </div>
+                </section>
+                
+                 {/* Latest Articles */}
+                <section>
+                    <h2 className="text-3xl font-headline font-bold mb-6 flex items-center text-foreground">
+                        <FileText className="mr-3 text-primary"/> Bài viết mới
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                       {mainArticles.map((article) => (
+                           <ArticleCard key={article.slug} article={article}/>
+                       ))}
+                    </div>
+                </section>
+            </main>
+            
+            {/* Sidebar */}
+            <aside className="lg:col-span-4 space-y-16">
+                {/* Short Videos */}
+                <section>
+                    <h2 className="text-3xl font-headline font-bold mb-6 flex items-center text-foreground">
+                        <Video className="mr-3 text-primary"/> Video ngắn
+                    </h2>
+                     <div className="grid grid-cols-2 gap-4">
+                       {videos.map((video) => (
+                           <VideoCard key={video.slug} article={video} />
+                       ))}
+                    </div>
+                </section>
+                
+                {/* Short Posts */}
+                <section>
+                    <h2 className="text-3xl font-headline font-bold mb-6 flex items-center text-foreground">
+                        <Newspaper className="mr-3 text-primary"/> Tin tức & Bài đăng
+                    </h2>
+                    <div className="space-y-4">
+                       {posts.map((post) => (
+                           <PostCard key={post.slug} article={post} />
+                       ))}
+                    </div>
+                </section>
+            </aside>
         </div>
       </div>
     </div>

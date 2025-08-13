@@ -1,6 +1,8 @@
 
+
 export type HandbookArticle = {
   slug: string;
+  type: 'article' | 'video' | 'post'; // Phân loại nội dung
   title: string;
   category: string;
   author: string;
@@ -8,7 +10,8 @@ export type HandbookArticle = {
   image: string;
   dataAiHint: string;
   excerpt: string;
-  content: {
+  videoUrl?: string; // URL cho video
+  content?: {
     slug: string;
     title: string;
     body: string;
@@ -18,6 +21,7 @@ export type HandbookArticle = {
 export const articles: HandbookArticle[] = [
   {
     slug: 'tokutei-ginou-la-gi',
+    type: 'article',
     title: 'Kỹ năng đặc định (Tokutei Ginou) là gì? Toàn bộ thông tin cần biết 2024',
     category: 'Kỹ năng đặc định',
     author: 'HelloJob Team',
@@ -68,29 +72,20 @@ export const articles: HandbookArticle[] = [
     ],
   },
   {
-    slug: 'chi-phi-sinh-hoat-o-nhat',
-    title: 'Chi phí sinh hoạt ở Nhật Bản hết bao nhiêu một tháng?',
-    category: 'Cuộc sống ở Nhật',
-    author: 'Mai Linh',
-    readTime: '6 phút',
-    image: 'https://placehold.co/1200x600.png',
-    dataAiHint: 'japanese food market',
-    excerpt: 'Lập kế hoạch tài chính là bước quan trọng trước khi đến Nhật. Bài viết này sẽ phân tích chi tiết các khoản chi phí sinh hoạt hàng tháng bạn cần chuẩn bị.',
-    content: [
-      {
-        slug: 'cac-khoan-chi-phi-chinh',
-        title: 'Các khoản chi phí chính',
-        body: '<p>Chi phí sinh hoạt hàng tháng tại Nhật Bản có thể dao động tùy thuộc vào thành phố bạn sống và phong cách chi tiêu của bạn. Tuy nhiên, các khoản chính bao gồm:</p><ul><li>Tiền thuê nhà</li><li>Tiền ăn uống</li><li>Tiền đi lại</li><li>Tiền điện, nước, gas, internet</li><li>Thuế và bảo hiểm</li><li>Chi phí cá nhân khác</li></ul>'
-      },
-      {
-        slug: 'chi-phi-trung-binh',
-        title: 'Chi phí trung bình tại các thành phố lớn',
-        body: '<p>Tại các thành phố lớn như Tokyo, Osaka, chi phí thuê nhà và sinh hoạt sẽ cao hơn đáng kể so với các vùng nông thôn. Một người độc thân sống ở Tokyo có thể tốn khoảng 120,000 - 150,000 yên/tháng. Trong khi đó ở các tỉnh lẻ, con số này có thể chỉ khoảng 80,000 - 100,000 yên.</p>'
-      },
-    ],
+    slug: 'meo-phong-van-video',
+    type: 'video',
+    title: '3 Mẹo phỏng vấn ONLINE qua video với nhà tuyển dụng Nhật',
+    category: 'Kinh nghiệm phỏng vấn',
+    author: 'Dung Mochi',
+    readTime: '1 phút',
+    image: 'https://placehold.co/400x600.png',
+    dataAiHint: 'online job interview',
+    excerpt: 'Tác phong, ánh sáng và cách trả lời là 3 yếu tố quyết định sự thành công của buổi phỏng vấn online. Xem ngay video để không bỏ lỡ cơ hội!',
+    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
   },
    {
     slug: 'kinh-nghiem-phong-van-tokutei',
+    type: 'article',
     title: '5 Kinh nghiệm phỏng vấn Tokutei Ginou chắc chắn đậu',
     category: 'Kinh nghiệm phỏng vấn',
     author: 'HelloJob Team',
@@ -112,7 +107,43 @@ export const articles: HandbookArticle[] = [
     ],
   },
   {
+    slug: 'chi-phi-sinh-hoat-o-nhat',
+    type: 'article',
+    title: 'Chi phí sinh hoạt ở Nhật Bản hết bao nhiêu một tháng?',
+    category: 'Cuộc sống ở Nhật',
+    author: 'Mai Linh',
+    readTime: '6 phút',
+    image: 'https://placehold.co/1200x600.png',
+    dataAiHint: 'japanese food market',
+    excerpt: 'Lập kế hoạch tài chính là bước quan trọng trước khi đến Nhật. Bài viết này sẽ phân tích chi tiết các khoản chi phí sinh hoạt hàng tháng bạn cần chuẩn bị.',
+    content: [
+      {
+        slug: 'cac-khoan-chi-phi-chinh',
+        title: 'Các khoản chi phí chính',
+        body: '<p>Chi phí sinh hoạt hàng tháng tại Nhật Bản có thể dao động tùy thuộc vào thành phố bạn sống và phong cách chi tiêu của bạn. Tuy nhiên, các khoản chính bao gồm:</p><ul><li>Tiền thuê nhà</li><li>Tiền ăn uống</li><li>Tiền đi lại</li><li>Tiền điện, nước, gas, internet</li><li>Thuế và bảo hiểm</li><li>Chi phí cá nhân khác</li></ul>'
+      },
+      {
+        slug: 'chi-phi-trung-binh',
+        title: 'Chi phí trung bình tại các thành phố lớn',
+        body: '<p>Tại các thành phố lớn như Tokyo, Osaka, chi phí thuê nhà và sinh hoạt sẽ cao hơn đáng kể so với các vùng nông thôn. Một người độc thân sống ở Tokyo có thể tốn khoảng 120,000 - 150,000 yên/tháng. Trong khi đó ở các tỉnh lẻ, con số này có thể chỉ khoảng 80,000 - 100,000 yên.</p>'
+      },
+    ],
+  },
+   {
+    slug: 'cach-chuyen-tien-nhat-viet',
+    type: 'video',
+    title: 'Hướng dẫn chuyển tiền từ Nhật về Việt Nam an toàn, phí thấp',
+    category: 'Cuộc sống ở Nhật',
+    author: 'HelloJob Team',
+    readTime: '2 phút',
+    image: 'https://placehold.co/400x600.png',
+    dataAiHint: 'money transfer app',
+    excerpt: 'Tổng hợp các cách chuyển tiền phổ biến và uy tín nhất dành cho người lao động tại Nhật Bản.',
+    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+  },
+  {
     slug: 'van-hoa-lam-viec-nhat-ban',
+    type: 'post',
     title: 'Văn hóa làm việc tại công ty Nhật: Hou-Ren-Sou và những điều cần biết',
     category: 'Cuộc sống ở Nhật',
     author: 'Akira Lê',
@@ -120,16 +151,10 @@ export const articles: HandbookArticle[] = [
     image: 'https://placehold.co/1200x600.png',
     dataAiHint: 'japanese office meeting',
     excerpt: 'Hiểu rõ về Hourensou (Báo cáo - Liên lạc - Thảo luận) và các quy tắc ngầm trong văn hóa công sở sẽ giúp bạn hòa nhập nhanh chóng và làm việc hiệu quả hơn tại Nhật.',
-    content: [
-      {
-        slug: 'hourensou-la-gi',
-        title: 'Hou-Ren-Sou là gì?',
-        body: '<p>Hou-Ren-Sou là viết tắt của 3 từ: Hokoku (報告 - Báo cáo), Renraku (連絡 - Liên lạc), và Sodan (相談 - Thảo luận). Đây là quy tắc giao tiếp cơ bản và quan trọng nhất trong môi trường làm việc tại Nhật Bản, giúp đảm bảo thông tin được truyền đạt thông suốt và công việc được tiến hành hiệu quả.</p>'
-      },
-    ],
   },
   {
     slug: 'so-sanh-tts-vs-tokutei',
+    type: 'article',
     title: 'So sánh Thực tập sinh và Kỹ năng đặc định: Nên chọn chương trình nào?',
     category: 'Thủ tục & Visa',
     author: 'HelloJob Team',
@@ -147,6 +172,7 @@ export const articles: HandbookArticle[] = [
   },
   {
     slug: 'meo-viet-jikoshoukai',
+    type: 'post',
     title: 'Mẹo viết và trình bày Jikoshoukai (tự giới thiệu bản thân) ấn tượng',
     category: 'Kinh nghiệm phỏng vấn',
     author: 'Dung Mochi',
@@ -154,16 +180,10 @@ export const articles: HandbookArticle[] = [
     image: 'https://placehold.co/1200x600.png',
     dataAiHint: 'person writing resume',
     excerpt: 'Jikoshoukai là phần không thể thiếu trong bất kỳ buổi phỏng vấn nào tại Nhật. Cùng học cách xây dựng một bài giới thiệu bản thân ngắn gọn, súc tích và ghi điểm với nhà tuyển dụng.',
-    content: [
-      {
-        slug: 'cau-truc-chuan',
-        title: 'Cấu trúc chuẩn của một bài Jikoshoukai',
-        body: '<p>Một bài Jikoshoukai hiệu quả thường bao gồm các phần: Chào hỏi, Giới thiệu tên và tuổi, Quê quán, Trình độ học vấn/kinh nghiệm, Lý do ứng tuyển và Lời cảm ơn.</p>'
-      },
-    ],
   },
   {
     slug: 'xin-visa-vinh-tru',
+    type: 'article',
     title: 'Điều kiện xin visa vĩnh trú tại Nhật Bản năm 2024',
     category: 'Thủ tục & Visa',
     author: 'HelloJob Team',

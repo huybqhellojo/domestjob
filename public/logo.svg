@@ -1,9 +1,23 @@
-<svg width="158" height="40" viewBox="0 0 158 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-<text fill="#0D8DC8" xml:space="preserve" style="white-space: pre" font-family="'Montserrat'" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="0" y="32.5312">H</tspan></text>
-<text fill="#F2B92A" xml:space="preserve" style="white-space: pre" font-family="'Montserrat'" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="24.448" y="32.5312">e</tspan></text>
-<text fill="#AFC536" xml:space="preserve" style="white-space: pre" font-family="'Montserrat'" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="42.272" y="32.5312">ll</tspan></text>
-<text fill="#19A6DF" xml:space="preserve" style="white-space: pre" font-family="'Montserrat'" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="67.52" y="32.5312">o</tspan></text>
-<text fill="#0D8DC8" xml:space="preserve" style="white-space: pre" font-family="'Montserrat'" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="87.04" y="32.5312">J</tspan></text>
-<text fill="#F2B92A" xml:space="preserve" style="white-space: pre" font-family="'Montserrat'" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="101.152" y="32.5312">o</tspan></text>
-<text fill="#AFC536" xml:space="preserve" style="white-space: pre" font-family="'Montserrat'" font-size="32" font-weight="bold" letter-spacing="0em"><tspan x="120.672" y="32.5312">b</tspan></text>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="410" height="123" viewBox="0 0 410 123">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_2" data-name="Rectangle 2" width="410" height="123" transform="translate(458 131)" fill="#fff" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="Mask_Group_1" data-name="Mask Group 1" transform="translate(-458 -131)" clip-path="url(#clip-path)">
+    <g id="logo_hellojob" transform="translate(458 131)">
+      <path id="Path_1" data-name="Path 1" d="M121.72,61.948c0,25.325-16.14,39.3-37.073,39.3S47.5,87.273,47.5,61.948,63.71,22.645,84.577,22.645s37.143,14,37.143,39.3Zm-62.14,0c0,18.5,9.6,28.8,24.983,28.8s25.053-10.3,25.053-28.8S110,33.145,94.62,33.145,59.58,43.448,59.58,61.948Z" transform="translate(44.184 21.752)" fill="#0d8dc8"/>
+      <path id="Path_2" data-name="Path 2" d="M221.419,101.245H209.636V23.145h11.783Z" transform="translate(196.22 21.752)" fill="#f2b92a"/>
+      <path id="Path_3" data-name="Path 3" d="M109.913,101.245H98.13V23.145h11.783Z" transform="translate(91.854 21.752)" fill="#f2b92a"/>
+      <path id="Path_4" data-name="Path 4" d="M176.621,101.245H164.838V23.145h11.783Z" transform="translate(154.295 21.752)" fill="#f2b92a"/>
+      <path id="Path_5" data-name="Path 5" d="M30.7,0,18.847,29.9,7.064,0H0L16.21,34.156V56.5H21.554V34.156L37.764,0Z" transform="translate(372.236 66.355)" fill="#0d8dc8"/>
+      <path id="Path_6" data-name="Path 6" d="M16.924,56.5H35.345V0H16.924ZM29.215,6.128h.07V49.9H29.215Z" transform="translate(329.898 66.355)" fill="#0d8dc8"/>
+      <path id="Path_7" data-name="Path 7" d="M35.345,56.5H16.924V0H35.345ZM29.215,6.128h.07V49.9H29.215Z" transform="translate(300.938 66.355)" fill="#0d8dc8"/>
+      <path id="Path_8" data-name="Path 8" d="M19.141,56.5,1.211,28.25V56.5H-5V0H4.721L22.651,28.25V0H28.1V56.5Z" transform="translate(269 66.355)" fill="#0d8dc8"/>
+      <path id="Path_9" data-name="Path 9" d="M16.924,56.5H35.345V0H16.924ZM29.215,6.128h.07V49.9H29.215Z" transform="translate(230.134 66.355)" fill="#0d8dc8"/>
+      <path id="Path_10" data-name="Path 10" d="M19.3,23.145H26.39v9.45H19.3Z" transform="translate(17.9 21.752)" fill="#19a6df"/>
+      <rect id="Rectangle_1" data-name="Rectangle 1" width="11.854" height="78.1" transform="translate(0 23.145)" fill="#19a6df"/>
+      <path id="Path_11" data-name="Path 11" d="M46.121,83.9,34.338,54h-7.1V83.9H15.455V23.145H34.408c10.443,0,16.21,5.6,16.21,14.7,0,7.91-4.721,12.564-11.283,13.914l12.424,32.14ZM27.241,30.3H22.3V46.85h4.941c4.941,0,7.31-2.45,7.31-8.21S32.181,30.3,27.241,30.3Z" transform="translate(201.218 21.752)" fill="#afc536"/>
+    </g>
+  </g>
 </svg>

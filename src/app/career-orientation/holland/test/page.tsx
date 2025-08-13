@@ -60,9 +60,12 @@ export default function HollandTestPage() {
    useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
+        // When the sentinel is out of view (scrolled past), set isScrolled to true.
         setIsScrolled(!entry.isIntersecting);
       },
-      { rootMargin: `0px 0px 0px 0px`, threshold: 1.0 }
+      // The rootMargin pushes the observation point 1px up from the top of the viewport.
+      // This means the sentinel becomes "not intersecting" as soon as it's scrolled out of view.
+      { rootMargin: `-1px 0px 0px 0px`, threshold: 1.0 }
     );
 
     const currentSentinel = sentinelRef.current;
@@ -182,25 +185,28 @@ export default function HollandTestPage() {
   return (
     <div className="bg-secondary py-12">
       <div className="container mx-auto px-4 md:px-6">
+        {/* This empty div is the sentinel for the IntersectionObserver */}
+        <div ref={sentinelRef}></div>
         <Card className="max-w-4xl mx-auto shadow-xl overflow-visible">
-            {/* This empty div is the sentinel for the IntersectionObserver */}
-            <div ref={sentinelRef} className="h-px -mt-px"></div>
-          
+            
             {/* Sticky Header */}
             <div className={cn(
-              "sticky z-10 top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-200",
-               isScrolled ? "shadow-md" : ""
+              "sticky z-10 top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
             )}>
               <div className="p-4 border-b">
-                <h2 className={cn("font-bold transition-all duration-200", isScrolled ? 'text-lg' : 'text-3xl font-headline')}>
-                  {isScrolled ? `Holland - ${currentGroup.name.split(' - ')[1]} (${currentGroupIndex + 1}/${hollandData.length})` : `Trắc nghiệm Holland - ${currentGroup.name} (${currentGroupIndex + 1}/${hollandData.length})`}
-                </h2>
-                <div className={cn(
-                    "transition-all duration-300 ease-in-out overflow-hidden",
-                    isScrolled ? "max-h-0 opacity-0 mt-0" : "max-h-40 opacity-100 mt-2"
-                )}>
-                  <CardDescription className="text-base">{currentGroup.description}</CardDescription>
-                  <p className="text-sm text-muted-foreground pt-4">Với mỗi hoạt động dưới đây, hãy chọn mức độ bạn yêu thích khi thực hiện nó.</p>
+                 {/* Full header, shown when not scrolled */}
+                <div className={cn(isScrolled ? 'hidden' : 'block')}>
+                    <h2 className="text-3xl font-headline font-bold">
+                        {`Trắc nghiệm Holland - ${currentGroup.name} (${currentGroupIndex + 1}/${hollandData.length})`}
+                    </h2>
+                    <CardDescription className="text-base mt-2">{currentGroup.description}</CardDescription>
+                    <p className="text-sm text-muted-foreground pt-4">Với mỗi hoạt động dưới đây, hãy chọn mức độ bạn yêu thích khi thực hiện nó.</p>
+                </div>
+                 {/* Compact header, shown when scrolled */}
+                <div className={cn(isScrolled ? 'block' : 'hidden')}>
+                    <h2 className="font-bold text-lg">
+                       {`Holland - ${currentGroup.name.split(' - ')[1]} (${currentGroupIndex + 1}/${hollandData.length})`}
+                    </h2>
                 </div>
               </div>
               <div className="grid grid-cols-5 p-2 font-semibold border-b bg-secondary/50">
@@ -212,7 +218,7 @@ export default function HollandTestPage() {
             </div>
             
             <div className="p-0">
-               {/* Non-sticky header for initial view, content is duplicated but logic is simpler */}
+               {/* Non-sticky header for initial view */}
                 <div className={cn(isScrolled ? "hidden" : "block")}>
                     <CardHeader>
                         <Progress value={progress} className="mb-4 h-2" />
@@ -252,3 +258,5 @@ export default function HollandTestPage() {
     </div>
   );
 }
+
+    

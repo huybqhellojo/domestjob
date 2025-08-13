@@ -5,7 +5,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Scroll, Timer, UserCircle, Briefcase } from 'lucide-react';
+import { Scroll, Timer, UserCircle, Briefcase, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { useEffect, useState, use } from 'react';
@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { jobData } from '@/lib/mock-data';
 import { JobCard } from '@/components/job-card';
+import { Button } from '@/components/ui/button';
 
 
 export default function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -53,7 +54,7 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
     notFound();
   }
   
-  const otherArticles = articles.filter(a => a.slug !== resolvedParams.slug).slice(0, 2);
+  const otherArticles = articles.filter(a => a.slug !== resolvedParams.slug).slice(0, 3);
   const hotJobs = jobData.slice(0, 3); // Demo with first 3 jobs
 
   return (
@@ -85,6 +86,22 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
                   </li>
                 ))}
               </ul>
+               <Card className="mt-8">
+                  <CardHeader>
+                    <CardTitle className="text-base font-bold">Việc làm nổi bật</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {hotJobs.slice(0,2).map(job => (
+                      <Link href="#" key={job.id} className="group block">
+                         <p className="font-semibold text-sm group-hover:text-primary transition-colors line-clamp-2">{job.title}</p>
+                         <p className="text-xs text-muted-foreground">{job.recruiter.company}</p>
+                      </Link>
+                    ))}
+                     <Button asChild variant="outline" size="sm" className="w-full">
+                       <Link href="/jobs">Xem thêm việc làm <ChevronRight /></Link>
+                    </Button>
+                  </CardContent>
+               </Card>
             </div>
           </aside>
 
@@ -106,7 +123,7 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
                 </div>
               </header>
 
-              <div className="relative aspect-video w-full rounded-lg overflow-hidden mb-8">
+              <div className="relative aspect-video w-full rounded-lg overflow-hidden mb-8 shadow-lg">
                  <Image src={article.image} alt={article.title} fill className="object-cover" data-ai-hint={article.dataAiHint} />
               </div>
               
@@ -142,10 +159,15 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
               <div className="space-y-6">
                 {otherArticles.map(other => (
                   <Link href={`/handbook/${other.slug}`} key={other.slug} className="group block">
-                      <div className="relative aspect-video w-full rounded-lg overflow-hidden mb-3">
-                        <Image src={other.image} alt={other.title} fill className="object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={other.dataAiHint} />
-                      </div>
-                      <p className="text-sm font-semibold group-hover:text-primary transition-colors">{other.title}</p>
+                      <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+                        <div className="relative aspect-video w-full">
+                          <Image src={other.image} alt={other.title} fill className="object-cover transition-transform duration-300 group-hover:scale-105" data-ai-hint={other.dataAiHint} />
+                        </div>
+                        <div className="p-4">
+                           <p className="text-sm font-semibold group-hover:text-primary transition-colors line-clamp-2">{other.title}</p>
+                           <p className="text-xs text-muted-foreground mt-1">{other.category}</p>
+                        </div>
+                      </Card>
                   </Link>
                 ))}
               </div>

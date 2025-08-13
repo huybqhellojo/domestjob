@@ -58,17 +58,16 @@ export default function HollandTestPage() {
   }, [ageGroup]);
 
    useEffect(() => {
-    if (!headerRef.current) return;
+    const currentHeader = headerRef.current;
+    if (!currentHeader) return;
     
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // When the original header is no longer visible, set isScrolled to true
         setIsScrolled(!entry.isIntersecting);
       },
       { threshold: 0, rootMargin: "-1px 0px 0px 0px" } 
     );
 
-    const currentHeader = headerRef.current;
     observer.observe(currentHeader);
 
     return () => {
@@ -76,7 +75,7 @@ export default function HollandTestPage() {
         observer.unobserve(currentHeader);
       }
     };
-  }, [hollandData]); // Rerun when data loads
+  }, [hollandData]); // Rerun when data loads, which is stable
 
   if (!hollandData) {
       return (
@@ -191,7 +190,7 @@ export default function HollandTestPage() {
             "sticky top-0 z-20 transition-opacity",
             isScrolled ? "opacity-100" : "opacity-0 pointer-events-none"
         )}>
-            <div className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 rounded-t-lg border-b border-x">
+            <div className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 rounded-t-lg border-b border-x -mb-px">
                  <div className="p-4">
                     <h2 className="font-bold text-lg">
                        {`Holland - ${groupNameShort} (${currentGroupIndex + 1}/${hollandData.length})`}
@@ -206,7 +205,7 @@ export default function HollandTestPage() {
             </div>
         </div>
 
-        <Card className={cn("max-w-4xl mx-auto shadow-xl overflow-visible", isScrolled ? "rounded-t-none" : "")}>
+        <Card className={cn("max-w-4xl mx-auto shadow-xl overflow-visible", isScrolled ? "rounded-t-none border-t-0" : "")}>
            <div ref={headerRef}>
              <CardHeader>
                 <Progress value={progress} className="mb-4 h-2" />

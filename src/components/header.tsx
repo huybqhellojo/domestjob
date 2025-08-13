@@ -58,6 +58,17 @@ const quickAccessLinks = [
 export function Header() {
   const pathname = usePathname();
 
+  const Logo = () => (
+    <span className="text-3xl font-black font-headline">
+      <span className="text-accent">H</span>
+      <span className="text-accent-orange">e</span>
+      <span className="text-primary">l</span>
+      <span className="text-accent-orange">l</span>
+      <span className="text-accent-green">o</span>
+      <span className="text-primary">Job</span>
+    </span>
+  );
+
   const NavLink = ({ href, label, className, icon: Icon, onClick }: { href: string; label: string, className?: string, icon?: React.ElementType, onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void }) => (
     <Link
       href={href}
@@ -86,7 +97,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-3xl font-black font-headline text-primary">HelloJob</span>
+          <Logo />
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm">
           {mainNavLinks.map((link) => (

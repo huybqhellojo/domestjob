@@ -1,5 +1,16 @@
 import Link from 'next/link';
 
+const Logo = () => (
+    <span className="text-2xl font-black font-headline">
+      <span className="text-accent">H</span>
+      <span className="text-accent-orange">e</span>
+      <span className="text-primary">l</span>
+      <span className="text-accent-orange">l</span>
+      <span className="text-accent-green">o</span>
+      <span className="text-primary">Job</span>
+    </span>
+);
+
 export function Footer() {
   return (
     <footer className="bg-secondary text-secondary-foreground hidden md:block">
@@ -7,7 +18,7 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <span className="text-2xl font-black font-headline text-primary">HelloJob</span>
+              <Logo />
             </Link>
             <p className="text-sm text-muted-foreground">
               Giải pháp nhân lực toàn diện cho các khu công nghiệp tại Việt Nam.

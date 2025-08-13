@@ -32,6 +32,17 @@ const quickAccessLinks = [
     { href: '#', label: 'Góp ý', icon: MessageSquareWarning },
 ];
 
+const Logo = () => (
+    <span className="text-2xl font-black font-headline">
+      <span className="text-accent">H</span>
+      <span className="text-accent-orange">e</span>
+      <span className="text-primary">l</span>
+      <span className="text-accent-orange">l</span>
+      <span className="text-accent-green">o</span>
+      <span className="text-primary">Job</span>
+    </span>
+);
+
 export function MobileFooter() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
@@ -70,7 +81,7 @@ export function MobileFooter() {
                   className="flex items-center gap-2"
                   onClick={() => setIsOpen(false)}
                 >
-                  <span className="text-2xl font-black font-headline text-primary">HelloJob</span>
+                  <Logo />
                 </Link>
                 <SheetClose asChild>
                     <Button variant="ghost" size="icon"><X className="h-5 w-5"/></Button>

@@ -18,9 +18,9 @@ type Answers = {
 };
 
 const interestLevels = [
-  { value: 0, label: 'Không thích' },
-  { value: 1, label: 'Không rõ' },
   { value: 2, label: 'Thích' },
+  { value: 1, label: 'Không rõ' },
+  { value: 0, label: 'Không thích' },
 ];
 
 const COLORS = ['#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#AF19FF', '#FF19A6'];

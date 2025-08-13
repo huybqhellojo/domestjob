@@ -1,15 +1,16 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { hollandData, HollandGroup } from '@/lib/holland-data';
+import { hollandDataThcs, hollandDataPtthSv, hollandDataDiLam, type HollandGroup } from '@/lib/holland-data';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell, Tooltip } from 'recharts';
-import { Check, ArrowRight } from 'lucide-react';
+import { Check, ArrowRight, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
@@ -25,11 +26,41 @@ const interestLevels = [
 
 const COLORS = ['#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#AF19FF', '#FF19A6'];
 
+const getHollandDataByAgeGroup = (ageGroup: string | null): HollandGroup[] => {
+    switch (ageGroup) {
+        case 'thcs':
+            return hollandDataThcs;
+        case 'ptth-sv':
+            return hollandDataPtthSv;
+        case 'di-lam':
+            return hollandDataDiLam;
+        default:
+            return hollandDataDiLam; // Default to working adults
+    }
+}
+
 
 export default function HollandTestPage() {
+  const searchParams = useSearchParams();
+  const ageGroup = searchParams.get('ageGroup');
+
+  const [hollandData, setHollandData] = useState<HollandGroup[] | null>(null);
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [showResults, setShowResults] = useState(false);
+
+  useEffect(() => {
+    const data = getHollandDataByAgeGroup(ageGroup);
+    setHollandData(data);
+  }, [ageGroup]);
+
+  if (!hollandData) {
+      return (
+        <div className="bg-secondary py-12 flex items-center justify-center min-h-screen">
+            <Loader2 className="h-16 w-16 animate-spin text-primary" />
+        </div>
+      )
+  }
 
   const totalQuestions = hollandData.reduce((sum, group) => sum + group.questions.length, 0);
   const answeredQuestions = Object.keys(answers).length;
@@ -156,7 +187,7 @@ export default function HollandTestPage() {
                                                 className="flex justify-around items-center w-full"
                                             >
                                                 {interestLevels.map(level => (
-                                                    <div key={`${currentGroup.code}-${q.id}-${level.value}`} className="flex items-center justify-center py-3 w-full">
+                                                    <div key={`${currentGroup.code}-q${q.id}-l${level.value}`} className="flex items-center justify-center py-3 w-full">
                                                         <RadioGroupItem value={level.value.toString()} id={`${currentGroup.code}-q${q.id}-l${level.value}`} />
                                                     </div>
                                                 ))}

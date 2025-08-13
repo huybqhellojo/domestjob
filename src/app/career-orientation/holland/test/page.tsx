@@ -19,9 +19,9 @@ type Answers = {
 };
 
 const interestLevels = [
-  { value: 0, label: 'Không thích' },
-  { value: 1, label: 'Không rõ' },
   { value: 2, label: 'Thích' },
+  { value: 1, label: 'Không rõ' },
+  { value: 0, label: 'Không thích' },
 ];
 
 const COLORS = ['#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#AF19FF', '#FF19A6'];
@@ -161,8 +161,8 @@ export default function HollandTestPage() {
             <Card className="max-w-4xl mx-auto shadow-xl">
                 <CardHeader>
                     <Progress value={progress} className="mb-4 h-2"/>
-                    <CardTitle className="font-headline text-3xl">Trắc nghiệm Holland (Phần {currentGroupIndex + 1}/{hollandData.length})</CardTitle>
-                    <CardDescription className="!mt-2 text-base">{currentGroup.name}: {currentGroup.description}</CardDescription>
+                    <CardTitle className="font-headline text-3xl">Trắc nghiệm Holland - {currentGroup.name} ({currentGroupIndex + 1}/{hollandData.length})</CardTitle>
+                    <CardDescription className="!mt-2 text-base">{currentGroup.description}</CardDescription>
                     <p className="text-sm text-muted-foreground pt-4">Với mỗi hoạt động dưới đây, hãy chọn mức độ bạn yêu thích khi thực hiện nó.</p>
                 </CardHeader>
                 <CardContent className="space-y-6">

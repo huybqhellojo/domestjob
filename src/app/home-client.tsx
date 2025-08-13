@@ -10,8 +10,6 @@ import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectGroup, SelectLabel } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
-import { JobCard } from '@/components/job-card';
-import { jobData } from '@/lib/mock-data';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
 import {
@@ -29,6 +27,7 @@ import {
 } from "@/components/ui/command"
 import { cn } from '@/lib/utils';
 import { industriesByJobType, type Industry } from '@/lib/industry-data';
+import { jobData } from '@/lib/mock-data';
 
 const featuredEmployers = [
   { id: 'samsung', name: 'Samsung', logo: 'https://placehold.co/150x50.png', dataAiHint: 'samsung logo' },
@@ -80,6 +79,15 @@ const japanLocations = {
     ]
 };
 
+const JobCard = ({ job }: { job: {id: string, title: string} }) => (
+    <Card>
+        <CardContent className="p-4">
+            <h3 className="font-bold">{job.title}</h3>
+        </CardContent>
+    </Card>
+);
+
+
 export default function HomeClient() {
   const [selectedJobType, setSelectedJobType] = useState('');
   const [selectedIndustry, setSelectedIndustry] = useState('');
@@ -92,12 +100,21 @@ export default function HomeClient() {
   const finalSearchTerm = searchQuery || selectedIndustry;
 
   useEffect(() => {
-    let jobTypeKey: keyof typeof industriesByJobType | 'Default' = 'Default';
-    if (selectedJobType.includes('Thực tập sinh')) jobTypeKey = 'Thực tập sinh';
-    else if (selectedJobType.includes('Đặc định')) jobTypeKey = 'Kỹ năng đặc định';
-    else if (selectedJobType.includes('Kỹ sư, tri thức')) jobTypeKey = 'Kỹ sư, tri thức';
+    let industries: Industry[] = [];
+    if (!selectedJobType) {
+        // Collect all industries from all types and remove duplicates
+        const allIndustries = Object.values(industriesByJobType).flat();
+        const uniqueIndustries = Array.from(new Map(allIndustries.map(item => [item['slug'], item])).values());
+        industries = uniqueIndustries;
+    } else {
+        let jobTypeKey: keyof typeof industriesByJobType | 'Default' = 'Default';
+        if (selectedJobType.includes('Thực tập sinh')) jobTypeKey = 'Thực tập sinh';
+        else if (selectedJobType.includes('Đặc định')) jobTypeKey = 'Kỹ năng đặc định';
+        else if (selectedJobType.includes('Kỹ sư, tri thức')) jobTypeKey = 'Kỹ sư, tri thức';
+        industries = industriesByJobType[jobTypeKey];
+    }
     
-    setAvailableIndustries(industriesByJobType[jobTypeKey]);
+    setAvailableIndustries(industries);
     setSelectedIndustry('');
     setSearchQuery('');
   }, [selectedJobType]);
@@ -206,7 +223,7 @@ export default function HomeClient() {
                     </div>
                     <div className="grid grid-cols-1 gap-4">
                       {jobData.map((job) => (
-                        <JobCard key={job.id} job={job} />
+                        <JobCard key={job.id} job={job.title} />
                       ))}
                     </div>
                 </div>
@@ -433,7 +450,6 @@ export default function HomeClient() {
                                     role="combobox"
                                     aria-expanded={comboboxOpen}
                                     className="w-full justify-between h-10 font-normal text-sm"
-                                    disabled={!selectedJobType}
                                 >
                                     <span className="truncate">{finalSearchTerm || "Tất cả ngành nghề"}</span>
                                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -531,3 +547,5 @@ export default function HomeClient() {
     </div>
   );
 }
+
+    

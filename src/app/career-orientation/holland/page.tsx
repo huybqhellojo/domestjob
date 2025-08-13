@@ -14,15 +14,13 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
 type Answers = {
-  [key: string]: number; // key is "groupCode-questionId", value is 1-5
+  [key: string]: number; // key is "groupCode-questionId", value is the score
 };
 
 const interestLevels = [
-  { value: 1, label: 'Rất không thích' },
-  { value: 2, label: 'Không thích' },
-  { value: 3, label: 'Bình thường' },
-  { value: 4, label: 'Thích' },
-  { value: 5, label: 'Rất thích' },
+  { value: 0, label: 'Không thích' },
+  { value: 1, label: 'Không rõ' },
+  { value: 2, label: 'Thích' },
 ];
 
 const COLORS = ['#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#AF19FF', '#FF19A6'];
@@ -171,7 +169,7 @@ export default function HollandTestPage() {
                    </div>
                 </CardContent>
                 <CardFooter className="flex justify-end">
-                    <Button onClick={handleNext} disabled={currentGroup.questions.some(q => !answers[`${currentGroup.code}-${q.id}`])}>
+                    <Button onClick={handleNext} disabled={currentGroup.questions.some(q => answers[`${currentGroup.code}-${q.id}`] === undefined)}>
                         {currentGroupIndex < hollandData.length - 1 ? 'Tiếp theo' : 'Xem kết quả'}
                         {currentGroupIndex < hollandData.length - 1 ? <ArrowRight className="ml-2"/> : <Check className="ml-2"/>}
                     </Button>

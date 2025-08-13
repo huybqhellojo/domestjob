@@ -100,7 +100,7 @@ export default function HandbookPage() {
           <h1 className="text-4xl md:text-5xl font-headline font-bold text-accent">
             Cẩm nang HelloJob
           </h1>
-          <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto">
+          <p className="text-lg text-muted-foreground mt-4 max-w-3xl mx-auto whitespace-nowrap">
             Tất cả thông tin bạn cần biết về thị trường lao động, kỹ năng và cuộc sống tại Nhật Bản.
           </p>
         </div>

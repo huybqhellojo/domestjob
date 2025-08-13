@@ -49,8 +49,8 @@ export default function HollandTestPage() {
   const [answers, setAnswers] = useState<Answers>({});
   const [showResults, setShowResults] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const sentinelRef = useRef<HTMLDivElement>(null);
-
+  
+  const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const data = getHollandDataByAgeGroup(ageGroup);
@@ -58,27 +58,25 @@ export default function HollandTestPage() {
   }, [ageGroup]);
 
    useEffect(() => {
+    if (!headerRef.current) return;
+    
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // When the sentinel is out of view (scrolled past), set isScrolled to true.
+        // When the original header is no longer visible, set isScrolled to true
         setIsScrolled(!entry.isIntersecting);
       },
-      // The rootMargin pushes the observation point 1px up from the top of the viewport.
-      // This means the sentinel becomes "not intersecting" as soon as it's scrolled out of view.
-      { rootMargin: `-1px 0px 0px 0px`, threshold: 1.0 }
+      { threshold: 0, rootMargin: "-1px 0px 0px 0px" } 
     );
 
-    const currentSentinel = sentinelRef.current;
-    if (currentSentinel) {
-      observer.observe(currentSentinel);
-    }
+    const currentHeader = headerRef.current;
+    observer.observe(currentHeader);
 
     return () => {
-      if (currentSentinel) {
-        observer.unobserve(currentSentinel);
+      if (currentHeader) {
+        observer.unobserve(currentHeader);
       }
     };
-  }, []);
+  }, [hollandData]); // Rerun when data loads
 
   if (!hollandData) {
       return (
@@ -182,50 +180,52 @@ export default function HollandTestPage() {
     );
   }
 
+  const groupNameShort = currentGroup.name.split(' - ')[1];
+
   return (
     <div className="bg-secondary py-12">
       <div className="container mx-auto px-4 md:px-6">
-        {/* This empty div is the sentinel for the IntersectionObserver */}
-        <div ref={sentinelRef}></div>
-        <Card className="max-w-4xl mx-auto shadow-xl overflow-visible">
-            
-            {/* Sticky Header */}
-            <div className={cn(
-              "sticky z-10 top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
-            )}>
-              <div className="p-4 border-b">
-                 {/* Full header, shown when not scrolled */}
-                <div className={cn(isScrolled ? 'hidden' : 'block')}>
-                    <h2 className="text-3xl font-headline font-bold">
-                        {`Trắc nghiệm Holland - ${currentGroup.name} (${currentGroupIndex + 1}/${hollandData.length})`}
-                    </h2>
-                    <CardDescription className="text-base mt-2">{currentGroup.description}</CardDescription>
-                    <p className="text-sm text-muted-foreground pt-4">Với mỗi hoạt động dưới đây, hãy chọn mức độ bạn yêu thích khi thực hiện nó.</p>
-                </div>
-                 {/* Compact header, shown when scrolled */}
-                <div className={cn(isScrolled ? 'block' : 'hidden')}>
+        
+         {/* Sticky Header - This is shown only when scrolled */}
+        <div className={cn(
+            "sticky top-0 z-20 transition-opacity",
+            isScrolled ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}>
+            <div className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 rounded-t-lg border-b border-x">
+                 <div className="p-4">
                     <h2 className="font-bold text-lg">
-                       {`Holland - ${currentGroup.name.split(' - ')[1]} (${currentGroupIndex + 1}/${hollandData.length})`}
+                       {`Holland - ${groupNameShort} (${currentGroupIndex + 1}/${hollandData.length})`}
                     </h2>
+                 </div>
+                 <div className="grid grid-cols-5 p-2 font-semibold border-t bg-secondary/50">
+                    <div className="col-span-2 text-left pl-3">Hoạt động</div>
+                    {interestLevels.map(level => (
+                        <div key={level.value} className="text-center text-xs md:text-sm whitespace-nowrap">{level.label}</div>
+                    ))}
                 </div>
-              </div>
-              <div className="grid grid-cols-5 p-2 font-semibold border-b bg-secondary/50">
+            </div>
+        </div>
+
+        <Card className={cn("max-w-4xl mx-auto shadow-xl overflow-visible", isScrolled ? "rounded-t-none" : "")}>
+           <div ref={headerRef}>
+             <CardHeader>
+                <Progress value={progress} className="mb-4 h-2" />
+                 <h2 className="text-3xl font-headline font-bold">
+                    {`Trắc nghiệm Holland - ${currentGroup.name} (${currentGroupIndex + 1}/${hollandData.length})`}
+                </h2>
+                <CardDescription className="text-base mt-2">{currentGroup.description}</CardDescription>
+                <p className="text-sm text-muted-foreground pt-4">Với mỗi hoạt động dưới đây, hãy chọn mức độ bạn yêu thích khi thực hiện nó.</p>
+            </CardHeader>
+             <div className="grid grid-cols-5 p-2 font-semibold border-t border-b bg-secondary/50">
                   <div className="col-span-2 text-left pl-3">Hoạt động</div>
                   {interestLevels.map(level => (
                      <div key={level.value} className="text-center text-xs md:text-sm whitespace-nowrap">{level.label}</div>
                   ))}
               </div>
-            </div>
+           </div>
             
-            <div className="p-0">
-               {/* Non-sticky header for initial view */}
-                <div className={cn(isScrolled ? "hidden" : "block")}>
-                    <CardHeader>
-                        <Progress value={progress} className="mb-4 h-2" />
-                    </CardHeader>
-                </div>
-                
-                <div className="min-w-full">
+            <CardContent className="p-0">
+               <div className="min-w-full">
                    {currentGroup.questions.map((q, index) => (
                     <div key={`${currentGroup.code}-${q.id}`} className={cn("grid grid-cols-5 items-center border-b", index % 2 === 1 ? 'bg-secondary/50' : 'bg-background')}>
                         <div className="col-span-2 p-3 text-sm">{q.text}</div>
@@ -245,7 +245,7 @@ export default function HollandTestPage() {
                     </div>
                    ))}
                 </div>
-            </div>
+            </CardContent>
 
           <CardFooter className="flex justify-end mt-4 p-4">
             <Button onClick={handleNext} disabled={currentGroup.questions.some(q => answers[`${currentGroup.code}-${q.id}`] === undefined)}>
@@ -258,5 +258,3 @@ export default function HollandTestPage() {
     </div>
   );
 }
-
-    

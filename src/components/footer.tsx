@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 
 export function Footer() {
   return (
@@ -8,7 +7,7 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
-               <Image src="/logo.svg" alt="HelloJob Logo" width={140} height={36} className="h-9" />
+              <span className="text-2xl font-black font-headline text-primary">HelloJob</span>
             </Link>
             <p className="text-sm text-muted-foreground">
               Giải pháp nhân lực toàn diện cho các khu công nghiệp tại Việt Nam.

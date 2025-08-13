@@ -13,7 +13,6 @@ import {
   SheetClose,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import Image from 'next/image';
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
@@ -71,7 +70,7 @@ export function MobileFooter() {
                   className="flex items-center gap-2"
                   onClick={() => setIsOpen(false)}
                 >
-                  <Image src="/logo.svg" alt="HelloJob Logo" width={140} height={36} className="h-9" />
+                  <span className="text-2xl font-black font-headline text-primary">HelloJob</span>
                 </Link>
                 <SheetClose asChild>
                     <Button variant="ghost" size="icon"><X className="h-5 w-5"/></Button>

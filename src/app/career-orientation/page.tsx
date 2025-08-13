@@ -10,7 +10,7 @@ const tests = [
     icon: BrainCircuit,
     title: 'Trắc nghiệm Sở thích nghề nghiệp Holland',
     description: 'Khám phá 6 nhóm sở thích nghề nghiệp tương ứng với bạn (Realistic, Investigative, Artistic, Social, Enterprising, Conventional) để tìm ra môi trường làm việc phù hợp nhất.',
-    link: '#',
+    link: '/career-orientation/holland',
     color: 'accent-orange'
   },
   {

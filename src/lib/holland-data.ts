@@ -1,0 +1,141 @@
+
+export type HollandQuestion = {
+  id: number;
+  text: string;
+};
+
+export type HollandGroup = {
+  code: 'R' | 'I' | 'A' | 'S' | 'E' | 'C';
+  name: string;
+  description: string;
+  questions: HollandQuestion[];
+};
+
+export const hollandData: HollandGroup[] = [
+  {
+    code: 'R',
+    name: 'Realistic - Nhóm Thực tế',
+    description: 'Những người thuộc nhóm này có sở thích và khả năng về kỹ thuật, máy móc, công nghệ. Họ thích làm việc với các vật thể cụ thể, cầm nắm được.',
+    questions: [
+        { id: 1, text: 'Sửa chữa các thiết bị điện, điện tử.' },
+        { id: 2, text: 'Làm các công việc về cơ khí như tiện, phay, hàn.' },
+        { id: 3, text: 'Lái các loại xe lớn hoặc máy móc công trình.' },
+        { id: 4, text: 'Làm việc ngoài trời (ví dụ: xây dựng, nông nghiệp).' },
+        { id: 5, text: 'Chăm sóc, huấn luyện động vật.' },
+        { id: 6, text: 'Lắp ráp, chế tạo các mô hình hoặc đồ vật.' },
+        { id: 7, text: 'Sử dụng các công cụ, dụng cụ cầm tay.' },
+        { id: 8, text: 'Đọc bản vẽ kỹ thuật.' },
+        { id: 9, text: 'Làm công việc về mộc, đồ gỗ.' },
+        { id: 10, text: 'Trồng cây, làm vườn.' },
+        { id: 11, text: 'Sửa chữa xe máy, ô tô.' },
+        { id: 12, text: 'Tham gia các hoạt động thể chất, thể thao.' },
+        { id: 13, text: 'Làm các công việc đòi hỏi sức mạnh thể chất.' },
+        { id: 14, text: 'Thám hiểm, đi phượt hoặc các hoạt động ngoài thiên nhiên.' },
+    ],
+  },
+  {
+    code: 'I',
+    name: 'Investigative - Nhóm Nghiên cứu',
+    description: 'Những người thuộc nhóm này có thiên hướng về quan sát, tìm tòi, khám phá. Họ thích làm việc với các ý tưởng, dữ liệu và giải quyết các vấn đề phức tạp.',
+    questions: [
+        { id: 1, text: 'Thực hiện các thí nghiệm khoa học.' },
+        { id: 2, text: 'Đọc sách, tài liệu về các chủ đề khoa học, kỹ thuật.' },
+        { id: 3, text: 'Làm việc trong phòng thí nghiệm.' },
+        { id: 4, text: 'Phân tích dữ liệu, thống kê.' },
+        { id: 5, text: 'Giải các bài toán logic, câu đố trí tuệ.' },
+        { id: 6, text: 'Nghiên cứu về y học, sinh học.' },
+        { id: 7, text: 'Lập trình máy tính, phát triển phần mềm.' },
+        { id: 8, text: 'Tìm hiểu về vũ trụ, thiên văn học.' },
+        { id: 9, text: 'Viết báo cáo, tài liệu phân tích.' },
+        { id: 10, text: 'Tìm hiểu, khám phá các nguyên lý hoạt động của sự vật.' },
+        { id: 11, text: 'Sử dụng các công cụ phân tích phức tạp.' },
+        { id: 12, text: 'Làm việc độc lập và cần sự tập trung cao độ.' },
+        { id: 13, text: 'Tìm hiểu các chủ đề trừu tượng, lý thuyết.' },
+        { id: 14, text: 'Điều tra, tìm ra sự thật của một vấn đề.' },
+    ],
+  },
+  {
+    code: 'A',
+    name: 'Artistic - Nhóm Nghệ thuật',
+    description: 'Những người thuộc nhóm này có khả năng sáng tạo, trực giác và trí tưởng tượng phong phú. Họ thích làm việc trong các môi trường không có nhiều quy tắc và thể hiện bản thân qua các sản phẩm nghệ thuật.',
+    questions: [
+        { id: 1, text: 'Vẽ, điêu khắc hoặc nặn tượng.' },
+        { id: 2, text: 'Chơi một loại nhạc cụ.' },
+        { id: 3, text: 'Sáng tác nhạc, viết bài hát.' },
+        { id: 4, text: 'Viết văn, làm thơ, viết kịch bản.' },
+        { id: 5, text: 'Chụp ảnh nghệ thuật.' },
+        { id: 6, text: 'Thiết kế thời trang, thiết kế đồ họa.' },
+        { id: 7, text: 'Diễn xuất, đóng kịch, làm phim.' },
+        { id: 8, text: 'Trang trí nội thất, sắp đặt không gian.' },
+        { id: 9, text: 'Ca hát, nhảy múa.' },
+        { id: 10, text: 'Tham gia các buổi triển lãm nghệ thuật, hòa nhạc.' },
+        { id: 11, text: 'Làm các đồ thủ công, handmade.' },
+        { id: 12, text: 'Nghĩ ra những ý tưởng mới, độc đáo.' },
+        { id: 13, text: 'Thể hiện cảm xúc, suy nghĩ của bản thân một cách tự do.' },
+        { id: 14, text: 'Làm việc trong một môi trường linh hoạt, không gò bó.' },
+    ],
+  },
+  {
+    code: 'S',
+    name: 'Social - Nhóm Xã hội',
+    description: 'Những người thuộc nhóm này thích làm việc với con người, giúp đỡ, hướng dẫn và chăm sóc người khác. Họ có khả năng về giao tiếp và thấu cảm.',
+    questions: [
+        { id: 1, text: 'Dạy học hoặc hướng dẫn người khác.' },
+        { id: 2, text: 'Chăm sóc người bệnh, người già, trẻ em.' },
+        { id: 3, text: 'Lắng nghe và cho người khác lời khuyên.' },
+        { id: 4, text: 'Làm công việc tình nguyện, từ thiện.' },
+        { id: 5, text: 'Làm việc nhóm, hợp tác với nhiều người.' },
+        { id: 6, text: 'Tổ chức các sự kiện, hoạt động cộng đồng.' },
+        { id: 7, text: 'Tư vấn tâm lý, giải quyết mâu thuẫn.' },
+        { id: 8, text: 'Gặp gỡ, nói chuyện với những người mới.' },
+        { id: 9, text: 'Làm trong ngành dịch vụ khách hàng.' },
+        { id: 10, text: 'Giúp đỡ bạn bè, đồng nghiệp khi họ gặp khó khăn.' },
+        { id: 11, text: 'Thuyết trình trước đám đông.' },
+        { id: 12, text: 'Xây dựng các mối quan hệ xã hội.' },
+        { id: 13, text: 'Phỏng vấn, tuyển dụng nhân sự.' },
+        { id: 14, text: 'Làm trong lĩnh vực y tế công cộng, phúc lợi xã hội.' },
+    ],
+  },
+  {
+    code: 'E',
+    name: 'Enterprising - Nhóm Kinh doanh',
+    description: 'Những người thuộc nhóm này có khả năng lãnh đạo, thuyết phục và gây ảnh hưởng đến người khác. Họ thích kinh doanh, quản lý và đặt ra các mục tiêu để đạt được thành công.',
+    questions: [
+        { id: 1, text: 'Bán một sản phẩm hoặc dịch vụ.' },
+        { id: 2, text: 'Quản lý một đội nhóm, dự án.' },
+        { id: 3, text: 'Thuyết phục người khác đồng ý với ý kiến của mình.' },
+        { id: 4, text: 'Phát biểu, diễn thuyết trước công chúng.' },
+        { id: 5, text: 'Khởi nghiệp, bắt đầu một công việc kinh doanh riêng.' },
+        { id: 6, text: 'Đàm phán, thương lượng hợp đồng.' },
+        { id: 7, text: 'Đặt ra các mục tiêu và lập kế hoạch để đạt được chúng.' },
+        { id: 8, text: 'Tìm kiếm cơ hội để kiếm tiền, đầu tư.' },
+        { id: 9, text: 'Tổ chức, điều hành một sự kiện hoặc một doanh nghiệp.' },
+        { id: 10, text: 'Chấp nhận rủi ro để có được phần thưởng lớn.' },
+        { id: 11, text: 'Làm việc trong môi trường cạnh tranh.' },
+        { id: 12, text: 'Gặp gỡ những người có quyền lực, tầm ảnh hưởng.' },
+        { id: 13, text: 'Đưa ra các quyết định quan trọng.' },
+        { id: 14, text: 'Làm trưởng một câu lạc bộ hoặc tổ chức.' },
+    ],
+  },
+  {
+    code: 'C',
+    name: 'Conventional - Nhóm Quy củ',
+    description: 'Những người thuộc nhóm này có khả năng làm việc với các con số, dữ liệu và làm theo các chỉ dẫn, quy trình có sẵn. Họ thích sự rõ ràng, chính xác và có tổ chức.',
+    questions: [
+        { id: 1, text: 'Làm việc với các con số, bảng tính (excel).' },
+        { id: 2, text: 'Sắp xếp giấy tờ, tài liệu một cách ngăn nắp, có hệ thống.' },
+        { id: 3, text: 'Làm các công việc đòi hỏi sự chi tiết, tỉ mỉ.' },
+        { id: 4, text: 'Lập kế hoạch, lên lịch trình công việc.' },
+        { id: 5, text: 'Làm công việc về kế toán, kiểm toán.' },
+        { id: 6, text: 'Làm việc trong môi trường văn phòng, có tổ chức.' },
+        { id: 7, text: 'Tuân theo các quy tắc, quy định một cách nghiêm ngặt.' },
+        { id: 8, text: 'Kiểm tra lại công việc để đảm bảo không có sai sót.' },
+        { id: 9, text: 'Nhập liệu, xử lý dữ liệu trên máy tính.' },
+        { id: 10, text: 'Làm việc với các hệ thống phân loại, lưu trữ thông tin.' },
+        { id: 11, text: 'Soạn thảo văn bản, hợp đồng, báo cáo.' },
+        { id: 12, text: 'Làm công việc có tính lặp đi lặp lại.' },
+        { id: 13, text: 'Làm thủ quỹ, quản lý tài chính.' },
+        { id: 14, text: 'Làm các công việc hành chính, văn thư.' },
+    ],
+  },
+];

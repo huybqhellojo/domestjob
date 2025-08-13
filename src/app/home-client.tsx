@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Briefcase, Users, ArrowRight, BookOpen, Search, Map, GraduationCap, Building, MapPin, TrendingUp, Cpu, ListFilter, ChevronLeft, ChevronsUpDown, Check } from 'lucide-react';
+import { Briefcase, Users, ArrowRight, BookOpen, Search, Map as MapIcon, GraduationCap, Building, MapPin, TrendingUp, Cpu, ListFilter, ChevronLeft, ChevronsUpDown, Check } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
@@ -28,6 +28,8 @@ import {
 import { cn } from '@/lib/utils';
 import { industriesByJobType, type Industry } from '@/lib/industry-data';
 import { jobData } from '@/lib/mock-data';
+import { JobCard } from '@/components/job-card';
+
 
 const featuredEmployers = [
   { id: 'samsung', name: 'Samsung', logo: 'https://placehold.co/150x50.png', dataAiHint: 'samsung logo' },
@@ -78,14 +80,6 @@ const japanLocations = {
         'Aichi', 'Akita', 'Aomori', 'Chiba', 'Ehime', 'Fukui', 'Fukuoka', 'Fukushima', 'Gifu', 'Gunma', 'Hiroshima', 'Hokkaido', 'Hyogo', 'Ibaraki', 'Ishikawa', 'Iwate', 'Kagawa', 'Kagoshima', 'Kanagawa', 'Kochi', 'Kumamoto', 'Kyoto', 'Mie', 'Miyagi', 'Miyazaki', 'Nagano', 'Nagasaki', 'Nara', 'Niigata', 'Oita', 'Okayama', 'Okinawa', 'Osaka', 'Saga', 'Saitama', 'Shiga', 'Shimane', 'Shizuoka', 'Tochigi', 'Tokushima', 'Tokyo', 'Tottori', 'Toyama', 'Wakayama', 'Yamagata', 'Yamaguchi', 'Yamanashi'
     ]
 };
-
-const JobCard = ({ job }: { job: {id: string, title: string} }) => (
-    <Card>
-        <CardContent className="p-4">
-            <h3 className="font-bold">{job.title}</h3>
-        </CardContent>
-    </Card>
-);
 
 
 export default function HomeClient() {
@@ -223,7 +217,7 @@ export default function HomeClient() {
                     </div>
                     <div className="grid grid-cols-1 gap-4">
                       {jobData.map((job) => (
-                        <JobCard key={job.id} job={job.title} />
+                        <JobCard key={job.id} job={job} />
                       ))}
                     </div>
                 </div>
@@ -245,7 +239,7 @@ export default function HomeClient() {
             <Card className="text-center shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:-translate-y-2">
               <CardHeader>
                 <div className="mx-auto bg-green-100 rounded-full p-4 w-fit">
-                  <Map className="h-10 w-10 text-green-600" />
+                  <MapIcon className="h-10 w-10 text-green-600" />
                 </div>
                 <CardTitle className="font-headline mt-4">Lộ trình rõ ràng</CardTitle>
               </CardHeader>
@@ -547,5 +541,3 @@ export default function HomeClient() {
     </div>
   );
 }
-
-    

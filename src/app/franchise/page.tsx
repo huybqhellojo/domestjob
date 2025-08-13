@@ -81,7 +81,7 @@ export default function FranchisePage() {
                         </DialogFooter>
                     </DialogContent>
                 </Dialog>
-                <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white/20 hover:text-white">
+                <Button asChild size="lg" className="bg-accent-orange text-white hover:bg-accent-orange/90">
                     <Link href="/post-job"><Briefcase/> Đăng việc làm</Link>
                 </Button>
             </div>

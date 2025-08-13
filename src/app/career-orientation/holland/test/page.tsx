@@ -65,7 +65,7 @@ export default function HollandTestPage() {
       ([entry]) => {
         setIsScrolled(!entry.isIntersecting);
       },
-      { rootMargin: "0px 0px 0px 0px", threshold: 1.0 } 
+      { rootMargin: "-1px 0px 0px 0px", threshold: 1.0 } 
     );
 
     observer.observe(currentHeader);
@@ -226,8 +226,11 @@ export default function HollandTestPage() {
               </p>
             </CardHeader>
 
-            {/* Static Header - visible on desktop before scroll, always on mobile */}
-            <div className="hidden md:grid grid-cols-5 p-2 font-semibold border-t border-b bg-secondary/50">
+            {/* Static Header - visible on desktop before scroll, and on mobile when not scrolled */}
+             <div className={cn(
+                "grid-cols-5 p-2 font-semibold border-t border-b bg-secondary/50",
+                 isScrolled ? "hidden md:grid" : "grid"
+             )}>
               <div className="col-span-2 text-left pl-3">Hoạt động</div>
               {interestLevels.map((level) => (
                 <div key={level.value} className="text-center text-xs md:text-sm whitespace-nowrap">

@@ -60,12 +60,9 @@ export default function HollandTestPage() {
    useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // When the sentinel is not intersecting (i.e., scrolled past), set isScrolled to true
         setIsScrolled(!entry.isIntersecting);
       },
-      // rootMargin: negative top margin means the sentinel is considered "out of view" 
-      // when it's that many pixels above the viewport top.
-      { rootMargin: `-73px 0px 0px 0px`, threshold: 1.0 }
+      { rootMargin: `0px 0px 0px 0px`, threshold: 1.0 }
     );
 
     const currentSentinel = sentinelRef.current;
@@ -187,7 +184,7 @@ export default function HollandTestPage() {
       <div className="container mx-auto px-4 md:px-6">
         <Card className="max-w-4xl mx-auto shadow-xl overflow-visible">
             {/* This empty div is the sentinel for the IntersectionObserver */}
-            <div ref={sentinelRef} className="h-px"></div>
+            <div ref={sentinelRef} className="h-px -mt-px"></div>
           
             {/* Sticky Header */}
             <div className={cn(
@@ -195,12 +192,12 @@ export default function HollandTestPage() {
                isScrolled ? "shadow-md" : ""
             )}>
               <div className="p-4 border-b">
-                <h2 className={cn("font-bold text-lg transition-all duration-200", isScrolled ? 'text-lg' : 'text-3xl font-headline')}>
-                  {isScrolled ? `Holland - ${currentGroup.name} (${currentGroupIndex + 1}/${hollandData.length})` : `Trắc nghiệm Holland - ${currentGroup.name} (${currentGroupIndex + 1}/${hollandData.length})`}
+                <h2 className={cn("font-bold transition-all duration-200", isScrolled ? 'text-lg' : 'text-3xl font-headline')}>
+                  {isScrolled ? `Holland - ${currentGroup.name.split(' - ')[1]} (${currentGroupIndex + 1}/${hollandData.length})` : `Trắc nghiệm Holland - ${currentGroup.name} (${currentGroupIndex + 1}/${hollandData.length})`}
                 </h2>
                 <div className={cn(
                     "transition-all duration-300 ease-in-out overflow-hidden",
-                    isScrolled ? "max-h-0 opacity-0" : "max-h-40 opacity-100 mt-2"
+                    isScrolled ? "max-h-0 opacity-0 mt-0" : "max-h-40 opacity-100 mt-2"
                 )}>
                   <CardDescription className="text-base">{currentGroup.description}</CardDescription>
                   <p className="text-sm text-muted-foreground pt-4">Với mỗi hoạt động dưới đây, hãy chọn mức độ bạn yêu thích khi thực hiện nó.</p>
@@ -244,7 +241,7 @@ export default function HollandTestPage() {
                 </div>
             </div>
 
-          <CardFooter className="flex justify-end mt-4">
+          <CardFooter className="flex justify-end mt-4 p-4">
             <Button onClick={handleNext} disabled={currentGroup.questions.some(q => answers[`${currentGroup.code}-${q.id}`] === undefined)}>
               {currentGroupIndex < hollandData.length - 1 ? 'Tiếp theo' : 'Xem kết quả'}
               {currentGroupIndex < hollandData.length - 1 ? <ArrowRight className="ml-2" /> : <Check className="ml-2" />}

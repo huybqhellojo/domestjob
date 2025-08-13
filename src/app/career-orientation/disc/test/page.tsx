@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { discQuestions, discProfile, type DISCGroup } from '@/lib/disc-data';
 import { BarChart as RechartsBarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Check, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 type Answers = {
   most: { [key: number]: DISCGroup }; // key is questionId, value is the group of the chosen word
@@ -151,13 +152,6 @@ export default function DiscTestPage() {
               </div>
 
             </CardContent>
-             <CardFooter className="flex justify-center">
-                <Button asChild size="lg">
-                    <Link href="/jobs">
-                        Tìm việc làm phù hợp <ArrowRight className="ml-2" />
-                    </Link>
-                </Button>
-            </CardFooter>
           </Card>
         </div>
       </div>

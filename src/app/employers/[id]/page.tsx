@@ -98,9 +98,6 @@ export default function EmployerDetailPage({ params }: { params: { id: string } 
                                 </li>
                             ))}
                         </ul>
-                         <Button asChild className="w-full mt-6 bg-accent-orange text-white hover:bg-accent-orange/90">
-                            <Link href="/jobs">Xem tất cả việc làm <Briefcase/></Link>
-                        </Button>
                     </CardContent>
                 </Card>
             </div>

@@ -15,7 +15,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/learn',
     '/handbook',
     '/about',
-    '/jobs',
     '/candidate-profile',
     '/employers',
     '/franchise',

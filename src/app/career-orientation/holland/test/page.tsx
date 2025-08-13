@@ -166,13 +166,6 @@ export default function HollandTestPage() {
                 <p className="text-center text-muted-foreground">Dựa trên kết quả, bạn có thể phù hợp với các công việc liên quan đến kỹ thuật, máy móc, và các hoạt động thực tế. Hãy tìm kiếm các việc làm trong ngành cơ khí, xây dựng, nông nghiệp tại Nhật Bản.</p>
               </div>
             </CardContent>
-            <CardFooter className="flex justify-center">
-                <Button asChild size="lg">
-                    <Link href="/jobs">
-                        Tìm việc làm phù hợp <ArrowRight className="ml-2" />
-                    </Link>
-                </Button>
-            </CardFooter>
           </Card>
         </div>
       </div>
@@ -183,12 +176,12 @@ export default function HollandTestPage() {
 
   return (
     <div className="bg-secondary py-12">
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="relative max-w-4xl mx-auto">
         <div className="relative max-w-4xl mx-auto">
           {/* Sticky Header - This is shown only when scrolled */}
           <div
             className={cn(
-              'sticky top-0 z-20 w-full transition-opacity',
+              'sticky top-0 z-20 w-full transition-opacity max-w-4xl mx-auto',
               isScrolled ? 'opacity-100' : 'opacity-0 pointer-events-none'
             )}
           >
@@ -229,7 +222,8 @@ export default function HollandTestPage() {
             {/* Static Header - visible on desktop before scroll, and on mobile when not scrolled */}
              <div className={cn(
                 "grid-cols-5 p-2 font-semibold border-t border-b bg-secondary/50",
-                 isScrolled ? "hidden md:grid" : "grid"
+                 isScrolled ? "hidden md:grid" : "grid",
+                 !isScrolled ? "grid" : "hidden md:grid"
              )}>
               <div className="col-span-2 text-left pl-3">Hoạt động</div>
               {interestLevels.map((level) => (

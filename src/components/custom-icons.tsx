@@ -24,3 +24,17 @@ export const PdfIcon = ({className, ...props}: React.SVGProps<SVGSVGElement>) =>
         <path d="M22 7V17H20.5" stroke="#FF0000" strokeWidth="1.5"/>
     </svg>
 );
+
+export const VnFlagIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" {...props}>
+    <rect fill="#da251d" width="900" height="600"/>
+    <path fill="#ff0" d="m450 152l-117.6 362.4l307.7-224H142.3l307.7 224z"/>
+  </svg>
+);
+
+export const JpFlagIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" {...props}>
+    <rect fill="#fff" width="900" height="600"/>
+    <circle fill="#bc002d" cx="450" cy="300" r="180"/>
+  </svg>
+);

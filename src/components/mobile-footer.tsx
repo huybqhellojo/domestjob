@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, Sparkles, User, LogOut, PlusCircle, Shield, FileText, MessageSquareWarning, LayoutGrid, X, Compass, BookOpen, LifeBuoy, Info, Handshake } from 'lucide-react';
+import { Home, Sparkles, User, LogOut, PlusCircle, Shield, FileText, MessageSquareWarning, LayoutGrid, X, Compass, BookOpen, LifeBuoy, Info, Handshake, ChevronDown } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import {
@@ -17,6 +17,7 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { DropdownMenuSeparator } from './ui/dropdown-menu';
+import { VnFlagIcon, JpFlagIcon } from './custom-icons';
 
 
 const quickAccessLinks = [
@@ -125,6 +126,17 @@ export function MobileFooter() {
               
 
               <div className="mt-auto p-4">
+                  <DropdownMenuSeparator />
+                  <div className="space-y-2">
+                     <Button variant="ghost" className="w-full justify-start gap-2 text-foreground/80">
+                        <VnFlagIcon className="h-5 w-5 rounded-sm" />
+                        Tiếng Việt
+                     </Button>
+                     <Button variant="ghost" className="w-full justify-start gap-2 text-foreground/80">
+                        <JpFlagIcon className="h-5 w-5 rounded-sm" />
+                        日本語
+                     </Button>
+                  </div>
                   <DropdownMenuSeparator />
                   <div className="flex items-center justify-between mt-4">
                       <Button variant="ghost" className="text-foreground/80" onClick={() => setIsOpen(false)}>

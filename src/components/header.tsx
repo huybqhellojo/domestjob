@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, LayoutGrid, Sparkles, BookOpen, Compass, Home, Info, Handshake } from 'lucide-react';
+import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, LayoutGrid, Sparkles, BookOpen, Compass, Home, Info, Handshake, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
@@ -24,6 +24,7 @@ import {
   DropdownMenuGroup
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { VnFlagIcon, JpFlagIcon } from './custom-icons';
 
 const mainNavLinks = [
   { href: '/', label: 'Trang chủ'},
@@ -53,6 +54,30 @@ const quickAccessLinks = [
     { href: '/about', label: 'Giới thiệu', icon: Info },
     { href: '#', label: 'Góp ý', icon: MessageSquareWarning },
 ];
+
+const LanguageSwitcher = () => {
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center gap-2">
+                    <VnFlagIcon className="h-5 w-5 rounded-sm" />
+                    <span className="hidden sm:inline">Tiếng Việt</span>
+                    <ChevronDown className="h-4 w-4 opacity-50" />
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+                <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
+                    <VnFlagIcon className="h-5 w-5 rounded-sm" />
+                    <span>Tiếng Việt</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="flex items-center gap-2 cursor-pointer">
+                    <JpFlagIcon className="h-5 w-5 rounded-sm" />
+                    <span>日本語</span>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    );
+};
 
 
 export function Header() {
@@ -111,9 +136,7 @@ export function Header() {
           ))}
         </nav>
         <div className="hidden md:flex items-center gap-2">
-            <Button asChild variant="outline">
-              <Link href="/candidate-profile">Hồ sơ của tôi</Link>
-            </Button>
+            <LanguageSwitcher />
             
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

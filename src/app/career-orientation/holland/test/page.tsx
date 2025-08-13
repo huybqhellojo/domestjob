@@ -49,7 +49,7 @@ export default function HollandTestPage() {
   const [answers, setAnswers] = useState<Answers>({});
   const [showResults, setShowResults] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
 
 
   useEffect(() => {
@@ -58,20 +58,23 @@ export default function HollandTestPage() {
   }, [ageGroup]);
 
    useEffect(() => {
-    const cardElement = cardRef.current;
-    if (!cardElement) return;
+    const headerElement = headerRef.current;
+    if (!headerElement) return;
 
-    const handleScroll = () => {
-      const { top } = cardElement.getBoundingClientRect();
-      // Stick when the top of the card goes above the viewport
-      setIsScrolled(top < 0);
-    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // When the header is no longer intersecting (i.e., scrolled out of view), set isScrolled to true
+        setIsScrolled(!entry.isIntersecting);
+      },
+      { rootMargin: "0px", threshold: 1.0 }
+    );
 
-    window.addEventListener('scroll', handleScroll);
+    observer.observe(headerElement);
+
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
     };
-  }, [hollandData]);
+  }, [hollandData, currentGroupIndex]);
 
   if (!hollandData) {
       return (
@@ -97,6 +100,7 @@ export default function HollandTestPage() {
   const handleNext = () => {
     if (currentGroupIndex < hollandData.length - 1) {
       setCurrentGroupIndex(prev => prev + 1);
+      window.scrollTo(0, 0); // Scroll to top on next group
     } else {
       setShowResults(true);
     }
@@ -177,24 +181,26 @@ export default function HollandTestPage() {
   return (
     <div className="bg-secondary py-12">
         <div className="container mx-auto px-4 md:px-6">
-            <Card ref={cardRef} className="max-w-4xl mx-auto shadow-xl">
+            <Card className="max-w-4xl mx-auto shadow-xl">
                 <CardHeader>
                     <Progress value={progress} className="mb-4 h-2"/>
-                     <div className={cn('transition-all duration-300', isScrolled ? 'h-0 overflow-hidden opacity-0' : 'h-auto opacity-100')}>
+                     <div ref={headerRef}>
                         <CardTitle className="font-headline text-3xl">Trắc nghiệm Holland - {currentGroup.name} ({currentGroupIndex + 1}/{hollandData.length})</CardTitle>
                         <CardDescription className="!mt-2 text-base">{currentGroup.description}</CardDescription>
                         <p className="text-sm text-muted-foreground pt-4">Với mỗi hoạt động dưới đây, hãy chọn mức độ bạn yêu thích khi thực hiện nó.</p>
                     </div>
                 </CardHeader>
-                 <div className={cn("sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60", isScrolled ? 'block' : 'hidden')}>
+
+                 <div className={cn("sticky z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60", isScrolled ? 'top-0' : '-top-40')}>
                      <div className="p-4 border-b">
                         <h2 className="font-bold text-lg">Holland - {currentGroup.name} ({currentGroupIndex + 1}/{hollandData.length})</h2>
                      </div>
                 </div>
+
                 <CardContent className="space-y-6">
                    <div className="overflow-x-auto">
                         <table className="w-full border-collapse">
-                            <thead className="sticky top-[73px] bg-background shadow-sm z-10">
+                            <thead className={cn("sticky z-10 bg-background shadow-sm", isScrolled ? 'top-[73px]' : '-top-40')}>
                                 <tr className="border-b">
                                     <th className="text-left p-2 font-semibold">Hoạt động</th>
                                     {interestLevels.map(level => (

@@ -26,6 +26,8 @@ body {
     --accent-orange: 45 89% 56%; /* #F2B92A - Cam */
     --accent-blue: 196 84% 56%; /* #19A6DF - Xanh Nhạt */
     --accent-green: 74 46% 54%; /* #AFC536 - Xanh Lá */
+    --accent-red: 0 84% 60%; /* #F14A4A - Đỏ */
+    --accent-yellow: 45 89% 56%; /* #F2B92A - Vàng/Cam */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 210 29% 88%;
@@ -56,6 +58,8 @@ body {
     --accent-orange: 45 89% 56%;
     --accent-blue: 196 84% 56%;
     --accent-green: 74 46% 54%;
+    --accent-red: 0 84% 60%;
+    --accent-yellow: 45 89% 56%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 217 33% 17%;
@@ -116,6 +120,12 @@ body {
   .bg-accent-green {
     background-color: hsl(var(--accent-green));
   }
+  .bg-accent-red {
+    background-color: hsl(var(--accent-red));
+  }
+  .bg-accent-yellow {
+    background-color: hsl(var(--accent-yellow));
+  }
   .text-accent-orange {
     color: hsl(var(--accent-orange));
   }
@@ -124,6 +134,12 @@ body {
   }
   .text-accent-green {
     color: hsl(var(--accent-green));
+  }
+  .text-accent-red {
+    color: hsl(var(--accent-red));
+  }
+  .text-accent-yellow {
+    color: hsl(var(--accent-yellow));
   }
   .border-accent-orange {
     border-color: hsl(var(--accent-orange));

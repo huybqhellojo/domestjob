@@ -17,7 +17,7 @@ const tests = [
     icon: BarChartHorizontal,
     title: 'Trắc nghiệm tính cách DISC',
     description: 'Hiểu rõ phong cách hành vi của bạn qua 4 nhóm tính cách (Dominance, Influence, Steadiness, Conscientiousness), giúp cải thiện giao tiếp và làm việc nhóm.',
-    link: '#',
+    link: '/career-orientation/disc',
     color: 'accent-green'
   },
   {

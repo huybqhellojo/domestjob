@@ -19,9 +19,9 @@ type Answers = {
 };
 
 const interestLevels = [
-  { value: 0, label: 'Không thích' },
-  { value: 1, label: 'Không rõ' },
   { value: 2, label: 'Thích' },
+  { value: 1, label: 'Không rõ' },
+  { value: 0, label: 'Không thích' },
 ];
 
 const COLORS = ['#FFBB28', '#FF8042', '#0088FE', '#00C49F', '#AF19FF', '#FF19A6'];
@@ -49,7 +49,7 @@ export default function HollandTestPage() {
   const [answers, setAnswers] = useState<Answers>({});
   const [showResults, setShowResults] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const headerRef = useRef<HTMLDivElement>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
 
   useEffect(() => {
@@ -58,24 +58,27 @@ export default function HollandTestPage() {
   }, [ageGroup]);
 
    useEffect(() => {
-    const headerElement = headerRef.current;
-    if (!headerElement) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
+        // When the sentinel is not intersecting (i.e., scrolled past), set isScrolled to true
         setIsScrolled(!entry.isIntersecting);
       },
-      { rootMargin: "0px", threshold: 1.0 }
+      // rootMargin: negative top margin means the sentinel is considered "out of view" 
+      // when it's that many pixels above the viewport top.
+      { rootMargin: `-73px 0px 0px 0px`, threshold: 1.0 }
     );
 
-    observer.observe(headerElement);
+    const currentSentinel = sentinelRef.current;
+    if (currentSentinel) {
+      observer.observe(currentSentinel);
+    }
 
     return () => {
-      if (headerElement) {
-        observer.unobserve(headerElement);
+      if (currentSentinel) {
+        observer.unobserve(currentSentinel);
       }
     };
-  }, [hollandData]); // Rerun when data loads
+  }, []);
 
   if (!hollandData) {
       return (
@@ -182,59 +185,66 @@ export default function HollandTestPage() {
   return (
     <div className="bg-secondary py-12">
       <div className="container mx-auto px-4 md:px-6">
-        <Card className="max-w-4xl mx-auto shadow-xl">
-          <CardHeader ref={headerRef}>
-            <Progress value={progress} className="mb-4 h-2" />
-            <CardTitle className="font-headline text-3xl">Trắc nghiệm Holland - {currentGroup.name} ({currentGroupIndex + 1}/{hollandData.length})</CardTitle>
-            <CardDescription className="!mt-2 text-base">{currentGroup.description}</CardDescription>
-            <p className="text-sm text-muted-foreground pt-4">Với mỗi hoạt động dưới đây, hãy chọn mức độ bạn yêu thích khi thực hiện nó.</p>
-          </CardHeader>
+        <Card className="max-w-4xl mx-auto shadow-xl overflow-visible">
+            {/* This empty div is the sentinel for the IntersectionObserver */}
+            <div ref={sentinelRef} className="h-px"></div>
           
-          <div className={cn(
-            "sticky bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-10",
-            isScrolled ? 'top-0' : '-top-40' // Use `top` to control visibility
-          )}>
-            <div className="p-4 border-b">
-              <h2 className="font-bold text-lg">Holland - {currentGroup.name} ({currentGroupIndex + 1}/{hollandData.length})</h2>
-            </div>
-            <div className="overflow-x-auto bg-background shadow-sm">
-                <div className="min-w-max">
-                     <div className="grid grid-cols-5 p-2 font-semibold border-b">
-                        <div className="col-span-2 text-left">Hoạt động</div>
-                        {interestLevels.map(level => (
-                           <div key={level.value} className="text-center text-xs md:text-sm whitespace-nowrap">{level.label}</div>
-                        ))}
-                    </div>
+            {/* Sticky Header */}
+            <div className={cn(
+              "sticky z-10 top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-200",
+               isScrolled ? "shadow-md" : ""
+            )}>
+              <div className="p-4 border-b">
+                <h2 className={cn("font-bold text-lg transition-all duration-200", isScrolled ? 'text-lg' : 'text-3xl font-headline')}>
+                  {isScrolled ? `Holland - ${currentGroup.name} (${currentGroupIndex + 1}/${hollandData.length})` : `Trắc nghiệm Holland - ${currentGroup.name} (${currentGroupIndex + 1}/${hollandData.length})`}
+                </h2>
+                <div className={cn(
+                    "transition-all duration-300 ease-in-out overflow-hidden",
+                    isScrolled ? "max-h-0 opacity-0" : "max-h-40 opacity-100 mt-2"
+                )}>
+                  <CardDescription className="text-base">{currentGroup.description}</CardDescription>
+                  <p className="text-sm text-muted-foreground pt-4">Với mỗi hoạt động dưới đây, hãy chọn mức độ bạn yêu thích khi thực hiện nó.</p>
                 </div>
-            </div>
-          </div>
-            
-          <CardContent className="space-y-6 pt-6">
-            <div className="overflow-x-auto">
-              <div className="min-w-max">
-                 {currentGroup.questions.map((q, index) => (
-                  <div key={`${currentGroup.code}-${q.id}`} className={cn("grid grid-cols-5 items-center border-b", index % 2 === 1 ? 'bg-secondary/50' : '')}>
-                      <div className="col-span-2 p-3 text-sm">{q.text}</div>
-                      <div className="col-span-3">
-                          <RadioGroup
-                              value={answers[`${currentGroup.code}-${q.id}`]?.toString()}
-                              onValueChange={(value) => handleAnswerChange(q.id, value)}
-                              className="flex justify-around items-center w-full"
-                          >
-                              {interestLevels.map(level => (
-                                  <div key={`${currentGroup.code}-q${q.id}-l${level.value}`} className="flex items-center justify-center py-3 w-full">
-                                      <RadioGroupItem value={level.value.toString()} id={`${currentGroup.code}-q${q.id}-l${level.value}`} />
-                                  </div>
-                              ))}
-                          </RadioGroup>
-                      </div>
-                  </div>
-                 ))}
+              </div>
+              <div className="grid grid-cols-5 p-2 font-semibold border-b bg-secondary/50">
+                  <div className="col-span-2 text-left pl-3">Hoạt động</div>
+                  {interestLevels.map(level => (
+                     <div key={level.value} className="text-center text-xs md:text-sm whitespace-nowrap">{level.label}</div>
+                  ))}
               </div>
             </div>
-          </CardContent>
+            
+            <div className="p-0">
+               {/* Non-sticky header for initial view, content is duplicated but logic is simpler */}
+                <div className={cn(isScrolled ? "hidden" : "block")}>
+                    <CardHeader>
+                        <Progress value={progress} className="mb-4 h-2" />
+                    </CardHeader>
+                </div>
+                
+                <div className="min-w-full">
+                   {currentGroup.questions.map((q, index) => (
+                    <div key={`${currentGroup.code}-${q.id}`} className={cn("grid grid-cols-5 items-center border-b", index % 2 === 1 ? 'bg-secondary/50' : 'bg-background')}>
+                        <div className="col-span-2 p-3 text-sm">{q.text}</div>
+                        <div className="col-span-3">
+                            <RadioGroup
+                                value={answers[`${currentGroup.code}-${q.id}`]?.toString()}
+                                onValueChange={(value) => handleAnswerChange(q.id, value)}
+                                className="flex justify-around items-center w-full"
+                            >
+                                {interestLevels.map(level => (
+                                    <div key={`${currentGroup.code}-q${q.id}-l${level.value}`} className="flex items-center justify-center py-3 w-full">
+                                        <RadioGroupItem value={level.value.toString()} id={`${currentGroup.code}-q${q.id}-l${level.value}`} />
+                                    </div>
+                                ))}
+                            </RadioGroup>
+                        </div>
+                    </div>
+                   ))}
+                </div>
+            </div>
 
-          <CardFooter className="flex justify-end">
+          <CardFooter className="flex justify-end mt-4">
             <Button onClick={handleNext} disabled={currentGroup.questions.some(q => answers[`${currentGroup.code}-${q.id}`] === undefined)}>
               {currentGroupIndex < hollandData.length - 1 ? 'Tiếp theo' : 'Xem kết quả'}
               {currentGroupIndex < hollandData.length - 1 ? <ArrowRight className="ml-2" /> : <Check className="ml-2" />}

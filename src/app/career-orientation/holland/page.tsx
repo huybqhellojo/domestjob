@@ -149,7 +149,7 @@ export default function HollandTestPage() {
                             </thead>
                             <tbody>
                                 {currentGroup.questions.map((q, index) => (
-                                    <tr key={q.id} className={cn("border-b", index % 2 === 1 ? 'bg-secondary/50' : '')}>
+                                    <tr key={`${currentGroup.code}-${q.id}`} className={cn("border-b", index % 2 === 1 ? 'bg-secondary/50' : '')}>
                                         <td className="p-3 text-sm">{q.text}</td>
                                         <td colSpan={interestLevels.length}>
                                             <RadioGroup
@@ -158,8 +158,8 @@ export default function HollandTestPage() {
                                                 className="flex justify-around items-center w-full"
                                             >
                                                 {interestLevels.map(level => (
-                                                    <div key={level.value} className="flex items-center justify-center py-3 w-full">
-                                                        <RadioGroupItem value={level.value.toString()} id={`q${q.id}-l${level.value}`} />
+                                                    <div key={`${currentGroup.code}-${q.id}-${level.value}`} className="flex items-center justify-center py-3 w-full">
+                                                        <RadioGroupItem value={level.value.toString()} id={`${currentGroup.code}-q${q.id}-l${level.value}`} />
                                                     </div>
                                                 ))}
                                             </RadioGroup>

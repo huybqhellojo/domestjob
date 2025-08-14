@@ -61,7 +61,7 @@ const LanguageSwitcher = () => {
             <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="flex items-center gap-2">
                     <VnFlagIcon className="h-5 w-5 rounded-sm" />
-                    <span className="font-bold">VN</span>
+                    <span className="font-bold hidden sm:inline">VN</span>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-40">
@@ -184,7 +184,7 @@ export function Header() {
 
         </div>
         <div className="md:hidden">
-            {/* The Sheet component is now in MobileFooter, this button can be repurposed if needed */}
+            <LanguageSwitcher />
         </div>
       </div>
     </header>

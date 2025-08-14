@@ -124,23 +124,7 @@ export function MobileFooter() {
                 </div>
               </div>
               
-
               <div className="mt-auto p-4">
-                  <DropdownMenuSeparator />
-                  <div className="space-y-2">
-                     <Button variant="ghost" className="w-full justify-start gap-2 text-foreground/80">
-                        <VnFlagIcon className="h-5 w-5 rounded-sm" />
-                        VN
-                     </Button>
-                     <Button variant="ghost" className="w-full justify-start gap-2 text-foreground/80">
-                        <JpFlagIcon className="h-5 w-5 rounded-sm" />
-                        JP
-                     </Button>
-                     <Button variant="ghost" className="w-full justify-start gap-2 text-foreground/80">
-                        <EnFlagIcon className="h-5 w-5 rounded-sm" />
-                        EN
-                     </Button>
-                  </div>
                   <DropdownMenuSeparator />
                   <div className="flex items-center justify-end mt-4">
                       <Button variant="ghost" onClick={() => setIsOpen(false)}>

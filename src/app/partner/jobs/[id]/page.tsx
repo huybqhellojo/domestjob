@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { jobData } from '@/lib/mock-data';
 import { notFound } from 'next/navigation';
+import { ConsultantSuggestionDialog } from '@/components/consultant-suggestion-dialog';
 
 const mockCandidates = Array.from({ length: 15 }, (_, i) => ({
     id: i + 1,
@@ -76,6 +77,7 @@ export default function MatchingCandidatesPage({ params }: { params: { id: strin
     const resolvedParams = use(params);
     const job = jobData.find(j => j.id === resolvedParams.id);
     const [isPaymentDialogOpen, setPaymentDialogOpen] = useState(false);
+    const [isConsultantDialogOpen, setConsultantDialogOpen] = useState(false);
     const [unlocked, setUnlocked] = useState(false);
     
     if (!job) {
@@ -136,7 +138,7 @@ export default function MatchingCandidatesPage({ params }: { params: { id: strin
                             <Lock className="mr-2 h-4 w-4"/>
                             Mở khóa toàn bộ ứng viên
                         </Button>
-                        <Button className="bg-accent-green text-white hover:bg-accent-green/90">
+                        <Button onClick={() => setConsultantDialogOpen(true)} className="bg-accent-green text-white hover:bg-accent-green/90">
                             <Handshake className="mr-2 h-4 w-4"/>
                             Yêu cầu HelloJob hỗ trợ
                         </Button>
@@ -158,6 +160,10 @@ export default function MatchingCandidatesPage({ params }: { params: { id: strin
                 isOpen={isPaymentDialogOpen} 
                 onClose={() => setPaymentDialogOpen(false)}
                 onSuccess={handlePaymentSuccess}
+            />
+             <ConsultantSuggestionDialog 
+                isOpen={isConsultantDialogOpen} 
+                onClose={() => setConsultantDialogOpen(false)}
             />
         </>
     );

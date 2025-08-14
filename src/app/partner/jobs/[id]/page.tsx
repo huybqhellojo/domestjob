@@ -25,18 +25,8 @@ const mockCandidates = Array.from({ length: 15 }, (_, i) => ({
 }));
 
 
-const CandidateCard = ({ candidate, isLocked, onUnlock }: { candidate: typeof mockCandidates[0], isLocked: boolean, onUnlock: () => void }) => (
-    <Card className={cn("shadow-lg transition-all", isLocked && "relative overflow-hidden")}>
-        {isLocked && (
-            <button
-                onClick={onUnlock}
-                className="absolute inset-0 bg-secondary/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center p-4 cursor-pointer w-full text-left hover:bg-secondary transition-colors"
-            >
-                <Lock className="h-8 w-8 text-primary mb-4" />
-                <p className="text-center font-bold text-lg">Mở khóa để xem</p>
-                <p className="text-center text-muted-foreground text-sm">Nâng cấp tài khoản để xem toàn bộ ứng viên phù hợp.</p>
-            </button>
-        )}
+const CandidateCard = ({ candidate, isLocked, onUnlock }: { candidate: typeof mockCandidates[0], isLocked: boolean, onUnlock: () => void }) => {
+    const cardContent = (
         <CardContent className="p-4 flex gap-4">
             <Avatar className="h-16 w-16 border-2 border-primary">
                 <AvatarImage src={candidate.avatarUrl} alt={candidate.name} data-ai-hint={candidate.dataAiHint}/>
@@ -58,8 +48,33 @@ const CandidateCard = ({ candidate, isLocked, onUnlock }: { candidate: typeof mo
                 </div>
             </div>
         </CardContent>
-    </Card>
-);
+    );
+
+    if (isLocked) {
+        return (
+             <Card className="shadow-lg transition-all relative overflow-hidden">
+                <div className="blur-sm">{cardContent}</div>
+                <button
+                    onClick={onUnlock}
+                    className="absolute inset-0 bg-secondary/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center p-4 cursor-pointer w-full text-left hover:bg-secondary transition-colors"
+                >
+                    <Lock className="h-8 w-8 text-primary mb-4" />
+                    <p className="text-center font-bold text-lg">Mở khóa để xem</p>
+                    <p className="text-center text-muted-foreground text-sm">Nâng cấp tài khoản để xem toàn bộ ứng viên phù hợp.</p>
+                </button>
+            </Card>
+        );
+    }
+    
+    return (
+         <Link href={`/partner/candidate/${candidate.id}`} className="block">
+            <Card className="shadow-lg transition-all hover:border-primary">
+               {cardContent}
+            </Card>
+        </Link>
+    )
+
+};
 
 const JobDetailSection = ({ title, children, icon: Icon }: { title: string, children: React.ReactNode, icon: React.ElementType }) => (
     <Card>

@@ -34,6 +34,8 @@ export interface Job {
         description: string;
         requirements: string;
         benefits: string;
+        images: { src: string; alt: string; dataAiHint: string; }[];
+        videoUrl?: string;
     };
 }
   
@@ -58,7 +60,14 @@ export const jobData: Job[] = [
         details: {
             description: '<p>Công việc chính là chế biến, đóng gói các sản phẩm cơm hộp, sushi, salad cho chuỗi siêu thị và cửa hàng tiện lợi. Môi trường làm việc sạch sẽ, hiện đại, đảm bảo vệ sinh an toàn thực phẩm.</p><ul><li>Vận hành máy trộn, máy cắt rau củ, máy đóng gói tự động.</li><li>Kiểm tra chất lượng nguyên liệu và thành phẩm.</li><li>Tuân thủ nghiêm ngặt các quy định về vệ sinh cá nhân và khu vực làm việc.</li></ul>',
             requirements: '<p>Yêu cầu ứng viên chăm chỉ, cẩn thận và có trách nhiệm. Cụ thể:</p><ul><li>Độ tuổi: 18 - 35 tuổi.</li><li>Giới tính: Nữ.</li><li>Sức khỏe tốt, không mắc các bệnh truyền nhiễm.</li><li>Không yêu cầu kinh nghiệm, sẽ được đào tạo bài bản.</li><li>Ưu tiên ứng viên có kinh nghiệm làm trong ngành thực phẩm.</li></ul>',
-            benefits: '<p>Mức lương và chế độ đãi ngộ hấp dẫn:</p><ul><li>Lương cơ bản: 160,000 JPY/tháng (chưa tính tăng ca).</li><li>Thực lĩnh (sau khi trừ thuế, bảo hiểm, nhà ở): Khoảng 120,000 JPY/tháng.</li><li>Được tham gia đầy đủ bảo hiểm xã hội, y tế, thất nghiệp.</li><li>Hỗ trợ nhà ở ký túc xá đầy đủ tiện nghi.</li><li>Có cơ hội gia hạn hợp đồng và phát triển lâu dài.</li></ul>'
+            benefits: '<p>Mức lương và chế độ đãi ngộ hấp dẫn:</p><ul><li>Lương cơ bản: 160,000 JPY/tháng (chưa tính tăng ca).</li><li>Thực lĩnh (sau khi trừ thuế, bảo hiểm, nhà ở): Khoảng 120,000 JPY/tháng.</li><li>Được tham gia đầy đủ bảo hiểm xã hội, y tế, thất nghiệp.</li><li>Hỗ trợ nhà ở ký túc xá đầy đủ tiện nghi.</li><li>Có cơ hội gia hạn hợp đồng và phát triển lâu dài.</li></ul>',
+            videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+            images: [
+                { src: 'https://placehold.co/600x400.png', alt: 'Dây chuyền sản xuất', dataAiHint: 'production line' },
+                { src: 'https://placehold.co/600x400.png', alt: 'Khu nhà ăn', dataAiHint: 'company cafeteria' },
+                { src: 'https://placehold.co/600x400.png', alt: 'Ký túc xá', dataAiHint: 'dormitory room' },
+                { src: 'https://placehold.co/600x400.png', alt: 'Hoạt động ngoại khóa', dataAiHint: 'company event' }
+            ]
         }
     },
     {
@@ -82,7 +91,7 @@ export const jobData: Job[] = [
             avatars: ['https://placehold.co/24x24.png', 'https://placehold.co/24x24.png', 'https://placehold.co/24x24.png'],
         },
         postedTime: '12:58 06/10/2024',
-        details: { description: '', requirements: '', benefits: '' }
+        details: { description: '', requirements: '', benefits: '', images: [], videoUrl: '' }
     },
     {
         id: 'JP-ATXAA015',
@@ -101,7 +110,7 @@ export const jobData: Job[] = [
         tags: ['Xây dựng', 'Nữ'],
         applicants: { count: 12, avatars: [] },
         postedTime: '11:30 06/10/2024',
-        details: { description: '', requirements: '', benefits: '' }
+        details: { description: '', requirements: '', benefits: '', images: [], videoUrl: '' }
     },
     {
         id: 'JP-KBSBA045',
@@ -123,7 +132,7 @@ export const jobData: Job[] = [
             avatars: ['https://placehold.co/24x24.png', 'https://placehold.co/24x24.png', 'https://placehold.co/24x24.png'],
         },
         postedTime: '10:05 06/10/2024',
-        details: { description: '', requirements: '', benefits: '' }
+        details: { description: '', requirements: '', benefits: '', images: [], videoUrl: '' }
     },
     {
       id: 'JP-XYZ001',
@@ -142,6 +151,6 @@ export const jobData: Job[] = [
       tags: ['Cơ khí', 'Hàn', 'Nam'],
        applicants: { count: 8, avatars: [] },
       postedTime: '09:00 07/10/2024',
-      details: { description: '', requirements: '', benefits: '' }
+      details: { description: '', requirements: '', benefits: '', images: [], videoUrl: '' }
     }
 ];

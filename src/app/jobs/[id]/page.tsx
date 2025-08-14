@@ -6,7 +6,7 @@ import { jobData, type Job } from '@/lib/mock-data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Briefcase, Building, CalendarDays, DollarSign, Heart, MapPin, Sparkles, UserCheck, FileText, Share2, Users, ClipboardCheck, Wallet, UserRound, ArrowLeft } from 'lucide-react';
+import { Briefcase, Building, CalendarDays, DollarSign, Heart, MapPin, Sparkles, UserCheck, FileText, Share2, Users, ClipboardCheck, Wallet, UserRound, ArrowLeft, Video } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -77,12 +77,25 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
                          <JobDetailSection title="Quyền lợi & Chế độ" icon={Sparkles}>
                              <div dangerouslySetInnerHTML={{ __html: job.details.benefits }} />
                         </JobDetailSection>
-                         <JobDetailSection title="Hình ảnh công ty/công việc" icon={Image}>
-                            <div className="grid grid-cols-2 gap-4">
-                                <Image src="https://placehold.co/600x400.png" alt="Company Image 1" width={600} height={400} className="rounded-lg object-cover" data-ai-hint="factory interior" />
-                                 <Image src="https://placehold.co/600x400.png" alt="Company Image 2" width={600} height={400} className="rounded-lg object-cover" data-ai-hint="company cafeteria" />
-                            </div>
-                        </JobDetailSection>
+
+                        { (job.details.videoUrl || (job.details.images && job.details.images.length > 0)) &&
+                            <JobDetailSection title="Hình ảnh & Video công việc" icon={ImageIcon}>
+                                <div className="space-y-6">
+                                    {job.details.videoUrl && (
+                                        <div className="aspect-video">
+                                            <iframe className="w-full h-full rounded-lg" src={job.details.videoUrl} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                                        </div>
+                                    )}
+                                    {job.details.images && job.details.images.length > 0 && (
+                                        <div className="grid grid-cols-2 gap-4">
+                                            {job.details.images.map((image, index) => (
+                                                <Image key={index} src={image.src} alt={image.alt} width={600} height={400} className="rounded-lg object-cover" data-ai-hint={image.dataAiHint} />
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </JobDetailSection>
+                        }
 
                     </div>
 

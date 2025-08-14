@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, use } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -69,8 +69,9 @@ const JobDetailSection = ({ title, children, icon: Icon }: { title: string, chil
 );
 
 
-export default function MatchingCandidatesPage({ params }: { params: { id: string } }) {
-    const job = jobData.find(j => j.id === params.id);
+export default function MatchingCandidatesPage({ params }: { params: Promise<{ id: string }> }) {
+    const resolvedParams = use(params);
+    const job = jobData.find(j => j.id === resolvedParams.id);
     const [isPaymentDialogOpen, setPaymentDialogOpen] = useState(false);
     const [unlocked, setUnlocked] = useState(false);
     
@@ -128,7 +129,7 @@ export default function MatchingCandidatesPage({ params }: { params: { id: strin
                 <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
                      <h2 className="text-2xl font-bold font-headline">Ứng viên phù hợp ({mockCandidates.length})</h2>
                      <div className="flex flex-wrap items-center gap-3">
-                         <Button onClick={handleUnlock} className="bg-accent-orange text-white hover:bg-accent-orange/90">
+                         <Button onClick={handleUnlock} className="bg-primary text-white hover:bg-primary/90">
                             <Lock className="mr-2 h-4 w-4"/>
                             Mở khóa toàn bộ ứng viên
                         </Button>

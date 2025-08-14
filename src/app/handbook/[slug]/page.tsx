@@ -127,7 +127,7 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
                     </CardHeader>
                     <CardContent className="space-y-4">
                       {hotJobs.slice(0,2).map(job => (
-                        <Link href="#" key={job.id} className="group block">
+                        <Link href={`/jobs/${job.id}`} key={job.id} className="group block">
                            <p className="font-semibold text-sm group-hover:text-primary transition-colors line-clamp-2">{job.title}</p>
                            <p className="text-xs text-muted-foreground">{job.recruiter.company}</p>
                         </Link>
@@ -196,7 +196,7 @@ export default function ArticlePage({ params }: { params: Promise<{ slug: string
                         </div>
                       </Card>
                   </Link>
-                ))}
+                ))}\
               </div>
             </div>
           </aside>

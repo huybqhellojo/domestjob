@@ -14,13 +14,6 @@ const tests = [
     color: 'accent-orange'
   },
   {
-    icon: UserCheck,
-    title: 'Trắc nghiệm tính cách MBTI',
-    description: 'Xác định 1 trong 16 loại tính cách của bạn để hiểu rõ hơn về điểm mạnh, điểm yếu và các ngành nghề phù hợp với xu hướng tự nhiên của bạn.',
-    link: '/career-orientation/mbti',
-    color: 'accent-blue'
-  },
-  {
     icon: ClipboardCheck,
     title: 'Khám phá nghề nghiệp O*NET',
     description: 'Dựa trên sở thích của bạn, bài test sẽ gợi ý danh sách các ngành nghề cụ thể đang có nhu cầu cao trên thị trường, giúp bạn có lựa chọn thực tế và thông minh.',
@@ -33,6 +26,13 @@ const tests = [
     description: 'Hiểu rõ phong cách hành vi của bạn qua 4 nhóm tính cách (Dominance, Influence, Steadiness, Conscientiousness), giúp cải thiện giao tiếp và làm việc nhóm.',
     link: '/career-orientation/disc',
     color: 'accent-green'
+  },
+  {
+    icon: UserCheck,
+    title: 'Trắc nghiệm tính cách MBTI',
+    description: 'Xác định 1 trong 16 loại tính cách của bạn để hiểu rõ hơn về điểm mạnh, điểm yếu và các ngành nghề phù hợp với xu hướng tự nhiên của bạn.',
+    link: '/career-orientation/mbti',
+    color: 'accent-blue'
   }
 ];
 

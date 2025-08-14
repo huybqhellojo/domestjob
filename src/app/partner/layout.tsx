@@ -5,23 +5,11 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Bell, Briefcase, LayoutDashboard, LogOut, PlusCircle } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
-const Logo = () => (
-    <span className="text-2xl font-black font-headline">
-      <span className="text-accent">H</span>
-      <span className="text-accent-orange">e</span>
-      <span className="text-primary">l</span>
-      <span className="text-accent-orange">l</span>
-      <span className="text-accent-green">o</span>
-      <span className="text-primary">Job</span>
-    </span>
-);
-
 const PartnerHeader = () => (
     <header className="sticky top-0 z-50 w-full border-b bg-background">
         <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
             <Link href="/partner/dashboard" className="flex items-center gap-2">
-                <Logo />
-                <span className="font-semibold text-muted-foreground border-l pl-3 ml-3">Partner Portal</span>
+                <span className="font-semibold text-lg">Partner Portal</span>
             </Link>
             <nav className="hidden md:flex items-center gap-6 text-sm">
                 <Link href="/partner/dashboard" className="font-medium hover:text-primary transition-colors flex items-center gap-2"><LayoutDashboard/> Bảng điều khiển</Link>

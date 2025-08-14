@@ -13,6 +13,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 export const JobCard = ({ job }: { job: Job }) => {
   // Desktop layout
@@ -30,7 +31,9 @@ export const JobCard = ({ job }: { job: Job }) => {
       {/* Middle side: Main Content */}
       <div className="flex-grow flex flex-col justify-between py-1">
         <div>
-          <h3 className="font-bold text-lg mb-2 hover:text-primary cursor-pointer leading-tight">{job.title}</h3>
+          <Link href={`/jobs/${job.id}`}>
+            <h3 className="font-bold text-lg mb-2 hover:text-primary cursor-pointer leading-tight">{job.title}</h3>
+          </Link>
           <div className="flex items-center gap-2 mb-3">
               {job.salary.actual && <Badge variant="secondary" className="text-sm bg-green-100 text-green-800 border-green-200 py-1 px-3">Thực lĩnh: {job.salary.actual}</Badge>}
               <Badge variant="secondary" className="text-sm py-1 px-3">Cơ bản: {job.salary.basic}</Badge>
@@ -62,9 +65,11 @@ export const JobCard = ({ job }: { job: Job }) => {
               <Heart className="w-5 h-5 text-red-500/80 hover:fill-current cursor-pointer" />
           </div>
           <div className="space-y-2">
-            {job.tags.slice(0, 2).map(tag => <Badge key={tag} className="ml-1">{tag}</Badge>)}
+            {job.tags.slice(0, 2).map(tag => <Badge key={tag} className="ml-1">{tag}</Badge>)}\
           </div>
-          <Button className="w-full bg-primary text-white mt-4">Xem chi tiết <Briefcase/></Button>
+           <Button asChild className="w-full bg-primary text-white mt-4">
+            <Link href={`/jobs/${job.id}`}>Xem chi tiết <Briefcase/></Link>
+          </Button>
       </div>
 
     </div>
@@ -74,7 +79,9 @@ export const JobCard = ({ job }: { job: Job }) => {
   const MobileLayout = () => (
      <div className="md:hidden flex flex-row items-stretch w-full">
       <div className="relative w-1/3 flex-shrink-0 aspect-[4/3]">
-        <Image src={job.image.src} alt={job.title} fill className="object-cover" />
+        <Link href={`/jobs/${job.id}`}>
+            <Image src={job.image.src} alt={job.title} fill className="object-cover" />
+        </Link>
          <div className="absolute top-1 left-1 bg-black/50 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1">
           <div className={cn("w-1.5 h-1.5 rounded-full", job.isRecording ? 'bg-red-500 animate-pulse' : 'bg-gray-400')}></div>
           <span>{job.id}</span>
@@ -89,7 +96,9 @@ export const JobCard = ({ job }: { job: Job }) => {
 
       <div className="w-2/3 p-3 flex-grow flex flex-col justify-between">
         <div>
-            <h3 className="font-bold text-sm mb-2 hover:text-primary cursor-pointer leading-tight">{job.title}</h3>
+            <Link href={`/jobs/${job.id}`}>
+                 <h3 className="font-bold text-sm mb-2 hover:text-primary cursor-pointer leading-tight">{job.title}</h3>
+            </Link>
             <div className="flex flex-wrap gap-1 mb-2">
                 {job.salary.actual && <Badge variant="secondary" className="text-xs bg-green-100 text-green-800">Thực lĩnh: {job.salary.actual}</Badge>}
                 <Badge variant="secondary" className="text-xs">Cơ bản: {job.salary.basic}</Badge>
@@ -126,7 +135,11 @@ export const JobCard = ({ job }: { job: Job }) => {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
-                            <DropdownMenuItem><Briefcase className="mr-2 h-4 w-4" /> Xem chi tiết</DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href={`/jobs/${job.id}`} className="w-full flex">
+                                    <Briefcase className="mr-2 h-4 w-4" /> Xem chi tiết
+                                </Link>
+                            </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>
@@ -143,5 +156,3 @@ export const JobCard = ({ job }: { job: Job }) => {
     </Card>
   );
 };
-
-    

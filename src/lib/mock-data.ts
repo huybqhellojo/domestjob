@@ -30,6 +30,11 @@ export interface Job {
         avatars: string[];
     };
     postedTime: string;
+    details: {
+        description: string;
+        requirements: string;
+        benefits: string;
+    };
 }
   
 export const jobData: Job[] = [
@@ -47,8 +52,14 @@ export const jobData: Job[] = [
         interviewRounds: 3,
         netFee: '110tr(4k2)',
         target: '5tr',
-        tags: ['Cặp đôi', 'Có bằng lái', 'Hỗ trợ chỗ ở'],
+        tags: ['Thực phẩm', 'Nữ'],
+        applicants: { count: 10, avatars: [] },
         postedTime: '12:58 06/10/2024',
+        details: {
+            description: '<p>Công việc chính là chế biến, đóng gói các sản phẩm cơm hộp, sushi, salad cho chuỗi siêu thị và cửa hàng tiện lợi. Môi trường làm việc sạch sẽ, hiện đại, đảm bảo vệ sinh an toàn thực phẩm.</p><ul><li>Vận hành máy trộn, máy cắt rau củ, máy đóng gói tự động.</li><li>Kiểm tra chất lượng nguyên liệu và thành phẩm.</li><li>Tuân thủ nghiêm ngặt các quy định về vệ sinh cá nhân và khu vực làm việc.</li></ul>',
+            requirements: '<p>Yêu cầu ứng viên chăm chỉ, cẩn thận và có trách nhiệm. Cụ thể:</p><ul><li>Độ tuổi: 18 - 35 tuổi.</li><li>Giới tính: Nữ.</li><li>Sức khỏe tốt, không mắc các bệnh truyền nhiễm.</li><li>Không yêu cầu kinh nghiệm, sẽ được đào tạo bài bản.</li><li>Ưu tiên ứng viên có kinh nghiệm làm trong ngành thực phẩm.</li></ul>',
+            benefits: '<p>Mức lương và chế độ đãi ngộ hấp dẫn:</p><ul><li>Lương cơ bản: 160,000 JPY/tháng (chưa tính tăng ca).</li><li>Thực lĩnh (sau khi trừ thuế, bảo hiểm, nhà ở): Khoảng 120,000 JPY/tháng.</li><li>Được tham gia đầy đủ bảo hiểm xã hội, y tế, thất nghiệp.</li><li>Hỗ trợ nhà ở ký túc xá đầy đủ tiện nghi.</li><li>Có cơ hội gia hạn hợp đồng và phát triển lâu dài.</li></ul>'
+        }
     },
     {
         id: 'JP-ACABA055',
@@ -65,12 +76,13 @@ export const jobData: Job[] = [
         netFee: 'Liên hệ',
         target: '',
         backFee: '12tr',
-        tags: ['Cặp đôi', 'Có bằng lái'],
+        tags: ['IT', 'Kỹ sư', 'N2'],
         applicants: {
             count: 3,
             avatars: ['https://placehold.co/24x24.png', 'https://placehold.co/24x24.png', 'https://placehold.co/24x24.png'],
         },
         postedTime: '12:58 06/10/2024',
+        details: { description: '', requirements: '', benefits: '' }
     },
     {
         id: 'JP-ATXAA015',
@@ -86,8 +98,10 @@ export const jobData: Job[] = [
         interviewRounds: 2,
         netFee: '100tr',
         target: '10tr',
-        tags: ['Hỗ trợ chỗ ở'],
+        tags: ['Xây dựng', 'Nữ'],
+        applicants: { count: 12, avatars: [] },
         postedTime: '11:30 06/10/2024',
+        details: { description: '', requirements: '', benefits: '' }
     },
     {
         id: 'JP-KBSBA045',
@@ -103,12 +117,13 @@ export const jobData: Job[] = [
         interviewRounds: 2,
         netFee: 'Liên hệ',
         target: '2tr',
-        tags: ['Có bằng lái'],
+        tags: ['Cơ khí', 'Kỹ sư', 'N4'],
         applicants: {
             count: 5,
             avatars: ['https://placehold.co/24x24.png', 'https://placehold.co/24x24.png', 'https://placehold.co/24x24.png'],
         },
         postedTime: '10:05 06/10/2024',
+        details: { description: '', requirements: '', benefits: '' }
     },
     {
       id: 'JP-XYZ001',
@@ -124,7 +139,9 @@ export const jobData: Job[] = [
       interviewRounds: 2,
       netFee: '105tr',
       target: '8tr',
-      tags: ['Tay nghề cao'],
+      tags: ['Cơ khí', 'Hàn', 'Nam'],
+       applicants: { count: 8, avatars: [] },
       postedTime: '09:00 07/10/2024',
+      details: { description: '', requirements: '', benefits: '' }
     }
 ];

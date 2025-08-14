@@ -72,7 +72,7 @@ const JobDetailSection = ({ title, children, icon: Icon }: { title: string, chil
 );
 
 
-export default function MatchingCandidatesPage({ params }: { params: Promise<{ id: string }> }) {
+export default function MatchingCandidatesPage({ params }: { params: { id: string } }) {
     const resolvedParams = use(params);
     const job = jobData.find(j => j.id === resolvedParams.id);
     const [isPaymentDialogOpen, setPaymentDialogOpen] = useState(false);
@@ -136,7 +136,7 @@ export default function MatchingCandidatesPage({ params }: { params: Promise<{ i
                             <Lock className="mr-2 h-4 w-4"/>
                             Mở khóa toàn bộ ứng viên
                         </Button>
-                        <Button variant="outline" className="bg-green-100 text-green-700 hover:bg-green-200 border-green-200">
+                        <Button className="bg-accent-green text-white hover:bg-accent-green/90">
                             <Handshake className="mr-2 h-4 w-4"/>
                             Yêu cầu HelloJob hỗ trợ
                         </Button>

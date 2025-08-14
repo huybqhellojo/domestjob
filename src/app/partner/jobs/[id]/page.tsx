@@ -24,14 +24,17 @@ const mockCandidates = Array.from({ length: 15 }, (_, i) => ({
 }));
 
 
-const CandidateCard = ({ candidate, isLocked }: { candidate: typeof mockCandidates[0], isLocked: boolean }) => (
+const CandidateCard = ({ candidate, isLocked, onUnlock }: { candidate: typeof mockCandidates[0], isLocked: boolean, onUnlock: () => void }) => (
     <Card className={cn("shadow-lg transition-all", isLocked && "relative overflow-hidden")}>
         {isLocked && (
-            <div className="absolute inset-0 bg-secondary/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center p-4">
+            <button
+                onClick={onUnlock}
+                className="absolute inset-0 bg-secondary/80 backdrop-blur-sm z-10 flex flex-col items-center justify-center p-4 cursor-pointer w-full text-left hover:bg-secondary transition-colors"
+            >
                 <Lock className="h-8 w-8 text-primary mb-4" />
                 <p className="text-center font-bold text-lg">Mở khóa để xem</p>
                 <p className="text-center text-muted-foreground text-sm">Nâng cấp tài khoản để xem toàn bộ ứng viên phù hợp.</p>
-            </div>
+            </button>
         )}
         <CardContent className="p-4 flex gap-4">
             <Avatar className="h-16 w-16 border-2 border-primary">
@@ -146,6 +149,7 @@ export default function MatchingCandidatesPage({ params }: { params: Promise<{ i
                             key={candidate.id} 
                             candidate={candidate} 
                             isLocked={!unlocked && index >= freeTierLimit}
+                            onUnlock={handleUnlock}
                         />
                     ))}
                 </div>

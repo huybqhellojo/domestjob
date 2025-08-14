@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Briefcase, Users, ArrowRight, BookOpen, Search, Map as MapIcon, GraduationCap, Building, MapPin, TrendingUp, Cpu, ListFilter, ChevronLeft, ChevronsUpDown, Check } from 'lucide-react';
+import { Briefcase, Users, ArrowRight, BookOpen, Search, MapPin as MapIcon, GraduationCap, Building, MapPin, TrendingUp, Cpu, ListFilter, ChevronLeft, ChevronsUpDown, Check } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
@@ -387,7 +387,7 @@ export default function HomeClient() {
                 Hợp tác cùng HelloJob để tiếp cận nguồn ứng viên dồi dào, chất lượng cao và tối ưu hóa quy trình tuyển dụng Kỹ năng Đặc định.
               </p>
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link href="/partner/dashboard">Tìm hiểu về Mô hình Đối tác</Link>
+                <Link href="/franchise">Tìm hiểu về Mô hình Đối tác</Link>
               </Button>
             </div>
              <div className="md:w-1/2 flex justify-center">

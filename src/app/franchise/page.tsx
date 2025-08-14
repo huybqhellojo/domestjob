@@ -73,7 +73,7 @@ export default function FranchisePage() {
                         <h3 className="text-xl font-bold font-headline mb-3">{benefit.title}</h3>
                         <p className="text-muted-foreground">{benefit.description}</p>
                     </Card>
-                ))}\
+                ))}
             </div>
          </div>
       </section>

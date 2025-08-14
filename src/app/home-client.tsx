@@ -387,7 +387,7 @@ export default function HomeClient() {
                 Hợp tác cùng HelloJob để tiếp cận nguồn ứng viên dồi dào, chất lượng cao và tối ưu hóa quy trình tuyển dụng Kỹ năng Đặc định.
               </p>
               <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link href="/franchise">Tìm hiểu về Mô hình Đối tác</Link>
+                <Link href="/partner/dashboard">Tìm hiểu về Mô hình Đối tác</Link>
               </Button>
             </div>
              <div className="md:w-1/2 flex justify-center">

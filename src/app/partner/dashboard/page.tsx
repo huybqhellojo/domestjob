@@ -1,0 +1,85 @@
+
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { Eye, Briefcase, Users, PlusCircle, MoreHorizontal, Edit, Trash2 } from 'lucide-react';
+import Link from 'next/link';
+
+const stats = [
+    { title: "Tin đã đăng", value: 12, icon: Briefcase },
+    { title: "Lượt xem", value: "2,480", icon: Eye },
+    { title: "Ứng viên", value: 45, icon: Users },
+];
+
+const postedJobs = [
+    { id: 1, title: "Kỹ sư Vận hành Dây chuyền", status: "Đang tuyển", views: 1204, applicants: 25 },
+    { id: 2, title: "Nhân viên Kiểm tra Chất lượng (QC)", status: "Đang tuyển", views: 850, applicants: 15 },
+    { id: 3, title: "Công nhân Lắp ráp Linh kiện", status: "Tạm dừng", views: 420, applicants: 5 },
+];
+
+export default function PartnerDashboardPage() {
+    return (
+        <div className="container mx-auto px-4 md:px-6 py-8">
+            <div className="flex justify-between items-center mb-8">
+                <h1 className="text-3xl font-bold font-headline">Bảng điều khiển</h1>
+                <Button asChild>
+                    <Link href="/partner/post-job"><PlusCircle/> Đăng tin tuyển dụng mới</Link>
+                </Button>
+            </div>
+            
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                {stats.map(stat => (
+                    <Card key={stat.title} className="shadow-lg">
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
+                            <stat.icon className="h-5 w-5 text-muted-foreground" />
+                        </CardHeader>
+                        <CardContent>
+                            <div className="text-2xl font-bold">{stat.value}</div>
+                        </CardContent>
+                    </Card>
+                ))}
+            </div>
+
+            {/* Jobs Table */}
+            <Card className="shadow-xl">
+                <CardHeader>
+                    <CardTitle>Tin tuyển dụng của bạn</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Chức danh</TableHead>
+                                <TableHead>Trạng thái</TableHead>
+                                <TableHead className="text-center">Lượt xem</TableHead>
+                                <TableHead className="text-center">Ứng viên</TableHead>
+                                <TableHead className="text-right">Hành động</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {postedJobs.map((job) => (
+                                <TableRow key={job.id}>
+                                    <TableCell className="font-medium">{job.title}</TableCell>
+                                    <TableCell>
+                                        <Badge variant={job.status === 'Đang tuyển' ? 'default' : 'secondary'} className={job.status === 'Đang tuyển' ? 'bg-green-100 text-green-700' : ''}>
+                                            {job.status}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell className="text-center">{job.views}</TableCell>
+                                    <TableCell className="text-center">{job.applicants}</TableCell>
+                                    <TableCell className="text-right">
+                                        <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
+                                        <Button variant="ghost" size="icon"><Trash2 className="h-4 w-4 text-destructive"/></Button>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </CardContent>
+            </Card>
+        </div>
+    );
+}

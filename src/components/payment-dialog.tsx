@@ -41,9 +41,9 @@ export function PaymentDialog({ isOpen, onClose, onSuccess }: PaymentDialogProps
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="font-headline text-2xl">Mở khóa ứng viên</DialogTitle>
+          <DialogTitle className="font-headline text-2xl">Mở khóa toàn bộ ứng viên</DialogTitle>
           <DialogDescription>
-            Chọn phương thức thanh toán để xem toàn bộ danh sách ứng viên phù hợp.
+            Chọn phương thức thanh toán để xem toàn bộ danh sách. Phí dịch vụ là 1,000 JPY.
           </DialogDescription>
         </DialogHeader>
 
@@ -105,7 +105,7 @@ export function PaymentDialog({ isOpen, onClose, onSuccess }: PaymentDialogProps
         </Tabs>
         
         <DialogFooter className="flex-col gap-2 sm:flex-col sm:space-x-0">
-          <Button className="w-full" size="lg" onClick={handlePayment}>Thanh toán 1000¥</Button>
+          <Button className="w-full" size="lg" onClick={handlePayment}>Thanh toán 1,000 JPY</Button>
           <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
              <ShieldCheck className="h-4 w-4 text-green-500" />
              <span>Thanh toán được bảo mật bởi Stripe</span>

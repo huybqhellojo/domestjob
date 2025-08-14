@@ -56,3 +56,18 @@ export const EnFlagIcon = (props: React.SVGProps<SVGSVGElement>) => (
         </g>
     </svg>
 );
+
+export const PayPayIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg width="60" height="20" viewBox="0 0 60 20" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <path d="M21.1716 19.31H16.2216L10.0216 2.45996H15.0916L18.6916 14.86L22.2916 2.45996H27.2416L21.1716 19.31Z" fill="#D90000"/>
+        <path d="M36.088 19.31H31.138L24.938 2.45996H30.008L33.608 14.86L37.208 2.45996H42.158L36.088 19.31Z" fill="#D90000"/>
+        <path d="M52.0129 2.45996H44.6029V19.31H49.4929V10.22L53.9429 19.31H59.5929L53.5829 8.28996L58.9929 2.45996H52.0129Z" fill="#D90000"/>
+    </svg>
+);
+
+export const LinePayIcon = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg width="40" height="20" viewBox="0 0 40 20" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+        <path d="M0 0H40V20H0V0Z" fill="#00B900"/>
+        <path d="M7.74 5.9H9.76V14.1H7.74V5.9ZM11.1 5.9H13.12V12.4H16.14V5.9H18.16V14.1H11.1V5.9ZM23.33 5.9C24.89 5.9 25.99 6.79 25.99 8.35V11.65C25.99 13.21 24.89 14.1 23.33 14.1H20V5.9H23.33ZM23.33 12.4H22.02V7.6H23.33C24.03 7.6 24.43 7.9 24.43 8.64V11.36C24.43 12.1 24.03 12.4 23.33 12.4ZM32.06 5.9H34.4L31.32 10.3L34.52 14.1H32.14L30.2 11.26L28.26 14.1H25.9L28.98 9.76L26.24 5.9H28.62L30.2 8.34L32.06 5.9Z" fill="white"/>
+    </svg>
+);

@@ -5,6 +5,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Badge } from '@/components/ui/badge';
 import { Eye, Briefcase, Users, PlusCircle, MoreHorizontal, Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 const stats = [
     { title: "Tin đã đăng", value: 12, icon: Briefcase },
@@ -62,7 +68,11 @@ export default function PartnerDashboardPage() {
                         <TableBody>
                             {postedJobs.map((job) => (
                                 <TableRow key={job.id}>
-                                    <TableCell className="font-medium">{job.title}</TableCell>
+                                    <TableCell className="font-medium">
+                                        <Link href={`/partner/jobs/${job.id}`} className="hover:text-primary">
+                                            {job.title}
+                                        </Link>
+                                    </TableCell>
                                     <TableCell>
                                         <Badge variant={job.status === 'Đang tuyển' ? 'default' : 'secondary'} className={job.status === 'Đang tuyển' ? 'bg-green-100 text-green-700' : ''}>
                                             {job.status}
@@ -71,8 +81,18 @@ export default function PartnerDashboardPage() {
                                     <TableCell className="text-center">{job.views}</TableCell>
                                     <TableCell className="text-center">{job.applicants}</TableCell>
                                     <TableCell className="text-right">
-                                        <Button variant="ghost" size="icon"><Edit className="h-4 w-4"/></Button>
-                                        <Button variant="ghost" size="icon"><Trash2 className="h-4 w-4 text-destructive"/></Button>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="ghost" size="icon">
+                                                    <MoreHorizontal className="h-4 w-4"/>
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuItem asChild><Link href={`/partner/jobs/${job.id}`} className="flex items-center"><Eye className="mr-2 h-4 w-4"/>Xem ứng viên</Link></DropdownMenuItem>
+                                                <DropdownMenuItem><Edit className="mr-2 h-4 w-4"/>Sửa tin</DropdownMenuItem>
+                                                <DropdownMenuItem className="text-destructive focus:text-destructive"><Trash2 className="mr-2 h-4 w-4"/>Xóa tin</DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
                                     </TableCell>
                                 </TableRow>
                             ))}

@@ -76,17 +76,15 @@ export function MobileFooter() {
           </SheetTrigger>
           <SheetContent side="right" className="w-full max-w-sm flex flex-col p-0">
             <SheetHeader className="p-4 border-b flex flex-row items-center justify-between">
-               <SheetTitle className="sr-only">Main Menu</SheetTitle>
-               <Link
-                  href="/"
-                  className="flex items-center gap-2"
-                  onClick={() => setIsOpen(false)}
-                >
-                  <Logo />
-                </Link>
-                <SheetClose asChild>
-                    <Button variant="ghost" size="icon"><X className="h-5 w-5"/></Button>
-                </SheetClose>
+               <SheetTitle asChild>
+                 <Link
+                    href="/"
+                    className="flex items-center gap-2"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <Logo />
+                  </Link>
+               </SheetTitle>
             </SheetHeader>
             <div className="flex flex-col h-full overflow-y-auto">
               <div className="p-4">
@@ -126,11 +124,11 @@ export function MobileFooter() {
               
               <div className="mt-auto p-4">
                   <DropdownMenuSeparator />
-                  <div className="flex items-center justify-end mt-4">
-                      <Button variant="ghost" onClick={() => setIsOpen(false)}>
+                  <SheetClose asChild>
+                    <Button variant="ghost" className="w-full justify-center mt-4">
                         <X className="mr-2 h-4 w-4"/> Đóng
                       </Button>
-                  </div>
+                  </SheetClose>
               </div>
             </div>
           </SheetContent>

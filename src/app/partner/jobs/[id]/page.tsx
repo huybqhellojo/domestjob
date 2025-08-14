@@ -98,13 +98,19 @@ export default function MatchingCandidatesPage({ params }: { params: { id: strin
                     </CardHeader>
                 </Card>
 
-                <div className="flex justify-between items-center mb-6">
+                <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
                      <h2 className="text-2xl font-bold font-headline">Ứng viên phù hợp ({mockCandidates.length})</h2>
                      {!unlocked && (
-                         <Button onClick={handleUnlock}>
-                            <Lock className="mr-2 h-4 w-4"/>
-                            Mở khóa toàn bộ ứng viên
-                         </Button>
+                         <div className="flex flex-wrap items-center gap-3">
+                            <Button className="bg-accent-green hover:bg-accent-green/90 text-white">
+                                <Megaphone className="mr-2 h-4 w-4"/>
+                                Yêu cầu HelloJob hỗ trợ
+                            </Button>
+                            <Button onClick={handleUnlock}>
+                                <Lock className="mr-2 h-4 w-4"/>
+                                Mở khóa toàn bộ ứng viên
+                            </Button>
+                         </div>
                      )}
                 </div>
 
@@ -117,25 +123,6 @@ export default function MatchingCandidatesPage({ params }: { params: { id: strin
                         />
                     ))}
                 </div>
-
-                {!unlocked && (
-                    <Card className="mt-8 shadow-lg border-2 border-dashed border-accent-green">
-                        <CardHeader className="text-center">
-                            <Handshake className="h-10 w-10 mx-auto text-accent-green mb-2"/>
-                            <CardTitle className="font-headline text-2xl">Lựa chọn khác: Giao cho chuyên gia HelloJob</CardTitle>
-                            <CardDescription className="max-w-xl mx-auto">
-                                Không muốn trả phí ngay? Hãy thử "Hợp đồng quảng cáo việc làm". Đội ngũ Sale của chúng tôi sẽ tìm kiếm và giới thiệu ứng viên phù hợp nhất cho bạn.
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="text-center">
-                             <p className="text-sm text-muted-foreground mb-4">Bạn chỉ trả phí hoa hồng sau khi tuyển dụng thành công.</p>
-                             <Button className="bg-accent-green hover:bg-accent-green/90 text-white">
-                                <Megaphone className="mr-2 h-4 w-4"/>
-                                Yêu cầu HelloJob hỗ trợ
-                            </Button>
-                        </CardContent>
-                    </Card>
-                )}
             </div>
             <PaymentDialog 
                 isOpen={isPaymentDialogOpen} 

@@ -142,11 +142,7 @@ export function MobileFooter() {
                      </Button>
                   </div>
                   <DropdownMenuSeparator />
-                  <div className="flex items-center justify-between mt-4">
-                      <Button variant="ghost" className="text-foreground/80" onClick={() => setIsOpen(false)}>
-                          <LogOut className="mr-2 h-4 w-4" />
-                          <span>Đăng xuất</span>
-                      </Button>
+                  <div className="flex items-center justify-end mt-4">
                       <Button variant="ghost" onClick={() => setIsOpen(false)}>
                         <X className="mr-2 h-4 w-4"/> Đóng
                       </Button>

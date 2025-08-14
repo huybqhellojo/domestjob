@@ -11,18 +11,15 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { jobData } from '@/lib/mock-data';
 
 const stats = [
-    { title: "Tin đã đăng", value: 12, icon: Briefcase },
+    { title: "Tin đã đăng", value: jobData.length, icon: Briefcase },
     { title: "Lượt xem", value: "2,480", icon: Eye },
     { title: "Ứng viên", value: 45, icon: Users },
 ];
 
-const postedJobs = [
-    { id: 1, title: "Kỹ sư Vận hành Dây chuyền", status: "Đang tuyển", views: 1204, applicants: 25 },
-    { id: 2, title: "Nhân viên Kiểm tra Chất lượng (QC)", status: "Đang tuyển", views: 850, applicants: 15 },
-    { id: 3, title: "Công nhân Lắp ráp Linh kiện", status: "Tạm dừng", views: 420, applicants: 5 },
-];
+const postedJobs = jobData;
 
 export default function PartnerDashboardPage() {
     return (
@@ -78,8 +75,8 @@ export default function PartnerDashboardPage() {
                                             {job.status}
                                         </Badge>
                                     </TableCell>
-                                    <TableCell className="text-center">{job.views}</TableCell>
-                                    <TableCell className="text-center">{job.applicants}</TableCell>
+                                    <TableCell className="text-center">{job.likes}</TableCell>
+                                    <TableCell className="text-center">{job.applicants?.count || 0}</TableCell>
                                     <TableCell className="text-right">
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
@@ -88,7 +85,11 @@ export default function PartnerDashboardPage() {
                                                 </Button>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end">
-                                                <DropdownMenuItem asChild><Link href={`/partner/jobs/${job.id}`} className="flex items-center"><Eye className="mr-2 h-4 w-4"/>Xem ứng viên</Link></DropdownMenuItem>
+                                                <DropdownMenuItem asChild>
+                                                   <Link href={`/partner/jobs/${job.id}`} className="flex items-center w-full cursor-pointer">
+                                                      <Eye className="mr-2 h-4 w-4"/>Xem ứng viên
+                                                   </Link>
+                                                </DropdownMenuItem>
                                                 <DropdownMenuItem><Edit className="mr-2 h-4 w-4"/>Sửa tin</DropdownMenuItem>
                                                 <DropdownMenuItem className="text-destructive focus:text-destructive"><Trash2 className="mr-2 h-4 w-4"/>Xóa tin</DropdownMenuItem>
                                             </DropdownMenuContent>

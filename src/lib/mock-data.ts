@@ -34,7 +34,7 @@ export interface Job {
         description: string;
         requirements: string;
         benefits: string;
-        images: { src: string; alt: string; dataAiHint: string; }[];
+        images?: { src: string; alt: string; dataAiHint: string; }[];
         videoUrl?: string;
     };
 }
@@ -91,7 +91,7 @@ export const jobData: Job[] = [
             avatars: ['https://placehold.co/24x24.png', 'https://placehold.co/24x24.png', 'https://placehold.co/24x24.png'],
         },
         postedTime: '12:58 06/10/2024',
-        details: { description: '', requirements: '', benefits: '', images: [], videoUrl: '' }
+        details: { description: 'Chi tiết công việc đang được cập nhật.', requirements: 'Chi tiết yêu cầu đang được cập nhật.', benefits: 'Chi tiết quyền lợi đang được cập nhật.', images: [], videoUrl: '' }
     },
     {
         id: 'JP-ATXAA015',
@@ -110,7 +110,7 @@ export const jobData: Job[] = [
         tags: ['Xây dựng', 'Nữ'],
         applicants: { count: 12, avatars: [] },
         postedTime: '11:30 06/10/2024',
-        details: { description: '', requirements: '', benefits: '', images: [], videoUrl: '' }
+        details: { description: 'Chi tiết công việc đang được cập nhật.', requirements: 'Chi tiết yêu cầu đang được cập nhật.', benefits: 'Chi tiết quyền lợi đang được cập nhật.', images: [], videoUrl: '' }
     },
     {
         id: 'JP-KBSBA045',
@@ -132,7 +132,7 @@ export const jobData: Job[] = [
             avatars: ['https://placehold.co/24x24.png', 'https://placehold.co/24x24.png', 'https://placehold.co/24x24.png'],
         },
         postedTime: '10:05 06/10/2024',
-        details: { description: '', requirements: '', benefits: '', images: [], videoUrl: '' }
+        details: { description: 'Chi tiết công việc đang được cập nhật.', requirements: 'Chi tiết yêu cầu đang được cập nhật.', benefits: 'Chi tiết quyền lợi đang được cập nhật.', images: [], videoUrl: '' }
     },
     {
       id: 'JP-XYZ001',
@@ -151,6 +151,6 @@ export const jobData: Job[] = [
       tags: ['Cơ khí', 'Hàn', 'Nam'],
        applicants: { count: 8, avatars: [] },
       postedTime: '09:00 07/10/2024',
-      details: { description: '', requirements: '', benefits: '', images: [], videoUrl: '' }
+      details: { description: 'Chi tiết công việc đang được cập nhật.', requirements: 'Chi tiết yêu cầu đang được cập nhật.', benefits: 'Chi tiết quyền lợi đang được cập nhật.', images: [], videoUrl: '' }
     }
 ];

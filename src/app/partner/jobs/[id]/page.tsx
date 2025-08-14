@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Briefcase, Building, Cake, Dna, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon, PlusCircle, Trash2, RefreshCw, X, Camera, MessageSquare, Facebook, Contact, UserCog, Trophy, PlayCircle, LogOut, Lock, ArrowLeft, Handshake, Megaphone, CalendarDays, ClipboardCheck, Wallet, DollarSign } from 'lucide-react';
+import { Briefcase, Building, Cake, Dna, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon, PlusCircle, Trash2, RefreshCw, X, Camera, MessageSquare, Facebook, Contact, UserCog, Trophy, PlayCircle, LogOut, Lock, ArrowLeft, Handshake, Megaphone, CalendarDays, ClipboardCheck, Wallet, DollarSign, FileText, UserCheck, Sparkles } from 'lucide-react';
 import { PaymentDialog } from '@/components/payment-dialog';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
@@ -57,13 +57,17 @@ const CandidateCard = ({ candidate, isLocked }: { candidate: typeof mockCandidat
     </Card>
 );
 
-const InfoPill = ({ icon: Icon, label, value }: { icon: React.ElementType, label: string, value: string | number }) => (
-    <div className="flex flex-col items-center justify-center p-3 bg-secondary rounded-lg text-center">
-        <Icon className="h-6 w-6 text-primary mb-2" />
-        <p className="text-xs text-muted-foreground font-semibold">{label}</p>
-        <p className="text-sm font-bold">{value}</p>
-    </div>
+const JobDetailSection = ({ title, children, icon: Icon }: { title: string, children: React.ReactNode, icon: React.ElementType }) => (
+    <Card>
+        <CardHeader>
+            <CardTitle className="flex items-center gap-3 font-headline text-xl"><Icon className="text-primary h-6 w-6"/>{title}</CardTitle>
+        </CardHeader>
+        <CardContent className="prose max-w-none text-muted-foreground prose-sm md:prose-base">
+            {children}
+        </CardContent>
+    </Card>
 );
+
 
 export default function MatchingCandidatesPage({ params }: { params: { id: string } }) {
     const job = jobData.find(j => j.id === params.id);
@@ -95,40 +99,44 @@ export default function MatchingCandidatesPage({ params }: { params: { id: strin
                 </div>
 
                 {/* Job Details Section */}
-                <Card className="mb-8 shadow-md">
-                     <CardHeader>
-                        <h1 className="text-2xl md:text-3xl font-bold font-headline mb-3">{job.title}</h1>
-                        <div className="flex flex-wrap gap-x-6 gap-y-2 text-muted-foreground">
-                            <p className="flex items-center gap-2"><MapPin className="h-4 w-4"/> Nagasaki, Nhật Bản</p>
-                            <p className="flex items-center gap-2"><Briefcase className="h-4 w-4"/> {job.tags[0]}</p>
-                            <p className="flex items-center gap-2"><CalendarDays className="h-4 w-4"/> Đăng {job.postedTime}</p>
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                             <InfoPill icon={DollarSign} label="Lương cơ bản" value={job.salary.basic} />
-                             <InfoPill icon={Users} label="Số lượng tuyển" value={`${job.applicants?.count || 'N/A'} người`} />
-                             <InfoPill icon={CalendarDays} label="Ngày thi tuyển" value={job.interviewDate} />
-                             <InfoPill icon={Wallet} label="Phí xuất cảnh" value={job.netFee} />
-                        </div>
-                    </CardContent>
-                </Card>
+                 <div className="lg:col-span-2 space-y-6 mb-8">
+                    <Card className="overflow-hidden">
+                        <CardHeader>
+                            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">{job.tags[0]}</Badge>
+                            <h1 className="text-2xl md:text-3xl font-bold font-headline mb-3">{job.title}</h1>
+                            <div className="flex flex-wrap gap-x-6 gap-y-2 text-muted-foreground">
+                                <p className="flex items-center gap-2"><Building className="h-4 w-4"/> {job.recruiter.company}</p>
+                                <p className="flex items-center gap-2"><MapPin className="h-4 w-4"/> Nagasaki, Nhật Bản</p>
+                                <p className="flex items-center gap-2"><CalendarDays className="h-4 w-4"/> Đăng {job.postedTime}</p>
+                            </div>
+                        </CardHeader>
+                    </Card>
+
+                    <JobDetailSection title="Mô tả công việc" icon={FileText}>
+                        <div dangerouslySetInnerHTML={{ __html: job.details.description }} />
+                    </JobDetailSection>
+                        <JobDetailSection title="Yêu cầu ứng viên" icon={UserCheck}>
+                            <div dangerouslySetInnerHTML={{ __html: job.details.requirements }} />
+                    </JobDetailSection>
+
+                        <JobDetailSection title="Quyền lợi & Chế độ" icon={Sparkles}>
+                            <div dangerouslySetInnerHTML={{ __html: job.details.benefits }} />
+                    </JobDetailSection>
+                </div>
 
                 {/* Candidates Section */}
                 <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
                      <h2 className="text-2xl font-bold font-headline">Ứng viên phù hợp ({mockCandidates.length})</h2>
-                     {!unlocked && (
-                         <div className="flex flex-wrap items-center gap-3">
-                            <Button className="bg-green-100 text-green-700 hover:bg-green-200 border border-green-200">
-                                <Handshake className="mr-2 h-4 w-4"/>
-                                Hợp đồng quảng cáo
-                            </Button>
-                            <Button onClick={handleUnlock}>
-                                <Lock className="mr-2 h-4 w-4"/>
-                                Mở khóa toàn bộ ứng viên
-                            </Button>
-                         </div>
-                     )}
+                     <div className="flex flex-wrap items-center gap-3">
+                         <Button onClick={handleUnlock} className="bg-accent-orange text-white hover:bg-accent-orange/90">
+                            <Lock className="mr-2 h-4 w-4"/>
+                            Mở khóa toàn bộ ứng viên
+                        </Button>
+                        <Button variant="outline" className="bg-green-100 text-green-700 hover:bg-green-200 border-green-200">
+                            <Handshake className="mr-2 h-4 w-4"/>
+                            Yêu cầu HelloJob hỗ trợ
+                        </Button>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -149,4 +157,3 @@ export default function MatchingCandidatesPage({ params }: { params: { id: strin
         </>
     );
 }
-

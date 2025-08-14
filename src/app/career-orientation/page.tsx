@@ -1,7 +1,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { BrainCircuit, BarChartHorizontal, ClipboardCheck, ArrowRight } from 'lucide-react';
+import { BrainCircuit, BarChartHorizontal, ClipboardCheck, ArrowRight, UserCheck } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -12,6 +12,13 @@ const tests = [
     description: 'Khám phá 6 nhóm sở thích nghề nghiệp tương ứng với bạn (Realistic, Investigative, Artistic, Social, Enterprising, Conventional) để tìm ra môi trường làm việc phù hợp nhất.',
     link: '/career-orientation/holland',
     color: 'accent-orange'
+  },
+  {
+    icon: UserCheck,
+    title: 'Trắc nghiệm tính cách MBTI',
+    description: 'Xác định 1 trong 16 loại tính cách của bạn để hiểu rõ hơn về điểm mạnh, điểm yếu và các ngành nghề phù hợp với xu hướng tự nhiên của bạn.',
+    link: '/career-orientation/mbti',
+    color: 'accent-blue'
   },
   {
     icon: ClipboardCheck,
@@ -67,7 +74,7 @@ export default function CareerOrientationPage() {
               Các bài kiểm tra này được thiết kế dựa trên các mô hình tâm lý học và hướng nghiệp uy tín trên thế giới.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 items-stretch">
             {tests.map(test => (
               <Card key={test.title} className={`flex flex-col text-center p-6 border-t-4 border-${test.color} shadow-lg hover:shadow-xl transition-shadow`}>
                 <CardHeader>

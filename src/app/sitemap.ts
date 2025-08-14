@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/career-orientation',
     '/career-orientation/holland',
     '/career-orientation/disc',
+    '/career-orientation/mbti',
     '/ai-profile',
     '/learn',
     '/handbook',

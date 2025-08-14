@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Briefcase, Building, Cake, Dna, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon, PlusCircle, Trash2, RefreshCw, X, Camera, MessageSquare, Facebook, Contact, UserCog, Trophy, PlayCircle, LogOut, Lock, ArrowLeft } from 'lucide-react';
+import { Briefcase, Building, Cake, Dna, GraduationCap, MapPin, Phone, School, User, Award, Languages, Star, FileDown, Video, Image as ImageIcon, PlusCircle, Trash2, RefreshCw, X, Camera, MessageSquare, Facebook, Contact, UserCog, Trophy, PlayCircle, LogOut, Lock, ArrowLeft, Handshake, Megaphone } from 'lucide-react';
 import { PaymentDialog } from '@/components/payment-dialog';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
@@ -117,6 +117,25 @@ export default function MatchingCandidatesPage({ params }: { params: { id: strin
                         />
                     ))}
                 </div>
+
+                {!unlocked && (
+                    <Card className="mt-8 shadow-lg border-2 border-dashed border-accent-green">
+                        <CardHeader className="text-center">
+                            <Handshake className="h-10 w-10 mx-auto text-accent-green mb-2"/>
+                            <CardTitle className="font-headline text-2xl">Lựa chọn khác: Giao cho chuyên gia HelloJob</CardTitle>
+                            <CardDescription className="max-w-xl mx-auto">
+                                Không muốn trả phí ngay? Hãy thử "Hợp đồng quảng cáo việc làm". Đội ngũ Sale của chúng tôi sẽ tìm kiếm và giới thiệu ứng viên phù hợp nhất cho bạn.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="text-center">
+                             <p className="text-sm text-muted-foreground mb-4">Bạn chỉ trả phí hoa hồng sau khi tuyển dụng thành công.</p>
+                             <Button className="bg-accent-green hover:bg-accent-green/90 text-white">
+                                <Megaphone className="mr-2 h-4 w-4"/>
+                                Yêu cầu HelloJob hỗ trợ
+                            </Button>
+                        </CardContent>
+                    </Card>
+                )}
             </div>
             <PaymentDialog 
                 isOpen={isPaymentDialogOpen} 

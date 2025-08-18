@@ -6,10 +6,11 @@ import { jobData, type Job } from '@/lib/mock-data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Briefcase, Building, CalendarDays, DollarSign, Heart, MapPin, Sparkles, UserCheck, FileText, Share2, Users, ClipboardCheck, Wallet, UserRound, ArrowLeft, Video } from 'lucide-react';
+import { Briefcase, Building, CalendarDays, DollarSign, Heart, MapPin, Sparkles, UserCheck, FileText, Share2, Users, ClipboardCheck, Wallet, UserRound, ArrowLeft, Video, Image as ImageIcon } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import Image from 'next/image';
+import { use } from 'react';
 
 const JobDetailSection = ({ title, children, icon: Icon }: { title: string, children: React.ReactNode, icon: React.ElementType }) => (
     <Card>
@@ -22,8 +23,9 @@ const JobDetailSection = ({ title, children, icon: Icon }: { title: string, chil
     </Card>
 );
 
-export default function JobDetailPage({ params }: { params: { id: string } }) {
-    const job = jobData.find(j => j.id === params.id);
+export default function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
+    const resolvedParams = use(params);
+    const job = jobData.find(j => j.id === resolvedParams.id);
 
     if (!job) {
         notFound();

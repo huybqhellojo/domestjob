@@ -50,6 +50,7 @@ export function MobileFooter() {
 
   const footerLinks = [
     { href: '/', icon: Home, label: 'Trang chủ' },
+    { href: '/career-orientation', icon: Compass, label: 'Hướng nghiệp' },
     { href: '/ai-profile', icon: Sparkles, label: 'Tạo hồ sơ AI' },
     { href: '/candidate-profile', icon: User, label: 'Hồ sơ' },
   ];

@@ -58,11 +58,11 @@ export function MobileFooter() {
 
   return (
     <footer className="md:hidden fixed bottom-0 left-0 right-0 bg-background border-t z-50">
-      <div className="flex justify-around items-center h-16">
+      <div className="flex justify-around items-start h-16 pt-1">
         {footerLinks.map(({ href, icon: Icon, label }) => {
            const isActive = (pathname === href) || (pathname.startsWith(href) && href !== '/');
            return (
-            <Link href={href} key={href} className="flex flex-col items-center justify-center text-xs text-muted-foreground hover:text-primary transition-colors w-1/4 pt-1">
+            <Link href={href} key={href} className="flex flex-col items-center justify-center text-xs text-muted-foreground hover:text-primary transition-colors w-1/5">
               <Icon className={cn("h-6 w-6 mb-1", isActive ? 'text-primary' : '')} />
               <span className={cn( "text-center leading-tight", isActive ? 'text-primary font-bold' : '')}>{label}</span>
             </Link>
@@ -70,7 +70,7 @@ export function MobileFooter() {
         })}
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
-             <button className="flex flex-col items-center justify-center text-xs text-muted-foreground hover:text-primary transition-colors w-1/4 pt-1">
+             <button className="flex flex-col items-center justify-center text-xs text-muted-foreground hover:text-primary transition-colors w-1/5">
                <LayoutGrid className="h-6 w-6 mb-1" />
                <span className="text-center leading-tight">Menu</span>
              </button>

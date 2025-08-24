@@ -53,7 +53,7 @@ const quickAccessLinks = [
     { href: '/consultant-profile', label: 'Tư vấn viên', icon: User },
     { href: '/handbook', label: 'Cẩm nang', icon: LifeBuoy },
     { href: '/about', label: 'Giới thiệu', icon: Info },
-    { href: '#', label: 'Góp ý', icon: MessageSquareWarning },
+    { href: '/feedback', label: 'Góp ý', icon: MessageSquareWarning },
 ];
 
 const LanguageSwitcher = () => {

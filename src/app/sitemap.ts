@@ -20,7 +20,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/employers',
     '/franchise',
     '/post-job',
-    '/dashboard'
+    '/dashboard',
+    '/feedback'
   ].map((route) => ({
     url: `${siteUrl}${route}`,
     lastModified: new Date(),

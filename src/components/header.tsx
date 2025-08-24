@@ -2,7 +2,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, LayoutGrid, Sparkles, BookOpen, Compass, Home, Info, Handshake, ChevronDown } from 'lucide-react';
+import { Briefcase, Menu, X, Building, PlusCircle, User, LogOut, Shield, FileText, Gift, MessageSquareWarning, Settings, LifeBuoy, LayoutGrid, Sparkles, BookOpen, Compass, Home, Info, Handshake, ChevronDown, BrainCircuit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
@@ -45,6 +45,7 @@ const employerLinks = [
 const quickAccessLinks = [
     { href: '/ai-profile', label: 'Tạo hồ sơ AI', icon: Sparkles },
     { href: '/roadmap', label: 'Lộ trình', icon: Compass },
+    { href: '/career-orientation', label: 'Hướng nghiệp', icon: BrainCircuit },
     { href: '/learn', label: 'E-Learning', icon: BookOpen },
     { href: '/post-job', label: 'Đăng tuyển dụng', icon: PlusCircle },
     { href: '/dashboard', label: 'Dữ liệu & Báo cáo', icon: FileText },

@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Heart, Phone, Briefcase, User, MoreHorizontal, MapPin } from 'lucide-react';
+import { Heart, Phone, Briefcase, User, MoreHorizontal, MapPin, ArrowLeft } from 'lucide-react';
 import { Job } from '@/lib/mock-data';
 import { ZaloIcon } from './custom-icons';
 import {

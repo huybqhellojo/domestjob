@@ -52,7 +52,7 @@ export default function JobsPage() {
                  >
                     {industry}
                  </Button>
-              ))}
+              ))}`
             </div>
           </div>
         )}

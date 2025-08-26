@@ -13,6 +13,7 @@ import { jobData } from '@/lib/mock-data';
 import { JobCard } from '@/components/job-card';
 import { ListFilter, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import { SearchBar } from '@/components/search-bar';
 
 const FilterSidebar = () => (
     <div className="md:col-span-1 lg:col-span-1">
@@ -68,44 +69,42 @@ const SearchResultsContent = () => {
 
     return (
         <div className="w-full bg-secondary min-h-screen">
-             <div className="bg-primary shadow-lg">
-                <div className="container mx-auto px-4 md:px-6 py-6 text-white">
-                    <h1 className="text-3xl font-bold font-headline">Kết quả tìm kiếm</h1>
-                    <p className="text-primary-foreground/80 mt-1">
-                        Tìm thấy {filteredJobs.length} việc làm cho 
-                        <span className="font-bold"> "{query || type || location || 'Tất cả'}"</span>
-                    </p>
+             <div className="bg-gradient-to-r from-blue-600 to-sky-500 text-white pt-6 pb-2">
+                 <div className="container mx-auto px-4 md:px-6">
+                    <SearchBar />
                 </div>
             </div>
             <div className="container mx-auto px-4 md:px-6 py-6">
+                 <div className="flex justify-between items-center mb-4">
+                    <div className="flex items-center gap-2">
+                         <h2 className="text-xl font-bold">
+                            Kết quả ({filteredJobs.length}) cho "{query || type || location || 'Tất cả'}"
+                        </h2>
+                    </div>
+                    <div className='flex items-center gap-2'>
+                        <Button variant="ghost" size="sm" className="flex items-center gap-1 md:hidden">
+                            <ListFilter className="w-4 h-4" />
+                            Lọc
+                        </Button>
+                        <Select>
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Sắp xếp theo" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="newest">Mới nhất</SelectItem>
+                            <SelectItem value="relevance">Liên quan nhất</SelectItem>
+                            <SelectItem value="salary_desc">Lương cao đến thấp</SelectItem>
+                            <SelectItem value="salary_asc">Lương thấp đến cao</SelectItem>
+                        </SelectContent>
+                        </Select>
+                    </div>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-8">
                     <div className="hidden md:block">
                       <FilterSidebar />
                     </div>
 
                     <div className="md:col-span-3 lg:col-span-3">
-                        <div className="flex justify-between items-center mb-4">
-                            <div className="flex items-center gap-2">
-                                <Button asChild variant="outline" size="sm">
-                                    <Link href="/"><ArrowLeft className="h-4 w-4" /> Quay lại</Link>
-                                </Button>
-                                <Button variant="ghost" size="sm" className="flex items-center gap-1 md:hidden">
-                                    <ListFilter className="w-4 h-4" />
-                                    Lọc
-                                </Button>
-                            </div>
-                             <Select>
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="Sắp xếp theo" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="newest">Mới nhất</SelectItem>
-                                    <SelectItem value="relevance">Liên quan nhất</SelectItem>
-                                    <SelectItem value="salary_desc">Lương cao đến thấp</SelectItem>
-                                    <SelectItem value="salary_asc">Lương thấp đến cao</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
                         <div className="grid grid-cols-1 gap-4">
                           {filteredJobs.map((job) => (
                             <JobCard key={job.id} job={job} />

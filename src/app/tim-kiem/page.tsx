@@ -9,11 +9,15 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { jobData } from '@/lib/mock-data';
+import { jobData, type Job } from '@/lib/mock-data';
 import { JobCard } from '@/components/job-card';
 import { ListFilter, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { SearchBar } from '@/components/search-bar';
+import { search } from '@/lib/elasticsearch';
+import { useEffect, useState } from 'react';
+import { Pager } from '@/lib/pager';
+import { Pagination } from '@/components/pagination';
 
 const FilterSidebar = () => (
     <div className="md:col-span-1 lg:col-span-1">
@@ -60,12 +64,42 @@ const FilterSidebar = () => (
 
 const SearchResultsContent = () => {
     const searchParams = useSearchParams();
-    const query = searchParams.get('q');
-    const type = searchParams.get('type');
-    const location = searchParams.get('location');
+    const [results, setResults] = useState<any[]>([]);
+    const [pager, setPager] = useState<Pager | null>(null);
 
-    // In a real app, you would filter jobData based on query, type, and location
-    const filteredJobs = jobData; 
+    const q = searchParams.get('q') || '';
+    const type = searchParams.get('type') || '';
+    const location = searchParams.get('location') || '';
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const pageSize = 20;
+
+    useEffect(() => {
+        const fetchJobs = async () => {
+            const searchBody = {
+                from: (page - 1) * pageSize,
+                size: pageSize,
+                query: {
+                    match_all: {}
+                }
+            };
+            
+            const response = await search({
+                index: 'hellojobv5-job-crawled',
+                body: searchBody,
+            });
+
+            setResults(response.hits.hits);
+            setPager(new Pager(response.hits.total.value, page, pageSize));
+        };
+
+        fetchJobs();
+    }, [q, type, location, page]);
+
+    const buildPageLink = (p: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set('page', p.toString());
+        return `/tim-kiem?${params.toString()}`;
+    }
 
     return (
         <div className="w-full bg-secondary min-h-screen">
@@ -78,7 +112,7 @@ const SearchResultsContent = () => {
                  <div className="flex justify-between items-center mb-4">
                     <div className="flex items-center gap-2">
                          <h2 className="text-xl font-bold">
-                            Kết quả ({filteredJobs.length}) cho "{query || type || location || 'Tất cả'}"
+                            {pager ? `Tìm thấy ${pager.totalItems} kết quả` : 'Đang tìm kiếm...'}
                         </h2>
                     </div>
                     <div className='flex items-center gap-2'>
@@ -106,13 +140,17 @@ const SearchResultsContent = () => {
 
                     <div className="md:col-span-3 lg:col-span-3">
                         <div className="grid grid-cols-1 gap-4">
-                          {filteredJobs.map((job) => (
-                            <JobCard key={job.id} job={job} />
-                          ))}
+                          {results.map((hit) => {
+                            // Map Elasticsearch data to JobCard props
+                            const job: Job = {
+                                ...jobData[0], // Use mock data as a base
+                                id: hit._id,
+                                title: hit._source.baseContent,
+                            };
+                            return <JobCard key={hit._id} job={job} />
+                          })}
                         </div>
-                        <div className="mt-8 flex justify-center">
-                            <Button variant="outline">Xem thêm</Button>
-                        </div>
+                        {pager && <Pagination pager={pager} buildLink={buildPageLink} />}
                     </div>
                 </div>
             </div>

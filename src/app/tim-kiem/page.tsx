@@ -11,7 +11,7 @@ import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { jobData } from '@/lib/mock-data';
 import { JobCard } from '@/components/job-card';
-import { ListFilter } from 'lucide-react';
+import { ListFilter, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
 const FilterSidebar = () => (
@@ -128,4 +128,3 @@ export default function SearchPage() {
         </Suspense>
     );
 }
-

@@ -11,13 +11,13 @@ import { Slider } from '@/components/ui/slider';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { jobData, type Job } from '@/lib/mock-data';
 import { JobCard } from '@/components/job-card';
-import { ListFilter, ArrowLeft } from 'lucide-react';
+import { ListFilter } from 'lucide-react';
 import Link from 'next/link';
 import { SearchBar } from '@/components/search-bar';
-import { search } from '@/lib/elasticsearch';
 import { useEffect, useState } from 'react';
 import { Pager } from '@/lib/pager';
 import { Pagination } from '@/components/pagination';
+import { searchJobs } from './actions';
 
 const FilterSidebar = () => (
     <div className="md:col-span-1 lg:col-span-1">
@@ -75,21 +75,9 @@ const SearchResultsContent = () => {
 
     useEffect(() => {
         const fetchJobs = async () => {
-            const searchBody = {
-                from: (page - 1) * pageSize,
-                size: pageSize,
-                query: {
-                    match_all: {}
-                }
-            };
-            
-            const response = await search({
-                index: 'hellojobv5-job-crawled',
-                body: searchBody,
-            });
-
-            setResults(response.hits.hits);
-            setPager(new Pager(response.hits.total.value, page, pageSize));
+            const { hits, total } = await searchJobs({ q, type, location, page, pageSize });
+            setResults(hits);
+            setPager(new Pager(total, page, pageSize));
         };
 
         fetchJobs();

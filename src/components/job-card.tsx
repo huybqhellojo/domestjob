@@ -35,7 +35,7 @@ export const JobCard = ({ job }: { job: Job }) => {
       <div className="flex-grow flex flex-col justify-between py-1">
         <div>
            <Link href={`/jobs/${job.id}`} className="group">
-            <h3 className="font-bold text-lg mb-2 group-hover:text-primary cursor-pointer leading-tight">{job.title}</h3>
+            <h3 className="font-bold text-lg mb-2 group-hover:text-primary cursor-pointer leading-tight line-clamp-3 h-20">{job.title}</h3>
           </Link>
           <div className="flex items-center gap-2 mb-3">
               {job.salary.actual && <Badge variant="secondary" className="text-sm bg-green-100 text-green-800 border-green-200 py-1 px-3">Thực lĩnh: {job.salary.actual}</Badge>}
@@ -100,7 +100,7 @@ export const JobCard = ({ job }: { job: Job }) => {
       <div className="w-2/3 p-3 flex-grow flex flex-col justify-between">
         <div>
             <Link href={`/jobs/${job.id}`} className="group">
-                 <h3 className="font-bold text-sm mb-2 group-hover:text-primary cursor-pointer leading-tight">{job.title}</h3>
+                 <h3 className="font-bold text-sm mb-2 group-hover:text-primary cursor-pointer leading-tight line-clamp-3 h-16">{job.title}</h3>
             </Link>
             <div className="flex flex-wrap gap-1 mb-2">
                 {job.salary.actual && <Badge variant="secondary" className="text-xs bg-green-100 text-green-800">Thực lĩnh: {job.salary.actual}</Badge>}

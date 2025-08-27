@@ -72,17 +72,15 @@ const SearchResultsContent = () => {
     const location = searchParams.get('location') || '';
     const page = parseInt(searchParams.get('page') || '1', 10);
     const pageSize = 20;
-
     useEffect(() => {
-        const fetchJobs = async () => {
-            const { hits, total } = await searchJobs({ q, type, location, page, pageSize });
-            setResults(hits);
-            setPager(new Pager(total, page, pageSize));
-        };
-
         fetchJobs();
     }, [q, type, location, page]);
 
+    const fetchJobs = async () => {
+        const { hits, total } = await searchJobs({ q, type, location, page, pageSize });
+        setResults(hits);
+        setPager(new Pager(total, page, pageSize));
+    };
     const buildPageLink = (p: number) => {
         const params = new URLSearchParams(searchParams);
         params.set('page', p.toString());

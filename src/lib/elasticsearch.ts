@@ -54,4 +54,31 @@ export async function getDocument(params: any) {
   return response.body._source;
 }
 
+export const findJobByCode = async (code: string): Promise<any | null> => {
+  try {
+    const esClient = getClient();
+    const res = await esClient.search({
+      index: `${process.env.ELASTICSEARCH_PREFIX}-job-crawled`,
+      body: {
+        query: {
+          bool: {
+            must: [
+              {
+                term: { "code.keyword": code },
+              },
+            ],
+          },
+        },
+        size: 1, // chỉ cần 1 document
+      },
+    });
+
+    const hit = res.body.hits.hits[0];
+    return hit?._source || null;
+  } catch (error) {
+    console.error(`Error fetching job with code ${code}:`, error);
+    return null;
+  }
+};
+
 export const esClient = getClient();

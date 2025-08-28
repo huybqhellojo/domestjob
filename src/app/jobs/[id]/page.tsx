@@ -1,8 +1,5 @@
 
-'use client';
-
 import { notFound } from 'next/navigation';
-import { jobData, type Job } from '@/lib/mock-data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -11,6 +8,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import Image from 'next/image';
 import { use } from 'react';
+import { findJobByCode } from '@/lib/elasticsearch';
+import { generateBulletJobCrawl } from '@/lib/utils';
 
 const JobDetailSection = ({ title, children, icon: Icon }: { title: string, children: React.ReactNode, icon: React.ElementType }) => (
     <Card>
@@ -23,9 +22,10 @@ const JobDetailSection = ({ title, children, icon: Icon }: { title: string, chil
     </Card>
 );
 
-export default function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
-    const resolvedParams = use(params);
-    const job = jobData.find(j => j.id === resolvedParams.id);
+export default async function JobDetailPage({ params }: any) {
+    const { id } = params;
+  const job = await findJobByCode(id);
+  const bullet = generateBulletJobCrawl(job)
 
     if (!job) {
         notFound();
@@ -52,8 +52,8 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
                     <div className="lg:col-span-2 space-y-6">
                         <Card className="overflow-hidden">
                             <CardContent className="p-6">
-                                <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">{job.tags[0]}</Badge>
-                                <h1 className="text-2xl md:text-3xl font-bold font-headline mb-3">{job.title}</h1>
+                                {/* <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">{job.tags[0]}</Badge> */}
+                                <h1 className="text-2xl md:text-3xl font-bold font-headline mb-3">{bullet}</h1>
                                 <div className="flex flex-wrap gap-x-6 gap-y-2 text-muted-foreground">
                                     <p className="flex items-center gap-2"><Building className="h-4 w-4"/> {job.recruiter.company}</p>
                                     <p className="flex items-center gap-2"><MapPin className="h-4 w-4"/> Nagasaki, Nhật Bản</p>

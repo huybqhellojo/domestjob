@@ -64,7 +64,7 @@ export const findJobByCode = async (code: string): Promise<any | null> => {
           bool: {
             must: [
               {
-                term: { "code.keyword": code },
+                term: { "id.keyword": code },
               },
             ],
           },

@@ -1,0 +1,1471 @@
+[
+  {
+    "label": "Thực tập sinh",
+    "value": "JPTTSP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["JP"],
+    "disabled": false
+  },
+  {
+    "label": "Thực tập sinh 3 năm",
+    "value": "JPTTS3N",
+    "parentCode": "JPTTSP",
+    "directParentCode": "JPTTSP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": false
+  },
+  {
+    "label": "Thực tập sinh 1 năm",
+    "value": "JPTTS1N",
+    "parentCode": "JPTTSP",
+    "directParentCode": "JPTTSP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": false
+  },
+  {
+    "label": "Thực tập sinh 3 Go",
+    "value": "JPTTS3G",
+    "parentCode": "JPTTSP",
+    "directParentCode": "JPTTSP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": false
+  },
+  {
+    "label": "Tokutei",
+    "value": "JPKNDDP",
+    "level": 0,
+    "isMultiple": true,
+    "groupCode": ["JP"],
+    "disabled": false
+  },
+  {
+    "label": "Tokutei đầu Việt",
+    "value": "JPDDDV",
+    "parentCode": "JPKNDDP",
+    "directParentCode": "JPKNDDP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": false
+  },
+  {
+    "label": "Tokutei đầu Nhật",
+    "value": "JPDDDN",
+    "parentCode": "JPKNDDP",
+    "directParentCode": "JPKNDDP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": false
+  },
+  {
+    "label": "Tokutei tuyển mới",
+    "value": "JPDDTM",
+    "parentCode": "JPKNDDP",
+    "directParentCode": "JPKNDDP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": false
+  },
+  {
+    "label": "Kỹ sư",
+    "value": "JPKS",
+    "level": 0,
+    "isMultiple": true,
+    "groupCode": ["JP"],
+    "disabled": false
+  },
+  {
+    "label": "Kỹ sư đầu Nhật",
+    "value": "JPKSDN",
+    "parentCode": "JPKS",
+    "directParentCode": "JPKS",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": false
+  },
+  {
+    "label": "Kỹ sư đầu Việt",
+    "value": "JPKSDV",
+    "parentCode": "JPKS",
+    "directParentCode": "JPKS",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": false
+  },
+  {
+    "label": "Nhân lực chất lượng cao",
+    "value": "JPNLCLC",
+    "parentCode": "JPKS",
+    "directParentCode": "JPKS",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": false
+  },
+  {
+    "label": "Du học",
+    "value": "JPDHP",
+    "level": 0,
+    "isMultiple": true,
+    "groupCode": ["JP"],
+    "disabled": true
+  },
+  {
+    "label": "Du học tự phí",
+    "value": "JPDHTP",
+    "parentCode": "JPDHP",
+    "directParentCode": "JPDHP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": true
+  },
+  {
+    "label": "Du học vừa học vừa làm",
+    "value": "JPDHVHVL",
+    "parentCode": "JPDHP",
+    "directParentCode": "JPDHP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": true
+  },
+  {
+    "label": "Du học chuyển Tokutei",
+    "value": "JPDHCT",
+    "parentCode": "JPDHP",
+    "directParentCode": "JPDHP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": true
+  },
+  {
+    "label": "Du học Điều dưỡng",
+    "value": "JPDHDD",
+    "parentCode": "JPDHP",
+    "directParentCode": "JPDHP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": true
+  },
+  {
+    "label": "Bán thời gian (Baito)",
+    "value": "JPBTGBP",
+    "level": 0,
+    "isMultiple": true,
+    "groupCode": ["JP"],
+    "disabled": false
+  },
+  {
+    "label": "Giờ làm ban ngày",
+    "value": "JPGLBN",
+    "parentCode": "JPBTGBP",
+    "directParentCode": "JPBTGBP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": false
+  },
+  {
+    "label": "Giờ làm ban đêm",
+    "value": "JPGLBD",
+    "parentCode": "JPBTGBP",
+    "directParentCode": "JPBTGBP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": false
+  },
+  {
+    "label": "Làm ngày nghỉ, ngày lễ",
+    "value": "JPLNNNL",
+    "parentCode": "JPBTGBP",
+    "directParentCode": "JPBTGBP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": false
+  },
+  {
+    "label": "Du lịch",
+    "value": "JPDLP",
+    "level": 0,
+    "isMultiple": true,
+    "groupCode": ["JP"],
+    "disabled": true
+  },
+  {
+    "label": "Thăm quan",
+    "value": "JPTQ",
+    "parentCode": "JPDLP",
+    "directParentCode": "JPDLP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": true
+  },
+  {
+    "label": "Thăm thân",
+    "value": "JPTT",
+    "parentCode": "JPDLP",
+    "directParentCode": "JPDLP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": true
+  },
+  {
+    "label": "Thương mại",
+    "value": "JPTM",
+    "parentCode": "JPDLP",
+    "directParentCode": "JPDLP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": true
+  },
+  {
+    "label": "Quá cảnh",
+    "value": "JPQC",
+    "parentCode": "JPDLP",
+    "directParentCode": "JPDLP",
+    "level": 1,
+    "groupCode": ["JP"],
+    "disabled": true
+  },
+  {
+    "label": "E7-Nhân lực chất lượng cao",
+    "value": "KRE7NLCLCP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["KR"],
+    "disabled": false
+  },
+  {
+    "label": "E7-1-1.Giám đốc, Quản lý",
+    "value": "KRE711GDQL",
+    "parentCode": "KRE7NLCLCP",
+    "directParentCode": "KRE7NLCLCP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": false
+  },
+  {
+    "label": "E7-1-2.Kỹ sư, Chuyên gia",
+    "value": "KRE712KSCG",
+    "parentCode": "KRE7NLCLCP",
+    "directParentCode": "KRE7NLCLCP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": false
+  },
+  {
+    "label": "E7-2-1.Nhân viên Văn phòng",
+    "value": "KRE721NVVP",
+    "parentCode": "KRE7NLCLCP",
+    "directParentCode": "KRE7NLCLCP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": false
+  },
+  {
+    "label": "E7-2-2.Lao động dịch vụ",
+    "value": "KRE722LDDV",
+    "parentCode": "KRE7NLCLCP",
+    "directParentCode": "KRE7NLCLCP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": false
+  },
+  {
+    "label": "E7-3.Lao động phổ thông lành nghề",
+    "value": "KRE73LDPTLN",
+    "parentCode": "KRE7NLCLCP",
+    "directParentCode": "KRE7NLCLCP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": false
+  },
+  {
+    "label": "E7-4.Công nhân chuyên nghiệp(tính điểm)",
+    "value": "KRE74CNCNTD",
+    "parentCode": "KRE7NLCLCP",
+    "directParentCode": "KRE7NLCLCP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": false
+  },
+  {
+    "label": "E7-S-2.Người dự định làm việc lĩnh vực thu nhập cao",
+    "value": "KRE7S2NDDLVLVTNC",
+    "parentCode": "KRE7NLCLCP",
+    "directParentCode": "KRE7NLCLCP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": false
+  },
+  {
+    "label": "E8-Lao động thời vụ",
+    "value": "KRE8LDTVP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "E8-1.Cơ quan hai nước ký - Nông nghiệp",
+    "value": "KRE81CQHNKNN",
+    "parentCode": "KRE8LDTVP",
+    "directParentCode": "KRE8LDTVP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "E8-2. Người thân bảo lãnh họ hàng 4 đời - Nông nghiệp",
+    "value": "KRE82NTBLHH4DNN",
+    "parentCode": "KRE8LDTVP",
+    "directParentCode": "KRE8LDTVP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "E8-3.Cơ quan hai nước ký - Đánh cá",
+    "value": "KRE83CQHNKDC",
+    "parentCode": "KRE8LDTVP",
+    "directParentCode": "KRE8LDTVP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "E8-4.Người thân bảo lãnh họ hàng 4 đời - Đánh cá",
+    "value": "KRE84NTBLHH4DDC",
+    "parentCode": "KRE8LDTVP",
+    "directParentCode": "KRE8LDTVP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "E8-5.Tị nạn Visa G1 quay lại - Nông nghiệp",
+    "value": "KRE85TNVG1QLNN",
+    "parentCode": "KRE8LDTVP",
+    "directParentCode": "KRE8LDTVP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "E8-6.Tị nạn Visa G1 quay lại - Đánh cá",
+    "value": "KRE86TNVG1QLDC",
+    "parentCode": "KRE8LDTVP",
+    "directParentCode": "KRE8LDTVP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "E8-7.Hỗ trợ phiên dịch cho lao động thời vụ",
+    "value": "KRE87HTPDCLDTV",
+    "parentCode": "KRE8LDTVP",
+    "directParentCode": "KRE8LDTVP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "C3-Du lịch",
+    "value": "KRC3DLP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "C3-1.Du lịch tổng hợp ngắn hạn",
+    "value": "KRC31DLTHNH",
+    "parentCode": "KRC3DLP",
+    "directParentCode": "KRC3DLP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "C3-2.Du lịch theo đoàn",
+    "value": "KRC32DLTD",
+    "parentCode": "KRC3DLP",
+    "directParentCode": "KRC3DLP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "C3-3.Du lịch chữa bệnh",
+    "value": "KRC33DLCB",
+    "parentCode": "KRC3DLP",
+    "directParentCode": "KRC3DLP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "C3-4.Thương mại ngắn hạn",
+    "value": "KRC34TMNH",
+    "parentCode": "KRC3DLP",
+    "directParentCode": "KRC3DLP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "C3-5.Khách doanh nghiệp theo hợp đồng",
+    "value": "KRC35KDNTHD",
+    "parentCode": "KRC3DLP",
+    "directParentCode": "KRC3DLP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "C3-6.Khách doanh nghiệp theo bảo lãnh",
+    "value": "KRC36KDNTBL",
+    "parentCode": "KRC3DLP",
+    "directParentCode": "KRC3DLP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "C3-7.Nhận thị thực tại sân bay",
+    "value": "KRC37NTTTSB",
+    "parentCode": "KRC3DLP",
+    "directParentCode": "KRC3DLP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "C3-8.Du khách ngắn hạn (Hàn Kiều)",
+    "value": "KRC38DKNHHK",
+    "parentCode": "KRC3DLP",
+    "directParentCode": "KRC3DLP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "C3-9.Du lịch thông thường",
+    "value": "KRC39DLTT",
+    "parentCode": "KRC3DLP",
+    "directParentCode": "KRC3DLP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "C3-10.Quá cảnh",
+    "value": "KRC310QC",
+    "parentCode": "KRC3DLP",
+    "directParentCode": "KRC3DLP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "C3-8.Chuyển đổi thuyền viên",
+    "value": "KRC38CDTV",
+    "parentCode": "KRC3DLP",
+    "directParentCode": "KRC3DLP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "D2-Du học Chuyên ngành ",
+    "value": "KRD2DHCNP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "D2-1.Sinh viên Cao đẳng",
+    "value": "KRD21SVCD",
+    "parentCode": "KRD2DHCNP",
+    "directParentCode": "KRD2DHCNP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "D2-2.Sinh viên Đại học",
+    "value": "KRD22SVDH",
+    "parentCode": "KRD2DHCNP",
+    "directParentCode": "KRD2DHCNP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "D2-3.Sinh viên Thạc sĩ",
+    "value": "KRD23SVTS",
+    "parentCode": "KRD2DHCNP",
+    "directParentCode": "KRD2DHCNP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "D2-4.Nghiên cứu sinh Tiến sĩ",
+    "value": "KRD24NCSTS",
+    "parentCode": "KRD2DHCNP",
+    "directParentCode": "KRD2DHCNP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "D2-5.Nghiên cứu",
+    "value": "KRD25NC",
+    "parentCode": "KRD2DHCNP",
+    "directParentCode": "KRD2DHCNP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "D2-6.Sinh viên trao đổi",
+    "value": "KRD26SVTD",
+    "parentCode": "KRD2DHCNP",
+    "directParentCode": "KRD2DHCNP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "D2-7.Du học-làm việc kết hợp (Vừa học vừa làm)",
+    "value": "KRD27DHLVKHVHVL",
+    "parentCode": "KRD2DHCNP",
+    "directParentCode": "KRD2DHCNP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "D2-8.Du học ngắn hạn",
+    "value": "KRD28DHNH",
+    "parentCode": "KRD2DHCNP",
+    "directParentCode": "KRD2DHCNP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "D4-Du học Tiếng, Nghề",
+    "value": "KRD4DHTNP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "D4-1.Học tiếng Hàn",
+    "value": "KRD41HTH",
+    "parentCode": "KRD4DHTNP",
+    "directParentCode": "KRD4DHTNP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "D4-2.Sinh viên đã tốt nghiệp",
+    "value": "KRD42SVDTN",
+    "parentCode": "KRD4DHTNP",
+    "directParentCode": "KRD4DHTNP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "D4-3.Học Tiểu học, THCS, THPT tại Hàn",
+    "value": "KRD43HTHTTTH",
+    "parentCode": "KRD4DHTNP",
+    "directParentCode": "KRD4DHTNP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "D4-5.Học nấu món Hàn",
+    "value": "KRD45HNMH",
+    "parentCode": "KRD4DHTNP",
+    "directParentCode": "KRD4DHTNP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "D4-6.Học nghề",
+    "value": "KRD46HN",
+    "parentCode": "KRD4DHTNP",
+    "directParentCode": "KRD4DHTNP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "D4-7.Du học ngoại ngữ khác tại Hàn (tiếng Anh)",
+    "value": "KRD47DHNNKTHTA",
+    "parentCode": "KRD4DHTNP",
+    "directParentCode": "KRD4DHTNP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": true
+  },
+  {
+    "label": "Bán thời gian (Alba)",
+    "value": "KRBTGAP",
+    "level": 0,
+    "isMultiple": true,
+    "groupCode": ["KR"],
+    "disabled": false
+  },
+  {
+    "label": "Giờ làm ban ngày",
+    "value": "KRGLBN",
+    "parentCode": "KRBTGAP",
+    "directParentCode": "KRBTGAP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": false
+  },
+  {
+    "label": "Giờ làm ban đêm",
+    "value": "KRGLBD",
+    "parentCode": "KRBTGAP",
+    "directParentCode": "KRBTGAP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": false
+  },
+  {
+    "label": "Làm ngày nghỉ, ngày lễ",
+    "value": "KRLNNNL",
+    "parentCode": "KRBTGAP",
+    "directParentCode": "KRBTGAP",
+    "level": 1,
+    "groupCode": ["KR"],
+    "disabled": false
+  },
+  {
+    "label": "491-Vùng chỉ định",
+    "value": "AUNZ491VCDP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "491m.Bang hoặc vùng đề cử",
+    "value": "AUNZ491BHVDC",
+    "parentCode": "AUNZ491VCDP",
+    "directParentCode": "AUNZ491VCDP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "491s.Gia đình bảo lãnh",
+    "value": "AUNZ491GDBL",
+    "parentCode": "AUNZ491VCDP",
+    "directParentCode": "AUNZ491VCDP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "189-Tay nghề độc lập",
+    "value": "AUNZ189TNDLP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "189p.Diện kiểm tra điểm",
+    "value": "AUNZ189DKTD",
+    "parentCode": "AUNZ189TNDLP",
+    "directParentCode": "AUNZ189TNDLP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "482-Tay nghề tạm trú",
+    "value": "AUNZ482TNTTP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "482sh.Ngắn hạn",
+    "value": "AUNZ482NH",
+    "parentCode": "AUNZ482TNTTP",
+    "directParentCode": "AUNZ482TNTTP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "482m.Trung hạn",
+    "value": "AUNZ482TH",
+    "parentCode": "AUNZ482TNTTP",
+    "directParentCode": "AUNZ482TNTTP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "482l.Thoả thuận lao động",
+    "value": "AUNZ482TTLD",
+    "parentCode": "AUNZ482TNTTP",
+    "directParentCode": "AUNZ482TNTTP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "482s.Diện đi theo",
+    "value": "AUNZ482DDT",
+    "parentCode": "AUNZ482TNTTP",
+    "directParentCode": "AUNZ482TNTTP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "500-Du học",
+    "value": "AUNZ500DHP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["AU", "NZ"],
+    "disabled": true
+  },
+  {
+    "label": "500.Tiểu học hoặc Trung học",
+    "value": "AUNZ500THHTH",
+    "parentCode": "AUNZ500DHP",
+    "directParentCode": "AUNZ500DHP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": true
+  },
+  {
+    "label": "500.Học nghề",
+    "value": "AUNZ500HN",
+    "parentCode": "AUNZ500DHP",
+    "directParentCode": "AUNZ500DHP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": true
+  },
+  {
+    "label": "500.Cao đẳng",
+    "value": "AUNZ500CD",
+    "parentCode": "AUNZ500DHP",
+    "directParentCode": "AUNZ500DHP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": true
+  },
+  {
+    "label": "500.Đại học",
+    "value": "AUNZ500DH",
+    "parentCode": "AUNZ500DHP",
+    "directParentCode": "AUNZ500DHP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": true
+  },
+  {
+    "label": "500.Sau đại học",
+    "value": "AUNZ500SDH",
+    "parentCode": "AUNZ500DHP",
+    "directParentCode": "AUNZ500DHP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": true
+  },
+  {
+    "label": "485-Sau tốt nghiệp",
+    "value": "AUNZ485STNP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "485p.Làm việc sau dạy nghề",
+    "value": "AUNZ485LVSDN",
+    "parentCode": "AUNZ485STNP",
+    "directParentCode": "AUNZ485STNP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "186-Doanh nghiệp bảo lãnh",
+    "value": "AUNZ186DNBLP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "186d.Đường trực tiếp",
+    "value": "AUNZ186DTT",
+    "parentCode": "AUNZ186DNBLP",
+    "directParentCode": "AUNZ186DNBLP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "186l.Thoả thuận lao động",
+    "value": "AUNZ186TTLD",
+    "parentCode": "AUNZ186DNBLP",
+    "directParentCode": "AUNZ186DNBLP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "186t.Tạm trú chuyển đổi",
+    "value": "AUNZ186TTCD",
+    "parentCode": "AUNZ186DNBLP",
+    "directParentCode": "AUNZ186DNBLP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "187-Bảo lãnh thường trú",
+    "value": "AUNZ187BLTTP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "187d.Đường trực tiếp",
+    "value": "AUNZ187DTT",
+    "parentCode": "AUNZ187BLTTP",
+    "directParentCode": "AUNZ187BLTTP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "187t.Tạm trú chuyển đổi",
+    "value": "AUNZ187TTCD",
+    "parentCode": "AUNZ187BLTTP",
+    "directParentCode": "AUNZ187BLTTP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "190-Bảo lãnh tay nghề",
+    "value": "AUNZ190BLTNP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "190s.Bảo lãnh tay nghề",
+    "value": "AUNZ190BLTN",
+    "parentCode": "AUNZ190BLTNP",
+    "directParentCode": "AUNZ190BLTNP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "407-Đào tạo tay nghề",
+    "value": "AUNZ407DTTNP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "407t.Đào tạo tay nghề",
+    "value": "AUNZ407DTTN",
+    "parentCode": "AUNZ407DTTNP",
+    "directParentCode": "AUNZ407DTTNP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "489-Di cư kỹ năng vùng",
+    "value": "AUNZ489DCKNVP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "489i.Diện thư mời",
+    "value": "AUNZ489DTM",
+    "parentCode": "AUNZ489DCKNVP",
+    "directParentCode": "AUNZ489DCKNVP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "489e.Diện gia hạn",
+    "value": "AUNZ489DGH",
+    "parentCode": "AUNZ489DCKNVP",
+    "directParentCode": "AUNZ489DCKNVP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "489s.Diện đi theo",
+    "value": "AUNZ489DDT",
+    "parentCode": "AUNZ489DCKNVP",
+    "directParentCode": "AUNZ489DCKNVP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "494-Tay nghề tạm trú",
+    "value": "AUNZ494TNTTP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "494e.Chủ bảo lãnh",
+    "value": "AUNZ494CBL",
+    "parentCode": "AUNZ494TNTTP",
+    "directParentCode": "AUNZ494TNTTP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "494l.Thoả thuận lao động",
+    "value": "AUNZ494TTLD",
+    "parentCode": "AUNZ494TNTTP",
+    "directParentCode": "AUNZ494TNTTP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "494s.Diện đi theo",
+    "value": "AUNZ494DDT",
+    "parentCode": "AUNZ494TNTTP",
+    "directParentCode": "AUNZ494TNTTP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "600-Du lịch",
+    "value": "AUNZ600DLP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["AU", "NZ"],
+    "disabled": true
+  },
+  {
+    "label": "600.Nghỉ dưỡng, thăm thân",
+    "value": "AUNZ600NDTT",
+    "parentCode": "AUNZ600DLP",
+    "directParentCode": "AUNZ600DLP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": true
+  },
+  {
+    "label": "600.Công tác ngắn hạn",
+    "value": "AUNZ600CTNH",
+    "parentCode": "AUNZ600DLP",
+    "directParentCode": "AUNZ600DLP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": true
+  },
+  {
+    "label": "600.Mời thăm gia đình",
+    "value": "AUNZ600MTGD",
+    "parentCode": "AUNZ600DLP",
+    "directParentCode": "AUNZ600DLP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": true
+  },
+  {
+    "label": "Bán thời gian (Part-time)",
+    "value": "AUNZBTGPTP",
+    "level": 0,
+    "isMultiple": true,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "Giờ làm ban ngày",
+    "value": "AUNZGLBN",
+    "parentCode": "AUNZBTGPTP",
+    "directParentCode": "AUNZBTGPTP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "Giờ làm ban đêm",
+    "value": "AUNZGLBD",
+    "parentCode": "AUNZBTGPTP",
+    "directParentCode": "AUNZBTGPTP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "Làm ngày nghỉ, ngày lễ",
+    "value": "AUNZLNNNL",
+    "parentCode": "AUNZBTGPTP",
+    "directParentCode": "AUNZBTGPTP",
+    "level": 1,
+    "groupCode": ["AU", "NZ"],
+    "disabled": false
+  },
+  {
+    "label": "Lao động Di trú",
+    "value": "EULDDTP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["US"],
+    "disabled": false
+  },
+  {
+    "label": "EB-3.Lao động chuyên môn hoặc không chuyên môn",
+    "value": "EUEB3LDCMHKCM",
+    "parentCode": "EULDDTP",
+    "directParentCode": "EULDDTP",
+    "level": 1,
+    "groupCode": ["US"],
+    "disabled": false
+  },
+  {
+    "label": "EB-5.Đầu tư di dân",
+    "value": "EUEB5DTDD",
+    "parentCode": "EULDDTP",
+    "directParentCode": "EULDDTP",
+    "level": 1,
+    "groupCode": ["US"],
+    "disabled": true
+  },
+  {
+    "label": "Lao động",
+    "value": "EULDP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["US", "DE", "CA", "FI", "DK", "GR", "PL"],
+    "disabled": false
+  },
+  {
+    "label": "Du học nghề",
+    "value": "EUDHP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["US", "DE", "CA", "FI", "DK", "GR", "PL"],
+    "disabled": false
+  },
+  {
+    "label": "A0",
+    "value": "EUA0",
+    "parentCode": "EUDHP",
+    "directParentCode": "EUDHP",
+    "level": 1,
+    "groupCode": ["DE"],
+    "disabled": false
+  },
+  {
+    "label": "A1",
+    "value": "EUA1",
+    "parentCode": "EUDHP",
+    "directParentCode": "EUDHP",
+    "level": 1,
+    "groupCode": ["DE"],
+    "disabled": false
+  },
+  {
+    "label": "A2",
+    "value": "EUA2",
+    "parentCode": "EUDHP",
+    "directParentCode": "EUDHP",
+    "level": 1,
+    "groupCode": ["DE"],
+    "disabled": false
+  },
+  {
+    "label": "B1",
+    "value": "EUB1",
+    "parentCode": "EUDHP",
+    "directParentCode": "EUDHP",
+    "level": 1,
+    "groupCode": ["DE"],
+    "disabled": false
+  },
+  {
+    "label": "Chuyển đổi bằng",
+    "value": "EUCDB",
+    "parentCode": "EULDP",
+    "directParentCode": "EULDP",
+    "level": 1,
+    "groupCode": ["DE"],
+    "disabled": false
+  },
+  {
+    "label": "Công nhận bằng",
+    "value": "EUCNB",
+    "parentCode": "EULDP",
+    "directParentCode": "EULDP",
+    "level": 1,
+    "groupCode": ["DE"],
+    "disabled": false
+  },
+  {
+    "label": "Thời vụ",
+    "value": "EUTV",
+    "parentCode": "EULDP",
+    "directParentCode": "EULDP",
+    "level": 1,
+    "groupCode": ["DE"],
+    "disabled": false
+  },
+  {
+    "label": "F1.Tự túc (Đại học, Cao đẳng, Phổ thông, Ngắn hạn...)",
+    "value": "EUF1TTDHCDPTNH",
+    "parentCode": "EUDHP",
+    "directParentCode": "EUDHP",
+    "level": 1,
+    "groupCode": ["US"],
+    "disabled": false
+  },
+  {
+    "label": "M1.Học nghề hoặc Ngắn hạn",
+    "value": "EUM1HNHNH",
+    "parentCode": "EUDHP",
+    "directParentCode": "EUDHP",
+    "level": 1,
+    "groupCode": ["US"],
+    "disabled": false
+  },
+  {
+    "label": "J11.Giao lưu văn hoá",
+    "value": "EUJ11GLVH",
+    "parentCode": "EUDHP",
+    "directParentCode": "EUDHP",
+    "level": 1,
+    "groupCode": ["US"],
+    "disabled": true
+  },
+  {
+    "label": "H-1B.Lao động chuyên môn",
+    "value": "EUH1LDCM",
+    "parentCode": "EULDP",
+    "directParentCode": "EULDP",
+    "level": 1,
+    "groupCode": ["US"],
+    "disabled": false
+  },
+  {
+    "label": "H-2A.Nông nghiệp",
+    "value": "EUH2NN",
+    "parentCode": "EULDP",
+    "directParentCode": "EULDP",
+    "level": 1,
+    "groupCode": ["US"],
+    "disabled": false
+  },
+  {
+    "label": "H-2B.Lao động lành nghề hoặc Phổ thông",
+    "value": "EUH2LDLNHPT",
+    "parentCode": "EULDP",
+    "directParentCode": "EULDP",
+    "level": 1,
+    "groupCode": ["US"],
+    "disabled": false
+  },
+  {
+    "label": "H-3.Chủ lao động mời đào tạo",
+    "value": "EUH3CLDMDT",
+    "parentCode": "EULDP",
+    "directParentCode": "EULDP",
+    "level": 1,
+    "groupCode": ["US"],
+    "disabled": false
+  },
+  {
+    "label": "H-4.Gia đình đi theo đương đơn có Visa H",
+    "value": "EUH4GDDTDDCVH",
+    "parentCode": "EULDP",
+    "directParentCode": "EULDP",
+    "level": 1,
+    "groupCode": ["US"],
+    "disabled": false
+  },
+  {
+    "label": "Du lịch",
+    "value": "EUDLP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["US", "DE", "CA", "FI", "DK", "GR", "PL"],
+    "disabled": true
+  },
+  {
+    "label": "Nghỉ dưỡng, thăm thân",
+    "value": "EUNDTT",
+    "parentCode": "EUDLP",
+    "directParentCode": "EUDLP",
+    "level": 1,
+    "groupCode": ["US", "DE", "CA", "FI", "DK", "GR", "PL"],
+    "disabled": true
+  },
+  {
+    "label": "Công tác ngắn hạn",
+    "value": "EUCTNH",
+    "parentCode": "EUDLP",
+    "directParentCode": "EUDLP",
+    "level": 1,
+    "groupCode": ["US", "DE", "CA", "FI", "DK", "GR", "PL"],
+    "disabled": true
+  },
+  {
+    "label": "Mời thăm gia đình",
+    "value": "EUMTGD",
+    "parentCode": "EUDLP",
+    "directParentCode": "EUDLP",
+    "level": 1,
+    "groupCode": ["US", "DE", "CA", "FI", "DK", "GR", "PL"],
+    "disabled": true
+  },
+  {
+    "label": "Bán thời gian (Part-time)",
+    "value": "EUBTGPTP",
+    "level": 0,
+    "isMultiple": true,
+    "groupCode": ["US", "DE", "CA", "FI", "DK", "GR", "PL"],
+    "disabled": false
+  },
+  {
+    "label": "Giờ làm ban ngày",
+    "value": "EUGLBN",
+    "parentCode": "EUBTGPTP",
+    "directParentCode": "EUBTGPTP",
+    "level": 1,
+    "groupCode": ["US", "DE", "CA", "FI", "DK", "GR", "PL"],
+    "disabled": false
+  },
+  {
+    "label": "Giờ làm ban đêm",
+    "value": "EUGLBD",
+    "parentCode": "EUBTGPTP",
+    "directParentCode": "EUBTGPTP",
+    "level": 1,
+    "groupCode": ["US", "DE", "CA", "FI", "DK", "GR", "PL"],
+    "disabled": false
+  },
+  {
+    "label": "Làm ngày nghỉ, ngày lễ",
+    "value": "EULNNNL",
+    "parentCode": "EUBTGPTP",
+    "directParentCode": "EUBTGPTP",
+    "level": 1,
+    "groupCode": ["US", "DE", "CA", "FI", "DK", "GR", "PL"],
+    "disabled": false
+  },
+  {
+    "label": "Lao động",
+    "value": "ASIALDP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["TW", "DZ", "HU", "RU", "SA", "AE", "CN"],
+    "disabled": false
+  },
+  {
+    "label": "Chất lượng cao",
+    "value": "ASIACLC",
+    "parentCode": "ASIALDP",
+    "directParentCode": "ASIALDP",
+    "level": 1,
+    "groupCode": ["TW", "DZ", "HU", "RU", "SA", "AE", "CN"],
+    "disabled": false
+  },
+  {
+    "label": "Phổ thông lần đầu",
+    "value": "ASIAPTLD",
+    "parentCode": "ASIALDP",
+    "directParentCode": "ASIALDP",
+    "level": 1,
+    "groupCode": ["TW"],
+    "disabled": false
+  },
+  {
+    "label": "Phổ thông tái nhập cảnh",
+    "value": "ASIAPTTNC",
+    "parentCode": "ASIALDP",
+    "directParentCode": "ASIALDP",
+    "level": 1,
+    "groupCode": ["TW"],
+    "disabled": false
+  },
+  {
+    "label": "Du lịch",
+    "value": "ASIADLP",
+    "level": 0,
+    "isMultiple": false,
+    "groupCode": ["TW", "DZ", "HU", "RU", "SA", "AE", "CN"],
+    "disabled": true
+  },
+  {
+    "label": "Nghỉ dưỡng, thăm thân",
+    "value": "ASIANDTT",
+    "parentCode": "ASIADLP",
+    "directParentCode": "ASIADLP",
+    "level": 1,
+    "groupCode": ["TW", "DZ", "HU", "RU", "SA", "AE", "CN"],
+    "disabled": true
+  },
+  {
+    "label": "Công tác ngắn hạn",
+    "value": "ASIACTNH",
+    "parentCode": "ASIADLP",
+    "directParentCode": "ASIADLP",
+    "level": 1,
+    "groupCode": ["TW", "DZ", "HU", "RU", "SA", "AE", "CN"],
+    "disabled": true
+  },
+  {
+    "label": "Mời thăm gia đình",
+    "value": "ASIAMTGD",
+    "parentCode": "ASIADLP",
+    "directParentCode": "ASIADLP",
+    "level": 1,
+    "groupCode": ["TW", "DZ", "HU", "RU", "SA", "AE", "CN"],
+    "disabled": true
+  },
+  {
+    "label": "Du học",
+    "value": "ASIADHP",
+    "level": 0,
+    "isMultiple": true,
+    "groupCode": ["TW", "DZ", "HU", "RU", "SA", "AE", "CN"],
+    "disabled": true
+  },
+  {
+    "label": "Du học tự phí",
+    "value": "ASIADHTP",
+    "parentCode": "ASIADHP",
+    "directParentCode": "ASIADHP",
+    "level": 1,
+    "groupCode": ["TW", "DZ", "HU", "RU", "SA", "AE", "CN"],
+    "disabled": true
+  },
+  {
+    "label": "Du học vừa học vừa làm",
+    "value": "ASIADHVHVL",
+    "parentCode": "ASIADHP",
+    "directParentCode": "ASIADHP",
+    "level": 1,
+    "groupCode": ["TW", "DZ", "HU", "RU", "SA", "AE", "CN"],
+    "disabled": true
+  },
+  {
+    "label": "Bán thời gian (Part-time)",
+    "value": "ASIABTGPTP",
+    "level": 0,
+    "isMultiple": true,
+    "groupCode": ["TW", "DZ", "HU", "RU", "SA", "AE", "CN"],
+    "disabled": false
+  },
+  {
+    "label": "Giờ làm ban ngày",
+    "value": "ASIAGLBN",
+    "parentCode": "ASIABTGPTP",
+    "directParentCode": "ASIABTGPTP",
+    "level": 1,
+    "groupCode": ["TW", "DZ", "HU", "RU", "SA", "AE", "CN"],
+    "disabled": false
+  },
+  {
+    "label": "Giờ làm ban đêm",
+    "value": "ASIAGLBD",
+    "parentCode": "ASIABTGPTP",
+    "directParentCode": "ASIABTGPTP",
+    "level": 1,
+    "groupCode": ["TW", "DZ", "HU", "RU", "SA", "AE", "CN"],
+    "disabled": false
+  },
+  {
+    "label": "Làm ngày nghỉ, ngày lễ",
+    "value": "ASIALNNNL",
+    "parentCode": "ASIABTGPTP",
+    "directParentCode": "ASIABTGPTP",
+    "level": 1,
+    "groupCode": ["TW", "DZ", "HU", "RU", "SA", "AE", "CN"],
+    "disabled": false
+  },
+  {
+    "label": "Phổ thông",
+    "value": "EUPT",
+    "parentCode": "EULDP",
+    "directParentCode": "EULDP",
+    "level": 1,
+    "groupCode": ["DE", "CA", "FI", "DK", "GR", "PL"],
+    "disabled": false
+  },
+  {
+    "label": "Chất lượng cao",
+    "value": "EUCLC",
+    "parentCode": "EULDP",
+    "directParentCode": "EULDP",
+    "level": 1,
+    "groupCode": ["DE", "CA", "FI", "DK", "GR", "PL"],
+    "disabled": false
+  },
+  {
+    "label": "Du học tự phí",
+    "value": "EUDHTP",
+    "parentCode": "EUDHP",
+    "directParentCode": "EUDHP",
+    "level": 1,
+    "groupCode": ["CA", "FI", "DK", "GR", "PL"],
+    "disabled": true
+  },
+  {
+    "label": "Du học vừa học vừa làm",
+    "value": "EUDHVHVL",
+    "parentCode": "EUDHP",
+    "directParentCode": "EUDHP",
+    "level": 1,
+    "groupCode": ["CA", "FI", "DK", "GR", "PL"],
+    "disabled": true
+  },
+  {
+    "label": "Phổ thông",
+    "value": "ASIAPT",
+    "parentCode": "ASIALDP",
+    "directParentCode": "ASIALDP",
+    "level": 1,
+    "groupCode": ["DZ", "HU", "RU", "SA", "AE", "CN"],
+    "disabled": false
+  }
+]

@@ -60,9 +60,18 @@ export function formatGender(input: any) {
 }
 
 export const generateBulletJobCrawl = (data: any) => {
-  const { visa, job, career, languageLevel, numberRecruits, gender, aiContent, workLocation } = data;
+  const {
+    visa = "",                // đặt giá trị mặc định
+    job = "",
+    career = "",
+    languageLevel = "",
+    numberRecruits,
+    gender,
+    aiContent,
+    workLocation
+  } = data ?? {};
   const rawVisa = getVisaWithLanguage(visa, languageLevel);
-  let specialConditions = data.specialConditions;
+  let specialConditions = data?.specialConditions;
   specialConditions = formatSpecialCondition(specialConditions);
   const details = [
     rawVisa,

@@ -26,7 +26,7 @@ export const JobCard = ({ job }: { job: any }) => {
       {/* Left side: Image */}
       <div className="relative w-1/4 flex-shrink-0 aspect-video rounded-lg overflow-hidden">
         <Link href={`/jobs/${job.id}`}>
-            <Image src={job?.avatar} alt={job?.baseContent} fill className="object-cover" />
+            <Image src={job?.avatar} alt={bullet} fill className="object-cover" />
         </Link>
         <div className="absolute top-2 left-2 bg-black/60 text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1.5">
           <div className={cn("w-2 h-2 rounded-full", job?.createdID ? 'bg-red-500 animate-pulse' : 'bg-gray-400')}></div>
@@ -41,7 +41,7 @@ export const JobCard = ({ job }: { job: any }) => {
             <h3 className="font-bold text-lg mb-2 group-hover:text-primary cursor-pointer leading-tight line-clamp-3 h-15">{bullet}</h3>
           </Link>
           <div className="flex items-center gap-2 mb-3">
-              {job?.realSalary && <Badge variant="secondary" className="text-sm bg-green-100 text-green-800 border-green-200 py-1 px-3">Thực lĩnh: {job?.realSalary}</Badge>}
+              {!!job?.realSalary && <Badge variant="secondary" className="text-sm bg-green-100 text-green-800 border-green-200 py-1 px-3">Thực lĩnh: {job?.realSalary}</Badge>}
               <Badge variant="secondary" className="text-sm py-1 px-3">Cơ bản: {job.basicSalary}</Badge>
           </div>
           <p className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
@@ -86,7 +86,7 @@ export const JobCard = ({ job }: { job: any }) => {
      <div className="md:hidden flex flex-row items-stretch w-full">
       <div className="relative w-1/3 flex-shrink-0 aspect-[4/3]">
         <Link href={`/jobs/${job.id}`}>
-            <Image src={job?.avatar} alt={job?.baseContent} fill className="object-cover" />
+            <Image src={job?.avatar} alt={bullet} fill className="object-cover" />
         </Link>
          <div className="absolute top-1 left-1 bg-black/50 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1">
           <div className={cn("w-1.5 h-1.5 rounded-full", job?.createdID ? 'bg-red-500 animate-pulse' : 'bg-gray-400')}></div>

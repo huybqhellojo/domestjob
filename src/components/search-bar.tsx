@@ -31,33 +31,9 @@ import { Label } from '@/components/ui/label';
 import { Search, ChevronsUpDown, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { industriesByJobType, type Industry } from '@/lib/industry-data';
+import { VISA_DETAILS } from '@/lib/visas';
+import  WORKLOCATION  from "@/lib/jp_provinces.json"
 
-const japanJobTypes = [
-  'Thực tập sinh 3 năm',
-  'Thực tập sinh 1 năm',
-  'Thực tập sinh 3 Go',
-  'Đặc định đầu Việt',
-  'Đặc định đầu Nhật',
-  'Đặc định đi mới',
-  'Kỹ sư, tri thức đầu Việt',
-  'Kỹ sư, tri thức đầu Nhật',
-];
-
-const japanLocations = {
-  regions: [
-    'Hokkaido',
-    'Tohoku',
-    'Kanto',
-    'Chubu',
-    'Kansai',
-    'Chugoku',
-    'Shikoku',
-    'Kyushu',
-  ],
-  prefectures: [
-    'Aichi', 'Akita', 'Aomori', 'Chiba', 'Ehime', 'Fukui', 'Fukuoka', 'Fukushima', 'Gifu', 'Gunma', 'Hiroshima', 'Hokkaido', 'Hyogo', 'Ibaraki', 'Ishikawa', 'Iwate', 'Kagawa', 'Kagoshima', 'Kanagawa', 'Kochi', 'Kumamoto', 'Kyoto', 'Mie', 'Miyagi', 'Miyazaki', 'Nagano', 'Nagasaki', 'Nara', 'Niigata', 'Oita', 'Okayama', 'Okinawa', 'Osaka', 'Saga', 'Saitama', 'Shiga', 'Shimane', 'Shizuoka', 'Tochigi', 'Tokushima', 'Tokyo', 'Tottori', 'Toyama', 'Wakayama', 'Yamagata', 'Yamaguchi', 'Yamanashi',
-  ],
-};
 
 export const SearchBar = () => {
   const router = useRouter();
@@ -129,9 +105,9 @@ export const SearchBar = () => {
                 <SelectValue placeholder="Chọn loại hình" />
               </SelectTrigger>
               <SelectContent>
-                {japanJobTypes.map((type) => (
-                  <SelectItem key={type} value={type}>
-                    {type}
+                {VISA_DETAILS.map((item ,index) => (
+                  <SelectItem key={index} value={item.label}>
+                    {item.label}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -205,19 +181,19 @@ export const SearchBar = () => {
                 <SelectValue placeholder="Toàn quốc Nhật Bản" />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>
+                {/* <SelectGroup>
                   <SelectLabel>Vùng</SelectLabel>
                   {japanLocations.regions.map((region) => (
                     <SelectItem key={region} value={region}>
                       {region}
                     </SelectItem>
                   ))}
-                </SelectGroup>
+                </SelectGroup> */}
                 <SelectGroup>
                   <SelectLabel>Tỉnh/Thành phố</SelectLabel>
-                  {japanLocations.prefectures.map((loc) => (
-                    <SelectItem key={loc} value={loc}>
-                      {loc}
+                  {WORKLOCATION.filter(item => item.groupCode === "JP").map((item,index) =>(
+                    <SelectItem key={index} value={item.value}>
+                      {item.label}
                     </SelectItem>
                   ))}
                 </SelectGroup>
